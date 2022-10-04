@@ -74,53 +74,10 @@
 
 %%%% 正文开始 %%%%
 \begin{document}
-
-%%%% 定义标题格式,包括title,author,affiliation,email等 %%%%
-\title{最优化方法\\多层神经网络的训练问题}
-\author{
-西安交通大学, 数学与统计学院, 强基数学002\\[1ex]
-吴天阳$^a$, 马煜璇$^b$, 白鹏楠$^c$\\[1ex]
-2204210460$^a$, 2204220461$^b$, 2204421343$^c$
-}
-\date{\today}
-
-\maketitle % 设置上面的标题
-\clearpage % 创建新的一面
-\tableofcontents % 创建目录,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
-
-%%%% 以下部分是正文 %%%%  
-\clearpage
-
-\section{123}
-123
-\subsection{123}
-123
-\subsubsection{123}
-\begin{lemma}
-    文字文字
-\end{lemma}
-
-\begin{pythoncode}
-# coding:UTF-8
-import numpy as np
-import math
-
-y = [0]
-h = 0.1
-f = lambda y: 1-y
-for i in range(1, 11):
-    k1 = h * f(y[i-1])
-    k2 = h * f(y[i-1] + k1 / 2)
-    k3 = h * f(y[i-1] + k2 / 2)
-    k4 = h * f(y[i-1] + k3)
-    tmp = y[i-1] + (k1 + 2*k2 + 2*k3 + k4) / 6
-    y.append(round(tmp * 1e3) / 1e3)
-
-for i in range(11):
-    print('y_{{{}}} = {:.3f},\\quad '.format(i, y[i]), end='')
-    if i == 5:
-        print()
-\end{pythoncode}
+\section*{CVPR第一次作业}\vspace{-0.5cm}
+\begin{center}
+    \zihao{4}强基数学002\quad 吴天阳\quad 2204210460
+\end{center}
 
 \end{document}
 
