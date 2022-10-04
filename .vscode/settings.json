@@ -1,0 +1,25 @@
+{
+    "latex-workshop.latex.autoClean.run": "onBuilt", //注意结尾是 t 不是 d
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.log",
+        "*.gz",
+        "*.fdb_latexmk",
+    ],
+}
