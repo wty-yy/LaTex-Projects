@@ -1,2 +1,7 @@
 .vscode
 _minted*
+*.log
+*.aux
+*.out
+*.synctex.gz
+*.toc
