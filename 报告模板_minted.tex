@@ -3,7 +3,7 @@
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 
 %%%% 设置中文字体 %%%%
-\setCJKmainfont{思源宋体}[ BoldFont = SimHei , ItalicFont = KaiTi ]
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
 %%%% 设置英文字体 %%%%
 \setmainfont{Times New Roman}
 \setsansfont{Calibri}
@@ -18,20 +18,6 @@
 \newmintinline{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
 \newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
 \newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
-
-%%%% 设置字号 %%%%
-\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 初号
-\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 小初号
-\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      % 一号
-\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      % 二号
-\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  % 小二号
-\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  % 三号
-\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 四号
-\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 小四号
-\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 五号
-\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 小五号
-\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 六号
-\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 七号
 
 %%%% 设置行间距与页边距 %%%%
 \linespread{1.2}
@@ -55,6 +41,8 @@
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
 
 \everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
 \DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
