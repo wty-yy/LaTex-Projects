@@ -40,6 +40,12 @@
 \newtheorem{assumption}{假设}
 \numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
 \newtheorem{algorithm}{算法}
+\newsavebox{\nameinfo}
+\renewenvironment{title}[1]{
+    \sbox{\nameinfo}{\zihao{4} #1}
+    \begin{center}
+    \zihao{-2}\bf
+}{\vspace{-0.2cm}\\\usebox{\nameinfo}\end{center}}  % \begin{title}{作者信息}标题\end{title}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -49,6 +55,8 @@
 \everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
 \DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
 \DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % \argmin
+\DeclareMathOperator*{\argmin}{arg\,min}  % \argmax
 \let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
 \let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
 
@@ -60,6 +68,8 @@
 \def\wtd{\widetilde}        % 宽波浪线 widetilde
 \def\R{\mathbb{R}}          % Real number
 \def\C{\mathbb{C}}          % Complex number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\N{\mathbb{N}}          % Natural number
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
@@ -90,7 +100,6 @@
 
 %%%% 以下部分是正文 %%%%  
 \clearpage
-
 \section{123}
 123
 \subsection{123}
