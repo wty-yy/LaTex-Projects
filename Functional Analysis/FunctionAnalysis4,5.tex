@@ -1,7 +1,7 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
 \usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
-\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont=方正宋黑简体, ItalicFont=方正楷体_GBK]
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
 \setmainfont{Times New Roman}  % 设置英文字体
 \setsansfont{Calibri}
 \setmonofont{Consolas}
@@ -45,7 +45,7 @@
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
-\def\del{\vspace{-3.5ex}}   % 减少行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
 
 %%%% 定理类环境的定义 %%%%
 \newtheorem{theorem}{定理}
@@ -70,7 +70,7 @@
     & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
 \end{tabular}}
 \begin{center}
-    \zihao{-3}\textbf{第三次作业}
+    \zihao{-3}\textbf{第四次作业}
 \end{center}
 \vspace{-0.2cm}
 % 正文部分
@@ -113,6 +113,44 @@
     所以$\lim_{n\to\infty}\text{dim }A_n = 0$.
 
     综上，$\{A_n\}$是直径趋于零的非空闭子集套，所以存在唯一的$x_0\in \bigcap_{i=1}^\infty A_i$，则$\rho(x_0, Tx_0) = 0$，压缩映射原理得证.
+\end{proof}
+\begin{problem}
+    设$K(\cdot ;\cdot)\in L^2([a,b]\times [a,b])$，对于$f\in L^2[a,b]$，证明当$\lambda$充分小时，\add\\
+    $x(t)=f(t)+\lambda\int_a^b k(t,s)x(s)\,\d s$在$L^2[a,b]$中存在唯一解.\add
+\end{problem}
+\begin{problem}
+    设$K(\cdot ;\cdot )\in C([a,b]\times [a,b])$，对于$f\in C[a,b]$，证明$\forall \lambda \in \R$，\add\\
+    $x(t)= f(t)+\lambda\int_a^t k(t,s)x(s)\,\d s$在$C[a,b]$中存在唯一解.\add
+\end{problem}
+\begin{problem}
+    设$(X,||\cdot||)$为赋范线性空间，且$\dim X < \infty$，则$X$是Banach空间.\del
+\end{problem}
+\begin{proof}
+    设$\dim X = N$，其中的一组基为$\{l_1,l_2,\cdots, l_N\}$，$\forall \{x_n\}\subset X$为Cauchy列，令$x_n = \sum_{i=1}^Nx_i^{(n)}l_i$，则$\exists c_1 > 0$使得\del
+    \begin{equation*}
+        c_1\left(\sum_{i=1}^N(x_i^{(n)} - x_i^{(m)})^2\right)^{\frac{1}{2}} \leq ||x_n-x_m||\to 0,\quad(n,m\to\infty)
+    \end{equation*}
+    则$|x_i^{(n)}-x_i^{(m)}|\to 0,\ (n,m\to\infty,\ \forall 1\leq i\leq N)$，则$\{x_i^{(n)}\}$为$\R$中的Cauchy列，由于$\R$是完备的，所以$\{x_i^{(n)}\}$收敛，$\exists x_i\in\R$使得$x_i^{(n)}\to x_i,\ (n\to\infty)$，令$x = \sum_{i=1}^Nx_il_i$，又由于$\exists c_2 > 0$使得\del
+    \begin{equation*}
+        ||x_n-x||\leq c_2\left(\sum_{i=1}^N(x_i^{(n)}-x_i)^2\right)^{\frac{1}{2}}\to 0,\quad (n\to \infty)
+    \end{equation*}
+    则$\{x_n\}$收敛于$x$，则$X$是完备的，故$X$是Banach空间.
+\end{proof}
+\begin{problem}
+    设$(X,||\cdot||)$为赋范线性空间，$X$中的任何有限维子空间都是闭集.
+\end{problem}
+\begin{proof}
+    设$A\subset X$是$N$维子空间$(N < \infty)$，其中一组基为$\{l_1,\cdots,l_N\}$，$\forall \{x_n\}\in A$为收敛列，令$x_n = \sum_{i=1}^N x_i^{(n)}l_i$，则$\exists x\in X$，使得$||x_n-x||\to 0,\ (n\to\infty)$. 假设$x\notin A$，则$x$与$\{l_1,\cdots, l_N\}$线性无关，则$\{l_1,\cdots,l_N, x\}$构成$N+1$维空间的一组基，由于$||\cdot ||$与$N+1$维空间坐标对应2-范数等价，于是
+    \begin{equation*}
+        \left(\sum_{i=1}^N(x_i^{(n)})^2+1\right)^{\frac{1}{2}}\to 0,\quad(n\to\infty)
+    \end{equation*}
+    矛盾，所以$x\in A$.
+\end{proof}
+\begin{problem}
+    设$(X,||\cdot||)$为赋范线性空间，且$\dim X < \infty$，则$X$中的有界集都是列紧集.
+\end{problem}
+\begin{proof}
+    设$\dim X = N$，其中的一组基为$\{l_1,\cdots, l_N\}$，$\forall A\subset X$为有界集，则$\exists C > 0$，使得$\forall x\in A$，$||x|| < C$，令$x = \sum_{i=1}^Nx_il_i$，则$\sum_{i=1}^N|x_i|\,||l_i|| < C$，记$M_1 = \sup_{1\leq i\leq N}||l_i||$，则$\sum_{i=1}^N|x_i|\leq C/M_1$，于是$(x_1,\cdots, x_N)\in \R^N$有界. 任取$A$中的数列$\{x_n\}$，令$x_n = \sum_{i=1}^Nx_i^{(n)}$，记$S = \{(x_1^{(k)},\cdots, x_N^{(k)}):x_k\in \{x_n\}\}$，则$S$必有收敛子列$\{(x_1^{(n_1)},\cdots, x_N^{(n_1)}),\cdots,(x_1^{(n_k)},\cdots, x_N^{(n_k)}),\cdots\}$，由于$||\cdot ||$与$\R^N$中2-范数等价，于是$\{x_{n_k}\}$是$\{x_n\}$的收敛子列，所以$A$是列紧集.
 \end{proof}
 % 下面给一些功能的写法
 \iffalse

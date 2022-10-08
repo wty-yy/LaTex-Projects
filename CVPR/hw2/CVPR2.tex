@@ -70,6 +70,7 @@
 \def\C{\mathbb{C}}          % Complex number
 \def\Q{\mathbb{Q}}          % Rational number
 \def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
@@ -131,7 +132,7 @@
     \end{matrix}\right]
 \end{equation*}
 
-5. 放射变换（自由度为$6$）
+5. 仿射变换（自由度为$6$）
 \begin{equation*}
     \bd{x}' = \bd{x}+\bd{t}\iff \bd{x}' = \left[\begin{matrix}
         a_{11}&a_{12}&t_1\\
@@ -200,10 +201,64 @@
     f(x^*, y^*) = S_Af(A)+S_Bf(B)+S_Cf(C)+S_Df(D).
 \end{equation*}}
 \vspace{2cm}\subsection{几何变换实验}
-\end{document}
+\subsection{Harris角点检测}
+设图像为$I(\cdot\, ;\cdot)$，考虑一个大小为$2k+1\times 2k+1$中心位于$\bd{x}_0\in\R^2$的滑动窗口$W_k(\bd{x}_0)$，任取一个滑动方向$\bd{t}\in\R^2$，定义在$\bd{t}$方向上的\textbf{平方误差和（sum of squared differences, SSD）}为
 \begin{equation*}
-    
+    E_{\bd{x}_0}(\bd{t}) = \sum_{\bd{x}\in W_k(\bd{x}_0)}\left(I(\bd{x}+\bd{t})-I(\bd{x})\right)^2
 \end{equation*}
+若$\bd{x}_0$为角点，则$\forall \bd{t}\in\R^2$，$E_{\bd{x}_0}(\bd{t})$都应尽可能大.
+
+记$\bd{t} = (u,v)^T$，由Taylor公式可知
+\begin{equation*}
+    I(\bd{x} + \bd{t}) = I(\bd{x}) + I_x(\bd{x})u+I_y(\bd{x})v+O(||\bd{t}||_2^2)
+\end{equation*}
+于是可对$E_{\bd{x}_0}(\bd{t})$进行进一步分解
+\begin{align*}
+    E_{\bd{x}_0}(\bd{t})\approx&\  \sum_{x\in W_k(\bd{x}_0)}\left(I(\bd{x}) + I_x(\bd{x})u+I_y(\bd{x})v-I(\bd{x})\right)^2\\
+    =&\ \sum_{\bd{x}\in W_k(\bd{x}_0)}\left(I_x(\bd{x})u+I_y(\bd{x})v\right)^2.
+\end{align*}
+
+更一般的，设图像$I$大小为$M\times N$，记全体像素点集为$D:=[1,M]\times [1,N]\cap \Z^2$，则
+\begin{align*}
+    E_{\bd{x}_0}(\bd{t})\approx&\ \sum_{\bd{x}\in D}w_{\bd{x}_0}(\bd{x})\left(I_x(\bd{x})u+I_y(\bd{x})v\right)^2\\
+    =&\ \sum_{\bd{x}\in D}w_{\bd{x}_0}(\bd{x})I_x^2(\bd{x})u^2+ 2w_{\bd{x}_0}(\bd{x})I_x(\bd{x})I_y(\bd{x})uv+w_{\bd{x}_0}(\bd{x})I_y^2(\bd{x})v^2\\
+    =&\ A(\bd{x}_0)u^2+2B(\bd{x}_0)uv+C(\bd{x}_0)v^2.
+\end{align*}
+其中$w_{\bd{x_0}}(\bd{x}) = \begin{cases}
+    1,&\quad \bd{x}\in W_k(\bd{x}_0),\\
+    0,&\quad \texttt{otherwise}.
+\end{cases}$为$W_k(\bd{x}_0)$的示性函数，\add 为使其变化更平滑，可取$w_{\bd{x}_0}$为中心在$\bd{x}_0$大小为$2k+1\times 2k+1$的Gauss核，上式中$A,B,C$定义如下，分别表示将核$w$作用在$I_x^2,\ I_xI_y,\ I_y^2$图像上得到的结果
+\begin{equation*}
+A(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_x^2(\bd{x}),\ B(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_x(\bd{x})I_y(\bd{x}),\ C(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_y^2(\bd{x}).
+\end{equation*}
+进一步，可使用二次型矩阵表出
+\begin{equation*}
+    E_{\bd{x}_0}(\bd{t}) = \bd{t}^TM_{\bd{x}_0}\bd{t},\quad \text{其中 }M_{\bd{x}_0}=\left[\begin{matrix}
+        A(\bd{x_0})&B(\bd{x}_0)\\
+        B(\bd{x_0})&C(\bd{x}_0)\\
+    \end{matrix}\right]
+\end{equation*}
+称$M_{\bd{x}_0}$为图像在$\bd{x}_0$处的二阶矩矩阵.
+
+假设$M_{\bd{x}_0}$的秩为$2$，则$M_{\bd{x}_0}$存在$2$个特征值，记其中较大者为$\lambda_{max}$，较小者为$\lambda_{min}$，对应的特征向量分别为$\bd{x}_{max},\ \bd{x}_{min}$，由特征向量定义可知，$M_{\bd{x}_0}\bd{x}_{max} = \lambda_{max}\bd{x}_{max}$说明窗口$W_k(\bd{x}_0)$在沿着$\bd{x}_{max}$方向上移动单位长度，$E_{\bd{x_0}}(\bd{t})$可达到最大值. 下面对$\lambda$的大小进行分类讨论
+
+1. 当$\lambda_{max}$较小时，$E_{\bd{x_0}}(\bd{t})$沿各个方向变化都较小，则$\bd{x}_0$处于图像内部平滑区域.
+
+2. 当$\lambda_{max}$较大且$\lambda_{max}\approx\lambda_{min}$时，$E_{\bd{x_0}}(\bd{t})$沿各个方向变化都较大，则$\bd{x}_0$是角点.
+
+3. 当$\lambda_{max}$较大且$\lambda_{max}>>\lambda_{min}$时，$E_{\bd{x_0}}(\bd{t})$仅沿$\bd{x}_{max}$方向变化较大，则$\bd{x}_0$是边界点.
+
+通过引入\textbf{角点响应函数（Corner response function）}用于判断角点
+\begin{align*}
+    R(\bd{x}_0) =&\ \det(M_{\bd{x}_0}) - \alpha\cdot\text{trace}(M_{\bd{x}_0})^2 = \lambda_1\lambda_2 - \alpha(\lambda_1+\lambda_2)^2\\
+    =&\ A(\bd{x_0})C(\bd{x_0}) - B^2(\bd{x_0}) - \alpha(A(\bd{x_0})+C(\bd{x_0}))
+\end{align*}
+其中$\alpha\in[0.04,0.06]$为超参数. 当$R(\bd{x}_0)$大于设定阈值时，则判定$\bd{x}_0$为角点.
+
+最后，再使用\textbf{非局部极大值抑制（Non-maxima suppression, NMS）}，若$\bd{x}_0$是其邻域内的最大值，则对其进行保留，否则删去该点. 通过设定邻域大小，可对角点密度进行调整.
+
+整个Harris角点检测算法中，总共存在4个超参数，分别为窗口大小$k$，响应函数中$\alpha$，响应阈值和NMS邻域大小.
+\end{document}
 
 \iffalse
 %%%% 表格模板 %%%%
