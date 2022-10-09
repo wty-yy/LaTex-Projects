@@ -152,6 +152,20 @@
 \begin{proof}
     设$\dim X = N$，其中的一组基为$\{l_1,\cdots, l_N\}$，$\forall A\subset X$为有界集，则$\exists C > 0$，使得$\forall x\in A$，$||x|| < C$，令$x = \sum_{i=1}^Nx_il_i$，则$\sum_{i=1}^N|x_i|\,||l_i|| < C$，记$M_1 = \sup_{1\leq i\leq N}||l_i||$，则$\sum_{i=1}^N|x_i|\leq C/M_1$，于是$(x_1,\cdots, x_N)\in \R^N$有界. 任取$A$中的数列$\{x_n\}$，令$x_n = \sum_{i=1}^Nx_i^{(n)}$，记$S = \{(x_1^{(k)},\cdots, x_N^{(k)}):x_k\in \{x_n\}\}$，则$S$必有收敛子列$\{(x_1^{(n_1)},\cdots, x_N^{(n_1)}),\cdots,(x_1^{(n_k)},\cdots, x_N^{(n_k)}),\cdots\}$，由于$||\cdot ||$与$\R^N$中2-范数等价，于是$\{x_{n_k}\}$是$\{x_n\}$的收敛子列，所以$A$是列紧集.
 \end{proof}
+\begin{problem}
+    1. $X = \{f\in C[0,1]:f(0)=0\}$，$||f||=\max_{x\in[0,1]}|f(x)|$，则$X$是Banach空间.
+
+    2. $X_0=\{f\in X: \int_0^1f(t)\,\d t=0\}$，则$\dim X_0=\infty$，证明Riesz引理中$\varepsilon\neq 0$.
+\end{problem}
+\begin{proof}
+    1. $\forall\{\varphi_n\}\subset X$是Cauchy列，则$||\varphi_n-\varphi_m||=\max_{x\in[0,1]}|\varphi_n(x)-\varphi_m(x)|\to0,\ (n,m\to\infty)$，$\forall x_0\in [0,1]$，有$|\varphi_n(x_0) - \varphi_m(x_0)|\to 0,\ (n,m\to\infty)$. 令$x_n = \varphi_n(x_0)$，则$\{x_n\}$是$\R$中的Cauchy列，$\exists x\in\R$使得$x_n\to x,\ (n\to\infty)$，令$\varphi(x_0) = x$，由于$x_0$的任意性，有$\lim_{n\to\infty}\varphi_n(x) = \varphi(x)$，下证$\varphi$的连续性.
+
+    $\forall \varepsilon > 0$，$\exists n\in\N$使得$\forall x\in [0,1]$有$|\varphi_n(x)-\varphi(x)| < \frac{\varepsilon}{3}$，由于$\varphi_n\in C([0,1])$，则$\exists \delta >0$，使得$\forall |x_1-x_2| < \delta$有$|\varphi_n(x_1)-\varphi_n(x_2)| < \frac{\varepsilon}{3}$则
+    \begin{equation*}
+        |\varphi(x_1)-\varphi(x_2)|\leq |\varphi(x_1)-\varphi_n(x_1)|+|\varphi_n(x_1)-\varphi_n(x_2)|+|\varphi_n(x_2)-\varphi(x_2)| < \varepsilon
+    \end{equation*}
+    所以$\varphi\in C([0,1])$，且$\varphi(0) = \lim_{n\to\infty}\varphi_n(0) = 0$，故$\varphi \in X$，$X$是Banach空间.
+\end{proof}
 % 下面给一些功能的写法
 \iffalse
 % 图片模板
