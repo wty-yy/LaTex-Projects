@@ -193,9 +193,9 @@
     \end{equation*}
     所以$\varphi\in C([0,1])$，且$\varphi(0) = \lim_{n\to\infty}\varphi_n(0) = 0$，故$\varphi \in X$，$X$是Banach空间.
 
-    2. 反设，$\exists x_0\in X$，$||x_0|| = 1$使得$\rho(x_0, X_0)\geq 1$，则$\exists b = \frac{\int_0^1x\,\d t}{\int_0^1 y\,\d t}$使得$x_0-by \in X_0$，故$||by|| \geq 1\Rightarrow \left|\int_0^1y\,\d t\right|\leq ||y||\left|\int_0^1x\,\d t\right|$，取$y = t^{\frac{1}{n}}$，则
+    2. 反设，$\exists x_0\in X$，$||x_0|| = 1$使得$\rho(x_0, X_0)\geq 1$，则$\exists b = \frac{\int_0^1x_0\,\d t}{\int_0^1 y\,\d t}$使得$x_0-by \in X_0$，故$||by|| \geq 1\Rightarrow \left|\int_0^1y\,\d t\right|\leq ||y||\left|\int_0^1x_0\,\d t\right|$，取$y = t^{\frac{1}{n}}$，则
     \begin{equation*}
-        \left|\int_0^1y\,\d t\right| = \frac{n}{n+1}\leq \left|\int_0^1x\,\d t\right|\Rightarrow \left|\int_0^1x\,\d t\right|\geq 1,\quad(n\to\infty)
+        \left|\int_0^1y\,\d t\right| = \frac{n}{n+1}\leq \left|\int_0^1x_0\,\d t\right|\Rightarrow \left|\int_0^1x_0\,\d t\right|\geq 1,\quad(n\to\infty)
     \end{equation*}
     与$||x_0|| = 1$且$x_0(0) = 0$矛盾.
 \end{proof}
