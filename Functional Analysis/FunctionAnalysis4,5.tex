@@ -115,13 +115,40 @@
     综上，$\{A_n\}$是直径趋于零的非空闭子集套，所以存在唯一的$x_0\in \bigcap_{i=1}^\infty A_i$，则$\rho(x_0, Tx_0) = 0$，压缩映射原理得证.
 \end{proof}
 \begin{problem}
-    设$K(\cdot ;\cdot)\in L^2([a,b]\times [a,b])$，对于$f\in L^2[a,b]$，证明当$\lambda$充分小时，\add\\
+    设$K(\cdot\, ;\cdot)\in L^2([a,b]\times [a,b])$，对于$f\in L^2[a,b]$，证明当$\lambda$充分小时，\add\\
     $x(t)=f(t)+\lambda\int_a^b k(t,s)x(s)\,\d s$在$L^2[a,b]$中存在唯一解.\add
 \end{problem}
+\begin{proof}
+    令$Tx(t) = f(t)+\lambda \int_a^b k(t, s)x(s)\,\d s$，则$T:L^2([a,b])\to L^2([a,b])$，于是 
+    \begin{align*}
+        \rho(Tx_1,Tx_2)=&\ \left(\int_a^b\left(\lambda\int_a^bk(t,s)(x_1(s)-x_2(s))\,\d s\right)^2\,\d t\right)^{\frac{1}{2}}\\
+        \leq&\ |\lambda|\left(\int_a^b\,\d t\int_a^bk^2(t,s)\,\d s\right)^{\frac{1}{2}}\left(\int_a^b(x_1(s)-x_2(s))^2\,\d s\right)^{\frac{1}{2}}
+    \end{align*}
+    由于$k(t,s)\in L^2([a,b]^2)$，则$\exists M > 0$使得$\left(\int_a^b\,\d t\int_a^bk^2(t,s)\,\d s\right)^{\frac{1}{2}}\leq M < \infty$，取$\lambda = \frac{1}{2M}$，所以
+    \begin{equation*}
+        \rho(Tx_1,Tx_2)\leq |\lambda|M\rho(x_1,x_2)\leq \frac{1}{2}\rho(x_1,x_2)
+    \end{equation*}
+    故$T$为$L^2([a,b])$中的压缩映射，则原方程在$L^2([a,b])$中存在唯一解.
+\end{proof}
 \begin{problem}
-    设$K(\cdot ;\cdot )\in C([a,b]\times [a,b])$，对于$f\in C[a,b]$，证明$\forall \lambda \in \R$，\add\\
-    $x(t)= f(t)+\lambda\int_a^t k(t,s)x(s)\,\d s$在$C[a,b]$中存在唯一解.\add
+    设$K(\cdot\, ;\cdot )\in C([a,b]\times [a,b])$，对于$f\in C([a,b])$，证明$\forall \lambda \in \R$，\add\\
+    $x(t)= f(t)+\lambda\int_a^t k(t,s)x(s)\,\d s$在$C([a,b])$中存在唯一解.
 \end{problem}
+\begin{proof}
+    做变量代换$t'=t+a$，令$c=b-a$，只需证明原方程在$C([0,c])$上存在唯一解. 设$Tx(t) = f(t)+\lambda \int_0^t k(t,x)x(s)\,\d s$，则$T:C([0,c])\to C([0,c])$，于是
+    \begin{equation*}
+        \rho(T^nx_1,T^nx_2) = \max_{t\in[a,b]}\lambda^n\int_0^tk(t,t_1)\int_0^{t_1}k(t_1,t_2)\cdots\int_0^{t_{n-1}}k(t_{n-1}, t_n)(x_1(t_n) - x_2(t_n))\,\d t_n\d t_{n-1}\cdots\d t_1\d t
+    \end{equation*}
+    由于$f\in C[0,c]$，于是存在上界$M\geq 0$使得$\sup_{t\in[0,c]}|f(t)|\leq M$，于是
+    \begin{equation*}
+        \rho(T^nx_1,T^nx_2)\leq \frac{(|\lambda|Mt)^n}{n!}\max_{t\in[0,c]}\{x_1(t)-x_2(t)\}
+    \end{equation*}
+    由Stirling公式可知$n!\sim \sqrt{2\pi n}\left(\frac{n}{\e}\right)^n,\ (n\to\infty)$，于是
+    \begin{equation*}
+        \rho(T^nx_1,T^nx_2)\leq \frac{1}{\sqrt{2\pi n}}\left(\frac{\e \lambda M t}{n}\right)^n\to 0^+,\ (n\to\infty)
+    \end{equation*}
+    所以$T^n$是$C([0,c])$上的压缩映射，故原问题存在唯一解.
+\end{proof}
 \begin{problem}
     设$(X,||\cdot||)$为赋范线性空间，且$\dim X < \infty$，则$X$是Banach空间.\del
 \end{problem}
@@ -165,6 +192,12 @@
         |\varphi(x_1)-\varphi(x_2)|\leq |\varphi(x_1)-\varphi_n(x_1)|+|\varphi_n(x_1)-\varphi_n(x_2)|+|\varphi_n(x_2)-\varphi(x_2)| < \varepsilon
     \end{equation*}
     所以$\varphi\in C([0,1])$，且$\varphi(0) = \lim_{n\to\infty}\varphi_n(0) = 0$，故$\varphi \in X$，$X$是Banach空间.
+
+    2. 反设，$\exists x_0\in X$，$||x_0|| = 1$使得$\rho(x_0, X_0)\geq 1$，则$\exists b = \frac{\int_0^1x\,\d t}{\int_0^1 y\,\d t}$使得$x_0-by \in X_0$，故$||by|| \geq 1\Rightarrow \left|\int_0^1y\,\d t\right|\leq ||y||\left|\int_0^1x\,\d t\right|$，取$y = t^{\frac{1}{n}}$，则
+    \begin{equation*}
+        \left|\int_0^1y\,\d t\right| = \frac{n}{n+1}\leq \left|\int_0^1x\,\d t\right|\Rightarrow \left|\int_0^1x\,\d t\right|\geq 1,\quad(n\to\infty)
+    \end{equation*}
+    与$||x_0|| = 1$且$x_0(0) = 0$矛盾.
 \end{proof}
 % 下面给一些功能的写法
 \iffalse
