@@ -1,0 +1,160 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont=方正小标宋简体, ItalicFont=方正楷体_GBK]
+\setmainfont{Times New Roman}  % 设置英文字体
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newcounter{problem}  % 问题序号计数器
+\newcounter{problem*}  % 问题序号计数器
+\newenvironment{problem}{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. }}{\smallskip\par}
+\newenvironment{problem*}{\stepcounter{problem*}\par\noindent\textbf{编程作业\arabic{problem*}. }}{\smallskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\smallskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}  % \rchi中间位置的\chi
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % inner command, used by \rchi
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-3.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{数理统计} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{-3}\textbf{第二次作业}
+\end{center}
+\vspace{-0.2cm}
+% 正文部分
+\begin{problem*}
+    假设$X_1,\cdots, X_n$是来自总体$X$的随机样本，$X\sim\rchi^2(k)$.
+    
+    (1) 求样本均值$\bar{X}$的密度函数.
+
+    (2) 求样本均值的渐近分布.
+
+    (3) 通过编程比较，在不同样本量下，样本均值的密度函数和其渐近分布的密度函数图像.
+\end{problem*}
+\begin{solution}
+    (1) $n\bar{X} = \sum_{i=1}^nX_i$，由于$X_i\sim \rchi^2(k) = \Gamma(\frac{k}{2}, \frac{1}{2})$，且Gamma函数有可加性，则$N\bar{X}\sim\Gamma(\frac{nk}{2},\frac{1}{2})$\del
+    \begin{equation*}
+        p_{\bar{X}}(x) = p_{n\bar{X}}(n x)n = n^{\frac{nk}{2}}\frac{(\frac{1}{2})^{\frac{nk}{2}}}{\Gamma(\frac{nk}{2})}x^{\frac{nk}{2}-1}\e^{-\frac{nx}{2}}.
+    \end{equation*}
+
+    (2) $\rchi^2(k)$的$\mu = k, \sigma^2 = 2k$，则$\bar{X}$的渐近分布为$N(k, \frac{2k}{n})$.
+
+    (3) 设定每次计算密度函数时使用$10^7$个样本，$k$表示卡方分布的自由度，$N$表示样本量大小，结果如图1所示.
+\end{solution}
+\begin{problem*}
+    在一个图上画出标准正态分布的密度曲线和$t(1), t(3), t(30), t(100)$的密度曲线.
+\end{problem*}
+\begin{solution}
+    直接绘图，结果如图2所示.
+\end{solution}
+\begin{problem*}
+    令$X_1,\cdots, X_n$是来自均匀分布$U[\mu-\sqrt{3}\sigma, \mu+\sqrt{3}\sigma]$的随机样本，其中$\mu\in\R, \sigma > 0$. 编程比较$\mu$的矩估计和MLE的偏，方差和均方误差.
+\end{problem*}
+\begin{solution}
+    由于$E(x) = \int_{\mu-\sqrt{3}\sigma}^{\mu+\sqrt{3}\sigma}\frac{1}{2\sqrt{3}\sigma}x\,\d x=\mu$，则$\mu$的矩估计为$\hat{\mu} = \bar{X}$.
+
+    由课上习题可知，$\mu$的MLE估计为$\hat{\mu}=\frac{y_1+y_n}{2}$，其中$Y_1,\cdots,Y_n$为$X_1,\cdots,X_n$的次序统计量.
+
+    通过程序计算，取$\mu = 0,\sigma =1$，每个样本大小$n=10^5$，总共取$10^5$个样本，计算得到
+    \begin{align*}
+        \text{矩估计：}&\ E(\hat{\mu}) \approx 1.96\times 10^{-6},\ Var(\hat{\mu}) \approx 0.003,\ \text{MSE}(\hat{\mu}) \approx 0.003\\
+        \text{MLE：}&\ E(\hat{\mu}) \approx 6.19\times 10^{-8},\ Var(\hat{\mu}) \approx 2.46\times 10^{-5},\ \text{MSE}(\hat{\mu}) \approx 2.46\times 10^{-5}
+    \end{align*}
+    由此看出MLE的估计效果优于矩估计方法.
+\end{solution}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{C:/wty-yy/Code/Statistic/pg1.png}
+    \caption{第一题}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{C:/wty-yy/Code/Statistic/pg2.png}
+    \caption{第二题}
+\end{figure}
+
+% 下面给一些功能的写法
+\iffalse
+% 图片模板
+\centerline{
+    \includegraphics[width=0.8\textwidth]{figure.png}
+}
+% 表格模板
+\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
+\begin{table}[!htbp] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{3cm}<{\centering}p{5cm}<{\centering}} % 设置表格宽度
+    %\begin{tabular}{cccc}
+        \toprule
+        $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ \\
+        \midrule
+        $x_0$ & $f(x_0)$ &                  &                          \\
+        $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
+        $x_0$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\def\Log{\text{Log}} % 一个简单的宏定义
+$\Log$ % 调用方法
+\fi
+
+\end{document}
