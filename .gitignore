@@ -4,3 +4,4 @@ _minted*
 *.out
 *.synctex.gz
 *.toc
+.idea
