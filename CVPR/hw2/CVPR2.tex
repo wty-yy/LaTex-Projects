@@ -225,7 +225,80 @@
 \begin{equation*}
     f(x^*, y^*) = S_Af(A)+S_Bf(B)+S_Cf(C)+S_Df(D).
 \end{equation*}}
-\vspace{2cm}\subsection{几何变换实验}
+\vspace{2cm}
+\subsection{Gauss一阶微分的图像梯度}
+
+二维Gauss函数表示如下
+\[G_{\sigma}(x, y)=\frac{1}{2\pi \sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}\]
+
+对其计算 \(x, y\) 方向上偏导得
+\[\frac{\partial G_{\sigma}(x, y)}{\partial x}=-\frac{x}{2\pi \sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}},\quad \frac{\partial G_{\sigma}(x, y)}{\partial y}=-\frac{y}{2\pi \sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}}\]
+
+再将两种方向偏导对应的高斯偏导核作用在图像上，分别得到图像在两个方向上的偏导，记为
+\(f_x, f_y\)，于是根据下式可以分别计算出每个像素处梯度的幅度图（范数）和方向图
+\[||\nabla f||(m,n) = \sqrt{f_x(m,n)^2+f_y(m,n)^2},\quad \theta(m,n) = \arctan\left(\frac{f_y(m,n)}{f_x(m,n)}\right).\]
+
+\subsection{Canny边缘检测}
+
+Canny边缘检测算法共分为以下三步：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{梯度提取}，取方差为 \(\sigma\)
+  的Gauss一阶微分核做卷积，得到幅度图和方向图.
+\item
+  \textbf{非极大值像素梯度抑制}（Non-Maximum Suppression,
+  NMS），对每个像素考虑其梯度方向上的两个临近点，利用之前写好的\textbf{双线性插值}获得两点处的梯度值，然后判断中间点的梯度范数大于两端的梯度范数，若大于则保留，反之舍弃（归零）.
+
+  具体来讲，设当前像素点为 \(\boldsymbol{q}: (x, y)\)， 幅度函数记为
+  \(||\nabla f||(x, y)\)，\(\boldsymbol{q}\) 点处的梯度方向记为
+  \(\theta\)，则考虑沿梯度方向上的两点
+
+  \[\boldsymbol{r}:(x+\cos \theta, y+\sin\theta),\quad
+  \boldsymbol{p}=(x-\cos\theta, y-\sin\theta)\]
+
+  若
+  \(||\nabla f||(\boldsymbol{q}) > \max\{||\nabla f||(\boldsymbol{r}),||\nabla f||(\boldsymbol{p})\}\)，则保留该点，否则令
+  \(f(\boldsymbol{q}) = 0\).
+\item
+  \textbf{高低阈值处理，边缘连接}，考虑对NMS结果进一步处理，首先设定高低阈值，这里我使用的是按照幅度值的分位数确定阈值，可以根据不同图像进行自适应阈值大小.
+  我们称所有幅度值大于高阈值的点为\textbf{高阈值点}，所有幅度值大于低阈值的点为\textbf{低阈值点}.
+  然后，将高阈值点从大到小进行枚举，每个点使用深度优先搜索查找边缘，假设当前搜索点为
+  \(\boldsymbol{x}\)，考虑周围八个方向
+  \(\boldsymbol{y}_i\)，分为以下四种情况：
+
+  \begin{itemize}
+  \item
+    若 \(\boldsymbol{y}_i\)
+    为搜索树上的父节点或上两层节点（这里判断两层是因为从其他结点到达该节点，在八个方向的领域内，最多是通过存在两个祖先节点），则跳过该节点.
+  \item
+    若存在 \(\boldsymbol{y}_i\) 为高阈值点，则从高阈值中幅度值最大
+    \(\boldsymbol{y}_i\) 开始进行搜索，连接
+    \((\boldsymbol{x}, \boldsymbol{y}_i)\)，并对 \(\boldsymbol{y}_i\)
+    进行迭代搜索.
+  \item
+    若不存在 \(\boldsymbol{y}_i\) 为高阈值点，且存在
+    \(\boldsymbol{y}_i\) 为低阈值点，则取低阈值中幅度值最大的
+    \(\boldsymbol{y}_i\)，连接
+    \((\boldsymbol{x}, \boldsymbol{y}_i)\)，返回迭代.
+  \item
+    若无低阈值点，则返回迭代.
+  \end{itemize}
+\end{enumerate}
+
+为保持边缘的连续性，连接 \((\boldsymbol{x}, \boldsymbol{y}_i)\)
+的具体操作为，若 \(\boldsymbol{y}_i\) 是 \(\boldsymbol{x}\)
+的正上下左右四个位置时，则直接进行连接，若 \(\boldsymbol{y}_i\) 是
+\(\boldsymbol{x}\)
+的左上、右上、左下、右下四个位置时，以左上为例，继续判断
+\(\boldsymbol{x}\)
+的正上和正左两个位置的幅度值，取较大者设定为边界点，并将其加入结点
+\(\boldsymbol{y}_i\) 的父节点中，其他方向同理.
+
+最后，将凸出像素点删去，若一个边界点周围的边界点个数 \(\leqslant 1\)
+则删去该边界点，可以使最终边缘图像更加平滑.
+
 \subsection{Harris角点检测}
 设图像为$I(\cdot\, ;\cdot)$，考虑一个大小为$2k+1\times 2k+1$中心位于$\bd{x}_0\in\R^2$的滑动窗口$W_k(\bd{x}_0)$，任取一个滑动方向$\bd{t}\in\R^2$，定义在$\bd{t}$方向上的\textbf{平方误差和（sum of squared differences, SSD）}为
 \begin{equation*}
@@ -284,25 +357,167 @@ A(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_x^2(\bd{x}),\ B(\bd{x_0}) = \su
 
 整个Harris角点检测算法中，总共存在4个超参数，分别为窗口大小$k$，响应函数中$\alpha$，响应阈值和NMS邻域大小.
 
+\clearpage
 \section{实验步骤与结果分析}
 \subsection{完成上次未完成的填充操作}
 \begin{figure}[htbp]
     \centering
-    \hspace*{-2cm}
+    \hspace*{-1.5cm}
     \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作1.png}
     \caption{填充操作1}
 \end{figure}
 \begin{figure}[htbp]
     \centering
-    \hspace*{-2cm}
+    \hspace*{-1.5cm}
     \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作2.png}
     \caption{填充操作2}
 \end{figure}
+\subsection{几何变换实验（5种变换）}
+图像坐标系默认是按照左上角为原点，纵轴向下为 \(x\) 轴正方向，横轴向右为
+\(y\)
+轴正方向，为便于输出查看，变化后的图像保持与原图像相同的大小，但这样就会发生图像大部分空白，所以需要使用平移矩阵将变化后的图像中心保持在输出框的中心，具体来说，假设图像大小为
+\(N\times M\)，几何变换为 \(T\)，记图像中心点为
+\(\boldsymbol{x}_{mid} = (N/2,M/2)\) ，则考虑平移向量和对应的平移矩阵为
 
+\[\boldsymbol{t} = \boldsymbol{x}_{mid} - T\boldsymbol{x}_{mid},\quad T_{translation}=\left[\begin{matrix}1&0&t_1\\ 0&1&t_2\\0&0&1\end{matrix}\right]\]
 
+最后将$T\times T_{translation}$作用在原图上即可获得中心化图片，为了保证输出效果，除平移操作和旋转操作外，其他操作都进行平移，实验效果如图\ref{fig-1}所示.
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1.5cm}
+    \includegraphics[scale=0.5]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/几何变换实验.png}
+    \caption{几何变换实验\label{fig-1}}
+\end{figure}
+
+\subsection{Gauss金字塔和Laplace金字塔}
+
+Gauss金字塔：使用Gauss核与图像做卷积，设定Gauss核移动步长为stride=2，于是每次可将整个图像缩小
+\(1/4\) 倍.
+
+在使用matplotlib进行绘图时，由于将图像同时输出到同一个画板上时，其会自动将子图进行放大，以保持相同的图像大小，所以为了输出图像金字塔的效果，需自行设定每个子图的坐标，四种距离参数包括：左侧，底部，横向，竖向. 实验效果如图\ref{fig-2}所示.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/下采样缩小结果.png}
+    \caption{Gauss金字塔\label{fig-2}}
+\end{figure}
+
+在进行上采样放大图像过程中，由于要对原图进行0填充补其奇数行与奇数列，然后再用大小为5的Gauss核做卷积，这样会是的图像的整体亮度偏低，最后通过对全体像素乘
+\(4\) 来提高亮度（经过尝试，感觉这个大小和原图亮度最接近，如图\ref{fig-3}所示）.
+在这里进行Gauss做卷积的过程中，我尝试了 \(4\)
+中不同的边界填充方法，其中边界镜像的效果最好，所以在下述上采样操作中都是用该边界填充方法.
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/上采用使用不同边界填充.png}
+    \caption{使用不同边界填充\label{fig-3}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[上采样金字塔]  % 子图的标题
+    {
+        % 如果一行放三个图改成0.3\linewidth即可
+        \hspace*{-3cm}\begin{minipage}[b]{.6\linewidth}  % 0.45排版行距, 即一行放2个图, 一行放不下就换行
+            \centering
+            \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/上采样放大结果.png}
+        \end{minipage}
+    }
+    \subfigure[Laplace金字塔]
+    {
+        \begin{minipage}[b]{.35\linewidth}
+            \centering
+            \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Laplace金字塔.png}
+        \end{minipage}
+    }
+\end{figure}
+
+下面讨论低通滤波和抽样频率的关系，由Shannon-Nyquist定理可知，采样频率应至少大于最大频率的2倍以上才不会发生图像像素混淆.
+图像使用的是“黄鹤楼”，因为该建筑上具有非常多的细节纹理，从上次作业Fourier变换结果来看，该图具有较高的频率，像素重叠现象更为明显.
+下图分布以直接进行下采样和做Gauss模糊以后再进行采样进行比较，体现Gauss模糊确实能有效降低图像的频率.
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1.5cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/直接进行采样.png}
+    \caption{直接进行采样\label{fig-4}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1.5cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Gauss模糊以后进行下采样.png}
+    \caption{使用Gauss模糊后进行采样\label{fig-5}}
+\end{figure}
+
+\clearpage
+\subsection{Gauss一阶微分的图像梯度}
+\(\sigma = 3\)，大小为\(13\times 13\) 的高斯核分别在 \(x,y\)
+轴方向上的偏导如下图所示（这里以图像纵轴向下为 \(x\) 正方向，横轴向右为
+\(y\) 轴正方向）.
+
+\textbf{注}：此处Gauss一阶微分核无需再进行归一化处理.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/两种Gauss一阶微分核.png}
+    \caption{两种Gauss一阶微分核\label{fig-6}}
+\end{figure}
+
+实际操作中，要显示幅度谱需要使用\textbf{线性正规化方法}，而显示方向图要使用\textbf{截断正规化方法}，下图实验了将
+\(\sigma=0.5, 1, 5\) 分别作用在图像上，得到梯度的幅度图和方向图
+
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1.5cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/梯度的幅度图和方向图.png}
+    \caption{幅度图和方向图\label{fig-7}}
+\end{figure}
+
+从中可以看出，高斯核方差越大，幅度图中边缘提取更加多，但是边缘厚度太大，导致后续进一步处理困难，所以选取适合的方差十分关键，从图中可看出
+\(\sigma=2\) 时提取效果较好.
+
+\subsection{Canny边缘检测}
+在NMS过程中，发现梯度的幅度图均值仅有
+\(0.00858\)，为了使得进行线性插值时便于加权求和，对幅度谱先均值提升到1.
+下图所展示的NMS过程，NMS过程共计删除 \(38945\) 个像素点，占比
+\(14.856339\%\)，设定低阈值为分位数 \(50\%\) 的像素值，高阈值为分位数
+\(92\%\) 的像素值，边缘连接过程共计连接 \(14756\) 个像素点，占比
+\(5.628967\%\).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.6]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Canny边缘检测.png}
+    \caption{边缘检测\label{fig-8}}
+\end{figure}
+\vspace*{-1cm}
+\subsubsection{Harris角点检测}
+通过调整不同的窗口大小，旋转角度和亮度，角点检测结果如图\ref{fig-10}和图\ref{fig-11}所示，该结果表明，窗口大小越小，能检测出的角点个数越多密度越大，因为小窗口中梯度变化会更加明显，而大窗口中梯度变化更为平均，只有梯度变化明显的点才会被识别出来.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测1.png}
+    \caption{角点检测1\label{fig-9}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测31.png}
+    \caption{角点检测小窗口\label{fig-10}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测32.png}
+    \caption{角点检测大窗口\label{fig-11}}
+\end{figure}
+\vspace*{-1cm}
 \section{结论与讨论}
+本次实验进一步学习了更多的图像特征提取操作，对图像处理代码库功能进行完善. 在Canny算法的边缘连接部分使用了较为复杂的贪心方法，能有效的降低了边缘的厚度，但仍未达到OpenCV的效果，主要是边缘处不够光滑，有待进一步改进.
 
-\section{主要代码及图像}
+完整代码请见：\url{https://github.com/wty-yy/CVPR_homeworks/tree/master/code/hw2}.
 
 \end{document}
 
