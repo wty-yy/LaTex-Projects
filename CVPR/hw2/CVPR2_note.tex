@@ -1,0 +1,349 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\textbf{⼀、图像变换（}图像⾃选，编程语⾔⾃选）
+
+✓ 图像的参数化⼏何变换原理（参考书：计算机视觉-算法与应⽤，3.6章节）；
+
+五种变换
+
+✓ 图像的向前变换（forward warping）与图像的逆向变换（inverse warping）；
+
+✓ 图像的下抽样原理与图像的内插⽅法原理（近邻插值与双线性插值）；
+
+✓
+完成图像的⼏何变换实验，包括：平移变换；旋转变换；欧式变换；相似变换；仿射变换。
+
+✓
+完成图像的⾼斯⾦字塔表示与拉普拉斯⾦字塔表示，讨论前置低通滤波与抽样频率的关系。
+
+\textbf{⼆、特征检测（}图像⾃选，编程语⾔⾃选\textbf{）}
+
+✓
+基于⾼斯⼀阶微分的图像梯度（幅值图与⽅向图），分析⾼斯⽅差对图像梯度的影响；
+
+✓
+掌握Canny边缘检测原理，完成图像的边缘检测实验，展示每个环节的处理结果（梯度图、NMS、边缘链接）；
+
+✓
+掌握Harris⻆点检测原理，完成图像的⻆点检测实验，分析窗⼝参数对⻆点检测的影响，讨论⻆点检测的不变
+
+性、等变性与定位精度等。
+
+\hypertarget{ux5b8cux6210ux4e0aux6b21ux672aux5b8cux6210ux7684ux586bux5145ux64cdux4f5c}{%
+\paragraph{完成上次未完成的填充操作}\label{ux5b8cux6210ux4e0aux6b21ux672aux5b8cux6210ux7684ux586bux5145ux64cdux4f5c}}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作1.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作2.png}
+\caption{}
+\end{figure}
+
+\hypertarget{ux51e0ux4f55ux53d8ux6362ux5b9eux9a8c5ux79cdux53d8ux6362uxff09}{%
+\subsubsection{几何变换实验（5种变换）}\label{ux51e0ux4f55ux53d8ux6362ux5b9eux9a8c5ux79cdux53d8ux6362uxff09}}
+
+图像坐标系默认是按照左上角为原点，纵轴向下为 \(x\) 轴正方向，横轴向右为
+\(y\)
+轴正方向，为便于输出查看，变化后的图像保持与原图像相同的大小，但这样就会发生图像大部分空白，所以需要使用平移矩阵将变化后的图像中心保持在输出框的中心，具体来说，假设图像大小为
+\(N\times M\)，几何变换为 \(T\)，记图像中心点为
+\(\boldsymbol{x}_{mid} = (N/2,M/2)\) ，则考虑平移向量和对应的平移矩阵为
+
+\[\boldsymbol{t} = \boldsymbol{x}_{mid} - T\boldsymbol{x}_{mid},\quad T_{translation}=\left[\begin{matrix}1&0&t_1\\ 0&1&t_2\\0&0&1\end{matrix}\right]\]
+
+为了保证输出效果，处平移操作和旋转操作外，其他操作都进行平移.
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/几何变换实验.png}
+\caption{}
+\end{figure}
+
+\hypertarget{gaussux91d1ux5b57ux5854ux548claplaceux91d1ux5b57ux5854}{%
+\subsubsection{Gauss金字塔和Laplace金字塔}\label{gaussux91d1ux5b57ux5854ux548claplaceux91d1ux5b57ux5854}}
+
+Gauss金字塔：使用Gauss核与图像做卷积，设定Gauss核移动步长为stride=2，于是每次可将整个图像缩小
+\(1/4\) 倍.
+
+\textbf{实验步骤：}
+在使用matplotlib进行绘图时，由于将图像同时输出到同一个画板上时，其会自动将子图进行放大，以保持相同的图像大小，所以为了输出图像金字塔的效果，需自行设定每个子图的坐标，四种距离参数包括：左侧，底部，横向，竖向.
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/下采样缩小结果.png}
+\caption{}
+\end{figure}
+
+在进行上采样放大图像过程中，由于要对原图进行0填充补其奇数行与奇数列，然后再用大小为5的Gauss核做卷积，这样会是的图像的整体亮度偏低，最后通过对全体像素乘
+\(4\) 来提高亮度（经过尝试，感觉这个大小和原图亮度最接近）.
+在这里进行Gauss做卷积的过程中，我尝试了 \(4\)
+中不同的边界填充方法，其中边界镜像的效果最好，所以在下述上采样操作中都是用该边界填充方法.
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/上采用使用不同边界填充.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/上采样放大结果.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Laplace金字塔.png}
+\caption{}
+\end{figure}
+
+讨论低通滤波和抽样频率的关系，由Shannon-Nyquist定理可知，采样频率应至少大于最大频率的2倍以上才不会发生图像像素混淆.
+图像使用的是``黄鹤楼''，因为该建筑上具有非常多的细节纹理，从上次作业Fourier变换结果来看，该图具有较高的频率，像素重叠现象更为明显.
+下图分布以直接进行下采样和做Gauss模糊以后再进行采样进行比较，体现Gauss模糊确实能有效降低图像的频率.
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/直接进行采样.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Gauss模糊以后进行下采样.png}
+\caption{}
+\end{figure}
+
+\hypertarget{gaussux4e00ux9636ux5faeux5206ux7684ux56feux50cfux68afux5ea6}{%
+\subsubsection{Gauss一阶微分的图像梯度}\label{gaussux4e00ux9636ux5faeux5206ux7684ux56feux50cfux68afux5ea6}}
+
+\textbf{目标：幅度图与方向图，分析高斯方差对梯度的影响.}
+
+\textbf{实验原理：}
+
+二维Gauss函数表示如下
+
+\[G_{\sigma}(x, y)=\frac{1}{2\pi \sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}\]
+
+对其计算 \(x, y\) 方向上偏导得
+
+\[\frac{\partial G_{\sigma}(x, y)}{\partial x}=-\frac{x}{2\pi \sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}},\quad \frac{\partial G_{\sigma}(x, y)}{\partial y}=-\frac{y}{2\pi \sigma^4}e^{-\frac{x^2+y^2}{2\sigma^2}}\]
+
+再将两种方向偏导对应的高斯偏导核作用在图像上，分别得到图像在两个方向上的偏导，记为
+\(f_x, f_y\)，于是根据下式可以分别计算出每个像素处梯度的幅度图（范数）和方向图
+
+\[||\nabla f||(m,n) = \sqrt{f_x(m,n)^2+f_y(m,n)^2},\quad \theta(m,n) = \arctan\left(\frac{f_y(m,n)}{f_x(m,n)}\right).\]
+
+\textbf{实验步骤：}
+
+\(\sigma = 3\)，大小为\(13\times 13\) 的高斯核分别在 \(x,y\)
+轴方向上的偏导如下图所示（这里以图像纵轴向下为 \(x\) 正方向，横轴向右为
+\(y\) 轴正方向）.
+
+\textbf{注}：此处Gauss一阶微分核无需再进行归一化处理.
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/两种Gauss一阶微分核.png}
+\caption{}
+\end{figure}
+
+实际操作中，要显示幅度谱需要使用\textbf{线性正规化方法}，而显示方向图要使用\textbf{截断正规化方法}，下图实验了将
+\(\sigma=0.5, 1, 5\) 分别作用在图像上，得到梯度的幅度图和方向图
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/梯度的幅度图和方向图.png}
+\caption{}
+\end{figure}
+
+从中可以看出，高斯核方差越大，幅度图中边缘提取更加多，但是边缘厚度太大，导致后续进一步处理困难，所以选取适合的方差十分关键，从图中可看出
+\(\sigma=2\) 时提取效果较好.
+
+\hypertarget{cannyux8fb9ux7f18ux68c0ux6d4b}{%
+\subsubsection{Canny边缘检测}\label{cannyux8fb9ux7f18ux68c0ux6d4b}}
+
+\textbf{目标：梯度图、NMS、边缘连接.}
+
+\textbf{实验原理：}Canny边缘检测算法共分为以下三步：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{梯度提取}，取方差为 \(\sigma\)
+  的Gauss一阶微分核做卷积，得到幅度图和方向图.
+\item
+  \textbf{非极大值像素梯度抑制}（Non-Maximum Suppression,
+  NMS），对每个像素考虑其梯度方向上的两个临近点，利用之前写好的\textbf{双线性插值}获得两点处的梯度值，然后判断中间点的梯度范数大于两端的梯度范数，若大于则保留，反之舍弃（归零）.
+
+  具体来讲，设当前像素点为 \(\boldsymbol{q}: (x, y)\)， 幅度函数记为
+  \(||\nabla f||(x, y)\)，\(\boldsymbol{q}\) 点处的梯度方向记为
+  \(\theta\)，则考虑沿梯度方向上的两点
+
+  \[\boldsymbol{r}:(x+\cos \theta, y+\sin\theta),\quad
+  \boldsymbol{p}=(x-\cos\theta, y-\sin\theta)\]
+
+  若
+  \(||\nabla f||(\boldsymbol{q}) > \max\{||\nabla f||(\boldsymbol{r}),||\nabla f||(\boldsymbol{p})\}\)，则保留该点，否则令
+  \(f(\boldsymbol{q}) = 0\).
+\item
+  \textbf{高低阈值处理，边缘连接}，考虑对NMS结果进一步处理，首先设定高低阈值，这里我使用的是按照幅度值的分位数确定阈值，可以根据不同图像进行自适应阈值大小.
+  我们称所有幅度值大于高阈值的点为\textbf{高阈值点}，所有幅度值大于低阈值的点为\textbf{低阈值点}.
+  然后，将高阈值点从大到小进行枚举，每个点使用深度优先搜索查找边缘，假设当前搜索点为
+  \(\boldsymbol{x}\)，考虑周围八个方向
+  \(\boldsymbol{y}_i\)，分为以下四种情况：
+
+  \begin{itemize}
+  \item
+    若 \(\boldsymbol{y}_i\)
+    为搜索树上的父节点或上两层节点（这里判断两层是因为从其他结点到达该节点，在八个方向的领域内，最多是通过存在两个祖先节点），则跳过该节点.
+  \item
+    若存在 \(\boldsymbol{y}_i\) 为高阈值点，则从高阈值中幅度值最大
+    \(\boldsymbol{y}_i\) 开始进行搜索，连接
+    \((\boldsymbol{x}, \boldsymbol{y}_i)\)，并对 \(\boldsymbol{y}_i\)
+    进行迭代搜索.
+  \item
+    若不存在 \(\boldsymbol{y}_i\) 为高阈值点，且存在
+    \(\boldsymbol{y}_i\) 为低阈值点，则取低阈值中幅度值最大的
+    \(\boldsymbol{y}_i\)，连接
+    \((\boldsymbol{x}, \boldsymbol{y}_i)\)，返回迭代.
+  \item
+    若无低阈值点，则返回迭代.
+  \end{itemize}
+\end{enumerate}
+
+为保持边缘的连续性，连接 \((\boldsymbol{x}, \boldsymbol{y}_i)\)
+的具体操作为，若 \(\boldsymbol{y}_i\) 是 \(\boldsymbol{x}\)
+的正上下左右四个位置时，则直接进行连接，若 \(\boldsymbol{y}_i\) 是
+\(\boldsymbol{x}\)
+的左上、右上、左下、右下四个位置时，以左上为例，继续判断
+\(\boldsymbol{x}\)
+的正上和正左两个位置的幅度值，取较大者设定为边界点，并将其加入结点
+\(\boldsymbol{y}_i\) 的父节点中，其他方向同理.
+
+最后，将凸出像素点删去，若一个边界点周围的边界点个数 \(\leqslant 1\)
+则删去该边界点，可以使最终边缘图像更加平滑.
+
+\textbf{实验步骤：}
+
+NMS过程中，发现梯度的幅度图均值仅有
+\(0.00858\)，为了使得进行线性插值时便于加权求和，对幅度谱先均值提升到1.
+下图所展示的NMS过程(fox2)，NMS过程共计删除 \(38945\) 个像素点，占比
+\(14.856339\%\)，设定低阈值为分位数 \(50\%\) 的像素值，高阈值为分位数
+\(92\%\) 的像素值，边缘连接过程共计连接 \(14756\) 个像素点，占比
+\(5.628967\%\).
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Canny边缘检测.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Canny边缘检测1.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/Canny边缘检测2.png}
+\caption{}
+\end{figure}
+
+\hypertarget{harrisux89d2ux70b9ux68c0ux6d4b}{%
+\subsubsection{Harris角点检测}\label{harrisux89d2ux70b9ux68c0ux6d4b}}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测1.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测2.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测31.png}
+\caption{}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/角点检测32.png}
+\caption{}
+\end{figure}
+
+\end{document}

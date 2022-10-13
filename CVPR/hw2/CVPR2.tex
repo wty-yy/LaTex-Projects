@@ -88,7 +88,18 @@
 \begin{title}{强基数学002\quad 吴天阳\quad 2204210460}
     CVPR第二次作业
 \end{title}
-\setcounter{section}{1}
+% \setcounter{section}{1}
+\section{实验目的}
+1. 完成图像的几何变换实验，包括：平移变换；旋转变换；欧式变换；相似变换；仿射变换.
+
+2. 完成图像的高斯金字塔表示与拉普拉斯金字塔表示，讨论前置低通滤波与抽样频率的关系.
+
+3. 基于高斯一阶微分的图像梯度（幅值图与方向图），分析高斯方差对图像梯度的影响.
+
+4. 掌握Canny边缘检测原理，完成图像的边缘检测实验，展示每个环节的处理结果（梯度图、NMS、边缘链接）.
+
+5. 掌握Harris角点检测原理，完成图像的角点检测实验，分析窗⼝参数对角点检测的影响，讨论角点检测的不变.
+\section{实验原理}
 \subsection{图像参数化几何变换原理}
 1. 平移变换（自由度为$2$）
 \begin{equation*}
@@ -96,7 +107,9 @@
         1&0&t_1\\ 0&1&t_2\\ 0&0&1
     \end{matrix}\right]\left[\begin{matrix}
         x_1\\x_2\\1
-    \end{matrix}\right]
+    \end{matrix}\right],\ \text{逆矩阵为}\ \left[\begin{matrix}
+        1&0&-t1\\0&1&-t2\\0&0&1
+    \end{matrix}\right].
 \end{equation*}
 
 2. 旋转变换（自由度为$1$）
@@ -107,7 +120,11 @@
         0&0&1
     \end{matrix}\right]\left[\begin{matrix}
         x_1\\x_2\\1
-    \end{matrix}\right]
+    \end{matrix}\right],\ \text{逆矩阵为}\ \left[\begin{matrix}
+        \cos\theta&\sin\theta&0\\
+        -\sin\theta&\cos\theta&0\\
+        0&0&1
+    \end{matrix}\right].
 \end{equation*}
 
 3. 欧式变化（自由度为$3$）
@@ -118,18 +135,26 @@
         0&0&1
     \end{matrix}\right]\left[\begin{matrix}
         x_1\\x_2\\1
-    \end{matrix}\right]
+    \end{matrix}\right],\ \text{逆矩阵为}\ \left[\begin{matrix}
+        \cos\theta&\sin\theta&-t_1\cos\theta-t_2\sin\theta\\
+        -\sin\theta&\cos\theta&t_1\sin\theta-t_2\cos\theta\\
+        0&0&1
+    \end{matrix}\right].
 \end{equation*}
 
 4. 相似变换（自由度为$4$）
 \begin{equation*}
-    \bd{x}' = [R_\theta|\bd{t}]\bd{x}\iff \bd{x}' = \left[\begin{matrix}
+    \hspace*{-2cm}\bd{x}' = [R_\theta|\bd{t}]\bd{x}\iff \bd{x}' = \left[\begin{matrix}
         s\cdot \cos\theta&-s\cdot\sin\theta&t_1\\
         s\cdot \sin\theta&s\cdot \cos\theta&t_2\\
         0&0&1
     \end{matrix}\right]\left[\begin{matrix}
         x_1\\x_2\\1
-    \end{matrix}\right]
+    \end{matrix}\right],\ \text{逆矩阵为}\ \left[\begin{matrix}
+        \frac{1}{2s}\cdot \cos\theta&\frac{1}{2s}\cdot\sin\theta&\frac{-t_1\cos\theta-t_2\sin\theta}{s}\add \\
+        -\frac{1}{2s}\cdot \sin\theta&\frac{1}{2s}\cdot \cos\theta&\frac{t_1\sin\theta-t_2\cos\theta}{s}\\
+        0&0&1
+    \end{matrix}\right].
 \end{equation*}
 
 5. 仿射变换（自由度为$6$）
@@ -140,7 +165,7 @@
         0&0&1
     \end{matrix}\right]\left[\begin{matrix}
         x_1\\x_2\\1
-    \end{matrix}\right]
+    \end{matrix}\right].
 \end{equation*}
 \subsection{前向变换与逆向变换}
 设变换矩阵为$T$，原图像记为$f(\cdot)$，变换后的图像记为$g(\cdot)$，则有
@@ -258,6 +283,27 @@ A(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_x^2(\bd{x}),\ B(\bd{x_0}) = \su
 最后，再使用\textbf{非局部极大值抑制（Non-maxima suppression, NMS）}，若$\bd{x}_0$是其邻域内的最大值，则对其进行保留，否则删去该点. 通过设定邻域大小，可对角点密度进行调整.
 
 整个Harris角点检测算法中，总共存在4个超参数，分别为窗口大小$k$，响应函数中$\alpha$，响应阈值和NMS邻域大小.
+
+\section{实验步骤与结果分析}
+\subsection{完成上次未完成的填充操作}
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作1.png}
+    \caption{填充操作1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-2cm}
+    \includegraphics[scale=0.4]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/填充操作2.png}
+    \caption{填充操作2}
+\end{figure}
+
+
+\section{结论与讨论}
+
+\section{主要代码及图像}
+
 \end{document}
 
 \iffalse
