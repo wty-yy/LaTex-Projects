@@ -381,13 +381,19 @@ A(\bd{x_0}) = \sum_{x\in D}w_{\bd{x}_0}(\bd{x})I_x^2(\bd{x}),\ B(\bd{x_0}) = \su
 
 \[\boldsymbol{t} = \boldsymbol{x}_{mid} - T\boldsymbol{x}_{mid},\quad T_{translation}=\left[\begin{matrix}1&0&t_1\\ 0&1&t_2\\0&0&1\end{matrix}\right]\]
 
-最后将$T\times T_{translation}$作用在原图上即可获得中心化图片，为了保证输出效果，除平移操作和旋转操作外，其他操作都进行平移，实验效果如图\ref{fig-1}所示.
+最后将$T\times T_{translation}$作用在原图上即可获得中心化图片，为了保证输出效果，除平移操作和旋转操作外，其他操作都进行平移，向前变换会很多空洞，而反向变换的效果好得多. 实验效果如图\ref{fig-0}，图\ref{fig-1}所示.
 
 \begin{figure}[htbp]
     \centering
     \hspace*{-1.5cm}
-    \includegraphics[scale=0.5]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/几何变换实验.png}
-    \caption{几何变换实验\label{fig-1}}
+    \includegraphics[scale=0.6]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/向前变换.png}
+    \caption{向前变换\label{fig-0}}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \hspace*{-1.5cm}
+    \includegraphics[scale=0.6]{C:/Users/admin/Documents/GitHub/CVPR_homeworks/code/hw2/CVPR2_note.figure/几何变换实验.png}
+    \caption{反向变换，几何变换实验\label{fig-1}}
 \end{figure}
 
 \subsection{Gauss金字塔和Laplace金字塔}

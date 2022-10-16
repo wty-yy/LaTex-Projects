@@ -60,28 +60,36 @@
 \let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
 \let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
 
-%%%% 一些宏定义 %%%%%
+%%%% 一些宏定义 %%%%
 \def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
 \def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
 \def\tsty{\textstyle}       % 使用行内公式 textstyle
 \def\sign{\text{sign}}      % sign function
 \def\wtd{\widetilde}        % 宽波浪线 widetilde
 \def\R{\mathbb{R}}          % Real number
-\def\C{\mathbb{C}}          % Complex number
-\def\Q{\mathbb{Q}}          % Rational number
 \def\N{\mathbb{N}}          % Natural number
 \def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\E{\mathbb{E}}          % Exception
+\def\var{\text{Var}}        % Variance
+\def\bias{\text{bias}}      % bias
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
 \def\re{\mathrm{Re}}        % Real part
 \def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
 \def\L{\mathcal{L}}         % Loss function
 \def\wdh{\widehat}          % 宽帽子 widehat
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
-\def\del{\vspace{-3.5ex}}   % 减少行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
 
 %%%% 正文开始 %%%%
 \begin{document}
@@ -154,7 +162,7 @@ for i in range(11):
 %%%% 文字环绕图片, 标题加注释 %%%%
 { % 一般将文字环绕部分的图和文字, 用大括号括起来, 避免对文字外的格式发生影响
 \begin{wrapfigure}[13]{r}{.5\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
-    \centering
+    \centerin右
     \includegraphics[scale=0.7]{neural_network.eps} % scale=0.7按比例缩放70%
     \caption{神经网络结构\protect\footnotemark[1]} % 记得加\protect, 设置1号脚标
     \label{figure-神经网络结构}

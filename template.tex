@@ -1,5 +1,5 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 %%%% 设置中文字体 %%%%
 \setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont=方正小标宋_GBK, ItalicFont=方正楷体_GBK]
@@ -40,8 +40,13 @@
 \def\Z{\mathbb{Z}}          % Integer number
 \def\Q{\mathbb{Q}}          % Rational number
 \def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
 \def\N{\mathbb{N}}          % Natural number
 \def\Z{\mathbb{Z}}          % Integer number
+\def\E{\mathbb{E}}          % Exception
+\def\var{\text{Var}}        % Variance
+\def\bias{\text{bias}}      % bias
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
@@ -53,7 +58,7 @@
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
-\def\del{\vspace{-3.5ex}}   % 减少行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
 
 %%%% 定理类环境的定义 %%%%
 \newtheorem{theorem}{定理}
