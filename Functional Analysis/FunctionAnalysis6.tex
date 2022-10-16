@@ -267,8 +267,60 @@
 
     必要性，反设$||\alpha x+\beta y|| = 1 = \alpha||x||+\beta||y||$，则$\exists c > 0$使得$x=cy$，由于$1=||x||=c||y|| = c$，则$x=y$矛盾.
 \end{proof}
-\begin{proof}[(1.4.13)]
+\begin{problem}[(1.4.13)]
+    设$X$是$B^*$空间，$X_0$是$X$的线性子空间，假定$\exists c\in (0,1)$使得
+    \begin{equation*}
+        \inf_{x\in X_0}||y-x||\leq c||y||\quad(\forall y\in X).
+    \end{equation*}
+    求证：$X_0$在$X$中稠密.
+\end{problem}
+\begin{proof}
+    $\forall y\in X$，由下确界定义可知，$\exists \varepsilon > 0$，$\exists x_1\in X_0$使得$||y-x_1||\leq c||y||+\varepsilon$;
+
+    $\exists x_2\in X_0$使得$||y-x_1-x_2||\leq c||y-x_1||+\varepsilon\leq c^2||y||+(1+c)\varepsilon$;
+
+    $\exists x_3\in X_0$使得$||y-x_1-x_2-x_3||\leq c||y-x_1-x_2||+\varepsilon\leq c^3||y||+(1+c+c^2)\varepsilon$;
     
+    $\cdots$
+
+    $\exists x_n\in X_0$使得$||y-\sum_{i=1}^nx_i||\leq c^n||y||+\varepsilon\frac{1-c^n}{1-c}\to\varepsilon,\quad (n\to \infty)$
+
+    令$S_n=\sum_{i=1}^\infty x_i\in X_0$，则$||y-S_n||\to 0,\ (n\to \infty)$，由$y$的任意性可知，$X_0$在$X$中稠密.
+\end{proof}
+\begin{problem}[(1.4.14)]
+    设$C_0$表示以$0$为极限的实数列全体，并在$C_0$中赋以范数
+    \begin{equation*}
+        ||\xi||=\max_{i\geq 1}|x_i|,\quad(\forall \xi = \{x_1,x_2,\cdots,x_n,\cdots\}\in C_0)
+    \end{equation*}
+    又设$M:=\left\{\xi=\{x_n\}\in C_0:\sum_{i=1}^\infty\frac{x_i}{2^i}=0\right\}$.\add
+
+    (1) 求证：$M$是$C_0$的闭线性子空间.
+
+    (2) 设$\mu_0 = \{2,0,\cdots, 0,\cdots\}$，求证：$\inf_{z\in M}||x_0-z||= 1$，但$\forall y\in M$有$||x_0-y|| > 1$.
+\end{problem}
+\begin{proof}
+    (1) $\forall \{\xi_n\}\subset M$收敛于$\xi$，则$||\xi_n-\xi|| = \max_{i\geq 1}|x_i^{(n)}-x_i|\to 0$，令$xi_n = \{x_i^{(n)}\},\ \xi = \{x_i\}$，则$x_i^{(n)}\to x_i,\ (n\to \infty,\ i\geq 1)$. 由于$\xi_n\in C_0$，则$\xi_n$一致有界，令$\sup_{i\geq 1}|x_i^{(n)}| = M$，则$\left|\frac{x_i^{(n)}}{2^i}\right|\leq \frac{M}{2^i}$，由Weierstrass判别法知$\sum_{i=1}^\infty \frac{x_i^{(n)}}{2^i}$一致收敛，则$\lim_{n\to\infty}\sum_{i=1}^\infty \frac{x_i^{(n)}}{2^i} = \sum_{i=1}^\infty \frac{x_i}{2^i} = 0$，\add 则$\xi \in M$，故$M$是闭的. 令$\alpha,\beta\in \K$，$\xi,\eta\in M$，则$\lim_{i\to\infty}x_i= \lim_{i\to\infty}y_i = 0$，于是$\lim_{i\to\infty}\alpha x_i+\beta y_i = \alpha\lim_{i\to\infty}x_i+\beta\lim_{i\to\infty}y_i = 0$，则$\alpha \xi+\beta\eta\in M$，其他线性空间性质与$C_0$类似，故$M$是闭线性子空间.
+
+    (2) 设$\mu_0 = (2,0,\cdots, 0,\cdots)$. 先证明$\forall \xi \in M$有$||\mu_0-\xi|| >1$. 反设，$\exists \xi_0\in M$使得$||\mu_0-\xi_0||\leq 1$，令$\xi_0=\{x_i^{(0)}\}$，则必有$x_1^{(0)}\geq 1$且$|x_i^{(0)}|\leq 1,\ (i\geq 2)$，于是
+    \begin{equation*}
+        \sum_{i=1}^\infty \frac{x_i^{(0)}}{2^i}\geq \frac{1}{2}+\sum_{i=2}^\infty \frac{x_i^{(0)}}{2^i}\geq \frac{1}{2}-\sum_{i=2}^\infty\frac{1}{2^i} = 0
+    \end{equation*}
+    上式取到等号，当且仅当，$x_i^{(0)} = -1,\ (i\geq 2)$. 由于$\xi_0\in M$，则上式必取等号，则$x_i^{(0)}= -1,\ (i\geq 2)$与$\xi_0\in C_0$矛盾，则原命题成立.
+
+    再证明$\exists \{\xi_n\}\subset M$使得$\lim_{n\to\infty}||\mu_0-\xi_n||=1$，则可说明$\inf_{\xi\in M}||\mu_0-\xi||=1$（结合上述证明），构造
+    \begin{equation*}
+        \xi_1 = \{1,-2,0,0,\cdots\},\quad \xi_2=\{1,-\frac{4}{3},-\frac{4}{3},0,0,\cdots\},\cdots,\xi_n=\{1,-a_n,,\cdots,-a_n,0,\cdots\}\ (\text{有}n+1\text{个非}0\text{项})
+    \end{equation*}
+    其中$a_n=\frac{2^n}{2^n-1}$，可以验证$\xi_n\in M$，则$||\mu_0-\xi_n|| = a_n=\frac{2^n}{2^n-1}\to 1,\ (n\to\infty)$.
+\end{proof}
+\begin{problem}[(1.4.15)]
+    设$X$是$B^*$空间，$M$是$X$的有限维真子空间. 求证：$\exists y\in X,||y||=1$，使得$||y-x||\geq 1\quad (\forall x\in M)$.
+\end{problem}
+\begin{proof}
+    $\forall z\in X-X_0$，由于$\dim X < \infty$，则$\exists x_0\in X_0$使得$||z-x_0||=\rho(z,x_0)$，令$y = \frac{z-x_0}{||z-x_0||}$，则$\forall x\in X_0$有
+    \begin{equation*}
+        ||y-x|| = \left|\left|\frac{z-x_0-||z-x_0||x}{||z-x_0||}\right|\right|\geq 1.
+    \end{equation*}
 \end{proof}
 
 % 下面给一些功能的写法
