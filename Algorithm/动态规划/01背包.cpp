@@ -1,11 +1,10 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 const int N = 1001;
 int w[N], v[N];
 int dp[N][N];
 bool use[N][N];
 int main() {
-    // freopen("tmp.in", "r", stdin);
     int tot, n;
     cin >> tot >> n;
     for (int i = 1; i <= n; i++) cin >> w[i];
