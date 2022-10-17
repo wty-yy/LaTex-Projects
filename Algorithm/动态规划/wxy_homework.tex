@@ -24,7 +24,7 @@
 \newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
 \newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{pythoncode}代码\end{pythoncode}
 \newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
-\newmintedfile{cpp}{linenos, breaklines, frame=lines}  % 使用\cppfile{代码地址}
+\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\cppfile{代码地址}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -86,8 +86,20 @@
 
     若$dp[i][j]$是从$\max$的第一项转移得到，则选择了当前物品$i$；否则，从$\max$的第二项转移得到，则没有选择物品$i$. 通过记录$dp[i][j]$从谁转移得到的，即可得知最终选取的物品是哪些. 最终输出可逆向枚举得到.
 
-    实现代码如下：
+    代码如下：
     \cppfile{01背包.cpp}
+\end{solution}
+\begin{solution}{[猴子吃香蕉]}
+    设\cppinline{dp[i][j]}表示当前$i$棵树上用掉$j$次跳跃所能吃到最多的香蕉个数，则状态转移方程如下
+    \begin{equation*}
+        dp[i][j] = \max_{1\leq k < i}\{dp[k][j-1]+a[i]:b[i]-b[k]\leq d\}
+    \end{equation*}
+    上述方程表示，可以从第$k$棵树跳转到第$i$棵树（前提是$b[i]-b[k]\leq d$，即两棵树之间的距离在最大跳跃距离内），所以从第$k$棵树使用$j-1$次跳跃所能获得的最大香蕉数加上当前第$i$棵树上的香蕉数$a[i]$就是当前所能获得的最大香蕉数目.
+
+    \cppinline{dp[][]}数组默认初始化为负无穷，\cppinline{dp[0][0]=a[0]}表示当前猴子在第$0$棵树上，无需花费步数能吃到\cppinline{a[0]}个香蕉.
+
+    代码如下：
+    \cppfile{猴子吃香蕉.cpp}
 \end{solution}
 
 % 下面给一些功能的写法
