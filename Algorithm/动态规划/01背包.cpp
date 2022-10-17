@@ -5,12 +5,11 @@ int w[N], v[N];
 int dp[N][N];
 bool use[N][N];
 int main() {
-    // freopen("tmp.in", "r", stdin);
     int tot, n;
     cin >> tot >> n;
     for (int i = 1; i <= n; i++) cin >> w[i];
     for (int i = 1; i <= n; i++) cin >> v[i];
-    for (int i = 1; i <= n; i++) {
+    for (int i = 1; i <= n; i++) {  // 
         for (int j = w[i]; j <= tot; j++) {
             dp[i][j] = dp[i-1][j];
             if (dp[i-1][j-w[i]] + v[i] > dp[i][j]) {

@@ -168,7 +168,7 @@
     \end{equation*}
     所以$||\cdot ||_1$与$||\cdot ||_2$等价.
 \end{proof}
-\begin{problem}[(1.4.6)]
+\begin{problem}[(1.4.5)]
     设$BC[0,\infty]$表示$[0,\infty)$上连续且有界的函数$f(x)$全体，对于每个$f\in BC[0,\infty)$及$a>0$，定义
     \begin{equation*}
         ||f||_a=\left(\int_0^\infty \e^{-ax}|f|^2\,\d x\right)^{\frac{1}{2}}.
@@ -196,7 +196,12 @@
 
     齐次性：$\forall \alpha \in \K$，$||\alpha f||_a=\left(\int_0^\infty \e^{-ax}|\alpha f|^2\,\d x\right)^{\frac{1}{2}}=|\alpha|\left(\int_0^\infty \e^{-ax}|f|^2\,\d x\right)^{\frac{1}{2}}=|\alpha|\cdot ||f||_a$.
 
-    (2)
+    (2) 不妨令$b> a > 0$. 令$g_n(x) = \begin{cases}
+        \e^{ax},&\quad 0\leq x\leq n,\\
+        \e^{an}(n+1-x),&\quad n\leq x\leq n+1,\\
+        0,&\quad x\geq n+1.
+    \end{cases}$
+    设$f_n(x) = \sqrt{g_n(x)}$，于是\add $||f||_a^2\geq \int_0^n\e^{-ax}\cdot e^{ax}\,\d x=n,\ ||f||_b^2\leq \int_0^\infty \e^{-bx}\cdot\e^{ax}\,\d x=\frac{1}{b-a}$. 所以$\frac{||f_n||_a^2}{||f_n||_b^2}\geq n(b-a)\to\infty,\ (n\to\infty)$，所以不存在$c > 0$，使得$||f||_a\leq c||f||_b$. 故$||\cdot||_a$与$||\cdot||_b$不等价.
 \end{proof}
 \begin{problem}[(1.4.6)]
     设$X_1,X_2$是两个$B^*$空间，$x_1\in X_1$和$x_2\in X_2$的序对$(x_1,x_2)$全体构成空间$X=X_1\times X_2$，并赋以范数
@@ -322,6 +327,75 @@
         ||y-x|| = \left|\left|\frac{z-x_0-||z-x_0||x}{||z-x_0||}\right|\right|\geq 1.
     \end{equation*}
 \end{proof}
+\begin{problem}
+    设$X$是$B^*$空间，若$X$中的范数满足平行四边形公式$||a+b||^2+||a-b||^2=2(||a||^2+||b||^2)$，则可以定义内积$(\cdot,\cdot)$使之成为内积空间，且$||\cdot||$由$(\cdot,\cdot)$诱导.
+\end{problem}
+\begin{proof}
+    设$\K=\C$，令$(x,y) = \frac{1}{4}(||x+y||^2-||x-y||^2+\i||x+\i y||^2-\i||x-\i y||^2)$，$\forall x, y\in X$.
+
+    (1) 正定性：
+    \begin{align*}
+        (x, x) =&\ ||x||^2 + \frac{\i}{4}(||x+\i x||^2-||x-\i x||^2)\\
+        =&\ ||x||^2+\frac{\i}{4}(|1+\i|^2-|1-\i|^2)||x||^2 = ||x||^2 \geq 0.
+    \end{align*}
+    $(x, x) = ||x||^2 = 0\iff x = \theta$.
+
+    (2) 共轭对称性：
+    \begin{align*}
+        (x, y) =&\ \frac{1}{4}\left(||x+y||^2-||x-y||^2+\i||x+\i y||^2-\i||x-\i y||^2\right)\\
+        =&\ \frac{1}{4}\left(||y+x||^2-||y-x||^2+\i||y-\i x||^2-\i||y+\i x||^2\right) = \overline{(y,x)}.
+    \end{align*}
+
+    (3) 线性性：(i) 加法：$\forall x, y, z\in X$，
+    \begin{align*}
+        (x,z) + (y,z) =&\ \frac{1}{4}||x+z||^2+||y+z||^2-||x-z||^2-||y-z||^2\\
+        &\ +\i||x+\i z||^2+\i ||y+\i z||^2-\i ||x-\i z||^2-\i||y-\i z||^2\\
+        \xlongequal{\text{平行四边形公式}}&\ \frac{1}{8}(||x+y+2z||^2+||x-y||^2-||x+y-2z||^2-||x-y||^2\\
+        &\ +\i||x+y+2\i z||^2+\i||x-y||^2-\i ||x+y-2\i z||^2-\i ||x-y||^2)\\
+        =&\ \frac{1}{8}(||x+y+2z||^2-||x+y-2z||^2+\i||x+y+2\i z||^2-\i ||x+y-2\i z||^2)\\
+        =&\ \frac{1}{2}\left(\left|\left|\frac{x+y}{2}+z\right|\right|^2-\left|\left|\frac{x+y}{2}-z\right|\right|^2+\i\left|\left|\frac{x+y}{2}+\i z\right|\right|^2-\i \left|\left|\frac{x+y}{2}-\i z\right|\right|\right)\\
+        =&\ 2(\frac{x+y}{2},z)
+    \end{align*}
+    令$y'=\theta$，则有$(x',z) = 2(\frac{x'}{2},z)$，令$x'=x+y$，则$(x+y, z) = 2(\frac{x+y}{2},z)=(x,z)+(y,z)$.
+
+    (ii) 数乘：$\forall t\in \C$，令$f(t) = (tx,y)$，由于$|f(t_1)-f(t_2)| = |((t_1-t_2)x,y)|\to |(\theta,y)|=0,\quad(t_1\to t_2)$（此处可将$((t_1-t_2)x,y)$展开进行验证），则$f\in C(\C)$. 由于上述证明的加法可知$f(t_1+t_2) = f(t_1)+f(t_2)$，则$\forall m, n\in \N$，则
+    \begin{align*}
+        f(1) = f(n\cdot\frac{1}{n}) = nf(\frac{1}{n})\Rightarrow f(\frac{m}{n})=mf(\frac{1}{n}) = \frac{m}{n}f(1)
+    \end{align*}
+    又由于
+    \begin{align*}
+        (\i x,y) =&\ \frac{1}{4}(||\i x+y||^2-||\i x-y||^2+\i||\i x+\i y||^2-\i||\i x-\i y||^2)\\
+        =&\ \frac{1}{4}(||x-\i y||^2-||x+\i y||^2+\i ||x+y||^2-\i ||x-y||^2)=\i(x, y)
+    \end{align*}
+    于是$f(\i) = \i f(1)$，则
+    \begin{align*}
+        f(\i) = f(n\cdot \frac{\i}{n}) = nf(\frac{\i}{n})\Rightarrow f(\frac{m}{n}\i)=m f(\frac{1}{n}\i) = \frac{m}{n}f(\i)=\frac{m}{n}\i f(1)
+    \end{align*}
+    由$f$的连续性可知，$f(t) = tf(1),\ t\in \C$.
+\end{proof}
+\begin{problem}
+    $l^p(1\leq p\leq \infty)$判定$l^p$中的范数是否满足平行四边形公式.
+\end{problem}
+\begin{solution}
+    当$p<\infty$时，令$\xi = \{1,0,1,0,\cdots\},\ \eta = (0,1,0,\cdots)$，则$\xi,\eta\in l^p$，代入平行四边形公式$||\xi+\eta||_p^2+||\xi-\eta||_p^2 = 2||\xi||_p^2+2||\eta||_p^2$可得
+    \begin{equation*}
+        3^{\frac{2}{p}}+\left(2+(-1)^p\right)^{\frac{2}{p}} = 2^{\frac{2}{p}+1}+2
+    \end{equation*}
+
+    当$p$为奇数时，$3^{\frac{2}{p}} = 2^{\frac{2}{p}+1}+1$无解.
+
+    当$p$为偶数时，$3^{\frac{2}{p}}=2^{\frac{2}{p}}+1$，解得$p=2$.
+
+    下证明$\forall \xi,\eta\in l^2$，满足平行四边形公式，令$\xi = \{x_i\}, \eta = \{y_i\}$，于是
+    \begin{equation*}
+        ||\xi+\eta||_2^2+||\xi-\eta||_2^2=\sum_{i=1}^\infty|x_i+y_i|^2+\sum_{i=1}^\infty|x_i-y_i|^2 = 2\left(\sum_{i=1}^\infty|x_i|^2+\sum_{i=1}^\infty|y_i|^2\right)=2(||\xi||_2^2+||\eta||_2^2)
+    \end{equation*}
+    所以$l^p$中的范数满足平行四边形公式.
+
+    当$p=\infty$时，令$\xi = \{1,0,0,\cdots\}, \eta = \{0, 1, 0,\cdots\}$，则$||\xi+\eta||_{\infty}^2 + ||\xi-\eta||_{\infty}^2 = 1^2+1^2 = 2\neq 2(||\xi||_{\infty}^2+||\eta||_{\infty}^2)=2(1^2+1^2)=4$，所以$||\cdot||_{\infty}$不满足平行四边形公式.
+
+    综上，只有$||\cdot||_2$满足平行四边形公式.
+\end{solution}
 
 % 下面给一些功能的写法
 \iffalse

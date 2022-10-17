@@ -13,17 +13,18 @@
 \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
 \newcounter{problem}  % 问题序号计数器
 \newenvironment{problem}{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. }}{\smallskip\par}
-\newenvironment{solution}{\par\noindent\textbf{解答. }}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 
 \usepackage{minted}
 \renewcommand{\theFancyVerbLine}{
     \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
 \newmintinline{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
-\newmintinline{cpp}{linenos, breaklines, frame=lines}  % 使用\c++inline{代码}
+\newmintinline{cpp}{linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
 \newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
-\newminted{cpp}{linenos, breaklines, frame=lines}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{pythoncode}代码\end{pythoncode}
 \newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+\newmintedfile{cpp}{linenos, breaklines, frame=lines}  % 使用\cppfile{代码地址}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -73,19 +74,21 @@
 
 %\pagestyle{empty}
 \pagestyle{plain}
-\vspace*{-15ex}
-\centerline{\begin{tabular}{*5{c}}
-    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
-    & \parbox[t]{0.25\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
-    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
-    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
-    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
-\end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第一次作业}
+    \zihao{3}\textbf{计算机实验}
 \end{center}\vspace{-0.2cm}
+\begin{solution}{[0/1背包问题]}
+    设\cppinline{dp[i][j]}表示从前i个物品中，使用容量为j的背包所能获得的最大价值. 则状态状态转移方程如下
+    \begin{equation*}
+        dp[i][j] = max\{dp[i-1][j-w[i]]+v[i], dp[i-1][j]\}.
+    \end{equation*}
+    其中$\max$中的第一项$dp[i-1][j-w[i]]+v[i]$表示在剩余容量为$j$的前提下，选择第$i$个物品所获得的最大价值，则可以从前$i-1$个物品容量为$j-w[i]$所能获得的最大价值加上当前物品的价值$v[i]$得到；$\max$的第二项$dp[i-1][j]$表示不选取第$i$件物品，则直接从前$i-1$件物品容量为$j$的最大价值直接转移得到.
 
-% 正文部分
+    若$dp[i][j]$是从$\max$的第一项转移得到，则选择了当前物品$i$；否则，从$\max$的第二项转移得到，则没有选择物品$i$. 通过记录$dp[i][j]$从谁转移得到的，即可得知最终选取的物品是哪些. 最终输出可逆向枚举得到.
+
+    实现代码如下：
+    \cppfile{01背包.cpp}
+\end{solution}
 
 % 下面给一些功能的写法
 \iffalse
