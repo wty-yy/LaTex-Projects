@@ -15,11 +15,11 @@
 \usepackage{minted}
 \renewcommand{\theFancyVerbLine}{
     \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
-\newmintinline{cpp}{linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
-\newminted{cpp}{linenos, breaklines, frame=lines}  % 使用\begin{cppcode}代码\end{cppcode}
-\newmintinline{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
-\newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
-\newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{cppcode}代码\end{cppcode}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
 
 %%%% 设置行间距与页边距 %%%%
 \linespread{1.2}
