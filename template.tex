@@ -12,7 +12,7 @@
 %\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
 \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
 \newcounter{problem}  % 问题序号计数器
-\newenvironment{problem}{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. }}{\smallskip\par}
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
 \newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 
