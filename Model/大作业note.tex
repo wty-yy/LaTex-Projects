@@ -71,24 +71,54 @@
 \newcommand{\xh}{2204210460} % 学号
 
 \begin{document}
-
-%\pagestyle{empty}
-\pagestyle{plain}
-\vspace*{-15ex}
-\centerline{\begin{tabular}{*5{c}}
-    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
-    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
-    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
-    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
-    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
-\end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业}
+    \zihao{3}\textbf{数学建模大作业笔记}
 \end{center}\vspace{-0.2cm}
-\begin{problem}
-\end{problem}
 
 % 正文部分
+\subsection*{K均值}
+
+设样本坐标集合为 $D = \{\bd{x}_1,\cdots,\bd{x}_n\}$，对应的权重为该建筑中人口数 $\{w_1,\cdots, w_n\}$，初始 $k$ 个质心位置随机从 $n$ 个点坐标中选取记为 $\{\bd{\mu}_1,\cdots,\bd{\mu}_k\}$.
+
+\noindent\textbf{第一步}：计算每个样本点到最近的质心编号，对于样本点$\bd{x}_j$其所属的质心为
+\begin{equation*}
+    \lambda_j = \argmin_{1\leq i\leq k}||\bd{x}_j-\bd{\mu}_i||_2,
+\end{equation*}
+\textbf{第二步}：将其划分到该质心的集合中
+\begin{equation*}
+    C_{\lambda_j} \leftarrow C_{\lambda_j}\cup \{j\},
+\end{equation*}
+\textbf{第三步}：计算新质心向量
+\begin{equation*}
+    \bd{\mu}_i'= \frac{1}{\sum\limits_{j\in C_i}w_j}\sum_{j\in C_i}w_j\bd{x}_j.
+\end{equation*}
+若$\max_{1\leq i\leq k}||\bd{\mu}_i-\bd{\mu}_i'||_2 < 10^{-5}$则停止算法，否则更新$\mu_i\leftarrow \mu_i',\ (1\leq i\leq k)$，回到第一步继续迭代.
+
+\subsection*{打分模型}
+
+对于K均值得到的质心$\{\bd{\mu}_1,\cdots,\bd{\mu}_k\}$，如下进行评分
+\begin{equation*}
+    score = \frac{\disp\frac{2}{k(k-1)}\left(\sum_{1\leq i < j\leq k}||\bd{\mu}_i-\bd{\mu}_j||_2\right)}{\disp\sum_{1\leq i\leq k}\frac{1}{||C_i||}\sum_{j\in C_i}\frac{||\bd{x}_i-\bd{\mu}_i||_2}{w_j}}
+\end{equation*}
+分子表示质心两两之间的平均距离尽可能大；分母表示每个质心包含的样本距离应尽可能近，并且人口数量越多的所具有的权重更高，即对每个质心所包含的的样本距离进行加权平均，最后再对所有质心进行求和.
+
+当$k=3$时，执行$2000$次K均值算法得到稳定的最优解，三个质心分别为：\\$(23,22), (44, 55), (67, 25)$（对坐标进行四舍五入）.
+
+当$k=6$时，执行$2000$次K均值算法得到稳定的最优解，六个质心分别为：\\$(13, 32), (37, 8), (38, 57), (63, 41), (64, 11), (75, 61)$（对坐标进行四舍五入）.
+
+\subsection*{压缩监测方案}
+设混检比例为$k:1$，人群中感染新冠的概率为$p$，则一组中无阳性的概率为$(1-p)^k$，若存在至少一个阳性的概率为$1-(1-p)^k$，该组检测出阳性，则其中每个人进行单人单测. 设每个人检测的次数为$X$，则
+\begin{equation*}
+    P(X = \frac{1}{k}) = (1-p)^k,\quad P(1+\frac{1}{k})=1-(1-p)^k,
+\end{equation*}
+于是$\E(X) = \frac{1}{k}(1-p)^k+\left(1+\frac{1}{k}\right)(1-(1-p)^k)=1+\frac{1}{k}-(1-p)^k$.
+
+问题转化为给定$p$，求解$\E(X)$的最小值，该最小值无解析解，通过近似计算可得.
+
+\subsection*{第三问计算可转移采样点个数}
+\begin{equation*}
+    k=\left[\frac{28\times(N_1+N_2)}{12\times3600-20*60}\right]+1
+\end{equation*}
 
 % 下面给一些功能的写法
 \iffalse

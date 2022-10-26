@@ -1,8 +1,8 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 %%%% 设置中文字体 %%%%
-\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont=方正小标宋_GBK, ItalicFont=方正楷体_GBK]
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
 %%%% 设置英文字体 %%%%
 \setmainfont{Times New Roman}
 \setsansfont{Calibri}
@@ -13,19 +13,15 @@
 \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
 \newcounter{problem}  % 问题序号计数器
 \newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
-\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\smallskip\par}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
-\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
-\setlength{\belowcaptionskip}{0pt} 
 
 \everymath{\displaystyle} % 默认全部行间公式
 \DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
 \DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
-\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
-\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
 \let\leq=\leqslant % 将全部leq变为leqslant
 \let\geq=\geqslant % geq同理
 
@@ -40,13 +36,6 @@
 \def\Z{\mathbb{Z}}          % Integer number
 \def\Q{\mathbb{Q}}          % Rational number
 \def\C{\mathbb{C}}          % Complex number
-\def\K{\mathbb{K}}          % Number Field
-\def\P{\mathbb{P}}          % Polynomial
-\def\N{\mathbb{N}}          % Natural number
-\def\Z{\mathbb{Z}}          % Integer number
-\def\E{\mathbb{E}}          % Exception
-\def\var{\text{Var}}        % Variance
-\def\bias{\text{bias}}      % bias
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
@@ -58,14 +47,14 @@
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
-\def\del{\vspace{-1.5ex}}   % 减少行间距
+\def\del{\vspace{-3.5ex}}   % 减少行间距
 
 %%%% 定理类环境的定义 %%%%
 \newtheorem{theorem}{定理}
 
 %%%% 基本信息 %%%%
 \newcommand{\RQ}{\today} % 日期
-\newcommand{\km}{实变函数} % 科目
+\newcommand{\km}{偏微分方程} % 科目
 \newcommand{\bj}{强基数学002} % 班级
 \newcommand{\xm}{吴天阳} % 姓名
 \newcommand{\xh}{2204210460} % 学号
@@ -83,13 +72,28 @@
     & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
 \end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业}
+    \zihao{3}\textbf{第二章第二次作业}
 \end{center}\vspace{-0.2cm}
-\begin{problem}
-\end{problem}
-
 % 正文部分
-
+\begin{problem}[(19)]
+    求解三维波动方程的Cauchy问题
+    \begin{equation*}
+        \begin{cases}
+            u_{tt} = a^2(u_{xx}+u_{yy}+u_{zz}),\\
+            u|_{t=0} = 0,\\
+            u_t|_{t=0} = x^3+y^2z.
+        \end{cases}
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    由Kirchhoff公式可知：
+    \begin{align*}
+        u(x,t) =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}(x)}x^3+y^2z\,\d S\\
+        =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}}(x+x_1)^3+(y+x_2)^2(z+x_3)\,\d S\\
+        =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}}2x_1x^2+x_3y^2\,\d S + (x_1^3+x_2^2x_3)t\\
+        =&\ \frac{a^3t^4}{15}(2x_1+x_3)+(x_1^3+x_2^2x_3)t.
+    \end{align*}
+\end{solution}
 % 下面给一些功能的写法
 \iffalse
 % 图片模板
