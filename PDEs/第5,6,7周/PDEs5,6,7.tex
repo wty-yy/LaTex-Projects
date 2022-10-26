@@ -91,9 +91,176 @@
         u(x,t) =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}(x)}x^3+y^2z\,\d S\\
         =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}}(x+x_1)^3+(y+x_2)^2(z+x_3)\,\d S\\
         =&\ \frac{1}{4\pi a^2t}\iint_{B_{at}}2x_1x^2+x_3y^2\,\d S + (x_1^3+x_2^2x_3)t\\
-        =&\ \frac{a^3t^4}{15}(2x_1+x_3)+(x_1^3+x_2^2x_3)t.
+        =&\ \frac{a^3t^4}{15}(2x_1+x_3)+(x_1^3+x_2^2x_3)t
     \end{align*}
 \end{solution}
+\begin{problem}[20]
+    用降维法导出一维波动方程Cauchy问题的求解公式.
+\end{problem}
+\begin{solution}
+    由二维Cauchy问题公式可知
+    \begin{align*}
+        &\ \iint_{\sum_{at}(x)}\frac{\varphi(y)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y\\
+        =&\ 2\int_{x_1-at}^{x_1+at}\varphi(y_1)\int_{x_2}^{x_2+\sqrt{a^2t^2-(y_1-x_1)^2}}\frac{1}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y_2\d y_1
+    \end{align*}
+    由于\begin{align*}
+        &\ \int_{x_2}^{x_2+\sqrt{b}}\frac{1}{\sqrt{b-(y_2-x_2)^2}}\,\d y_2\xlongequal{y=y_2-x_2}\int_0^{\sqrt{b}}\frac{1}{\sqrt{b-y^2}}\,\d y\\
+        \xlongequal{y=\sqrt{b}z}&\ \int_0^1\frac{1}{\sqrt{1-z^2}}\,\d z\xlongequal{z=\cos \theta}\int_0^{\frac{\pi}{2}}\,\d \theta = \frac{\pi}{2}
+    \end{align*}
+    则
+    \begin{align*}
+        &\ \iint_{\sum_{at}(x)}\frac{\varphi(y)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y = \pi\int_{x_1-at}^{x_1+at}\varphi(y_1)\,\d y_1\\
+        &\ \iint_{\sum_{at}(x)}\frac{\psi(y)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y = \pi\int_{x_1-at}^{x_1+at}\psi(y_1)\,\d y_1\\
+        &\ \iint_{\sum_{a(t-\tau)}(x)}\frac{f(y,\tau)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y = \pi\int_{x_1-a(t-\tau)}^{x_1+a(t-\tau)}f(y_1,\tau)\,\d y_1
+    \end{align*}
+    代入到二维Cauchy问题解的公式中
+    \begin{align*}
+        u(x,t) =&\ \frac{1}{2\pi a}\frac{\partial}{\partial t}\left[\iint_{\sum_{at}(x)}\frac{\varphi(y)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y\right]\\
+        &\ +\frac{1}{2\pi a}\iint_{\sum_{at}(x)}\frac{\psi(y)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y\\
+        &\ +\frac{1}{2\pi a}\int_0^t\iint_{\sum_{a(t-\tau)}(x)}\frac{f(y,\tau)}{\sqrt{a^2t^2-(y_1-x_1)^2-(y_2-x_2)^2}}\,\d y
+    \end{align*}
+    即可得到一维解公式
+    \begin{align*}
+        u(x,t) =&\ \frac{1}{2}[\varphi(x+at)-\varphi(x-at)]+\frac{1}{2a}\int_{x_1-at}^{x_1+at}\psi(\xi)\,\d \xi\\
+        &\ +\frac{1}{2a}\int_0^t\d t\int_{x_1-a(t-\tau)}^{x_1+a(t-\tau)}f(\xi,\tau)\,\d\tau
+    \end{align*}
+\end{solution}
+\begin{solution}
+    求解二维波动方程的Cauchy问题：
+    \begin{equation*}
+        \begin{cases}
+            u_{tt}=a^2(u_{xx}+u_{yy}),\\
+            u|_{t=0}=x^2(x+y),\\
+            u_{t}|_{t=0} = 0.
+        \end{cases}
+    \end{equation*}
+\end{solution}
+\begin{solution}
+    代入到二维Cauchy问题解的公式中
+    \begin{align*}
+        u(x,t) =&\ \frac{1}{2\pi a}\frac{\partial}{\partial t}\left[\iint_{\sum_{at}}\frac{(y_1+x_1)^2(y_1+y_2+x_1+x_2)}{\sqrt{a^2t^2-y_1^2-y_2^2}}\,\d y_1\d y_2\right]\\
+        =&\ \frac{1}{2\pi a}\frac{\partial}{\partial t}\left[\iint_{\sum_{at}}\frac{(3x_1+x_2)y_1^2+(x_1+x_2)x_1^2}{\sqrt{a^2t^2-y_1^2-y_2^2}}\,\d y_1\d y_2\right]\\
+        \xlongequal{\substack{y_1=r\cos\theta\\y_2=r\sin\theta}}&\ \frac{1}{2\pi a}\frac{\partial}{\partial t}\left[(3x_1+x_2)\int_0^{at}\int_0^{2\pi}\frac{r^2\cos^2\theta}{\sqrt{a^2t^2-r^2}}r\,\d\theta\d r+2\pi (x_1+x_2)x_1^2\int_0^{at}\frac{r}{\sqrt{a^2t^2-r^2}}\,\d r\right]
+    \end{align*}
+    注意到以下积分
+    \begin{equation*}
+        \int_0^a\frac{1}{\sqrt{a^2-x^2}}\,\d x = \frac{\pi}{2},\ \int_0^a\frac{x}{\sqrt{a^2-x^2}}\,\d x=a,\ \int_0^a\frac{x^2}{\sqrt{a^2-x^2}}\,\d x=\frac{\pi}{4}a^2,\ \int_0^a\frac{x^3}{\sqrt{a^2-x^2}}\,\d x=\frac{2}{3}a^3.
+    \end{equation*}
+    于是
+    \begin{align*}
+        u(x,t) =&\ \frac{1}{2\pi a}\frac{\partial}{\partial t}\left[(3x_1+x_2)\frac{2\pi a^3t^3}{3}+2\pi(x_1+x_2)x_1^2at\right]\\
+        =&\ a^2t^2(3x_1+x_2)+(x_1+x_2)x_1^2
+    \end{align*}
+\end{solution}
+\begin{problem}[(22.(4))]
+    求解以下特征值问题的特征函数：
+    \begin{equation*}
+        \begin{cases}
+            X''(x)+\lambda X(x) = 0,&\quad 0 < x < l,\\
+            X(0) = X'(l)+hX(l) = 0\ (h>0\text{常数}).
+        \end{cases}
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    求解常微分方程可得
+    \begin{equation*}
+        X(x) = C_1\sin\sqrt{\lambda}x+C_2\cos\sqrt{\lambda},\ X'(x) = C_1\sqrt{\lambda}\cos\sqrt{\lambda}x-C_2\sqrt{\lambda}\sin\sqrt{\lambda}x.
+    \end{equation*}
+    则
+    \begin{equation*}
+        X(0) = C_2 = 0,\ X'(l)+hX(l) = C_1\sqrt{\lambda}\cos\sqrt{\lambda}l + hC_1\sin\sqrt{\lambda}l = 0,
+    \end{equation*}
+    下求$C_1\neq 0$的非平凡解，当$\cos\sqrt{\lambda}l = 0$时，则$\lambda = \left(\frac{(2n+1)\pi}{2l}\right)^2,\ (n=0,1,2,\cdots)$，当$\cos\sqrt{\lambda}l\neq 0$时，则
+    \begin{equation*}
+        \sqrt{\lambda}+h\cdot\tan\sqrt{\lambda}l = 0\Rightarrow\sqrt{\lambda} = h\cdot\tan\sqrt{\lambda}l
+    \end{equation*}
+    该方程为超越方程，只能求$\lambda$的近似解.
+\end{solution}
+\begin{problem}[23.(2)]
+    用分离变量法求解以下定解问题：
+    \begin{equation*}
+        \begin{cases}
+            Lu=0,&\quad (x,t)\in Q,\\
+            u|_{x=0} = u_x|_{x=l}= 0 ,&\quad t\geq 0,\\
+            u|_{t=0}=x(x-2l),\ u_t|_{t=0} = 0,&\quad 0\leq x\leq l.
+        \end{cases}
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    令$u = X(x)T(t)$，则$XT''-a^2X''T = 0\Rightarrow \frac{X''}{X} = \frac{T''}{a^2T}=-\lambda$于是
+    \begin{equation*}
+        \begin{cases}
+            X''+\lambda X = 0,\\
+            T''+a^2\lambda T = 0,\\
+            X(0) = X'(l) = 0.\\
+        \end{cases}
+    \end{equation*}
+    求解常微分方程可得
+    \begin{equation*}
+        X(x) = C_1\sin\sqrt{\lambda}x+C_2\cos\sqrt{\lambda},\ X'(x) = C_1\sqrt{\lambda}\cos\sqrt{\lambda}x-C_2\sqrt{\lambda}\sin\sqrt{\lambda}x.
+    \end{equation*}
+    则
+    \begin{equation*}
+        X(0) = C_2 = 0,\ X'(l) = \sqrt{\lambda}C_1\cos\sqrt{\lambda}l = 0
+    \end{equation*}
+    于是$\lambda = \left(\frac{(2n-1)\pi}{2l}\right)^2,\ (n=1,2,\cdots)$，则
+    \begin{align*}
+        X(x) =&\ C\sin\frac{(2n-1)\pi}{2l}x\\
+        T(t) =&\ A_n\sin\left(\frac{a(2n-1)\pi}{2l}t\right)+B_n\cos\left(\frac{a(2n-1)\pi}{2l}t\right)
+    \end{align*}
+    则
+    \begin{align*}
+        u(x,t) =&\ \sum_{n=1}^\infty(A_n\sin\left(\frac{a(2n-1)\pi}{2l}t\right)+B_n\cos\left(\frac{a(2n-1)\pi}{2l}t\right))\sin\frac{(2n-1)\pi}{2l}x,\\
+        u|_{t=0}=&\ \sum_{n=1}^\infty B_n\sin\frac{(2n-1)\pi}{2l}x = x^2-2lx,\\
+        u_t|_{t=0}=&\ \sum_{n=1}^\infty \frac{a(2n-1)\pi}{2l}A_n\sin\frac{(2n-1)\pi}{2l}x = 0,
+    \end{align*}
+    于是$A_n = 0$，$B_n = \frac{2}{l}\int_0^l(x^2-2lx)\sin\frac{(2n-1)\pi}{2l}x\,\d x = \frac{16l^2}{(2n-1)^2\pi^2}\left((-1)^{n-1}-\frac{2}{(2n-1)\pi}\right)$，则
+    \begin{equation*}
+        u(x,t) = \sum_{n=1}^\infty B_n\cos\left(\frac{a(2n-1)\pi}{2l}t\right)\sin\frac{(2n-1)\pi}{2l}x
+    \end{equation*}
+\end{solution}
+\begin{problem}设$u(x,t)$适合定解问题：
+    \begin{equation*}
+        \begin{cases}
+            Lu = f(x,t),&\quad (x,t)\in Q,\\
+            \left(-\frac{\partial u}{\partial x}+\alpha u\right)_{x=0}=\mu_1(t),&\quad t\geq 0,\\
+            \left(\frac{\partial u}{\partial x}+\beta u\right)_{x=l}=\mu(t),&\quad t\geq 0,\\
+            u|_{t=0}=\varphi(x),\ u_t|_{t=0}=\psi(x),&\quad 0\leq x\leq t,
+        \end{cases}
+    \end{equation*}
+    试引进辅助函数，把边界条件齐次化，设
+
+    (a)$\alpha > 0,\beta >0$；\quad(b)$\alpha=\beta = 0$.
+\end{problem}
+\begin{solution}
+    (a) 令$v = \frac{l-x}{l}(-u_x+\alpha u-\mu_1(t))+\frac{x}{l}(u_x+\beta u-\mu(t))$，则$v|_{x=0} = v|_{x=l} = 0$.\add
+
+    (b) 令$v = \frac{l-x}{l}(-u_x-\mu_1(t))+\frac{x}{l}(u_x-\mu(t))$，则$v|_{x=0} = v|_{x=l} = 0$.
+\end{solution}
+\begin{problem}[(26)]
+    用分离变量法求解下列定解问题：
+    \begin{equation*}
+        \begin{cases}
+            Lu = -2b\frac{\partial u}{\partial t}+g,&\quad(x,t)\in Q,\\
+            u|_{x=0}=u|_{x=l}=0,&\quad t\geq 0,\\
+            u|_{t=0}=u_t|_{t=0}=0,&\quad 0\leq x\leq l.
+        \end{cases}
+    \end{equation*}
+\end{problem}
+\begin{problem}[(27)]
+    考虑定解问题：
+    \begin{equation*}
+        \begin{cases}
+            u_{tt}-u_{xx} = f(x,t),&\quad (x,t)\in Q,\\
+            u|_{x=0} = u|_{x=l}=  0,&\quad 0\leq t\leq T,\\
+            u|_{t=0}=\varphi(x),\ u_t|_{t=0}=\psi(x),&\quad 0\leq x\leq l.
+        \end{cases}
+    \end{equation*}
+    试问对$\varphi,\psi,f$加什么条件才能保证由Fourier方法所得的解是古典解？
+\end{problem}
+\begin{problem}[(28)]
+    用能量不等式证明一维波动方程带有第三边值条件的初边值问题解的唯一性.
+\end{problem}
 % 下面给一些功能的写法
 \iffalse
 % 图片模板
