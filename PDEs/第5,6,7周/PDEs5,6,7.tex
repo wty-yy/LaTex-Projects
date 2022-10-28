@@ -13,7 +13,7 @@
 \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
 \newcounter{problem}  % 问题序号计数器
 \newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
-\newenvironment{solution}{\par\noindent\textbf{解答. }}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 
 %%%% 图片相对路径 %%%%
@@ -261,6 +261,31 @@
 \begin{problem}[(28)]
     用能量不等式证明一维波动方程带有第三边值条件的初边值问题解的唯一性.
 \end{problem}
+\clearpage
+\begin{solution}[27.]
+    设$\varphi(x)\in C^3[0,l],\ \psi(x)\in C^2[0,l],\ f(x,t)\in C^2(\bar{Q})$，类似\textbf{定理4.2}有如下相容性条件：$\varphi(0)=\varphi(l)=\varphi''(0)=\varphi''(l) = \psi(0) = \psi(l) = 0$，由$f(x,t) = u_{tt}-u_{xx}$可知，$f(0,0) = 0-\varphi''(0) = 0,\ f(l,0) = 0-\varphi''(l) = 0$. 非齐次初值问题通解为$u(x,t) = \sum_{n=1}^\infty u_n(x,t)$，其中
+    \begin{equation*}
+        u_n(x,t) = \left[A_n\cos\left(\frac{an\pi}{l}t\right)+B_n\sin\left(\frac{an\pi}{l}t\right)+\frac{l}{an\pi}\int_0^tf_n(\tau)\sin\left(\frac{an\pi}{l}(t-\tau)\right)\,\d\tau\right]\sin\left(\frac{n\pi}{l}x\right)
+    \end{equation*}
+
+    令$g_n(x,t) =\left[\frac{l}{an\pi}\int_0^tf_n(\tau)\sin\left(\frac{an\pi}{l}(t-\tau)\right)\,\d\tau\right]\sin\left(\frac{n\pi}{l}x\right)$，\add 由\textbf{定理4.2}可知，只需证明$\{D^{\alpha}g_n\},\ (\alpha=0,1,2)$一致收敛即可.
+
+    由于$f(0,0) = f(l,0) = 0$，则
+    \begin{align*}
+        f_n(t) = \frac{2}{l}\int_0^lf(x,t)\sin\left(\frac{n\pi}{l}x\right)\,\d x = \frac{2}{n\pi}\int_0^lf_x(x,t)\cos\left(\frac{n\pi}{l}x\right)\,\d x = -\frac{l^2}{n^2\pi^2}c_n(t)
+    \end{align*}
+    其中$c_n(t) = \frac{2}{l}\int_0^l f_{xx}(x,t)\sin\left(\frac{n\pi}{l}x\right)\,\d x$，则
+    \begin{equation*}
+        |g_n(x,t)|\leq O\left(\frac{1}{n^3}\right),\ |Dg_n(x,t)|\leq O\left(\frac{1}{n^2}\right)
+    \end{equation*}
+    由于
+    \begin{align*}
+        |D^2g_n|=&\ O\left(\frac{1}{n}\left|\int_0^tc_n(\tau)\sin\left(\frac{an\pi}{l}(t-\tau)\right)\,\d\tau\right|\right)\\
+        \leq&\ O\left(\frac{1}{n^2}\right)+\left|\int_0^t c_n(\tau)\sin\left(\frac{an\pi}{l}(t-\tau)\right)\,\d \tau\right|^2\\
+        \leq&\ O\left(\frac{1}{n^2}\right)+c_n^2(t_0),\quad(t_0\in (0,t))
+    \end{align*}
+    由Bessel不等式可知$\sum_{n=1}^\infty c_n^2(t)\leq \frac{2}{l}\int_0^l|f_{xx}(x,t)|^2\,\d x <\infty,\ (\forall t\geq 0)$，于是$|D^\alpha g_n|,\ (\alpha=0,1,2)$均一致收敛，结合\textbf{定理4.2}知上述所有级数均在$\bar{Q}$上一致收敛.
+\end{solution}
 % 下面给一些功能的写法
 \iffalse
 % 图片模板
