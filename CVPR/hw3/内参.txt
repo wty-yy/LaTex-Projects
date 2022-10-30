@@ -1,0 +1,4 @@
+Focal Length:          fc = [ 668.00353   668.00353 ]
+Principal point:       cc = [ 319.50000   239.50000 ]
+Skew:  alpha_c = [ 0.00000 ]   => angle of pixel = 90.00000 degrees
+Distortion:  kc = [ 0.00000   0.00000   0.00000   0.00000   0.00000 ]
