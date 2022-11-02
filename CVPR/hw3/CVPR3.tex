@@ -338,7 +338,38 @@ end
 \end{matlabcode}
 得到图像奇数图像的$H$矩阵如下所示
 \matlabfile{H_matrix.txt}
-通过逆变换，加深理解.
+通过逆变换，加深理解. 这里以图像1,3的逆变换为例，其逆矩阵如下所示：
+\matlabfile{invH_matrix.txt}
+逆变换效果，得到棋盘平面的正投影，利用第二次作业双线性插值完成像素获取，代码及效果如下图所示：
+\clearpage
+\begin{figure}[htbp]
+    \subfigure{
+        \begin{minipage}[b]{0.9\linewidth}
+            \centering
+            \includegraphics[scale=0.2]{Img1逆变换.png}
+        \end{minipage}
+    }
+    \subfigure{
+        \begin{minipage}[b]{0.9\linewidth}
+            \centering
+            \includegraphics[scale=0.2]{Img3逆变换.png}
+        \end{minipage}
+    }
+\end{figure}
+\begin{pythoncode}
+def transform(img, H):
+H = H.T
+output = np.zeros([361, 331, 1])
+n, m, c = img.shape
+for i in tqdm(range(331)):
+    for j in range(361):
+        x, y, z = (np.array([i, j, 1]) @ H)
+        x /= z  # 正则化
+        y /= z
+        output[j, i, :] = bilinear_interpolate(img, y, x)  # 利用双线性插值
+return output
+\end{pythoncode}
+
 \subsection{估计相机内参与外参}
 \subsubsection{初始化内参}
 利用init\_intrinsic\_param.m计算初始化内参矩阵，得到以下输出结果：
