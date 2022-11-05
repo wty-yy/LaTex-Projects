@@ -105,21 +105,23 @@
     (g). 使用先验分布$g(\theta) = \e^{-\theta}I_{(0,\infty)}(\theta)$，求出$\theta$的后验Bayes估计量.
 \end{problem}
 \begin{solution}
-    (a). 由于$f(x;\theta) = 1\cdot I_{[\theta,\infty)}(x)\exp\left\{\theta-x\right\}$，令$a(\theta) = 1,\ b(x) = I_{[\theta,\infty)}(x),\ c(\theta)=\theta,\ d(x) = -x$，于是$-\sum_{i=1}^nX_i$是完备充分统计量.
+    (a). $\prod_{i=1}^nf(x_i;\theta) = \prod_{i=1}^n\e^{-(x_i-\theta)}I_{[\theta,\infty)}(x_i) = I_{(-\infty, y_1]}(\theta)\e^{n\theta}\e^{-\sum\limits_{i=1}^nx_i}$，则$Y_1 = \min\{X_1,\cdots,X_n\}$是一个充分统计量.
 
     (b). 由于$\L(\theta) = \prod_{i=1}^nf(x_i;\theta) = \prod_{i=1}^n\e^{-(x_i-\theta)}I_{[\theta,\infty)}(x_i) = \exp\left\{-\sum_{i=1}^nx_i+n\theta\right\}I_{(-\infty,y_1]}(\theta)$，其中$Y_1 = \min\{X_1,\cdots,X_n\}$，则MLE为$\hat{\theta}=Y_1$.\add
 
     (c). $\E(\bar{X}) = \E(X) = \int_{\theta}^\infty x\e^{-(x-\theta)}\,\d x = \int_{0}^\infty(x+\theta)\e^{-x}\,\d x = \frac{\Gamma(2)}{1^2}+\theta = 1+\theta$，于是$\theta$的矩估计为$\tilde{\theta}=\bar{X}-1$.
 
-    (d). 由(a)可知，$-\sum_{i=1}^nX_i$是完备充分统计量.
+    (d). 下面证明$Y_1$是完备的，$f_{Y_1}=n[1-F_x(y)]^{n-1}f_x(y) = n\e^{-n(y-\theta)}$，令$z(\cdot)$是任意实值函数，满足$\E(z(Y_1)) = 0,\ \theta\in\R^1$，于是
+    \begin{align*}
+        \E(z(Y_1)) = \int_\theta^\infty z(y)n\e^{-n(y-\theta)}\,\d y = \int_{-\infty}^{-\theta}z(y)\e^{-ny}=0
+    \end{align*}
+    对$-\theta$求导可得$z(-\theta)\e^{n\theta} = z(-\theta) = 0$，由$\theta$的任意性可知$z(\cdot)\equiv 0$，则$P(z(Y_1)=0) = 1$，所以$Y_1$是完备的，结合(a)可知$Y_1$是完备充分统计量.\add
 
-    (e). 由于$\bar{X}-1$是关于$-\sum_{i=1}^nX_i$的统计量且是$\theta$的无偏估计，于是$\bar{X}-1$是$\theta$的UMVUE.
+    (e). 由于$\E(Y_1) = \int_\theta^\infty yn\e^{-n(y-\theta)}\,\d y = n\int_0^\infty (y+\theta)\e^{-ny}\,\d y= n\int_0^\infty y\e^{-ny}+\theta\int_0^\infty n\e^{-ny}\,\d y = \frac{1}{n}+\theta$. 于是$Y_1-1/n$是$\theta$的UMVUE.
 
-    (f).
-
-    (g). 由于$\L(\theta) = \e^{n\theta-\sum_{i=1}^nx_i}I_{(-\infty, y_1]}(\theta)\propto \e^{n\theta}I_{(-\infty,y_1]}(\theta)$且$f(\theta|x_1,\cdots, x_n) = \int L(\theta)g(\theta)\,\d\theta = \int_0^{y_1}\e^{(n-1)\theta}\,\d\theta = \frac{\e^{(n-1)y_1}-1}{n-1},\ (y_1>0)$.则
+    (g). 由于$\L(\theta) = \e^{n\theta-\sum_{i=1}^nx_i}I_{(-\infty, y_1]}(\theta)\propto \e^{n\theta}I_{(-\infty,y_1]}(\theta)$且$f(\theta|x_1,\cdots, x_n) = \int \L(\theta)g(\theta)\,\d\theta = \int_0^{y_1}\e^{(n-1)\theta}\,\d\theta = \frac{\e^{(n-1)y_1}-1}{n-1},\ (y_1>0)$.则
     \begin{equation*}
-        f(\theta|x_1,\cdots,x_n) = \frac{\L(\theta)g(\theta)}{\int L(\theta)g(\theta)\,\d\theta} = \frac{n-1}{\e^{(n-1)y_1}-1}\e^{(n-1)\theta}I_{(0,y_1]}(\theta).
+        f(\theta|x_1,\cdots,x_n) = \frac{\L(\theta)g(\theta)}{\int \L(\theta)g(\theta)\,\d\theta} = \frac{n-1}{\e^{(n-1)y_1}-1}\e^{(n-1)\theta}I_{(0,y_1]}(\theta).
     \end{equation*}
     于是
     \begin{align*}
@@ -139,9 +141,9 @@
 
     (d). 求解一个$\theta^2$的UMVUE.
 
-    (e). 利用平方误差损失函数求解$\theta^2$关于先验分布为Beta分布的Bayes估计. Beta分布为$g(\theta) = \frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}I_{(0,1)}(\theta)$.
+    (e). 利用平方损失函数求解$\theta$关于先验分布为Beta分布的Bayes估计. Beta分布为$g(\theta) = \frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}I_{(0,1)}(\theta)$.
 
-    (f). 使用平方误差损失函数，求解$\theta$的最大估计.
+    (f). 使用平方误差损失函数，求解$\theta$的极小化极大估计.
 
     (g). 求解$\theta^2$均方误差的一致估计.
 \end{problem}
@@ -152,7 +154,45 @@
     \end{equation*}
     令$a(\theta) = \exp\{2\log(1-\theta)\},\ b(x) = \binom{2}{x}I_{\{0,1,2\}}(x),\ c(\theta) = \log\frac{\theta}{1-\theta},\ d(x) = x$. 则$\sum_{i=1}^nX_i$是完备充分统计量.
 
-    (b). 
+    (b). $\L(\theta) = \prod_{i=1}^nf(x_i;\theta) = (1-\theta)^{2n}\left(\frac{\theta}{1-\theta}\right)^{\sum_{i=1}^nx_i}\left[\prod_{i=1}^n\binom{2}{x_i}I_{\{0,1,2\}}(x_i)\right]$，\\
+    $\log \L(\theta) = 2n\log(1-\theta) + \sum_{i=1}^n\frac{\theta}{1-\theta} + \sum_{i=1}^n\log\binom{2}{x_i}I_{\{0,1,2\}}(x_i)$，于是$\frac{\partial\log \L(\theta)}{\partial\theta} = -\frac{2n}{1-\theta}+\frac{1}{\theta(1-\theta)}\sum_{i=1}^nx_i = 0$，得到$\theta$的MLE为$\hat{\theta} = \frac{\bar{X}}{2}$，于是$\widehat{\theta^2} = \frac{\bar{X}^2}{4}$.\del
+    \begin{align*}
+        \E(\bar{X}^2/4) =&\ \frac{1}{4n^2}\E\left[\sum_{i=1}^nX_i\right]^2 = \frac{1}{4n^2}\E\left[\sum_{i=1}^nX_i^2+2\sum_{1\leq i<j\leq n}X_iX_j\right]\\
+        =&\ \frac{1}{4n^2}\left[n\E(X^2)+n(n-1)(\E X)^2\right] = \frac{1}{4n^2}[n(\var(X)+(\E X)^2)+n(n-1)(\E X)^2]\\
+        =&\ \frac{1}{4n^2}[n\var(X)+n^2(\E X)^2] = \theta^2+\frac{\theta(1-\theta)}{2n}
+    \end{align*}
+    所以$\widehat{\theta^2}$不是无偏估计.
+
+    (c). 由上一问可知
+    \begin{align*}
+        \sum_{i=1}^n\frac{\partial}{\partial \theta}\log f(x_i;\theta) =&\ \frac{\partial \log L(\theta)}{\partial\theta} = -\frac{2n}{1-\theta}+\frac{1}{\theta(1-\theta)}\sum_{i=1}^nx_i\\
+        =&\ \frac{2n}{\theta(1-\theta)}\left(\frac{\bar{X}}{2}-\theta\right)
+    \end{align*}
+    又由于$\E\left[\frac{\bar{X}}{2}\right] = \E(X)/2 = \theta$，所以$\bar{X}/2$是$\theta$的无偏统计量且满足C-R下界.
+
+    (d). 由(b)小问可知$\E[\bar{X}^2/4] = \frac{2n-1}{2n}\theta^2+\frac{\theta}{2n}$，于是$\frac{2n}{2n-1}\left(\frac{\bar{X}^2}{4}-\frac{\bar{X}/2}{2n}\right) = \frac{\bar{X}(n\bar{X}-1)}{2(2n-1)}$是$\theta^2$的无偏估计，且是关于完备充分统计量$\sum_{i=1}^nX_i$的函数，于是也是$\theta^2$的UMVUE.
+
+    (e). $\theta$的后验概率密度函数为
+    \begin{align*}
+        f(\theta|x_1,\cdots,x_n)=&\ \frac{\L(\theta)g(\theta)}{\int_0^1\L(\theta)g(\theta)\,\d \theta}\propto (1-\theta)^{2n}\left(\frac{\theta}{1-\theta}\right)^{\sum\limits_{i=1}^nx_i}\theta^{a-1}(1-\theta)^{b-1}\\
+        \propto&\ \theta^{a-1+\sum\limits_{i=1}^nx_i}(1-\theta)^{b-1+2n-\sum\limits_{i=1}^nx_i}\sim \text{Beta}\left(a+\sum_{i=1}^nx_i,b+2n-\sum_{i=1}^nx_i\right)
+    \end{align*}
+    由于平方损失函数下Bayes估计就是后验Bayes估计，于是$\E[\theta|X_1,\cdots,X_n]=\frac{a+n\bar{X}}{a+b+2n}$是$\theta$在先验分布为Beta分布时的Bayes估计.
+
+    (f). 由(e)可知，$\theta$的后验Bayes估计为$\E[\theta|X_1,\cdots,X_n]=\frac{a+n\bar{X}}{a+b+2n}$，由于损失函数为平方损失，则后验Bayes估计即为Bayes估计. 下面求解风险函数为常数，令$c = \frac{1}{a+b+2n}$，则
+    \begin{align*}
+        \mathcal{R}(\theta) =&\ \E\left[\frac{a+n\bar{X}}{a+b+2n}-\theta\right]^2 = \E\left[cn\bar{X}+ac-\theta\right]^2 = \E\left[c(n\bar{X}-2n\theta)+(2nc-1)\theta+ac\right]^2\\
+        =&\ c^2\var(n\bar{X}) + [(2nc-1)\theta)+ac]^2 = c^2\cdot 2n\theta(1-\theta)+(2nc-1)^2\theta^2+2ac(2nc-1)\theta+a^2c^2\\
+        =&\ [(2nc-1)^2-2nc^2]\theta^2+[2nc^2+2ac(2nc-1)]\theta+a^2c^2
+    \end{align*}
+    上式与$\theta$无关，得$\begin{cases}
+        2nc^2=(1-2nc)^2,\\
+        2nc^2=2ac(1-2nc).
+    \end{cases}\Rightarrow \begin{cases}
+        c = \frac{1}{\sqrt{2n}+2n},\\
+        a = \sqrt{2n}/2
+    \end{cases}$
+    于是$b = \sqrt{2n}/2$，所以$\theta$的Minimax估计为$\frac{1+\sqrt{2n}\bar{X}}{2+2\sqrt{2n}}$.
 \end{solution}
 
 % 下面给一些功能的写法
