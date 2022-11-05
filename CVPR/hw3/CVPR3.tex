@@ -43,11 +43,11 @@
 \numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
 \newtheorem{algorithm}{算法}
 \newsavebox{\nameinfo}
-\renewenvironment{title}[1]{
+\renewenvironment{myTitle}[1]{
     \begin{center}
     {\zihao{-2}\bf #1\\}
     \zihao{-4}\it
-}{\end{center}}  % \begin{title}{作者信息}
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
