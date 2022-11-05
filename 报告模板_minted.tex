@@ -1,5 +1,5 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 
 %%%% 设置中文字体 %%%%
@@ -15,9 +15,13 @@
 \usepackage{minted}
 \renewcommand{\theFancyVerbLine}{
     \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
-\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
-\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{cppcode}代码\end{cppcode}
-\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\pythonfile{代码地址}
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
 \newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
 \newminted{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
 \newmintedfile{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
@@ -41,17 +45,27 @@
 \newtheorem{assumption}{假设}
 \numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
 \newtheorem{algorithm}{算法}
+
 \newsavebox{\nameinfo}
-\renewenvironment{title}[1]{
-    \sbox{\nameinfo}{\zihao{4} #1}
+\newenvironment{myTitle}[1]{
     \begin{center}
-    \zihao{-2}\bf
-}{\vspace{-0.2cm}\\\usebox{\nameinfo}\end{center}}  % \begin{title}{作者信息}标题\end{title}
+    {\zihao{-2}\bf #1\\}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
 \setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
 \setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
 \everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
 \DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
@@ -86,6 +100,7 @@
 \def\im{\mathrm{Im}}        % Imaginary part
 \def\res{\mathrm{Res}}      % Residue
 \def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % 时间复杂度
 \def\wdh{\widehat}          % 宽帽子 widehat
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
@@ -95,30 +110,29 @@
 %%%% 正文开始 %%%%
 \begin{document}
 
-%%%% 定义标题格式,包括title,author,affiliation,email等 %%%%
+%%%% 定义标题页,包括title,author,affiliation,email等 %%%%
 \title{最优化方法\\多层神经网络的训练问题}
 \author{
 西安交通大学, 数学与统计学院, 强基数学002\\[1ex]
-吴天阳$^a$, 马煜璇$^b$, 白鹏楠$^c$\\[1ex]
-2204210460$^a$, 2204220461$^b$, 2204421343$^c$
+姓名1$^a$, 姓名2$^b$, 姓名3$^c$\\[1ex]
+学号/邮箱1$^a$, 学号/邮箱2$^b$, 学号/邮箱3$^c$
 }
 \date{\today}
-
 \maketitle % 设置上面的标题
 \clearpage % 创建新的一面
-\tableofcontents % 创建目录,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
+\tableofcontents % 创建目录页,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
 
 %%%% 以下部分是正文 %%%%  
 \clearpage
-\section{123}
-123
-\subsection{123}
-123
-\subsubsection{123}
-\begin{lemma}
-    文字文字
-\end{lemma}
+\begin{myTitle}{小作业的简单标题}
+    名称\ 学号\ 作者信息
+\end{myTitle}
+\section{实验目的}
+\section{实验原理}
+\section{实验步骤与结果分析}
+\section{结论与讨论}
 
+% 代码块测试
 \begin{pythoncode}
 # coding:UTF-8
 import numpy as np
@@ -140,6 +154,24 @@ for i in range(11):
     if i == 5:
         print()
 \end{pythoncode}
+\begin{cppcode}
+#include <iostream>
+using namespace std;
+int gcd(int a, int b) {return b ? gcd(b, a % b) : a;}
+signed main() {
+    cout << gcd(32, 24) << '\n';
+    system("pause");
+    return 0;
+}
+\end{cppcode}
+\begin{matlabcode}
+function [H] = calc_homography(x, X)
+    shape = size(x);
+    x_camera = [x; ones(1, shape(2))];
+    x_world = [X(1:2,:); ones(1, shape(2))];
+    H = compute_homography(x_camera, x_world);
+end
+\end{matlabcode}
 
 \end{document}
 
