@@ -1,6 +1,5 @@
 \documentclass[UTF8]{ctexbeamer}
 \usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig}
-\usefonttheme[onlymath]{serif}  % 切换数学公式
 \usetheme{Madrid}  % 使用主题颜色
 
 %%%% 设置中文字体 %%%%
@@ -69,6 +68,7 @@
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
 \def\del{\vspace{-1.5ex}}   % 减少行间距
+\def\red{\color{red}}       % 红色({\red 公式},用大括号包起来)
 
 % 首页配置
 \title{EM算法的数学原理}
@@ -110,8 +110,19 @@
         \item<2> 第二个文本
         \item<3-> 第三个文本
     \end{enumerate}
-    你好，等下\pause
-    
-    换了一页显示
+    \uncover<4->{  % 在第4帧后显示
+    你好，等下显示\alert{高亮文本}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{自动换页}
+
+    \begin{enumerate}[<+->]
+        \item 第一个文本
+        \item 第二个文本
+        \item 第三个文本
+    \end{enumerate}
+
 \end{frame}
 \end{document}
