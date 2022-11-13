@@ -162,7 +162,7 @@
         \item<2-> 举一个例子：我们假设还有第三个硬币C，也服从Bernoulli分布$B(1,p_3)$，每次试验时，先投掷硬币C，若硬币C为正面，则投掷硬币A，反之，则投掷硬币B. 于是，隐变量就是硬币C的投掷结果，记为随机变量$Z$，且$Z\sim B(1,p_3)$.
         \item<3-> 通过这个例子，我们可以假设隐变量$Z_1,\cdots, Z_n$是来自密度函数为$g(z)$的分布.
         \item<3-> 由于隐变量是人为假定的，我们假设\textbf{隐变量独立同分布于某一种分布}，从而能进一步对其研究. 在实际应用中，试验数据应该满足这一假设，才能使用EM算法.
-        \item<3-> 这一假设分布称为先验分布，由该分布导出的方法统称为Bayes方法，所以EM算法也是属于Bayes统计.
+        \item<3-> 这一假设分布也称为先验分布.
     \end{itemize}
 
 \end{frame}
@@ -228,6 +228,67 @@
         \end{itemize}
         \item<3-> 返回第2步，直到$\theta_{t+1}$收敛.
     \end{enumerate}
+
+\end{frame}
+
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+
+\defverbatim[colored]\exampleCode{
+\begin{pythoncode}
+prA, prB = 0.3, 0.7  # 初始化参数, 硬币A,B正面朝上的概率
+samples = [4, 6, 0, 9, 5]  # 每个样本中正面朝上的个数
+for _ in range(10):
+    expectA, expectB = np.zeros(2), np.zeros(2)  # 硬币A,B的期望
+    for i in range(len(samples)):
+        tmp1 = np.power(prA, samples[i]) * np.power(1 - prA, 10 - samples[i])
+        tmp2 = np.power(prB, samples[i]) * np.power(1 - prB, 10 - samples[i])
+        chooseA = tmp1 / (tmp1 + tmp2)  # 选择硬币A的概率
+        chooseB = 1 - chooseA  # 选择硬币B的概率
+        expectA += np.array([samples[i] * chooseA, (10 - samples[i]) * chooseA])  # E步
+        expectB += np.array([samples[i] * chooseB, (10 - samples[i]) * chooseB])
+    prA = expectA[0] / np.sum(expectA)  # M步
+    prB = expectB[0] / np.sum(expectB)
+\end{pythoncode}
+}
+
+\subsection{一个例子}
+\begin{frame}
+    \frametitle{一个例子}
+    \exampleCode
+\end{frame}
+
+\begin{frame}
+    \frametitle{迭代结果}
+\begin{table}[htbp]
+    \zihao{6}
+    \centering
+\begin{tabular}{cllllll}
+        \toprule
+\textbf{迭代次数} & \multicolumn{1}{c}{\textbf{A正面期望}} & \multicolumn{1}{c}{\textbf{A背面期望}} & \multicolumn{1}{c}{\textbf{B正面期望}} & \multicolumn{1}{c}{\textbf{B背面期望}} & \multicolumn{1}{c}{\textbf{A正面概率}} & \multicolumn{1}{c}{\textbf{B正面概率}} \\
+        \midrule
+\textbf{1}    & 6.82                               & 18.19                              & 17.18                              & 7.81                               & 0.27                               & 0.69                               \\
+        \midrule
+\textbf{2}    & 5.82                               & 17.2                               & 18.18                              & 8.8                                & 0.25                               & 0.67                               \\
+        \midrule
+\textbf{3}    & 4.99                               & 16.32                              & 19.01                              & 9.68                               & 0.23                               & 0.66                               \\
+        \midrule
+\textbf{4}    & 4.27                               & 15.53                              & 19.73                              & 10.47                              & 0.22                               & 0.65                               \\
+        \midrule
+\textbf{5}    & 3.59                               & 14.75                              & 20.41                              & 11.25                              & 0.2                                & 0.64                               \\
+        \midrule
+\textbf{6}    & 2.92                               & 13.95                              & 21.08                              & 12.05                              & 0.17                               & 0.64                               \\
+        \midrule
+\textbf{7}    & 2.21                               & 13.04                              & 21.79                              & 12.96                              & 0.14                               & 0.63                               \\
+        \midrule
+\textbf{8}    & 1.39                               & 11.96                              & 22.61                              & 14.04                              & 0.1                                & 0.62                               \\
+        \midrule
+\textbf{9}    & 0.52                               & 10.75                              & 23.48                              & 15.25                              & 0.05                               & 0.61                               \\
+        \midrule
+\textbf{10}   & 0.03                               & 10.04                              & 23.97                              & 15.96                              & 0                                  & 0.6                               \\
+        \bottomrule
+\end{tabular}
+\end{table}
+
 
 \end{frame}
 \end{document}
