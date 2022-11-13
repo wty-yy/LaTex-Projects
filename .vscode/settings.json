@@ -20,6 +20,8 @@
         "*.fls",
         "*.log",
         "*.gz",
+        "*.nav",
+        "*.snm",
         "*.fdb_latexmk",
     ],
 }
