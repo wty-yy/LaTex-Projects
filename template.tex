@@ -92,33 +92,6 @@
 \end{center}\vspace{-0.2cm}
 \begin{problem}
 \end{problem}
-
 % 正文部分
-
-% 下面给一些功能的写法
-\iffalse
-% 图片模板
-\centerline{
-    \includegraphics[width=0.8\textwidth]{figure.png}
-}
-% 表格模板
-\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
-\begin{table}[!htbp] % table标准
-    \centering % 表格居中
-    \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{3cm}<{\centering}p{5cm}<{\centering}} % 设置表格宽度
-    %\begin{tabular}{cccc}
-        \toprule
-        $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ \\
-        \midrule
-        $x_0$ & $f(x_0)$ &                  &                          \\
-        $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
-        $x_0$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\def\Log{\text{Log}} % 一个简单的宏定义
-$\Log$ % 调用方法
-\fi
 
 \end{document}
