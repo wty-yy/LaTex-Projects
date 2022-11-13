@@ -79,7 +79,7 @@
 \def\red{\color{red}}       % 红色({\red 公式},用大括号包起来)
 
 % 首页配置
-\title{EM算法}
+\title{EM算法简介}
 \author{吴天阳\and 张卓立}
 \institute{XJTU\and 强基数学}
 \date{\today}  % 显示日期
@@ -204,10 +204,10 @@
     \begin{equation*}
         \log \L(\theta) \geq \sum_{i=1}^n\sum_{z_i}g(z_i)\log\frac{f(x_i,z_i;\theta)}{g(z_i)}
     \end{equation*}
-    于是我们得到了对数似然函数的一个下界，这个下界是由期望$\E\left[\frac{f(x_i,z_i;\theta)}{g(z_i)}\right]$构成，这里就是EM算法中Exception部分. 我们希望将最大化问题转化为对右式最大化，也就是EM中的Maximum部分，先将$\theta$固定（使用上一次迭代的$\theta_{t}$），考虑当$g(z_i)$满足什么条件时，Jensen不等式取到等号.\pause
+    于是我们得到了对数似然函数的一个下界，这个下界是由期望$\E\left[\log\frac{f(x_i,z_i;\theta)}{g(z_i)}\right]$构成，这里就是EM算法中Exception部分. 我们希望将最大化问题转化为对右式最大化，也就是EM中的Maximum部分，先将$\theta$固定（使用上一次迭代的$\theta_{t}$），考虑当$g(z_i)$满足什么条件时，Jensen不等式取到等号.\pause
     \begin{align*}
         &\ \frac{f(x_i,z_i;\theta)}{g(z_i)} = c\Rightarrow f(x_i,z_i;\theta) = cg(z_i)\\
-        \Rightarrow&\ f(x_i;\theta) =\sum_{z_i}f(x_i,z_i;\theta) = c\sum_{z_i}g(z_i) = c.
+        \text{（对}z_i\text{求和）}\Rightarrow&\ f(x_i;\theta) =\sum_{z_i}f(x_i,z_i;\theta) = c\sum_{z_i}g(z_i) = c.
     \end{align*}
     于是$g(z_i) = \frac{f(x_i,z_i;\theta)}{c} = \frac{f(x_i,z_i;\theta)}{f(x_i;\theta)}=f(z_i|x_i;\theta)$.
 
@@ -220,14 +220,18 @@
     \begin{enumerate}
         \item<1-> 初始化参数$\theta_0$.
         \item<2-> \begin{itemize}
-            \item E步：计算条件概率期望$g_i(z_i) = f(z_i|x_i;\theta_t)$，\\对数似然函数$\log\L(\theta) =\sum_{i=1}^n\sum_{z_i}g_i(z_i)\log f(x_i,z_i;\theta)$
+            \item E步：计算条件概率期望$g_i(z_i) = f(z_i|x_i;\theta_t)$，\\对数似然函数$\log\L(\theta) =\sum_{i=1}^n\sum_{z_i}g_i(z_i)\log \frac{f(x_i,z_i;\theta)}{{\red g_i(z_i)}}$
             \item M步：极大化对数似然函数，更新参数$\theta$：
             \begin{equation*}
-                \theta_{t+1} = \argmax_{\theta\in \Theta}\log\L(\theta)
+                \theta_{t+1} = \argmax_{\theta\in \Theta}\log\L(\theta)=\sum_{i=1}^n\sum_{z_i}g_i(z_i)\log f(x_i,z_i;\theta)
             \end{equation*}
         \end{itemize}
         \item<3-> 返回第2步，直到$\theta_{t+1}$收敛.
     \end{enumerate}
+
+    \begin{itemize}
+        \item<4-> M步中，由于对数似然函数中$g_i(z_i)$与$\theta$无关，所以可以去掉.
+    \end{itemize}
 
 \end{frame}
 
