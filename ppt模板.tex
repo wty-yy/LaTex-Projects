@@ -1,0 +1,117 @@
+\documentclass[UTF8]{ctexbeamer}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig}
+\usefonttheme[onlymath]{serif}  % 切换数学公式
+\usetheme{Madrid}  % 使用主题颜色
+
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{cppcode}代码\end{cppcode}
+\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\pythonfile{代码地址}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 公式编号 %%%%
+\setbeamertemplate{theorems}[numbered]
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\E{\mathbb{E}}          % Exception
+\def\var{\text{Var}}        % Variance
+\def\bias{\text{bias}}      % bias
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+% 首页配置
+\title{EM算法的数学原理}
+\author{吴天阳\and 张卓立}
+\institute{XJTU\and 强基数学}
+\date{\today}  % 显示日期
+\logo{\includegraphics[height=1cm]{校徽/校徽蓝色.png}}
+
+%%%% 正文开始 %%%%
+\begin{document}
+\frame{\titlepage}  % 首页
+
+\begin{frame}  % 目录页
+    \frametitle{目录}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}
+    \frametitle{一些block}
+    举例
+    \begin{lemma}[一个引理]
+        举例
+    \end{lemma}
+    \begin{definition}[一个定义]
+        $1+1=2$
+    \end{definition}
+    \begin{theorem}[一个定理]
+        \begin{equation*}
+            \int_0^\infty \e^{-x^2} = \frac{\sqrt{\pi}}{2}
+        \end{equation*}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{假动画效果}
+    加一个横杠表示在后续ppt上保留该文本
+    \begin{enumerate}
+        \item<1-> 第一个文本
+        \item<2> 第二个文本
+        \item<3-> 第三个文本
+    \end{enumerate}
+    你好，等下\pause
+    
+    换了一页显示
+\end{frame}
+\end{document}
