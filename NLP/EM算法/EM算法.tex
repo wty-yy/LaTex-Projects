@@ -1,0 +1,233 @@
+\documentclass[UTF8]{ctexbeamer}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig}
+\usetheme{Madrid}  % 使用主题颜色
+
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\cppinline{代码}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{cppcode}代码\end{cppcode}
+\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\pythonfile{代码地址}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 公式编号 %%%%
+\setbeamertemplate{theorems}[numbered]
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{remark}{注}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\E{\mathbb{E}}          % Exception
+\def\var{\text{Var}}        % Variance
+\def\bias{\text{bias}}      % bias
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+\def\red{\color{red}}       % 红色({\red 公式},用大括号包起来)
+
+% 首页配置
+\title{EM算法}
+\author{吴天阳\and 张卓立}
+\institute{XJTU\and 强基数学}
+\date{\today}  % 显示日期
+\titlegraphic{\hspace*{10cm}\includegraphics[height=1.5cm]{校徽蓝色.png}}
+
+%%%% 正文开始 %%%%
+\begin{document}
+\frame{\titlepage}  % 首页
+
+\begin{frame}
+    \frametitle{目录}
+    \tableofcontents
+\end{frame}
+
+\section{前置知识}
+\begin{frame}
+    \frametitle{前置知识}
+
+    \begin{definition}[极大似然估计]
+        设$X_1,\cdots,X_n$是来自密度函数为$f(x;\theta)$的独立随机样本，称$\L(\theta) = f(x_1,\cdots, x_n;\theta) = \prod_{i=1}^nf(x_i;\theta)$为关于$\theta$的\alert{似然函数}，则$\theta$的极大似然估计为
+        \begin{equation*}
+            \hat{\theta} = \argmax_{\theta\in \Theta} L(\theta)
+        \end{equation*}
+        其中$\Theta$为参数空间.
+    \end{definition}\pause
+    \begin{remark}
+        (1) $\theta$可以是一个参数向量$(\theta_1,\cdots, \theta_n)$，包含多个参数.
+
+        (2) 计算时一般采用\alert{对数似然函数}$l(\theta) = \log\L(\theta) = \sum_{i=1}^n\log f(x_i;\theta)$.
+    \end{remark}
+\end{frame}
+
+\begin{frame}
+    \frametitle{前置知识}
+
+    \begin{theorem}[Jensen不等式]
+        设$f(x)$是$\R$上的实值凸函数，$X$为随机变量，若$\E X$存在，则
+        \begin{equation*}
+            \E[f(X)]\geq f(\E X)
+        \end{equation*}
+        上式取到等号，当且仅当，$X$为常量.
+    \end{theorem}\pause
+    \begin{remark}
+        (1) 当$f(x)$为凹函数时，上述不等号反向，即$\E[f(X)]\leq f(\E X)$.
+    \end{remark}
+\end{frame}
+
+\section{EM算法详解}
+\subsection{问题引入}
+\begin{frame}
+    \frametitle{问题引入}
+
+    假设有A和B两个硬币，每轮选择一个硬币，进行$N$次投掷得到一个样本集，包含$N$个样本$X_1,\cdots, X_n$，$X_i$表示每次的投掷结果（正面或反面），设硬币A,B分别服从不同的Bernoulli分布，记为$B(1,p_1),\ B(1,p_2)$. 则样本中每个样本$X_1,\cdots,X_n$来自这两个分布中的一个，但无法确定具体是哪一个分布，即不知道是投掷硬币A还是硬币B得到的$x_i$. 
+    \begin{itemize}
+        \item<2-> 可以将该问题分为以下两个：
+
+        \begin{enumerate}
+            \item 这轮投掷是使用硬币A还是硬币B？
+            \item 硬币A正面的概率$p_1$和硬币B正面的概率$p_2$分别是多少？
+        \end{enumerate}
+        \item<3->已知：
+        \begin{enumerate}
+            \item 模型的分布（均满足二项分布）
+            \item 观察到的样本（投掷结果）
+        \end{enumerate}
+        \item<3-> 未知：
+        \begin{enumerate}
+            \item 每个个体来自于哪个分布（投掷A还是B）
+            \item 模型参数（$p_1,p_2$）
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\subsection{算法思路}
+\begin{frame}
+    \frametitle{算法思路}
+
+    \begin{itemize}
+        \item<1-> 通过引入隐变量$Z = (Z_1,\cdots ,Z_n)$来将描述未被观测到的隐含数据，表示上文中每个个体来自于哪个分布，是由隐变量$Z$控制的.
+        \item<2-> 举一个例子：我们假设还有第三个硬币C，也服从Bernoulli分布$B(1,p_3)$，每次试验时，先投掷硬币C，若硬币C为正面，则投掷硬币A，反之，则投掷硬币B. 于是，隐变量就是硬币C的投掷结果，记为随机变量$Z$，且$Z\sim B(1,p_3)$.
+        \item<3-> 通过这个例子，我们可以假设隐变量$Z_1,\cdots, Z_n$是来自密度函数为$g(z)$的分布.
+        \item<3-> 由于隐变量是人为假定的，我们假设\textbf{隐变量独立同分布于某一种分布}，从而能进一步对其研究. 在实际应用中，试验数据应该满足这一假设，才能使用EM算法.
+        \item<3-> 这一假设分布称为先验分布，由该分布导出的方法统称为Bayes方法，所以EM算法也是属于Bayes统计.
+    \end{itemize}
+
+\end{frame}
+
+\subsection{算法大致流程}
+\begin{frame}
+    \frametitle{算法大致流程}
+    以上文抛硬币问题为例
+    \begin{enumerate}[<+->]
+        \item 初始化参数：投掷硬币A,B正面的概率分别为$p_1,p_2$.
+        \item 计算每个样本是来自于哪个分布：由A投掷出来的概率大，还是由B投掷出来的概率大.
+        \item 重新估计参数：通过每个样本属于A的概率，从而得到硬币A正面的期望次数和反面的期望次数，通过极大似然得到对$p_1$的估计. 同理可以得到$p_2$的估计. 对它们进行更新.
+        \item 若参数变化小于阈值，退出循环；否则返回步骤2.
+    \end{enumerate}
+    \uncover<5->{
+    上述问题算法步骤2最难得到，这里就需要通过引入隐变量方法对其计算（利用Bayes公式）.
+    }
+\end{frame}
+
+\subsection{EM算法推导}
+\begin{frame}
+    \frametitle{EM算法推导}
+    我们直接从最大似然估计开始推导
+    \begin{align}
+        \label{eq-1}\log \L(\theta) =&\ \sum_{i=1}^n\log f(x_i;\theta)\ {\red=} \sum_{i=1}^n\log\sum_{z_i}f(x_i,z_i;\theta)\\
+        \nonumber =&\ \sum_{i=1}^n\log\sum_{z_i}g(z_i)\frac{f(x_i,z_i;\theta)}{g(z_i)}\\
+        \label{eq-2}{\red\geq}&\ \sum_{i=1}^n\sum_{z_i}g(z_i)\log\frac{f(x_i,z_i;\theta)}{g(z_i)}
+    \end{align}
+    \pause
+    \begin{itemize}[<+->]
+        \item (\ref{eq-1})处引入了$z_i$，从而将边缘分布转化为联合分布的形式.
+        \item (\ref{eq-2})处，由于$\log(x)$为凹函数，且$\sum_{z_i}g(z_i)\frac{f(x_i,z_i;\theta)}{g(z_i)}=\E\left[\frac{f(x_i,z_i;\theta)}{g(z_i)}\right]$，由Jensen不等式可得.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{EM算法推导}
+
+    \begin{equation*}
+        \log \L(\theta) \geq \sum_{i=1}^n\sum_{z_i}g(z_i)\log\frac{f(x_i,z_i;\theta)}{g(z_i)}
+    \end{equation*}
+    于是我们得到了对数似然函数的一个下界，这个下界是由期望$\E\left[\frac{f(x_i,z_i;\theta)}{g(z_i)}\right]$构成，这里就是EM算法中Exception部分. 我们希望将最大化问题转化为对右式最大化，也就是EM中的Maximum部分，先将$\theta$固定（使用上一次迭代的$\theta_{t}$），考虑当$g(z_i)$满足什么条件时，Jensen不等式取到等号.\pause
+    \begin{align*}
+        &\ \frac{f(x_i,z_i;\theta)}{g(z_i)} = c\Rightarrow f(x_i,z_i;\theta) = cg(z_i)\\
+        \Rightarrow&\ f(x_i;\theta) =\sum_{z_i}f(x_i,z_i;\theta) = c\sum_{z_i}g(z_i) = c.
+    \end{align*}
+    于是$g(z_i) = \frac{f(x_i,z_i;\theta)}{c} = \frac{f(x_i,z_i;\theta)}{f(x_i;\theta)}=f(z_i|x_i;\theta)$.
+
+\end{frame}
+
+\section{EM算法流程}
+\begin{frame}
+    \frametitle{EM算法流程}
+
+    \begin{enumerate}
+        \item<1-> 初始化参数$\theta_0$.
+        \item<2-> \begin{itemize}
+            \item E步：计算条件概率期望$g_i(z_i) = f(z_i|x_i;\theta_t)$，\\对数似然函数$\log\L(\theta) =\sum_{i=1}^n\sum_{z_i}g_i(z_i)\log f(x_i,z_i;\theta)$
+            \item M步：极大化对数似然函数，更新参数$\theta$：
+            \begin{equation*}
+                \theta_{t+1} = \argmax_{\theta\in \Theta}\log\L(\theta)
+            \end{equation*}
+        \end{itemize}
+        \item<3-> 返回第2步，直到$\theta_{t+1}$收敛.
+    \end{enumerate}
+
+\end{frame}
+\end{document}
