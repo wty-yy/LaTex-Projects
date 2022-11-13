@@ -76,24 +76,49 @@
 \newcommand{\xh}{2204210460} % 学号
 
 \begin{document}
-
-%\pagestyle{empty}
-\pagestyle{plain}
-\vspace*{-15ex}
-\centerline{\begin{tabular}{*5{c}}
-    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
-    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
-    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
-    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
-    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
-\end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业}
+    \zihao{3}\textbf{人工智能复习}
 \end{center}\vspace{-0.2cm}
-\begin{problem}
-\end{problem}
 
 % 正文部分
+\setcounter{section}{1}
+\subsection*{第二章}
+\textbf{命题}：命题是一个能确定真假的陈述句.
+
+\textbf{原子命题（简单命题）}：不包含其他命题作为组成成分.
+
+\textbf{符合命题}：包含其他命题作为其组成成分.
+
+\textbf{逻辑等价}：给定命题$p,q$，若$p,q$具有相同的真假结果，则称$p,q$逻辑等价，记$p\equiv q$.
+
+\textbf{命题连接词}：与$\wedge$，或$\vee$，非$\neg$，条件$\rightarrow$，双向条件$\leftrightarrow$.
+
+\textbf{蕴含消除}：$a\rightarrow b\equiv (\neg a)\vee b$.
+
+\textbf{归结}：单向归结：$a\vee b,\neg b\Rightarrow a$，双向归结$a\vee b,\neg b\vee c\Rightarrow a\vee c$. 可通过蕴含消除证明.
+
+\textbf{析取范式（disjunctive normal form, DNF）}：由有限个简单合取式构成的析取式.（析取就是“或$\vee$”）
+
+\textbf{合取范式（conjunctive normal form, CNF）}：由有限个简单析取式构成的合取式.（合取就是“且$\wedge$”）
+
+\textbf{个体}：研究领域中独立存在的具体或抽象的概念.（就是一个客观具体的东西）
+
+\textbf{个体常量}：具体的个体.
+
+\textbf{个体变量}：抽象的个体.
+
+\textbf{个体域}：由全部个体所组成的集合.
+
+\textbf{谓词}：用于刻画个体属性或个体之间关系存在性的元素，其值为真或假.
+
+\textbf{全称量词}：表示每一个，记为$\forall$.
+
+\textbf{存在量词}：表示存在，记为$\exists$.
+
+\textbf{约束变元}：在全称量词和存在量词约束下的变量.
+
+\textbf{自由变元}：不受全称量词和存在量词约束的变量.
+
 
 % 下面给一些功能的写法
 \iffalse

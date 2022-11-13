@@ -110,22 +110,26 @@
 %%%% 正文开始 %%%%
 \begin{document}
 \begin{myTitle}{NLP第一次编程作业}
+    强基数学002\\
+    吴天阳\quad 2204210460，\ 马煜璇\quad 2204220461
 \end{myTitle}
-\begin{problem}[(计算最小编辑距离)]
-    实现英文最小字符串的编辑距离，计算最小编辑路径并显示结果. 
+\section{实验目的}
+\begin{enumerate}
+    \item 计算最小编辑距离，实现英文最小字符串的编辑距离，计算最小编辑路径并显示结果. 
+    \item 修改操作代价改变最小编辑距离.
+\end{enumerate}
+\textbf{注：}最小编辑距离定义为：假设s1和s2是两个给定的字符串，考虑对s1字符串进行$n$次\textbf{添加字符、删除字符、替换字符}三种操作，将s1变化为s2，求$n$的最小值.
 
-    \textbf{注：}最小编辑距离定义为：假设s1和s2是两个给定的字符串，考虑对s1字符串进行$n$次\textbf{添加字符、删除字符、替换字符}三种操作，将s1变化为s2，求$n$的最小值.
-
-    \noindent\textbf{例子：}s1 = aadfagha，\ s2 = abcdefgh，则可通过以下5次变换操作将s1变为s2：
-    \begin{enumerate}[label=\arabic*)]
-        \item 替换：a\textbf{b}dfagha
-        \item 添加：ab\textbf{c}dfagha
-        \item 添加：abcd\textbf{e}fagha
-        \item 删除：abcdefgha
-        \item 删除：abcdefgh
-    \end{enumerate}
-\end{problem}
-\begin{solution}
+\noindent\textbf{例子：}s1 = aadfagha，\ s2 = abcdefgh，则可通过以下5次变换操作将s1变为s2：
+\begin{enumerate}[label=\arabic*)]
+    \item 替换：a\textbf{b}dfagha
+    \item 添加：ab\textbf{c}dfagha
+    \item 添加：abcd\textbf{e}fagha
+    \item 删除：abcdefgha
+    \item 删除：abcdefgh
+\end{enumerate}
+\section{实验原理}
+\subsection{最小编辑距离并显示编辑过程}
     该问题为经典动态规划(dp)问题，通过设定状态以及状态转移方程即可求解，先进行以下定义：
     \begin{itemize}
         \item 设$s1,s2$为字符串，$l_i$表示字符串$s_i$的长度$(i=1,2)$，$s1[i]$表示字符串$s1$中的第$i$个下标对应的字符.
@@ -157,7 +161,26 @@
 
     总时间复杂度：$\O(l_1l_2)$.
 
-    \textbf{动态规划部分代码}：Luogu题目：\href{https://www.luogu.com.cn/problem/P2758}{P2758 编辑距离}
+\subsection{修改操作代价改变最小编辑距离}
+    记删除，添加，替换的权重分别为$w_1,w_2,w_3$，于是只需要将初始化部分和$dp$数组转移处的权重进行调整即可.
+    \begin{itemize}
+        \item 初始化部分：$dp[i][0] = w_1\cdot i$表示需要删除掉$s1$中$i$个字符，则权重为$w_1\cdot i$，类似的，$dp[0][j] = w_2\cdot j$，表示需要添加$j$个字符.
+        \item 转移方程
+        \begin{equation*}
+            dp[i][j]=\begin{cases}
+                0,&\quad s1[i]=s2[j],\\
+                \min\left\{\begin{aligned}
+                    &dp[i-1][j]+w_1,\\
+                    &dp[i][j-1]+w_2,\\
+                    &dp[i-1][j-1]+w_3
+                \end{aligned}\right\},&\quad s1[i]\neq s2[j].
+            \end{cases}
+        \end{equation*}
+    \end{itemize}
+
+\section{实验步骤与结果分析}
+\subsection{动态规划部分代码}
+    对应Luogu原题：\href{https://www.luogu.com.cn/problem/P2758}{P2758 编辑距离}
     \begin{cppcode}
 #include <iostream>
 #include <cstring>
@@ -185,6 +208,7 @@ signed main() {
 }
     \end{cppcode}
 
+\subsection{显示编辑路径}
     由于题目还要求输出编辑路径，也就是动态规划每次转移路径，可通过记录每次$dp[i][j]$从哪个位置转移得到的，再从最后一个节点$dp[l_1][l_2]$递归回去，即可得到最优路径上的每次操作，但是这样结果是倒置的，所以需要在回溯过程中进行输出即可. 具体实现请见代码（结果中del表示删除字符，add表示添加字符，chg表示替换字符）：
 
     \begin{cppcode}
@@ -257,25 +281,8 @@ del: abcdefgha
 del: abcdefgh
 #endif
     \end{cppcode}
-\end{solution}
-
-\begin{problem}{(修改操作代价改变最小编辑距离)}
-    记删除，添加，替换的权重分别为$w_1,w_2,w_3$，于是只需要将初始化部分和$dp$数组转移处的权重进行调整即可：
-    \begin{itemize}
-        \item 初始化部分：$dp[i][0] = w_1\cdot i$表示需要删除掉$s1$中$i$个字符，则权重为$w_1\cdot i$，类似的，$dp[0][j] = w_2\cdot j$，表示需要添加$j$个字符.
-        \item 转移方程
-        \begin{equation*}
-            dp[i][j]=\begin{cases}
-                0,&\quad s1[i]=s2[j],\\
-                \min\left\{\begin{aligned}
-                    &dp[i-1][j]+w_1,\\
-                    &dp[i][j-1]+w_2,\\
-                    &dp[i-1][j-1]+w_3
-                \end{aligned}\right\},&\quad s1[i]\neq s2[j].
-            \end{cases}
-        \end{equation*}
-    \end{itemize}
-    仅在上一题代码上稍加修改即可，下面仅列出修改的重要部分.
+\subsection{带权重的最小编辑}
+    仅在上一题代码上稍加修改即可，下面仅列出修改的重要部分. 完整代码请见源代码文件.
     \begin{cppcode}
 ...
 int w[3];  // w[3]分别对应删除,添加,替换的权重
@@ -321,14 +328,17 @@ del: abcdefgh
 #endif
     \end{cppcode}
     可以看到，提高了加入字符操作所具有的权重，最优路径从原来两次添加降为一次添加，并增加两次替换操作.
-\end{problem}
 
+\section{结论与讨论}
 \textbf{源代码：}
+全部源代码均上传至\href{https://github.com/wty-yy/LaTex-Projects/tree/main/NLP/hw1}{GitHub仓库}，以下为三个代码文件具体内容：
 \begin{enumerate}
-    \item 纯动态规划解决问题：\texttt{calc\_distance\_dp.cpp}
-    \item 显示编辑路径：\texttt{calc\_distance\_complete.cpp}
-    \item 带权重且显示编辑路径：\texttt{calc\_distance\_complete\_weight.cpp}
+    \item 纯动态规划解决问题：\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/hw1/calc_distance_dp.cpp}{\texttt{calc\_distance\_dp.cpp}}
+    \item 显示编辑路径：\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/hw1/calc_distance_complete.cpp}{\texttt{calc\_distance\_complete.cpp}}
+    \item 带权重且显示编辑路径：\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/hw1/calc_distance_complete_weight.cpp}{\texttt{calc\_distance\_complete\_weight.cpp}}
 \end{enumerate}
+
+缺点：由于Windows下C++只能英文读入，所以无法处理中文字符串. 但可通过类似思路用Python实现即可.
 
 \end{document}
 
