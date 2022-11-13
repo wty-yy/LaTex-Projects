@@ -344,12 +344,14 @@ end
 \clearpage
 \begin{figure}[htbp]
     \subfigure{
+        \hspace*{-1.5cm}
         \begin{minipage}[b]{0.9\linewidth}
             \centering
             \includegraphics[scale=0.2]{Img1逆变换.png}
         \end{minipage}
     }
     \subfigure{
+        \hspace*{-1.5cm}
         \begin{minipage}[b]{0.9\linewidth}
             \centering
             \includegraphics[scale=0.2]{Img3逆变换.png}
@@ -359,14 +361,16 @@ end
 \begin{pythoncode}
 def transform(img, H):
 H = H.T
-output = np.zeros([361, 331, 1])
 n, m, c = img.shape
-for i in tqdm(range(331)):
-    for j in range(361):
-        x, y, z = (np.array([i, j, 1]) @ H)
+mid = np.array([n/2, m/2, 0])
+H[2, :] += mid @ H - mid  # 中心化
+output = np.zeros(img.shape)
+for i in tqdm(range(n)):
+    for j in range(m):
+        x, y, z = (np.array([j, i, 1]) @ H)
         x /= z  # 正则化
         y /= z
-        output[j, i, :] = bilinear_interpolate(img, y, x)  # 利用双线性插值
+        output[i, j, :] = bilinear_interpolate(img, y, x)  # 利用双线性插值
 return output
 \end{pythoncode}
 
@@ -409,7 +413,7 @@ Pixel error: err = [ 0.57177   0.33143 ]
 误差分布
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{error.png}
+    \includegraphics[scale=0.5]{error.png}
 \end{figure}
 
 通过Calibration功能得到标定结果及误差（全部奇数张图片，共5张图片）：
@@ -423,14 +427,14 @@ Pixel error: err = [ 0.12323   0.11696 ]
 误差分布
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{error1.png}
+    \includegraphics[scale=0.5]{error1.png}
 \end{figure}
 
-可以发现，虽然图像使用更多，但是可能导致噪声增多，误差分布中会出现较多的离散点，使得估计误差增大，而使用少量图像进行标定噪声数目较少，不会出现这种现象. 说明每张标定图片降噪十分重要.
+可以发现，虽然图像使用更多，但是可能导致噪声增多，误差分布中会出现较多的离散点，使得估计误差增大，而使用少量图像进行标定噪声数目较少，不会出现这种现象，说明每张标定图片降噪十分重要. 同时误差可能来源于由相机晶状体引起的图像畸变.
 
 
 \section{结论与讨论}
-通过本次实验，基本理解相机成像原理，以及张氏标定法具体计算方法，利用MATLAB工具箱进行相机标定，但由于没有具体相机参数，无法得知其物理含义，而且并不清楚优化参数部分原理，最后进行误差分析过程也是直接使用工具箱的功能，该部分理解较弱.
+通过本次实验，基本理解相机成像原理，以及张氏标定法具体计算方法. 利用MATLAB工具箱进行相机标定，通过角点检测，将图像坐标与三维网格坐标对应求解单应性矩阵，进而求解相机内参与外参，但由于没有具体相机参数，无法得知其物理含义. 在标定误差分析中，主要通过逆变换重构三维坐标得到误差大小. 对参数优化部分和具体误差分析部分仍有待进一步理解.
 
 \end{document}
 
