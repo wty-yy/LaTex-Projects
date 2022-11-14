@@ -1,0 +1,108 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. }}{\smallskip\par}
+\newenvironment{solution}[1]{\par\noindent\textbf{#1解答. }}{\smallskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+\newmintinline{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newmintinline{cpp}{linenos, breaklines, frame=lines}  % 使用\c++inline{代码}
+\newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % 时间复杂度
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-3.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{算法设计与分析} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.25\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第五次作业}
+\end{center}\vspace{-0.2cm}
+% 正文部分
+\begin{problem}{(5-4)}
+    首先构造一个空集，考虑每次加入一个顶点，考虑一次加入每个顶点，若该顶点加入集合之后可以构成一个团，则考虑加入或不加入两种情况，否则，不考虑加入. 然后递归判断下一个点是否加入集合.
+
+    剪枝操作：若未加入集合的点数目加上集合中已有点的数目仍小于等于当前最优解，则进行剪枝.
+\end{problem}
+
+\begin{problem}{(5-6)}
+    (1). 一个旅行商回路可以视为一个排列：$\pi:(x_1,x_2,\cdots, x_n)$，该回路的费用为
+    \begin{equation*}
+        h(\pi) = \sum_{j=2}^ia(x_{j-1},x_j)+\sum_{j=i+1}^na(x_{j-1},x_j)
+    \end{equation*}
+    于是
+    \begin{equation*}
+        h(\pi)\geq \sum_{j=2}^i a(x_{j-1},x_j)+\sum_{j=i}^n\min(x_j)
+    \end{equation*}
+
+    (2). 先对$G$做简单遍历，求出$\sum_{j=i}^n\min(x_j)$的值，利用(1)的结论，可求解旅行商问题的最少费用.
+\end{problem}
+\end{document}
