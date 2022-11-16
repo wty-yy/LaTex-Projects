@@ -98,7 +98,7 @@ def extractWords(words):  # 提取分词
 
 数据集 `20_newsgroups` 提取出的全部数据的相关信息，分别为：类别，编号，文件数，分词数目，词频出现次数最高的前5个词.
 
-```
+```python
            Class  Id Files  Words  Most common words
      alt.atheism:  0  1000  10950  ['write', 'say', 'one', 'god', 'would']
    comp.graphics:  1  1000  13406  ['imag', 'file', 'use', 'program', 'write']
