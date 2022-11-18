@@ -1,0 +1,160 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+\setmainfont{Times New Roman}  % 设置英文字体
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{泛函分析} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{-3}\textbf{第九次作业}
+\end{center}
+\vspace{-0.2cm}
+% 正文部分
+\begin{problem}
+    设$X$是复Hilbert空间，$T\in L(X)$，证明：$T^* = T\iff (Tx,x)\in \R,\ (\forall \in X)$.
+\end{problem}
+\begin{proof}
+    “$\Rightarrow$”：$(Tx,x) = (x,T^* x) = (x,Tx)=\ol{(Tx,x)}$，则$(Tx,x)\in\R$.
+
+    “$\Leftarrow$”：由于$(Tx,x)\in\R$于是$(Tx,x) = (x,Tx) = (x,T^*x)$，于是$(x,(T-T^*)x) = 0,\ (\forall x\in X)$，于是$T-T^* = 0\Rightarrow T = T^*$.
+\end{proof}
+\begin{problem}
+    设$X$为Hilbert空间，$T_1,T_2\in L(X)$，$T_1^*=T_1,T_2^* = T_2$，证明：$T_1T_2=T_2T_1\iff T_1T_2=(T_1T_2)^*$.
+\end{problem}
+\begin{proof}
+    由于$T_1T_2 = (T_1T_2)^{**} = (T_2^*T_1^*)^* = (T_2T_1)^*$
+
+    “$\Rightarrow$”：由于$T_1T_2 = T_2T_1$，于是$T_1T_2 = (T_1T_2)^*$.
+
+    “$\Leftarrow$”：由于$T_1T_2 = (T_1T_2)^* = (T_2T_1)^*$，两边同取共轭可得$T_1T_2 = T_2T_1$.
+\end{proof}
+\begin{problem}
+    设$X$为Hilbert空间，$T\in L(X)$，证明$\ker(T^*) = R(T)^{\perp}$.
+\end{problem}
+\begin{proof}
+    一方面，$\forall x\in \ker(T^*)$，则$0=(T^*x, y) = (x, Ty),\ (\forall y\in X)$，则$x\in R(T)^{\perp}\Rightarrow \ker(T) \subset R(T)^\perp$.
+    另一方面，$\forall x\in R(T)^\perp$，则$0=(x,Ty) = (T^*x, y),\ (\forall y\in X)$，则$T^*x = 0\Rightarrow x\in \ker(T^*)$.
+
+    综上：$\ker (T^*) = R(T)^\perp$.
+\end{proof}
+\begin{problem}
+    证明$(^\perp M)^\perp = \bar{M}$.
+\end{problem}
+\begin{proof}
+    $\forall x\in M$，$\forall f\in {^\perp M}$有$\langle f,x\rangle = 0$，则$x\in (^\perp M)^\perp$，令$\{x_n\}\subset M$且$x_n\to x\in X$，由于$f$的连续性，则$\langle f,x\rangle =\lim_{n\to\infty}f(x_n) = 0\Rightarrow x\in (^\perp M)^\perp$，于是$\bar{M}\subset (^\perp M)^\perp$.
+
+    假设$\bar{M}$是$(^\perp M)^\perp$的真子集，则$\exists x_0\in (^\perp M)^\perp - \bar{M}$，且$d:=\rho(x_0,\bar{M}) > 0$，由Hahn-Banach定理推论可得$\exists f\in X^*$使得$f(x_0) = d,\ f|_{\bar{M}} = 0$，于是$f\in {^\perp M}$且$f(x_0) = d > 0$，则$x_0\notin(^\perp M)^\perp$与$x_0\in(^\perp M)^\perp$矛盾. 故$\bar{M} = (^\perp M)^\perp$.
+\end{proof}
+\begin{problem}
+    设$X,Y$为$B^*$空间，$T\in L(X,Y)$则$\ker(T^*) = {^\perp R(T)}$，$\ker(T) = \R(T^*)^\perp$.
+\end{problem}
+\begin{proof}\ \vspace*{-1cm}
+    \begin{align*}
+        \left.\begin{aligned}
+            \forall f\in\ker(T^*),\ \text{则}\langle f, Tx\rangle = \langle T^*f,x\rangle = 0,\ \text{则}f\in{^\perp R(T)}\quad\\
+            \forall f\in {^\perp R(T)},\ \text{则}\langle T^*f,x\rangle = \langle f,Tx\rangle = 0,\ \text{则}f\in\ker (T^*)\quad
+        \end{aligned}\right\}&\ \ker(T^*) = {^\perp R(T)}\\
+        \left.\begin{aligned}
+            \forall x\in\ker(T),\ \text{则}\langle T^*f,x\rangle = \langle f, Tx\rangle =f(0) = 0,\ \text{则}x\in{R(T^*)^\perp}\quad\\
+            \forall x\in {R(T^*)^\perp},\ \text{则}\langle f,Tx\rangle = \langle T^*f,x\rangle = 0,\ \text{则}x\in\ker (T)\quad
+        \end{aligned}\right\}&\ \ker(T) = {R(T^*)^\perp}
+    \end{align*}
+\end{proof}
+\begin{problem}
+    设$X = \{\xi = (x_1,\cdots, x_n)\in l^2:\sum_{n\geq 1}|nx_n|^2 < \infty\}$，$T:x\to l^2$，$Tx=x$，证明$\ol{R(T)} = l^2$.
+\end{problem}
+\begin{proof}
+    先证明$X$为$l^2$的子空间，$\forall \alpha,\beta\in \K,\ \forall \xi,\eta\in X$，令$\xi = \{x_n\},\ \eta = \{y_n\}$，$\forall N > 0$，有
+    \begin{equation*}
+        \sum_{1\leq n\leq N}|n(\alpha x_n+\beta y_n)|^2 = \alpha^2\sum_{1\leq n\leq N}n^2x_n^2+2\alpha\beta\sum_{1\leq n\leq N}n^2x_ny_n + \beta^2\sum_{1\leq n\leq N}n^2y_n^2
+    \end{equation*}
+    由于$\xi,\eta\in X$，于是$\sum_{1\leq n\leq N}n^2x_n^2,\sum_{1\leq n\leq N}n^2y_n^2$关于$N$收敛，又由于
+    \begin{equation*}
+        \sum_{1\leq n\leq M}n^2x_ny_n\leq \left(\sum_{1\leq n\leq M}|nx_n|^2\right)^{\frac{1}{2}}\left(\sum_{1\leq n\leq M}|ny_n|^2\right)^{\frac{1}{2}}
+    \end{equation*}
+    于是
+    \begin{equation*}
+        \lim_{N\to\infty}\sum_{1\leq n\leq N}|n(\alpha x_n+\beta y_n)|^2 = \sum_{n\geq 1}|n(\alpha x_n+\beta y_n)|^2 < \infty
+    \end{equation*}
+    所以$\alpha \xi+\beta\eta\in X$，$X$是$l^2$的闭子空间.
+
+    由Hahn-Banach定理推论可得，要证$\ol{R(T)} = l^2$即$R(T)$在$l^2$中稠密，只需证：$\forall f\in (l^2)^*,f|_{R(T)} = 0\Rightarrow f=\theta$. 反设，存在$f\neq \theta$使得$f|_{R(T)}=0$，由于$l^2$是Hilbert空间，由Riesz表示定理可知，存在$\eta_f\in l^2,\ \eta_f = \{y_n\}$使得$\forall \xi\in X,\ \xi = \{x_n\}$有
+    \begin{equation*}
+        f(\xi) = (\xi,\eta_f) = \sum_{n\geq 1}x_n\bar{y}_n = 0
+    \end{equation*}
+    由于$f\neq \theta$，于是$\eta_f\neq \theta$，即$\exists y_n\neq 0$，令$\xi = (\underbrace{0,\cdots,0,1}_{n\text{个}},0,\cdots)\in X$，则$f(\xi) = \bar{y}_n\neq 0$与$f(\xi) = 0$矛盾，则$f|_{R(T)}=\theta\Rightarrow f= \theta$.
+\end{proof}
+
+\end{document}
