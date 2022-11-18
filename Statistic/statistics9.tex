@@ -119,6 +119,11 @@
 
     (e). 由于$\E(Y_1) = \int_\theta^\infty yn\e^{-n(y-\theta)}\,\d y = n\int_0^\infty (y+\theta)\e^{-ny}\,\d y= n\int_0^\infty y\e^{-ny}+\theta\int_0^\infty n\e^{-ny}\,\d y = \frac{1}{n}+\theta$. 于是$Y_1-1/n$是$\theta$的UMVUE.
 
+    (f). $X-\theta\sim\e^{-x}I_{[0,\infty)}(x)$，于是$\theta$为位置参数，则Pitman估计量为
+    \begin{equation*}
+        \frac{\int\theta\L(\theta)\,\d\theta}{\int\L(\theta)\,\d\theta}=\frac{\int_{-\infty}^{y_1}\theta\e^{n\theta}\,\d\theta}{\int_{-\infty}^{y_1}\e^{n\theta}\,\d\theta}=\frac{\left(\frac{y_1}{n}+\frac{1}{n^2}\right)\e^{ny_1}}{\frac{1}{n}\e^{ny_1}} = y_1+\frac{1}{n}
+    \end{equation*}
+
     (g). 由于$\L(\theta) = \e^{n\theta-\sum_{i=1}^nx_i}I_{(-\infty, y_1]}(\theta)\propto \e^{n\theta}I_{(-\infty,y_1]}(\theta)$且$f(\theta|x_1,\cdots, x_n) = \int \L(\theta)g(\theta)\,\d\theta = \int_0^{y_1}\e^{(n-1)\theta}\,\d\theta = \frac{\e^{(n-1)y_1}-1}{n-1},\ (y_1>0)$.则
     \begin{equation*}
         f(\theta|x_1,\cdots,x_n) = \frac{\L(\theta)g(\theta)}{\int \L(\theta)g(\theta)\,\d\theta} = \frac{n-1}{\e^{(n-1)y_1}-1}\e^{(n-1)\theta}I_{(0,y_1]}(\theta).
@@ -193,6 +198,13 @@
         a = \sqrt{2n}/2
     \end{cases}$
     于是$b = \sqrt{2n}/2$，所以$\theta$的Minimax估计为$\frac{1+\sqrt{2n}\bar{X}}{2+2\sqrt{2n}}$.
+
+    (g). 由于$I(X_1=2)$是$\theta^2$的无偏估计，考虑估计量$T = \frac{1}{n}\sum_{i=1}^nI(X_i = 2)$，则$T$是$\theta^2$的无偏估计，则MSE为
+    \begin{align*}
+        \text{MSE}_T =&\ \var(T) = \var\left[\frac{1}{n}\sum_{i=1}^nI(X_i=2)\right] = \frac{1}{n^2}n\var(I(X=2))\\
+        =&\ \frac{1}{n}\left[\E(I^2(X=2))-\E[I(x_i)=2]^2\right] = \frac{1}{n}(\theta^2-\theta^4)\to 0,\quad(n\to\infty)
+    \end{align*}
+    于是$T$是$\theta^2$的一致估计.
 \end{solution}
 
 % 下面给一些功能的写法
