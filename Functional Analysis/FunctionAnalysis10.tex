@@ -133,10 +133,10 @@
     \end{align*}
 \end{proof}
 \begin{problem}
-    设$X = \{\xi = (x_1,\cdots, x_n)\in l^2:\sum_{n\geq 1}|nx_n|^2 < \infty\}$，$T:x\to l^2$，$Tx=x$，证明$\ol{R(T)} = l^2$.
+    设$X = \{\xi = (x_1,\cdots, x_n)\in l^2:\sum_{n\geq 1}|nx_n|^2 < \infty\}$，$||\xi||_X = \sum_{n\geq 1}|nx_n|^2$，$T:x\to l^2$，$Tx=x$，证明$\ol{R(T)} = l^2$.
 \end{problem}
 \begin{proof}
-    先证明$X$为$l^2$的子空间，$\forall \alpha,\beta\in \K,\ \forall \xi,\eta\in X$，令$\xi = \{x_n\},\ \eta = \{y_n\}$，$\forall N > 0$，有
+    \textbf{方法一}：先证明$X$为$l^2$的子空间，$\forall \alpha,\beta\in \K,\ \forall \xi,\eta\in X$，令$\xi = \{x_n\},\ \eta = \{y_n\}$，$\forall N > 0$，有
     \begin{equation*}
         \sum_{1\leq n\leq N}|n(\alpha x_n+\beta y_n)|^2 = \alpha^2\sum_{1\leq n\leq N}n^2x_n^2+2\alpha\beta\sum_{1\leq n\leq N}n^2x_ny_n + \beta^2\sum_{1\leq n\leq N}n^2y_n^2
     \end{equation*}
@@ -155,6 +155,59 @@
         f(\xi) = (\xi,\eta_f) = \sum_{n\geq 1}x_n\bar{y}_n = 0
     \end{equation*}
     由于$f\neq \theta$，于是$\eta_f\neq \theta$，即$\exists y_n\neq 0$，令$\xi = (\underbrace{0,\cdots,0,1}_{n\text{个}},0,\cdots)\in X$，则$f(\xi) = \bar{y}_n\neq 0$与$f(\xi) = 0$矛盾，则$f|_{R(T)}=\theta\Rightarrow f= \theta$.
+
+    \textbf{方法二}：由于$\ker(T^*)^\perp = \ol{R(T)}$，只需证$T^*$是单射，由于$l^2$是Hilbert空间，如果$(X,||\cdot||_X)$也是Hilbert空间，则通过$(Tx,y)_{l_2} = (x,T^*y)_X$可以求出$T^*$的具体表达式.
+
+    要证$(X,||\cdot||_X)$可构成Hilbert空间，只需证$||\cdot||_X$满足平行四边形公式：
+    \begin{align*}
+        ||x+y||_X^2+||x-y||_X^2=&\ \sum_{n\geq 1}|n(x_n+y_n)|^2+\sum_{n\geq 1}|n(x_n-y_n)|^2\\
+        =&\ 2\sum_{n\geq 1}|nx_n|^2+2\sum_{n\geq 1}|ny_n|^2 = 2(||x||_X^2+||y||_X^2)
+    \end{align*}
+    则通过极化恒等式定义$X$上的内积是有意义的
+    \begin{align*}
+        (x,y)_X =&\ \frac{1}{4}\left(||x+y||_X^2-||x-y||_X^2+\i||x+\i y||_X^2-\i||x-\i y||_X^2\right)\\
+        =&\ \frac{n^2}{4}\left[\sum_{n\geq 1}4\re(x_n\bar{y}_n)+\i\sum_{n\geq 1}4\im(x_n\bar{y}_n)\right] = \sum_{n\geq 1}n^2x_n\bar{y}_n
+    \end{align*}
+    令$T^*y = \{z_n\}$，于是
+    \begin{equation*}
+        \sum_{n\geq 1}x_n\bar{y}_n = (Tx,y)_{l_2} = (x,T^*y)_X = \sum_{n\geq 1}n^2x_n\bar{z}_n,\quad(\forall x\in X)
+    \end{equation*}
+    于是$n^2\bar{z}_n = \bar{y}_n$，则$z_n=y_n/n^2$，于是$T^*y = (y_1,y_2/2^2,\cdots, y_n/n^2,\cdots)$，故$T^*y = \theta\iff y=\theta$，所以$T^*$为单射.
 \end{proof}
 
+\begin{problem}
+    设$X$为自反空间，则$X^*$也是自反空间.
+\end{problem}
+\begin{proof}
+    设$J$为$X$上的自然嵌入映射，于是$J^*\in L(X^{***},X^*)$，由于$J$是双射，则$(J^{-1})^* = (J^*)^{-1}\in L(X^*,X^{***})$也是双射.
+
+    只需证$(J^{-1})^*$是$X^*$到$X^{***}$的自然嵌入映射.
+
+    $\forall \psi\in X^{***},\ x^{**}\in X^{**}$，只需证$\exists g\in X^*$使得$\langle \psi,x^{**}\rangle = \langle x^{**},g\rangle$.
+
+    只需证$(J^{-1})^*g = \psi$也即$g = J^*\psi$.
+
+    只需证$\langle\psi,x^{**}\rangle = \langle x^{**},J^*\psi\rangle$.
+
+    由于$X$是自反空间，则$\exists x\in X$使得$x^{**} = J_x$，于是
+    \begin{equation*}
+        \langle\psi,x^{**}\rangle =\langle\psi,J_x\rangle = \langle\psi,Jx\rangle = \langle J^*\psi,x\rangle = \langle J_x, J^*\psi\rangle = \langle x^{**},J^*\psi\rangle
+    \end{equation*}
+\end{proof}
+\begin{problem}
+    设$X$为$B$空间，若$X^*$为自反空间，则$X$是自反空间.
+\end{problem}
+\begin{proof}
+    由上题可知，$X^{**}$为自反空间，由于$J(X)\subset X^{**}$，且$J$算子可逆，于是$\exists c > 0$使得$||Jx||\geq c||x||$，设$Jx_n\to y$，于是
+    \begin{equation*}
+        ||x_n-x_m||\leq \frac{1}{c}||Jx_n-Jx_m||\to 0,\ (n,m\to\infty)   
+    \end{equation*}
+    由于$X$是B空间，则$x_n\to x\in X$，由$J$的连续性可知$Jx =\lim_{n\to\infty}Jx_n= y\in J(X)$，则$J(X)$是$X^{**}$的闭子集. 下证 $J(X)$在$X^{**}$中稠密.
+
+    $\forall g\in X^{***}$，由于$X^*$是自反的，于是$\exists f\in X^*$使得$\forall x^{**}\in X^{**}$有$\langle g, x^{**}\rangle = \langle x^{**}, f\rangle$. 若$g|_{J(x)} = 0$，则
+    \begin{equation*}
+        \langle g, J(X)\rangle = \langle J(X), f\rangle = \langle f, X\rangle = f(X) = 0
+    \end{equation*}
+    则$f\equiv 0 \Rightarrow g\equiv 0$，由Hahn-Banach定理推论可得$J(X)$在$X^{**}$中稠密，于是$J(X) = \ol{J(X)} = X^{**}$，故$X$是自反的.
+\end{proof}
 \end{document}
