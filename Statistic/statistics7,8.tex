@@ -148,7 +148,48 @@
     \end{align*}
     所以$c = n-1$，故$\frac{n-1}{-\sum_{i=1}^n\log X_i}$是$\theta$的UMVUE.
     
-    $\theta(1-\theta)$的一个无偏估计为$X_1$，可以得到$\E\left[X_1\biggl|-\sum_{i=1}^n\log X_i\right]=\frac{n-1}{s}\int_0^1(1+\frac{\log x}{s})^{n-2}\,\d x$，但是该积分不会计算，就没写了（应该可以换元后凑Gamma分布得到积分结果）.\add
+    $\theta(1-\theta)$的一个无偏估计为$X_1$，下面计算$\E\left[X_1\biggl|-\sum_{i=1}^n\log X_i\right]$.
+
+    令$Z = -\log X_1$，于是$X_1 = \e^{-Z}$，且$Z\sim \Gamma(1,\theta)$，令$S = -\sum_{i=1}^n\log X_i$，则$S\sim \Gamma(n,\theta)$，于是
+    \begin{equation*}
+        \E\left[X_1\biggl|-\sum_{i=1}^n\log X_i = s\right] = \E\left[\e^{-Z}\biggl|S = s\right] = \int\e^{-z}f(z|s)\,\d z = \int\e^{-z}\frac{f(z,s)}{f_S(s)}\,\d z
+    \end{equation*}
+    令$Y = -\sum_{i=2}^n\log X_i$，则$S = Y+Z$且$Y,Z$独立，可求出$Y,Z$的联合分布为$f(y,z) = f_Y(y)f_Z(z)$，且变量代换的Jacobi行列式$|J| = 1$，于是
+    \begin{equation*}
+        f(s,z) = f_{Y,Z}(s-z,z)|J| = f_Y(s-z)f_Z(z) = \frac{\theta^n}{\Gamma(n-1)}(s-z)^{n-2}\e^{-\theta s}
+    \end{equation*}
+    于是$f(z|s) = \frac{f(z,s)}{f_S(s)} = \frac{(n-1)(s-z)^{n-2}}{s^{n-1}}$，则
+    \begin{equation*}
+        \E\left[X_1|S=s\right] = \int_0^s\e^{-z}\frac{(n-1)(s-z)^{n-2}}{s^{n-1}}\,\d z\xlongequal{s-z=t}\frac{(n-1)\e^{-s}}{s^{n-1}}\int_0^st^{n-2}\e^t\,\d t
+    \end{equation*}
+    由如下两种方法求上述积分：\textbf{方法一（分部积分）}
+    \begin{align*}
+        \int_0^st^{n-2}\e^{-t}\,\d t =&\ \int_0^st^{n-2}\,\d \e^{t} = s^{n-2}\e^s - (n-2)\int_0^st^{n-3}\,\d \e^t\\
+        =&\ s^{n-2}\e^s - (n-2)s^{n-3}\e^s + (n-2)(n-3)\int_0^st^{n-4}\,\d \e^t=\cdots\\
+        =&\ s^{n-2}\e^s - (n-2)s^{n-3}\e^s +-\cdots+(-1)^{n-3}(n-2)!s\e^{s}+(-1)^{n-2}(n-2)!\int_0^s\e^t\,\d t\\
+        =&\ \e^{s}\sum_{k=0}^{n-2}\frac{(n-2)!}{k!}(-1)^{n-k}s^k+(-1)^{n-1}(n-2)!
+    \end{align*}
+
+    \textbf{方法二（凑Gamma函数）}
+    \begin{align*}
+        \int_0^st^{n-2}\e^t\,\d t \xlongequal{t\to-t} \int_{-s}^0\e^{-t}(-t)^{n-2}\,\d t = (-1)^{n-2}\left[\int_{-s}^\infty\e^{-t}t^{n-2}\,\d t-\int_0^\infty\e^{-t}t^{n-2}\,\d t\right] = (-1^{n-2})[I_1+I_2]
+    \end{align*}
+    \begin{align*}
+        I_1 =&\ \int_{-s}^\infty\e^{-t}t^{n-2}\,\d t\xlongequal{t\to t-s}\e^s\int_0^\infty \e^{-t}(t-s)^{n-2}\,\d t\\
+        =&\ \e^s\int_0^\infty \e^{-t}\sum_{k=0}^{n-2}\binom{n-2}{k}(-s)^kt^{n-k-2}\,\d t = \sum_{k=0}^{n-2}\binom{n-2}{k}(-s)^k\e^{s}\int_0^\infty\e^{-t}t^{n-k-2}\,\d t\\
+        =&\ \sum_{k=0}^{n-2}\binom{n-2}{k}(-1)^ks^k\e^s\Gamma(n-k-1) = \sum_{k=0}^{n-2}\frac{(n-2)!}{k!}(-1)^ks^k\e^s\\
+        I_2 =&\ -\int_0^\infty\e^{-t}t^{n-2}\,\d t = -\Gamma(n-1) = -(n-2)!
+    \end{align*}
+    于是
+    \begin{align*}
+        \int_0^st^{n-2}\e^t\,\d t = (-1)^{n-2}[I_1+I_2] = \e^{s}\sum_{k=0}^{n-2}\frac{(n-2)!}{k!}(-1)^{n-k}s^k+(-1)^{n-1}(n-2)!
+    \end{align*}
+    综上
+    \begin{equation*}
+        \E\left[X_1\biggl|-\sum_{i=1}^n\log X_i=s\right] = \frac{(n-1)\e^{-s}}{s^{n-1}}\left[
+        \e^{s}\sum_{k=0}^{n-2}\frac{(n-2)!}{k!}(-1)^{n-k}s^k+(-1)^{n-1}(n-2)!
+        \right]
+    \end{equation*}
 \end{solution}
 \begin{problem}[(29)]
     设$X_1,\cdots,X_n$是来自$N(\theta,1)$的随机样本.
