@@ -37,6 +37,8 @@
 \DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
 \let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
 \let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
 
 %%%% 一些宏定义 %%%%
 \def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
