@@ -209,6 +209,19 @@ K为4时，平均正确率较高55.85%
 第 20 组类别，正确率: 0.65
 ```
 
+### 朴素Bayes
+
+设词向量维度为 $N=1000$，词向量记为 $\boldsymbol{x}\in \mathbb{R}^N$，类别记为 $y=1,2,\cdots,20$，则
+
+$$
+p(y|\boldsymbol{x}) = \frac{p(\boldsymbol{x}|y)p(y)}{p(\boldsymbol{x})} = \frac{\prod_{i=1}^Np(x_i|y)\cdot p(y)}{\prod_{i=1}^Np(x_i)} = \frac{\prod_{i=1}^Na_i\cdot b}{\prod_{i=1}^Nc_i}
+$$
+
+1. 记 $\boldsymbol{Y}_j$ 为全部 $j$ 类文章的词向量之和，则 $a_i = \frac{\boldsymbol{x}_i}{\boldsymbol{Y}_i}$.
+2. 记 $fileNum$ 为 $20$ 维向量，第 $y$ 维表示第 $y$ 种文章总数目，则 $b = \frac{fileNum_y}{\sum_{y=1}^{M}fileNum_y}$.
+
+3. 记 $\boldsymbol{X}$ 为全部文本中词向量之和，即 $\boldsymbol{X} = \sum_{j=1}^M\boldsymbol{Y}_j$，则 $c_i = \frac{\boldsymbol{x}_i}{\boldsymbol{X}_i}$.
+
 ### 前馈型神经网络
 
 使用tensorflow神经网络框架
