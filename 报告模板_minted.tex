@@ -3,7 +3,7 @@
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 
 %%%% 设置中文字体 %%%%
-\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK, BoldItalicFont = 方正粗楷简体]
 %%%% 设置英文字体 %%%%
 \setmainfont{Times New Roman}
 \setsansfont{Calibri}
@@ -39,7 +39,6 @@
 \newtheorem{proposition}{命题}
 \newtheorem{lemma}{引理}
 \newtheorem{corollary}{推论}
-\newtheorem{remark}{注解}
 \newtheorem{condition}{条件}
 \newtheorem{conclusion}{结论}
 \newtheorem{assumption}{假设}
@@ -56,6 +55,7 @@
 \newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
 \newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -94,6 +94,7 @@
 \def\Z{\mathbb{Z}}          % Integer number
 \def\E{\mathbb{E}}          % Exception
 \def\var{\text{Var}}        % Variance
+\def\cov{\text{Cov}}        % Coefficient of Variation
 \def\bias{\text{bias}}      % bias
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
