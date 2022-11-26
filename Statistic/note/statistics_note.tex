@@ -1,0 +1,315 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK, BoldItalicFont = 方正粗楷简体]
+\newCJKfontfamily{\kaiti}[AutoFakeBold=true]{方正楷体_GBK.ttf}
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.2}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{algorithm}{算法}  % 整体编号
+\newtheorem{example}{例}[section]  % 按 section 编号
+\newtheorem{theorem}{定理}[section]
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{axiom}[theorem]{公理}
+\newtheorem{property}[theorem]{性质}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{condition}[theorem]{条件}
+\newtheorem{conclusion}[theorem]{结论}
+\newtheorem{assumption}[theorem]{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+
+\newsavebox{\nameinfo}
+\newenvironment{myTitle}[1]{
+    \begin{center}
+    {\zihao{-2}\bf #1\\}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\newenvironment{watch}{\it 观察：}{}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\E{\mathbb{E}}          % Exception
+\def\var{\text{Var}}        % Variance
+\def\cov{\text{Cov}}        % Coefficient of Variation
+\def\bias{\text{bias}}      % bias
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % 时间复杂度
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 正文开始 %%%%
+\begin{document}
+
+%%%% 以下部分是正文 %%%%  
+\begin{myTitle}{数理统计笔记}
+    强基数学002\ 吴天阳
+\end{myTitle}
+\section{置信区间估计}
+\begin{definition}[置信区间]
+    令$X_1,\cdots,X_n$是来自$f(x;\theta)$的随机变量，$T_1=T_1(X_1,\cdots,X_n)$，$T_2=T_2(X_1,\cdots,X_n)$是两个关于样本的统计量，且$T_1\leq T_2$，满足$P[T_1 < \tau(\theta) < T_2]=\gamma$，其中$\gamma$与$\theta$无关，则称$[T_1,T_2]$为随机区间，也是$\theta$的$100\gamma$\textbf{置信度}的\textbf{置信区间}，其中$\gamma$称为\textbf{置信系数}，$T_1$与$T_2$分别称为\textbf{置信下限}和\textbf{置信上限}.
+\end{definition}
+\begin{remark}
+    \item 若$\tau(\theta)$在随机区间中是严格单调的，则$P(\tau(T_1) < \tau(\theta) < \tau(T_2)) = P(T_1 < \theta < T_2) = \gamma$. 这告诉我们可以将许多问题转化为求解$\theta$置信区间.
+\end{remark}
+
+\begin{definition}[枢轴量]
+    设$X_1,\cdots, X_n$是来自$f(x;\theta)$的随机变量，令$Q = q(x_1,\cdots,x_n;\theta)$，若$Q$的分布与$\theta$无关，则称$Q$为\textbf{枢轴量}.
+\end{definition}
+\begin{proposition}[枢轴量方法]
+    给定置信系数$0<\gamma<1$，则$\exists q_1,q_2$使得$P(q_1<Q<q_2)$，则可通过$q_1<q(x_1,\cdots, x_n;\theta)<q_2$反解出$T_1(x_1,\cdots, x_n)<\tau(\theta)<T_2(x_1,\cdots,x_n)$，于是$P(T_1<\tau(\theta)<T_2)=\gamma$. 于是得到$\tau(\theta)$的置信区间为$(T_1,T_2)$.
+\end{proposition}
+\begin{remark}
+    \item $q_1,q_2$与$\theta$无关.
+    \item 对于固定的$\gamma$，$q_1,q_2$的取值不唯一，置信区间的期望长度$\E(T_2-T_1)$越小越好.
+    \item 若$Q$为$\mu=0$的对称分布，如标准正态分布，$t$分布，取\textbf{对称分布}$q_2=-q_1 = z_{\frac{1+\gamma}{2}}$；若为不对称分布，通常取\textbf{等尾分布}$q_2=z_{\frac{1+\gamma}{2}},\ q_1 = z_{\frac{1-\gamma}{2}}$，其中$z_x$为$Q$的$x$分位数；若为不对称分布，还可通过转化为\textbf{最优化极小化问题求解}.
+\end{remark}
+\subsection{正态分布参数的置信区间}
+\subsubsection{单参数估计}
+下面讨论\textbf{来自正态分布的样本}对其中未知参数的置信区间估计，分为以下三种：（括号内为枢轴量满足的分布）
+\begin{enumerate}[label=(\arabic*)]
+    \item $\mu$未知，$\sigma^2$已知.（标准正态分布）
+    \item $\mu$已知，$\sigma^2$未知.（$\rchi^2(n)$分布）
+    \item $\mu$未知，$\sigma^2$未知.（$\mu$对应$t(n)$分布，$\sigma^2$对应$\rchi^2(n-1)$分布）
+\end{enumerate}
+\begin{example}\label{example-sigma已知}
+    $X_1,\cdots,X_n\overset{iid}{\sim}N(\theta,\sigma^2)$，其中$\sigma^2$已知，求$\theta$的置信区间.
+\end{example}
+\begin{solution}
+    由于$\bar{X}\sim N(\theta,\sigma^2/n)$，则$\frac{\bar{X}-\theta}{\sigma/\sqrt{n}}\sim N(0,1)$，设$q_1,q_2\in\R,\ q_1<q_2$满足
+    \begin{equation*}
+        \gamma = P\left(q_1<\frac{\bar{X}-\theta}{\sigma/\sqrt{n}}<q_2\right)  = P\left(\bar{X}-\frac{\sigma}{\sqrt{n}}q_2<\theta<\bar{X}-\frac{\sigma}{\sqrt{n}}q_1\right)
+    \end{equation*}
+    由于$N(0,1)$为对称分布，取$q_2=-q_1 = z_{\frac{1+\gamma}{2}}$，$\theta$的置信系数为$\gamma$的区间为
+    \begin{equation*}
+        \left(\bar{X}-\frac{\sigma}{\sqrt{n}}z_{\frac{1+\gamma}{2}}<\theta<\bar{X}+\frac{\sigma}{\sqrt{n}}z_{\frac{1+\gamma}{2}}\right)
+    \end{equation*}
+\end{solution}
+\begin{example}\label{example-mu已知}
+    $X_1,\cdots,X_n\overset{iid}{\sim}N(\mu,\sigma^2)$，其中$\mu$已知，求$\sigma^2$的置信区间.
+\end{example}
+\begin{solution}
+    \begin{watch}
+        若直接使用上题的枢轴量，由于$q_1<0$，通过计算发现，只能获得$\sigma^2$的单边置信下限，考虑构造值域非负的枢轴量，例如$\Gamma,\rchi^2$.\add
+    \end{watch}
+    % 观察：若直接使用上题的枢轴量，由于$q_1<0$，通过计算发现，只能获得$\sigma^2$的单边置信下限，考虑构造值域非负的枢轴量，例如$\Gamma,\rchi^2$.\add
+
+    由于$\frac{X_i-\mu}{\sigma}\sim  N(0,1)$则$\sum_{i=1}^N\left(\frac{X_i-\mu}{\sigma}\right)^2\sim\rchi^2(n)$. 设$q_1,q_2\in[0,\infty),\ q_1 < q_2$满足
+    \begin{equation*}
+        \gamma = P\left(q_1<\frac{\sum_{i=1}^N(X_i-\mu)^2}{\sigma^2}<q_2\right) = P\left(\frac{\sum_{i=1}^N(X_i-\mu)^2}{q_2}<\sigma^2<\frac{\sum_{i=1}^N(X_i-\mu)^2}{q_1}\right)
+    \end{equation*}
+    由于$\chi^2$不是对称分布，考虑等尾分布：$q_1=\rchi^2_{\frac{1-\gamma}{2}}(n),\ q_2=\rchi^2_{\frac{1+\gamma}{2}}(n)$，于是$\sigma^2$的置信度为$\gamma$的区间为
+    \begin{equation*}
+        \left(\frac{\sum_{i=1}^N(X_i-\mu)^2}{\rchi^2_{\frac{1+\gamma}{2}}(n)},\frac{\sum_{i=1}^N(X_i-\mu)^2}{\rchi^2_{\frac{1-\gamma}{2}}(n)}\right)
+    \end{equation*}
+\end{solution}
+\begin{example}\label{example-都未知}
+    $X_1,\cdots,X_n\overset{iid}{\sim}N(\mu,\sigma^2)$，其中$\mu,\sigma^2$均未知，分别求$\mu,\sigma^2$的置信区间.
+\end{example}
+\begin{solution}
+    (i) 求解$\mu$的置信区间. 
+
+    \begin{watch}
+        考虑使用\textbf{例}\ref{example-sigma已知}的做法，由于分布处含有未知的$\sigma^2$，会使得上下限中含有$\sigma^2$，考虑利用随机变量相除将$\sigma^2$消去且满足某种分布，\add 于是我们引入了$t$分布：若$U\sim N(0,1), V\sim\rchi^2(n)$，则$\textstyle\frac{U}{\sqrt{V/n}}\sim t(n)$.\add
+    \end{watch}
+
+    由于$\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\sim N(0,1)$，$\sum_{i=1}^n\left(\frac{X_i-\bar{X}}{\sigma}\right)^2=\frac{(n-1)S^2}{\sigma^2}\sim\rchi^2(n-1)$，则
+    \begin{equation*}
+        \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\frac{\sigma\sqrt{n-1}}{\sqrt{n-1}S} = \sqrt{n}\frac{\bar{X}-\mu}{S}\sim t(n-1)
+    \end{equation*}
+    设$q_1,q_2\in\R,\ q_1<q_2$满足
+    \begin{equation*}
+        \gamma = P\left(q_1 < \sqrt{n}\frac{\bar{X}-\mu}{S}<q_2\right) = P\left(\bar{X}-\frac{S}{\sqrt{n}}q_2<\mu<\bar{X}-\frac{S}{\sqrt{n}}q_1\right)
+    \end{equation*}
+    其中$S^2=\frac{1}{n-1}\sum_{i=1}^N(X_i-\bar{X})^2$. 由于$t$为对称分布，取$q_2=-q_1 = t_{\frac{1+\gamma}{2}}(n-1)$，则$\mu$的置信度为$\gamma$的区间为
+    \begin{equation*}
+        \left(\bar{X}-\frac{S}{\sqrt{t}}t_{\frac{1+\gamma}{2}}(n-1),\bar{X}+\frac{S}{\sqrt{n}}t_{\frac{1+\gamma}{2}}(n-1)\right)
+    \end{equation*}
+
+    (ii) 求$\sigma^2$的置信区间. 考虑使用\textbf{例}\ref{example-mu已知}的做法，将$\mu$用$\bar{X}$代替则
+    \begin{equation*}
+        \sum_{i=1}^n\left(\frac{X_i-\bar{X}}{\sigma}\right)^2 = \frac{(n-1)S^2}{\sigma^2} \sim \rchi^2(n-1)
+    \end{equation*}
+    类似\textbf{例}\ref{example-mu已知}可得$\sigma^2$的置信度为$\gamma$的区间为
+    \begin{equation*}
+        \left(\frac{(n-1)S^2}{\rchi^2_{\frac{1+\gamma}{2}}(n-1)},\frac{(n-1)S^2}{\rchi^2_{\frac{1-\gamma}{2}}(n-1)}\right)
+    \end{equation*}
+\end{solution}
+\subsubsection{双参数估计}
+我们只关心两个独立的正态分布的\textbf{均值之差}与\textbf{方差之比}的区间估计，令$X_1,\cdots,X_n$是来自$N(\mu_1,\sigma_1^2)$的随机样本，$Y_1,\cdots,Y_m$是来自$N(\mu_2,\sigma_2^2)$的随机样本，考虑$\mu_2-\mu_1$的置信区间，主要分为以下三种情况（括号内为枢轴量满足的分布）
+\begin{enumerate}[label=(\arabic*)]
+    \item $\sigma_1^2,\sigma_2^2$已知.（标准正态分布）
+    \item $\sigma_1^2=\sigma_2^2=\sigma^2$，$\sigma$未知.（$t(n+m-2)$分布）
+    \item $\sigma_1^2,\sigma_2^2$未知.（\textbf{样本量大}利用大数定律构造标准正态分布，\textbf{样本量小}记结论构造$t(n+m-2)$分布）
+\end{enumerate}
+不难发现上述构造的枢轴量都是对称分布，所以最终求出来的置信区间也都是对称的.
+\begin{example}
+    设$X_1,\cdots,X_n\overset{iid}{\sim}N(\mu_1,\sigma_1^2),Y_1,\cdots,Y_m\overset{iid}{\sim}N(\mu_2,\sigma_2^2)$，$\sigma_1^2,\sigma_2^2$已知，求$\mu_2-\mu_1$的区间估计.
+\end{example}
+\begin{solution}
+    由于$\bar{Y}-\bar{X}\sim N\left(\mu_2-\mu_1,\frac{\sigma_1^2}{n}+\frac{\sigma_2^2}{m}\right)$，则$\frac{\bar{Y}-\bar{X}-(\mu_2-\mu_1)}{\sqrt{\frac{\sigma_1^2}{n}+\frac{\sigma_2^2}{m}}}\sim N(0,1)$，取对称分布点$q_1=-q_2=z_{\frac{1+\gamma}{2}}$，则$\mu_2-\mu_1$的置信度为$\mu$的区间为
+    \begin{equation*}
+        (Q_1,Q_2),\quad Q_1,Q_2=\bar{Y}-\bar{X}\pm z_{\frac{1+\gamma}{2}}\sqrt{\frac{\sigma_1^2}{n}+\frac{\sigma_2^2}{m}}
+    \end{equation*}\del\del
+\end{solution}
+\begin{example}
+    设$X_1,\cdots,X_n\overset{iid}{\sim}N(\mu_1,\sigma_1^2),Y_1,\cdots,Y_m\overset{iid}{\sim}N(\mu_2,\sigma_2^2)$，$\sigma_1=\sigma_2=\sigma$，$\sigma$未知，求$\mu_2-\mu_1$的区间估计.
+\end{example}
+\begin{solution}
+    \begin{watch}
+        由于分母中有未知参数$\sigma$，类似\textbf{例}\ref{example-mu已知}的方法，通过除以$\rchi^2$分布消去$\sigma$即可得到枢轴量.
+    \end{watch}
+
+    由于$U = \frac{\bar{Y}-\bar{X}-(\mu_2-\mu_1)}{\sqrt{\frac{\sigma^2}{n}+\frac{\sigma^2}{m}}}\sim N(0,1)$，$\frac{(n-1)S_1^2}{\sigma^2}\sim \rchi^2(n-1),\ \frac{(m-1)S_2^2}{\sigma^2}\sim \rchi^2(m-1)$，于是$V = \frac{(n-1)S_1^2+(m-1)S_2^2}{\sigma^2}\sim\rchi^2(n+m-2)$，则
+    \begin{equation*}
+        \frac{U}{\sqrt{V/(n+m-2)}} = \frac{\bar{Y}-\bar{X}-(\mu_2-\mu_1)}{S_p\sqrt{\frac{1}{m}+\frac{1}{n}}}\sim t(n+m-2)
+    \end{equation*}
+    \add 其中$S_p^2 = \frac{(n-1)S_1^2+(m-1)S_2^2}{n+m-2}$. 取对称分布点$q_1=-q_2 = t_{\frac{1+\gamma}{2}}(n+m-2)$可得$\mu_2-\mu_1$置信度为$\gamma$的置信区间为
+    \begin{equation*}
+        (Q_1,Q_2),\quad Q_1,Q_2=\bar{Y}-\bar{X}\pm t_{\frac{1+\gamma}{2}}(n+m-2)S_p\sqrt{\frac{1}{n}+\frac{1}{m}}
+    \end{equation*}
+    \begin{remark}
+        \item 当$\sigma_1=\lambda\sigma_2$时，也可转化为上述问题，最终得到的区间估计为
+        \begin{equation*}
+            \hspace*{-0.5cm}(Q_1,Q_2),\quad Q_1,Q_2 = \bar{Y}-\bar{X}\pm t_{\frac{1+\gamma}{2}}(m+n-2)S\sqrt{\frac{1}{n}+\frac{\lambda}{m}},\ \text{其中 }S^2 = \frac{(n-1)S_1^2+\frac{m-1}{\lambda}S_2^2}{m+n-2}
+        \end{equation*}
+    \end{remark}
+\end{solution}
+\begin{example}
+    设$X_1,\cdots,X_n\overset{iid}{\sim}N(\mu_1,\sigma_1^2),Y_1,\cdots,Y_m\overset{iid}{\sim}N(\mu_2,\sigma_2^2)$，$\sigma_1\neq\sigma_2$，$\sigma_1,\sigma_2$均未知，求$\mu_2-\mu_1$的区间估计.
+\end{example}
+\begin{solution}
+    (i) 当样本量$n,m$非常大（一般为$\geq 30$）时，\add 可以认为$S_1^2\overset{p}{\to}\sigma_1^2,S_2^2\overset{p}{\to}\sigma_2^2$，则$\frac{\bar{Y}-\bar{X}-(\mu_2-\mu_1)}{\sqrt{\frac{S_1^2}{n}+\frac{S_2^2}{m}}}$近似服从$N(0,1)$，则$\mu_2-\mu_1$置信度为$\gamma$的区间为\del
+    \begin{equation*}
+        (Q_1,Q_2),\quad Q_1,Q_2 = \bar{Y}-\bar{X}\pm z_{\frac{1+\gamma}{2}}\sqrt{\frac{S_1^2}{n}+\frac{S_2^2}{m}}
+    \end{equation*}
+
+    (ii) 令$S_k^2 = \frac{S_1^2}{n}+\frac{S_2^2}{m}$则$T=\frac{\bar{Y}-\bar{X}-(\mu_2-\mu_1)}{S_k}$近似服从$t(r)$，其中$r=\frac{S_k^4}{\frac{S_1^4}{n^2(n-1)}+\frac{S_2^4}{m^2(m-1)}}$，则$\mu_2-\mu_1$置信度为$\gamma$的区间为
+    \begin{equation*}
+        (Q_1,Q_2),\quad Q_1,Q_2 = \bar{Y}-\bar{X}\pm t_{\frac{1+\gamma}{2}}(r)S_k
+    \end{equation*}\del\del
+\end{solution}
+\begin{example}[联合正态分布]
+    令$(X_1,Y_1),\cdots, (X_n,Y_n)\overset{iid}{\sim} N\left(\left(\begin{matrix}
+        \mu_1\\ \mu_2
+    \end{matrix}\right),\left(\begin{matrix}
+        \sigma_1^2&\rho\sigma_1\sigma_2\\
+        \rho\sigma_1\sigma_2&\sigma_2^2
+    \end{matrix}\right)\right)$服从二维正态分布，其中$\rho = \frac{\cov(X,Y)}{\sqrt{\var(X)\var(Y)}}$，求$\mu_2-\mu_1$的区间估计.
+\end{example}
+\begin{solution}
+    令$D_i = Y_i-X_i$，则$D_i\sim N(\mu_2-\mu_1, \sigma_D^2),\ \sigma_D^2 = \sigma_1^2+\sigma_2^2-2\rho\sigma_1\sigma_2$，转化为$\mu,\sigma$都未知，求$\mu$的单参数区间估计问题（转化为$t$分布），由\textbf{例}\ref{example-都未知}(i)可得，$\mu_2-\mu_1$的置信度为$\gamma$的区间为
+    \begin{equation*}
+        (Q_1,Q_2),\quad Q_1,Q_2 = \bar{D}\pm \frac{S_D}{\sqrt{n}}t_{\frac{1+\gamma}{2}}(n-1)
+    \end{equation*}\del
+\end{solution}
+\begin{example}[方差之比]
+    设$X_1,\cdots,X_n\overset{iid}{\sim}N(\mu_1,\sigma_1^2),Y_1,\cdots,Y_m\overset{iid}{\sim}N(\mu_2,\sigma_2^2)$，$\sigma_1\neq\sigma_2$，$\mu_1,\mu_2$均未知，求$\sigma_2^2/\sigma_1^2$的区间估计.
+\end{example}
+\begin{solution}
+    由于$T_1 = \frac{\sum_{i=1}^n(X_i-\mu_1)^2}{\sigma_1^2}\sim\rchi^2(n),\ T_2 = \frac{\sum_{j=1}^m(Y_j-\mu_2)^2}{\sigma_2^2}\sim\rchi^2(m)$，则
+    \begin{equation*}
+        F = \frac{T_1/n}{T_2/m} = \frac{\sigma_2^2}{\sigma_1^2}\frac{\sum_{i=1}^n(X_i-\mu_1)^2}{\sum_{j=1}^m(Y_j-\mu_2)^2}\sim F(n,m)
+    \end{equation*}
+    由于$F$分布不是对称的，取等尾分布$q_1=F_{\frac{1-\gamma}{2}}(n,m),q_2=F_{\frac{1+\gamma}{2}}(n,m)$则$\sigma_2^2/\sigma_1^2$置信度为$\gamma$的区间为
+    \begin{equation*}
+        \left(\frac{\sum_{j=1}^m(Y_j-\mu_2)^2/m}{\sum_{i=1}^n(X_i-\mu_1)^2/n}F_{\frac{1-\gamma}{2}}(n,m),\frac{\sum_{j=1}^m(Y_j-\mu_2)^2/m}{\sum_{i=1}^n(X_i-\mu_1)^2/n}F_{\frac{1+\gamma}{2}}(n,m)
+\right)
+    \end{equation*}
+    \begin{remark}
+        \item $\mu_1,\mu_2$未知，则问题转化为类似$\mu,\sigma$都未知求$\sigma$分布，见\text{例}\ref{example-都未知}(ii)，利用$\bar{X},\bar{Y}$分别替换$\mu_1,\mu_2$，将自由度$-1$即可，$\sigma_2^2/\sigma_1^2$的置信度为$\gamma$的区间为
+        \begin{equation*}
+            \left(\frac{S_2^2}{S_1^2}F_{\frac{1-\gamma}{2}}(n-1,m-1), \frac{S_2^2}{S_1^2}F_{\frac{1+\gamma}{2}}(n-1,m-1)\right)
+        \end{equation*}
+    \end{remark}
+\end{solution}
+
+\subsection{一般的枢轴量方法}
+\begin{proposition}[分布函数的枢轴量方法]
+    设$X_1,\cdots,X_n$是来自$f(x;\theta)$的随机样本，将$F(X;\theta)$视为随机变量，则$F(X;\theta)\sim I(0,1)$，于是$-\log F(X;\theta)\sim\Gamma(1,1)$，则$-\sum_{i=1}^n\log F(X_i;\theta)\sim \Gamma(n,1)$为枢轴量.
+\end{proposition}
+\begin{remark}
+    \item 上述方法在分布函数便于计算时可以使用.
+    \item 一般我们期望转化为关于$\rchi^2$分布的枢轴量（便于查表），于是
+    \begin{equation*}
+        -2\sum_{i=1}^n\log F(X_i;\theta)\sim\Gamma(n,1/2) = \rchi^2(2n)   
+    \end{equation*}
+    再利用$\rchi^2(2n)$等尾概率求出置信区间.
+    \item $F(x;\theta)\sim I(0,1)$是因为$P(F(x;\theta)\leq y) = P(x\leq F^{-1}(y))=F(F^{-1}(y))=y$.
+    \item 令$z=-\log Y$且$Y\sim I(0,1)$，则$Z\in(0,\infty)$且$f_Z(z)=f_Y(\e^{-z})\e^{-z}=\e^{-z}\sim\Gamma(1,1)$.
+\end{remark}
+\end{document}
