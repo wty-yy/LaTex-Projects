@@ -418,9 +418,10 @@ ResNet主要成就在于发现了“退化现象（Degradation）”，针对退
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.8]{ResNet模块.png}
-  \caption{ResNet模块}
+  \caption{ResNet模块\protect\footnotemark[1]}
   \label{fig-ResNet}
 \end{figure}
+\footnotetext[1]{图片来源: \url{https://zhuanlan.zhihu.com/p/101332297}}
 
 ResNet模块分为两种：ResNet构建块(a)，降采样的ResNet构建块(b). 降采样的构建块即在主干分支上增加了一个$1\times 1$的卷积核（瓶颈层），和GoogleNet在Inception模块中使用的相同，减少参数个数同时增加卷积层，增强提取特征的能力.
 
@@ -469,7 +470,7 @@ Caltech256数据集总共有30607张图片，257个类别，我们将其按照$4
 模型实现方面：第一个VGG-19模型为Pytorch实现，没有使用预训练模型；后面三个模型Inception-ResNet，MoblieNet，EfficientNet均为TensorFlow实现，使用迁移学习完成（模型数据均来自\href{https://tfhub.dev/}{TensorFlow Hub}，初始训练集均为ImageNet数据集）.
 
 \subsection{VGG-19}
-我们使用Pytorch对VGG-19模型进行搭建，并进行了训练，模型搭建部分代码请见\href{https://github.com/wty-yy/LaTex-Projects/blob/main/CVPR/hw4/VGG_torch/model.py}{GitHub-model.py}，完整代码请见\href{https://github.com/wty-yy/LaTex-Projects/tree/main/CVPR/hw4/VGG_torch}{GitHub-VGG\_torch}.
+我们使用Pytorch对VGG-19模型进行搭建，并进行了训练，模型搭建部分代码请见\href{https://github.com/wty-yy/CVPR_homeworks/blob/master/code/hw4/VGG_torch/model.py}{GitHub-model.py}，完整代码请见\href{https://github.com/wty-yy/CVPR_homeworks/tree/master/code/hw4/VGG_torch}{GitHub-VGG\_torch}.
 
 模型约为大小$485$MB，训练集准确率为$86.7\%$，验证集准确率为$82.27\%$，平均准确率达到了$85.814\%$，整个训练集上运行速度约为$250$秒. 训练过程图如下图所示（中间准确率突然下降原因，小组成员解释可能是发生了梯度消失的问题）.
 \vspace*{-0.5cm}
@@ -514,7 +515,7 @@ Caltech256数据集总共有30607张图片，257个类别，我们将其按照$4
 \end{figure}
 
 \section{结论与讨论}
-全部代码请见\href{}{GitHub仓库}，我们制作了下表便于比较模型性能：
+全部代码请见\href{https://github.com/wty-yy/CVPR_homeworks/tree/master/code/hw4}{GitHub仓库}，我们制作了下表便于比较模型性能：
 %%%% 表格模板 %%%%
 \renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
 \begin{table}[!htbp] % table标准
