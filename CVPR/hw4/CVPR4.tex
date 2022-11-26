@@ -453,24 +453,106 @@ EfficientNet是Google于2019年提出的神经网络，参考论文：\href{http
   \item 高分辨率
 \end{enumerate}
 \begin{figure}[htbp]
-  \vspace*{-0.5cm}
+  \vspace*{-1cm}
   \hspace*{-2cm}
   \centering
-  \includegraphics[scale=0.5]{EfficientNet.png}
-  \caption{EfficientNet基本结构}
+  \includegraphics[scale=0.4]{EfficientNet.png}
+  \caption{不同的卷积神经网络扩展方向}
   \label{fig-EfficientNet}
 \end{figure}
 
-具体思路是通过神经网络求解平衡三个参数之间的关系，使精度和效率最大化，具体实现较为复杂不再详细分析. 实验表明EfficientNet在迁移学习上也具有很好的表现，在实际效果上优于之前的经典网络，如下图\ref{fig-compare}所示
+具体思路是通过神经网络求解平衡三个参数之间的关系，使精度和效率最大化，具体实现较为复杂不再详细分析. 实验表明EfficientNet在迁移学习上也具有很好的表现，在实际效果上优于之前的经典网络，如附录A中图\ref{fig-compare}所示.\vspace*{-0.5cm}
+
+\section{实验步骤与结果分析}
+Caltech256数据集总共有30607张图片，257个类别，我们将其按照$4:1$划分为训练集和验证集. 我们代码均在服务器上完成训练，服务器显卡配置为NVIDIA GeForce RTX3090，将使用该显卡做模型速度测试，为统一测速标准：测速时均测试整个数据集，batch大小均设置为$32$.
+
+模型实现方面：第一个VGG-19模型为Pytorch实现，没有使用预训练模型；后面三个模型Inception-ResNet，MoblieNet，EfficientNet均为TensorFlow实现，使用迁移学习完成（模型数据均来自\href{https://tfhub.dev/}{TensorFlow Hub}，初始训练集均为ImageNet数据集）.
+
+\subsection{VGG-19}
+我们使用Pytorch对VGG-19模型进行搭建，并进行了训练，模型搭建部分代码请见\href{https://github.com/wty-yy/LaTex-Projects/blob/main/CVPR/hw4/VGG_torch/model.py}{GitHub-model.py}，完整代码请见\href{https://github.com/wty-yy/LaTex-Projects/tree/main/CVPR/hw4/VGG_torch}{GitHub-VGG\_torch}.
+
+模型约为大小$485$MB，训练集准确率为$86.7\%$，验证集准确率为$82.27\%$，平均准确率达到了$85.814\%$，整个训练集上运行速度约为$250$秒. 训练过程图如下图所示（中间准确率突然下降原因，小组成员解释可能是发生了梯度消失的问题）.
+\vspace*{-0.5cm}
+\begin{figure}[htbp]
+  \hspace*{-5.5cm}
+  \centering
+  \subfigure[准确率]{
+    \begin{minipage}[b]{.65\linewidth}
+      \centering
+      \includegraphics[scale=0.65]{model/VGG_acc.jpg}
+    \end{minipage}
+  }
+  \subfigure[损失值]{
+    \begin{minipage}[b]{.3\linewidth}
+      \centering
+      \includegraphics[scale=0.65]{model/VGG_loss.jpg}
+    \end{minipage}
+  }
+\end{figure}\vspace*{-1cm}
+\subsection{Inception-ResNet}
+模型来自\href{https://tfhub.dev/google/imagenet/inception_resnet_v2/classification/5}{TensorFlow Hub-inception\_resnet\_v2}，迁移学习后模型大小约为$227$MB，在原始模型后加入$1000$个神经元的全连接层和$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$99.58\%$，验证集准确率为$87.19\%$，平均准确率为$96.97\%$，整个训练集上运行速度约为$100$秒. 训练过程图如下图所示（训练速度非常快，在第12个epoch时达到最大准确率，后面就已经开始发生过拟合）\vspace*{-0.3cm}
+\begin{figure}[htbp]
+  \hspace*{-0.8cm}
+  \centering
+  \includegraphics[scale=0.5]{model/inception_resnet_v2.png}
+\end{figure}
+
+\subsection{MoblieNet}
+模型来自\href{https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4}{TensorFlow Hub-mobilenet\_v2}，迁移学习后模型大小约为$16.5$MB，在原始模型后直接加入$257$个神经元的输出层，激活函数softmax，batch大小为$32$. 训练集准确率为$99.98\%$，验证集准确率为$80.41\%$，平均准确率为$95.76\%$，整个训练集上运行速度约为$23$秒. 训练过程图如下图所示（在第3个epoch时验证集上loss值达到最小，后面模型就已经发生轻微过拟合）\vspace*{-0.3cm}
+\begin{figure}[htbp]
+  \hspace*{-0.8cm}
+  \centering
+  \includegraphics[scale=0.5]{model/mobilenet_v2.png}
+\end{figure}
+\vspace*{-1cm}
+\subsection{EfficientNet}
+模型来自\href{https://tfhub.dev/tensorflow/efficientnet/lite4/classification/2}{TensorFlow Hub-efficientnet\_lite4}，具体架构使用的是EfficientNet-B4，迁移学习后模型大小约为$53.1$MB，在原始模型后加入$1000$个神经元的输出层，加入一层$0.5$的Dropout层，最后连接$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$98.45\%$，验证集准确率为$83.79\%$，平均准确率为$96.7\%$，整个训练集上运行速度约为$41$秒. 训练过程图如下图所示（准确率有波动就是因为加入了Dropout层导致的，由于验证集上准确率较低，我们考虑对其加入Dropout避免过拟合）\vspace*{-0.3cm}
+\begin{figure}[htbp]
+  \hspace*{-0.8cm}
+  \centering
+  \includegraphics[scale=0.5]{model/efficientnet_dropout.png}
+\end{figure}
+
+\section{结论与讨论}
+全部代码请见\href{}{GitHub仓库}，我们制作了下表便于比较模型性能：
+%%%% 表格模板 %%%%
+\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
+\begin{table}[!htbp] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{4cm}<{\centering}p{3cm}<{\centering}p{3cm}<{\centering}p{3cm}<{\centering}} % 设置表格宽度
+    %\begin{tabular}{cccc}
+        \toprule
+      \textbf{模型名称}       & \textbf{模型大小} & \textbf{平均准确率} & \textbf{运行速度} \\
+        \midrule
+VGG-19              & 485MB         & 85.81\%       & 250s          \\
+Inception-ResNet-v2 & 227MB         & 96.97\%        & 100s          \\
+MoblieNet-v2        & 16.5MB        & 95.76\%        & 23s           \\
+EfficientNet-B4     & 53.1MB        & 96.70\%         & 41s         \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+可以看出来EfficientNet在模型大小和速度上都优于传统深层神经网络；MoblieNet模型大小上有非常大的优势，而且准确率仅低不到$1\%$；Inception-RestNet在大小和速度上都不占优势，但是达到了最高的平均准确率；经典神经网络VGG-19与新型神经网络相比差距就比较大了.
+
+通过这次图像识别实验，我们学习到了卷积神经网络原理和用于图像识别的神经网络发展历程，并详细分析了每种神经网络在何处进行了优化，开拓了我们在卷积神经网络方面的视野，以后再科研当中可以结合这些优化技巧对模型进行优化.
+
+在图像分类模型上，由于我们第一次使用服务器训练神经网络，在服务器配置上花费了不少时间，而且对神经网络框架并不熟悉，通过本次学习学到很多模型训练技巧，使得我们以后可以更高效的训练模型. 迁移学习模型均先使用TensorBoard可视化输出效果如图\ref{fig-TensorBoard}，然后选择训练效果较好的结果进行展示（ResNet50可能是参数问题，准确率较低，故没有展示）\vspace*{-0.5cm}
+\begin{figure}[htbp]
+  \hspace*{-1.5cm}
+  \centering
+  \includegraphics[scale=0.6]{TensorBoard.png}
+  \caption{TensorBoard可视化效果}
+  \label{fig-TensorBoard}
+\end{figure}
+
+\clearpage
+\appendix
+\section{EfficientNet与其他网络的比较}
 \begin{figure}[htbp]
   \hspace*{-2cm}
   \centering
   \includegraphics[scale=1.15]{EfficientNet.pdf}
-  \caption{EfficientNet与其他网络比较}
+  \caption{EfficientNet与其他网络在ImageNet数据集上的比较}
   \label{fig-compare}
 \end{figure}
-
-\section{实验步骤与结果分析}
-我们使用Pytoch对VGG-19模型进行搭建，并进行了训练，模型搭建
-\section{结论与讨论}
 \end{document}
