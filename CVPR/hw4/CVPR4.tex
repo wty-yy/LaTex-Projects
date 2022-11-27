@@ -327,7 +327,7 @@ Sampling）操作得到的值，作为该区域的概括.
 \(3\times 3\)，以及更多的数量如 \(32\) 个或更多.
 由于卷积可以设置步长减少输出特征的大小，所以汇聚层的作用并不显著了，可以通过增加步长来替代.
 
-\subsection{经典图像分类网络原理}
+\subsection{经典图像分类网络}
 \subsubsection{AlexNet}
 AlexNet夺得了2012年\href{https://image-net.org/challenges/LSVRC/}{ImageNet比赛}第一名，是最经典的卷积神经网络模型，使用$227\times 227$的图像输入，论文中中画的是$224\times 224$，后来指出应该是通过padding增加到了$227\times 227$的输入. $5$个卷积层，$3$个最大池化层，$3$个全连接层，前两个激活函数使用ReLU，最后一层使用softmax转化为概率值进行分类. 具体网络结构见图\ref{fig-AlexNet}.
 
@@ -357,7 +357,7 @@ VGG神经网络是2014年ImageNet比赛中的第二名. 参考论文：\href{htt
 VGG是在AlexNet上的进一步改进. 在VGG神经网络中，卷积层持续使用大小为$3\times 3$，步长为$1$，padding为$1$的卷积核；所有池化层均为最大池化层，大小为$2\times 2$，步长为$2$，在通过池化层之后通道数加倍.
 
 
-VGG网络共包含5个卷积阶段：
+VGG网络共包含5个卷积阶段（卷积块）：
 
 阶段1：conv-conv-pool
 
@@ -376,7 +376,7 @@ VGG的设计思路主要是：相同的卷积核大小，在使用更小更多�
 缺点：VGG-16的内存开销整体上比AlexNet大了$25$倍，参数增多了$2.3$倍，整体训练难度提高.
 
 \subsubsection{GoogleNet}
-GoogleNet在2014年ImageNet比赛的第一名，在随后的两年后一直改进，产生了Inception V2、Inception V3、Inception V4(Inception-Resnet)众多版本，最后的一个版本我们还会对其进行介绍，并用其做本次图像识别任务. 参考论文：\href{https://arxiv.org/abs/1409.4842}{Going Deeper with Convolutions - 2014}
+GoogleNet在2014年ImageNet比赛的第一名，在随后的两年后一直改进，产生了Inception V2、Inception V3、Inception V4(Inception-ResNet)众多版本，最后的一个版本是Inception和下面将介绍的ResNet相结合而成的，我们将用其做本次图像识别任务. 参考论文：\href{https://arxiv.org/abs/1409.4842}{Going Deeper with Convolutions - 2014}
 
 提升网络识别图像的性能一般是增加网络的深度和宽度，但是直接增加会产生非常多问题：
 
@@ -410,9 +410,9 @@ GoogleNet总层数为22层，而VGG总层数为19层，但是GoogleNet的模型�
 
 ResNet主要成就在于发现了“退化现象（Degradation）”，针对退化现象发明了“快捷连接（Shortcut connection）”极大程度的缓解了深度过大的神经网络训练问题.
 
-如果一个神经网络在浅层就能完成图像分类问题，那么一定可以利用更深层的神经网络完成相同的任务，主需要将浅层神经网络后面加入多层恒等变换层即可.
+如果一个神经网络在浅层就能完成图像分类问题，那么一定可以利用更深层的神经网络完成相同的任务，只需要将浅层神经网络后面加入多层恒等变换层即可.
 
-但实验发现事实并不如此，使用深层神经网络在准确率达到某一个饱和值后迅速下降，该过程被ResNet团队称为“退化现象”，他们将发生这种退化现象的原因归结为深层神经网络难以实现“恒等变换”操作. 这里是因为，神经网络使用大量非线性转换将数据映射到高维空间一遍完成更好的分类，导致数据变得更加离散，此时数据已经难以回到原始状态（恒等变换），所以发生“退化现象”.
+但实验发现事实并不如此，使用深层神经网络在准确率达到某一个饱和值后迅速下降，该过程被ResNet团队称为“退化现象”，他们将发生这种退化现象的原因归结为深层神经网络难以实现“恒等变换”操作. 这里是因为，神经网络使用大量非线性转换将数据映射到高维空间以便完成更好的分类，导致数据变得非常离散，此时数据已经难以回到原始状态（恒等变换），所以发生“退化现象”.
 
 解决“退化现象”的方法就是将线性变换与非线性变换进行平衡，于是ResNet中引入ResNet模块增加了“快捷连接”分支，期望让网络自动地在线性变换和非线性变换之间寻找平衡. ResNet模块如图\ref{fig-ResNet}所示.
 \begin{figure}[htbp]
@@ -440,7 +440,7 @@ MobileNet的核心思想就是将标准卷积转化为\textbf{深度可分离卷
 
 深度可分离卷积与标准卷积不同的是：我们将卷积拆分为多层单通道形式，不改变图像深度的情况下，先对每一通道进行卷积操作，这样特征图像保持和输入图像相同的通道数目；然后使用逐点卷积，也就是$1\times 1$卷积（就是之前在GoogleNet、Resnet中都是用过的瓶颈层，只不过这次是可以用于升维），我们使用多通道的$1\times 1$的卷积核作用在刚才输出的特征图像上，即可得到和标准卷积相同大小的特征图像结果.
 
-与之不同的是，深度可分离卷积具有更小的量和计算量，设原始图像通道数为$M$，卷积核大小为$D_k\times D_k\times M\times N$，输出的特征图像大小为$D_W\times D_H\times N$. 则标准卷积的参数数目和计算次数分别为：$D_K\times D_K\times M\times N$，$D_K\times D_K\times M\times N\times D_W\times D_H$，而可分离卷积的参数数目和计算次数分别为：\add $(D_K\times D_K+N)\times M$，$(D_K\times D_K+N)\times M\times D_W\times D_H$，\add 于是我们发现深度可分离卷积在参数数目和计算速度上都减少了$\frac{1}{N}+\frac{1}{D_K\times D_K}$（$N$一般较大，所以主要由第二项控制大小）. 如果我们将卷积取为$3\times 3$，则整体速度提升大约$9$倍！
+与之不同的是，深度可分离卷积具有更小的参数量和计算量，设原始图像通道数为$M$，卷积核大小为$D_k\times D_k\times M\times N$，输出的特征图像大小为$D_W\times D_H\times N$. 则标准卷积的参数数目和计算次数分别为：$D_K\times D_K\times M\times N$，$D_K\times D_K\times M\times N\times D_W\times D_H$，而可分离卷积的参数数目和计算次数分别为：\add $(D_K\times D_K+N)\times M$，$(D_K\times D_K+N)\times M\times D_W\times D_H$，\add 于是我们发现深度可分离卷积在参数数目和计算速度上都减少了$\frac{1}{N}+\frac{1}{D_K\times D_K}$（$N$一般较大，所以主要由第二项控制大小）. 如果我们将卷积取为$3\times 3$，则整体速度提升大约$9$倍！
 
 经过实验发现，MobileNet在ImageNet数据库上的准确率仅比VGG16低$0.9\%$，而参数量减少了$30$倍.
 
@@ -491,7 +491,7 @@ Caltech256数据集总共有30607张图片，257个类别，我们将其按照$4
   }
 \end{figure}\vspace*{-1cm}
 \subsection{Inception-ResNet}
-模型来自\href{https://tfhub.dev/google/imagenet/inception_resnet_v2/classification/5}{TensorFlow Hub-inception\_resnet\_v2}，迁移学习后模型大小约为$227$MB，在原始模型后加入$1000$个神经元的全连接层和$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$99.58\%$，验证集准确率为$87.19\%$，平均准确率为$96.97\%$，整个训练集上运行速度约为$100$秒. 训练过程图如下图所示（训练速度非常快，在第12个epoch时达到最大准确率，后面就已经开始发生过拟合）\vspace*{-0.3cm}
+模型来自\href{https://tfhub.dev/google/imagenet/inception_resnet_v2/classification/5}{TensorFlow Hub-inception\_resnet\_v2}，迁移学习后模型大小约为$227$MB，在原始模型后加入$1000$个神经元的全连接层和$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$99.58\%$，验证集准确率为$87.19\%$，平均准确率为$96.97\%$，整个训练集上运行速度约为$100$秒. 训练过程图如下图所示（训练速度非常快，在第12个epoch时达到最大准确率，后面就已经开始发生精度下降）\vspace*{-0.3cm}
 \begin{figure}[htbp]
   \hspace*{-0.8cm}
   \centering
@@ -507,7 +507,7 @@ Caltech256数据集总共有30607张图片，257个类别，我们将其按照$4
 \end{figure}
 \vspace*{-1cm}
 \subsection{EfficientNet}
-模型来自\href{https://tfhub.dev/tensorflow/efficientnet/lite4/classification/2}{TensorFlow Hub-efficientnet\_lite4}，具体架构使用的是EfficientNet-B4，迁移学习后模型大小约为$53.1$MB，在原始模型后加入$1000$个神经元的输出层，加入一层$0.5$的Dropout层，最后连接$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$98.45\%$，验证集准确率为$83.79\%$，平均准确率为$96.7\%$，整个训练集上运行速度约为$41$秒. 训练过程图如下图所示（准确率有波动就是因为加入了Dropout层导致的，由于验证集上准确率较低，我们考虑对其加入Dropout避免过拟合）\vspace*{-0.3cm}
+模型来自\href{https://tfhub.dev/tensorflow/efficientnet/lite4/classification/2}{TensorFlow Hub-efficientnet\_lite4}，具体架构使用的是EfficientNet-B4，迁移学习后模型大小约为$53.1$MB，在原始模型后加入$1000$个神经元的输出层，加入一层$0.5$丢弃率的Dropout层，最后连接$257$个神经元的输出层，激活函数分别为ReLU和softmax，batch大小为$256$. 训练集准确率为$98.45\%$，验证集准确率为$83.79\%$，平均准确率为$96.7\%$，整个训练集上运行速度约为$41$秒. 训练过程图如下图所示（准确率有波动就是因为加入了Dropout层导致的）\vspace*{-0.3cm}
 \begin{figure}[htbp]
   \hspace*{-0.8cm}
   \centering
