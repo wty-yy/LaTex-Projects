@@ -1,0 +1,408 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+\setmainfont{Times New Roman}  % 设置英文字体
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{泛函分析} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{-3}\textbf{第十次作业}
+\end{center}
+\vspace{-0.2cm}
+% 正文部分
+\begin{problem}[(2.4.5)]设$X$为$B^*$空间，$X_0\subset X$为闭子空间，证明：
+    \begin{equation*}
+        \rho(x,X_0) = \sup\{|f(x)| : f\in X^*, ||f|| = 1,f(X_0) = 0\}\quad(\forall x\in X),
+    \end{equation*}
+    其中$\rho(x,X_0) = \inf_{y\in X}||x-y||$.
+\end{problem}
+\begin{proof}
+    $\forall x\in X$，由于$X_0$为$X$的闭子空间，则由Hahn-Banach定理可得$\exists f\in X^*$，使得$f(x) = \rho(x,X_0)$且$f|_{X_0} = 0,\ ||f|| = 1$.
+
+    设$f\in X^*,\ ||f|| = 1,\ f|_{X_0} = 0$，只需证$|f(x)|\leq \rho(x,X_0)$. 由于$\forall y\in X_0$有
+    \begin{equation*}
+        1=||f||\geq \left|\frac{f(x+y)}{||x+y||}\right| = \frac{|f(x)|}{||x+y||}\Rightarrow |f(x)|\leq ||x+y||\Rightarrow |f(x)|\leq \inf_{y\in X_0}||x+y|| = \rho(x,X_0)
+    \end{equation*}
+\end{proof}
+\begin{problem}[(2.4.6)]
+    设$X$是$B^*$空间，给定$X$中$n$个线性无关的元素$x_1,\cdots, x_n$与数域$\K$中$n$个数$C_1,\cdots, C_n$，及$M>0$. 求证：\add 为了$\exists f\in X^*$使得$f(x_k) =C_k(k=1,2,\cdots,n)$且$||f||\leq M$，当且仅当，$\forall \alpha_1,\cdots, \alpha_n\in \K$有$\left|\sum_{k=1}^n\alpha_kC_k\right|\leq M\left|\left|\sum_{k=1}^n\alpha_k x_k\right|\right|$.
+\end{problem}
+\begin{proof}
+    充分性，由于$f(x_k) = C_k(k=1,2,\cdots, n)$，则
+    \begin{equation*}
+        \left|\sum_{k=1}^n\alpha_kC_k\right| = \left|\sum_{k=1}^n\alpha_kf(x_k)\right| = \left|f\left(\sum_{k=1}^n\alpha_kx_k\right)\right|\leq ||f||\cdot\left|\left|\sum_{k=1}^n\alpha_kx_k\right|\right|\leq M\left|\left|\sum_{k=1}^n\alpha_kx_k\right|\right|
+    \end{equation*}
+
+    必要性，令$X_0 = \vspan\{x_1,\cdots, x_n\}$，令$f_0\left(\sum_{k=1}^n\alpha_kx_k\right) = \sum_{k=1}^n\alpha_k C_k$，则$f_0$是线性泛函，$\forall y\in X_0$，有
+    \begin{equation*}
+        ||f_0||\leq \left|\frac{f_0(y)}{||y||}\right| = \frac{|\sum_{k=1}^n\alpha_kC_k|}{||\sum_{k=1}^n\alpha_k x_k||}\leq M
+    \end{equation*}
+    于是$f_0$有界，则$f_0\in X_0^*$，由Hahn-Banach延拓定理可知，$\exists f\in X^*$使得$||f||=||f_0||\leq M$，且$f|_{X_0} = f_0$，则$f(x_k) = C_k$.
+\end{proof}
+\begin{problem}[(2.4.7)]
+    设$X$为$B^*$空间，$\{x_1,\cdots, x_n\}\subset X$是$n$个线性无关的元素，证明：$\exists f_1,\cdots, f_n\in X^*$，使得$\langle f_i,x_j\rangle = \delta_{ij}\quad(i,j=1,2,\cdots, n)$.
+\end{problem}
+\begin{proof}
+    设$X_0^k = \vspan\{x_1,\cdots, x_{k-1},x_{k+1},\cdots, x_n\}$，由于$x_1,\cdots, x_n$线性无关，则$x_k\notin X_0^k$，由Hahn-Banach定理可得$\exists f_k'\in X^*$使得$f_k'(x_k)\neq 0,\ f_k'|_{X_0^k}=0$，令$f_k = \frac{f_k'(x_k)}{d_k}$，则$f_k\in X^*$且$f_k(x_k) = 1,\ f_k|X_0^k = 0$即$f_k(x_j) = \delta_{kj}$.
+\end{proof}
+\begin{problem}[(2.4.13)]
+    设$M$是（应该加上$\K=\R$）$B^*$空间$X$中的闭凸集，求证：$\forall x\in X\backslash M$，$\exists f_1\in X^*$，使得$||f_1|| = 1$且$\sup_{y\in M}f_1(y)\leq f_1(x)-d(x)$，其中$d(x) = \inf_{z\in M}||x-z||$.
+\end{problem}
+\begin{proof}
+    由于$d(x) = \inf_{z\in M}||x-z||$且$M$为闭集，则$B(x,d(x))\cap M = \varnothing$，又由于$M$为凸集，由Hahn-Banach第一几何形式可得$\exists f_0\in X^*$使得$\forall y\in M,\ |z| < 1$有
+    \begin{equation*}
+        f_0(y)\leq f_0(x+d(x)z) = f_0(x)+d(x)f_0(z)
+    \end{equation*}
+    令$f_1 = \frac{f_0}{||f_0||}$，则有$f_1(y)\leq f_1(x)+d(x)f_1(z)$且$||f_1|| = 1$，由于$||f_1|| = \sup_{|z|<1}|f_1(z)| = 1$，则$\forall \varepsilon > 0$，$\exists |z_0| < 1$使得
+    \begin{equation*}
+        1-\varepsilon \leq |f_1(z_0)| \leq 1\Rightarrow -1\leq f_1(z_0)\leq -(1-\varepsilon)\text{或}-1\leq f_1(-z_0)\leq -(1-\varepsilon)
+    \end{equation*}
+    则有$f_0(y)\leq f_0(x) - (1-\varepsilon)d(x)$，由$y$和$\varepsilon$的任意性可知$\sup_{y\in M}f_0(y)\leq f_0(x)-d(x)$.
+\end{proof}
+\begin{problem}[(2.4.14)]
+    设$M$为实$B^*$空间$X$内的闭凸集，求证：
+    \begin{equation*}
+        \inf_{z\in M}||x-z|| = \sup_{\substack{f\in X^*\\ ||f||=1}}\{f(x)-\sup_{z\in M}f(z)\}\quad (\forall x\in X).
+    \end{equation*}
+\end{problem}
+\begin{proof}
+    $\forall f\in X^*,\ ||f||=1$则
+    \begin{equation*}
+        f(x)-\sup_{z\in M}f(z) = \inf_{z\in M}\{f(x)-f(z)\} = \inf_{z\in M}f(x-z)\leq \inf_{z\in M}||x-z|| = d(x)   
+    \end{equation*}
+    则$\sup_{\substack{f\in X^*\\ ||f||=1}}\left\{f(x)-\sup_{z\in M}f(z)\right\}\leq d(x)$. 由上题可知$\exists f_0\in X^*,\ ||f_0|| = 1$使得$f_0(x)-\sup_{z\in M}f_0(z)\geq d(x)$，则$\sup_{\substack{f\in X^*\\ ||f||=1}}\{f(x)-\sup_{z\in M}f(z)\} = d(x) = \inf_{z\in M}||x-z||$.
+\end{proof}
+\begin{problem}[(2.5.1)]
+    求证：$(l^p)^* = l^q\ \left(1\leq p < \infty, \frac{1}{p}+\frac{1}{q} = 1\right)$.
+\end{problem}
+\begin{proof}
+    一方面：令$\eta = \{y_n\} \in l^q$，则$\forall \xi = \{x_n\}\in l^p$，定义$\langle\eta,\xi\rangle = \sum_{n\geq 1}y_nx_n$，由\textbf{2.3.8, 2.3.9}可知$\langle\eta,\xi\rangle\in l^p$，则$\eta\in (l^p)^*\Rightarrow l^q\subset (l^p)^*$.
+
+    另一方面：$\forall f\in (l^p)^*$，$\forall \xi = \{x_n\}\subset l^p$，令$e_n = (\underbrace{0,\cdots, 0,1}_{n\text{个}},0,\cdots)$，则$\xi = \sum_{n\geq 1}x_ne_n$，于是$f(\xi) = f\left(\sum_{n\geq 1}x_n e_n\right) = \sum_{n\geq 1}x_nf(e_n)$收敛，\add 由于$\{x_n\}\in l^p$，则由\textbf{2.3.8, 2.3.9}可知$\eta = \{f(e_n)\}\in l^q$，且$||\eta||_{q} = ||f||$，于是$f(\xi) = \langle\eta, \xi\rangle$.
+
+    综上，$l^q = (l^p)^*$.
+\end{proof}
+\begin{problem}[(2.5.2)]
+    设$C$为收敛数列全体，赋以范数$||\cdot||:\{\xi_k\}\in C\mapsto \sup_{k\geq 1}|\xi_k|$，求证：$C^* = l^1$.
+\end{problem}
+\begin{proof}
+    令$T:l^1\to C^*,\ y=\{\eta_n\}\mapsto f_y(x) = \sum_{n\geq 1}\xi_n\eta_n=:\langle y,x\rangle,\ (\forall x = \{\xi_n\}\in C)$，则$T$是线性的，先证$f_y$有界，由于$\forall x\in \{\xi_n\}\in C$有
+    \begin{equation*}
+        |f_y(x)| = \sum_{n\geq 1}|\xi_n|\,|\eta_n\leq \left(\sup_{n\geq 1}|\xi_n|\right)\sum_{n\geq 1}|\eta_n| = ||x||_{\infty}\cdot ||y||_{1}
+    \end{equation*}
+    则$||f_y||\leq ||y||_1$，故$f_y\in C^*$，$T$有意义.
+
+    下证$T$为满射，令$e_n = (\underbrace{0,\cdots, 0, 1}_{n\text{个}},0,\cdots)$，则$e_n\in C$，$\forall x\in \{\xi_n\}\in C$有$x=\sum_{n\geq 1}\xi_ne_n$，于是$\forall f\in C^*$有
+    \begin{equation*}
+        f(x) = f\left(\sum_{n\geq 1}\xi_n e_n\right) = \sum_{n\geq 1}\xi_nf(e_n)
+    \end{equation*}
+    下证$\{f(e_n)\}\in l^1$，令$x_n=\{\xi_k^{(n)}\} = \begin{cases}
+        \e^{-\i\theta_k},&\quad k\leq n, \theta_k = \arg f(e_k),\\
+        0,&\quad k > n.
+    \end{cases}$则$\forall n=1,2,\cdots$有
+    \begin{equation*}
+        |f(x_n)| = \sum_{k=1}^n\e^{-\i\theta_k}f(e_k) = \sum_{k= 1}^n|f(e_k)| \leq ||f||\cdot ||x_n|| = ||f||
+    \end{equation*}
+    于是$\{f(e_k)\}\in l^1$，令$y = \{f(e_n)\}$，则$||f_y||\geq ||y||_1$，故$||f_y|| = ||y||_1$，所以$T$是等距映射.
+
+    再证明$T$为单射，$\forall y_1,y_2\in l^1$满足$\langle y_1,x\rangle = \langle y_2,x\rangle$，由于$T$的线性性，$\langle y_1-y_2,x\rangle = \langle 0,x\rangle$，则$y_1-y_2$为$C^*$中的零元$\theta$，由于$T$是等距映射，则$||y_1-y_2||_1 = ||\theta|| = 0\Rightarrow y_1=y_2$.
+
+    综上，$T$是等距同构映射，则$C^* = l^1$.
+\end{proof}
+\begin{problem}[(2.5.3)]
+    设$C_0$是以$0$为极限的数列全体，赋以范数$||\cdot||:\{\xi_k\}\in C_0\mapsto \sup_{k\geq 1}|\xi_k|$，求证：$C_0^* = l^1$.
+\end{problem}
+\begin{proof}
+    由于$e_n = (\underbrace{0,\cdots, 0, 1}_{n\text{个}},0,\cdots)$，所以$e_n\in C_0$，其他与上题证明完全相同.
+\end{proof}
+\begin{problem}[(2.5.4)]
+    求证：有限维$B^*$空间必是自反的.
+\end{problem}
+\begin{proof}
+    令$X$为有限维$B^*$空间，$\{x_1,\cdots, x_n\}$是$X$中一组线性无关的基，由\textbf{2.4.7}可知，\\$\exists \{f_1,\cdots, f_n\}\subset X^*$且$f_i(x_j) = \delta_{ij}\ (i,j=1,2,\cdots,n)$，则$\forall f\in X^*$,\ $\forall x = \sum_{i=1}^n f_i(x)x_i\in X$有$f(x) = f\left(\sum_{i=1}^nf_i(x)x_i\right) = \sum_{i=1}^nf(x_i)f_i(x)$，于是$f = \sum_{i=1}^nf(x_i)f_i$，则$\{f_1,\cdots, f_n\}$是$X^*$中的一组基，则$\dim X^*= \dim X$，同理可证，$\dim X^{**}=\dim X^*$，于是$\dim X^{**} = \dim X$，由于$J(X)\subset X^{**}$且$J$为等距同构映射，则$\dim J(X) = \dim X = \dim X^{**}$，故$J(X) = X^{**}$，$X$是自反空间.
+\end{proof}
+\begin{problem}[(2.5.6)]
+    设$X$为$B^*$空间，$T$为$X$到$X^{**}$的自然嵌入映射，证明：$R(T)$是闭的充要条件为$X$完备.
+\end{problem}
+\begin{proof}
+    充分性，令$\{x_n\}$为$X$中的Cauchy列，由$T$的定义可知
+    \begin{equation*}
+        ||Tx_n-Tx_m|| = ||T(x_n-x_m)|| = \sup_{\substack{||f|| = 1\\ f\in X^*}}|f(x_n-x_m)|\leq ||x_n-x_m||\to 0,\quad (n,m\to\infty)
+    \end{equation*}
+    则$\{Tx_n\}$为$X^{**}$中的Cauchy列，由于$X^{**}$为$B$空间，则$Tx_n$收敛，由于$R(T)$是闭的，则$\exists x\in X$使得$Tx_n\to Tx$，由于$T^{-1}\in L(X^{**},X)$，则
+    \begin{equation*}
+        ||x_n-x|| = ||T^{-1}T(x_n-x)||\leq c||T(x_n-x)|| = c||Tx_n-Tx||\to 0
+    \end{equation*}
+    于是$x_n\to x$，故$X$完备.
+
+    必要性，$\forall \{x_n\}\in X$，$Tx_n$收敛于$y\in X^{**}$，由$T^{-1}\in L(X^{**},X)$，则
+    \begin{equation*}
+        ||x_n-x_m||\leq c||Tx_n-y+y-Tx_m|| \leq c||Tx_n-y||+c||Tx_m-y||\to 0,\quad (n,m\to\infty)
+    \end{equation*}
+    则$\{x_n\}$为$X$中的Cauchy列，$\exists x\in X$，使得$x_n\to X$，由于$T$连续，则$Tx=y\Rightarrow y\in R(T)$，故$R(T)$是闭的.
+\end{proof}
+\begin{problem}[(2.5.7)]
+    在$l^1$中定义算子
+    \begin{equation*}
+        T:(x_1,\cdots, x_n,\cdots)\mapsto(0,x_1,x_2,\cdots, x_n,\cdot),
+    \end{equation*}
+    求证：$T\in L(l^1)$并求$T^*$.
+\end{problem}
+\begin{proof}
+    由于$\forall x\in l^1$，$||Tx|| = ||x||$，则$||T|| = 1$.
+
+    $\forall \alpha,\beta\in \K$，$x,y\in l^1$，$T(\alpha x+\beta y) = (0,\alpha x_1+\beta y_1,\alpha x_2+\beta y_2,\cdots) = \alpha Tx + \beta Ty$，则$T\in L(l^1)$.
+
+    由于$(l^1)^* = l^{\infty}$，$\forall f\in (l^1)^*$，令$f = (f_1,f_2,\cdots, f_n,\cdots)$，则
+    \begin{equation*}
+        \langle f,Tx\rangle = (f_1,\cdots, f_n,\cdots)\cdot (0,x_1,x_2,\cdots) = \sum_{n\geq 1}f_{n+1}x_n = (f_2,f_3,\cdots)\cdot (x_1,x_2,\cdots) = \langle T^*f, x\rangle
+    \end{equation*}
+    则$T^*f = (f_2,f_3,\cdots, f_n,\cdots),\quad \forall f = (f_1,f_2,\cdots, f_n,\cdots)\in (l^1)^*$.
+\end{proof}
+\begin{problem}[(2.5.8)]
+    在$l^2$中定义算子
+    \begin{equation*}
+        T:(x_1,x_2,\cdots, x_n,\cdots)\mapsto \left(x_1,\frac{x_2}{2},\cdots, \frac{x_n}{n},\cdots\right),
+    \end{equation*}
+    求证：$T\in L(l^2)$并求$T^*$.
+\end{problem}
+\begin{proof}
+    $\forall \xi=\{x_n\}\in l^2$，$||T\xi|| = \left(\sum_{n\geq 1}\left|\frac{x_n}{n}\right|^2\right)^{\frac{1}{2}}\leq \left(\sum_{n\geq 1}|x_n|^2\right)^{\frac{1}{2}} = ||\xi||$，则$||T||\leq 1$.
+
+    $\forall \alpha,\beta\in \K$，$\xi=\{x_n\},\eta=\{y_n\}\in l^2$，则
+    \begin{align}
+        T(\alpha\xi+\beta\eta) =&\ \left(\alpha x_1+\beta y_1,\frac{\alpha x_2+\beta y_2}{2},\cdots, \frac{\alpha x_n+\beta y_n}{n},\cdots\right)\\
+        =&\ \alpha\left(x_1,\frac{x_2}{2},\cdots,\frac{x_n}{n},\cdots\right)+\beta\left(y_1,\frac{y_2}{2},\cdots,\frac{y_n}{n},\cdots\right)\\
+        =&\ \alpha T\xi+\beta T\eta
+    \end{align}
+    综上$T\in L(l^2)$.
+
+    $\forall f\in (l^2)^*$，则$f\in l^2$，令$f = (f_1,\cdots, f_n,\cdots)$，则$\forall \xi = \{x_n\}\in l^2$.
+    \begin{equation*}
+        \langle f,T\xi\rangle = \sum_{n\geq 1}f_n\frac{x_n}{n} = \sum_{n\geq 1}\frac{f_n}{n}x_n = \left(f_1,\frac{f_2}{2},\cdots,\frac{f_n}{n},\cdots\right)\cdot (x_1,\cdots, x_n,\cdots) = \langle T^*f, \xi\rangle
+    \end{equation*}
+    则$T^* f = \left(f_1,\frac{f_2}{2},\cdots, \frac{f_n}{n},\cdots\right)$.
+\end{proof}
+\begin{problem}[(2.5.12)]
+    设$X,Y$为$B$空间，$T$为$X$到$Y$的线性算子，$\forall g\in Y^*$，$g(Tx)\in X^*$，证明$T$连续.
+\end{problem}
+\begin{proof}
+    由于$X,Y$为$B$空间，由闭图像定理，只需证$T$为闭算子. 设$\{x_n\}\in X$收敛于$x$且$Tx_n\to y\in Y$，下证$Tx=y$.
+
+    令$T^* : Y^*\to X^*$，$\forall g\in Y^*$定义$T^*g(x) = g(Tx)$，则
+    \begin{equation*}
+        \left.\begin{aligned}
+            &\ T^* g(x_n) = g(Tx_n)\xrightarrow{g\text{连续}}g(y)\\
+            =&\ (T^* g)(x_n)  \xrightarrow{T^*g\text{连续}}(T^*g)(x) = g(Tx)
+        \end{aligned}\right\} g(y) = g(Tx)\Rightarrow Tx = y
+    \end{equation*}
+\end{proof}
+\begin{problem}[(2.5.15)]
+    设$H$为Hilbert空间，$\{e_n\}$为$H$的标准正交基，证明$x_n\weekto x_0$等价于$||x_n||$有界且$(x_n,e_k)\to (x_0,e_k),\ (n\to\infty, k=1,2,\cdots)$.
+\end{problem}
+\begin{proof}
+    首先证明充分性，由于$x_n\weekto x_0$，则$\forall f\in H^*$，有$f(x_n)\to f(x_0),\ (n\to\infty)$，令由于$e_k$对应有界泛函$f_{e_k}(x) = (x,e_k)$，则$(x_n,e_k)\to (x_0,e_k),\ (n\to\infty, k=1,2,\cdots)$. 由于$||x|| = ||J_x||$，而$x_n$弱收敛等价于$J_{x_n}$*弱收敛，由于$H^{**}$为$B$空间，则由孔明定理可知，$||J_{x_n}||$有界，故$||x_n||$有界.
+    
+    由于$x_n\weekto x_0$等价于$||x_n||$有界且$G$为$X$的稠密子集$\forall f\in G$有$f(x_n)\to f(x_0)$. 充分性得证. 于是只需证明，$(x_n,e_k)\to (x_0,e_k),\ (n\to\infty, k=1,2,\cdots)$可推出在$\{e_n\}$中有$f(x_n)\to f(x_0),\ (f\in H^*)$，不妨令$x_0 = 0$，若$x_0\neq 0$，取$x_n\leftarrow x_n-x_0$即可. 由Riesz表示定理可知，$\forall f\in H^*$，$\exists y\in H$使得$f(x) = (x,y)$，由于$\{e_n\}$为$H$中的一组基，则令$y = \sum_{k\geq 1}\alpha_ke_k$，于是
+    \begin{align*}
+        f(x_n) =&\ \left(x_n,\sum_{k\geq 1}\alpha_k e_k\right) = \sum_{k\geq 1}\bar{\alpha}_k(x_n,e_k)\\
+        =&\ \lim_{N\to\infty}\sum_{k=1}^N\bar{\alpha}_k(x_n,e_k) \to\lim_{N\to\infty}\sum_{k=1}^N\bar{\alpha}_k(0,e_k)= \lim_{N\to\infty} 0 = f(x_0)
+    \end{align*}
+\end{proof}
+\begin{problem}[(2.5.16)]
+    设$S_n:L^p(\R)\to L^p(\R)$满足$
+    (S_nu)(x) =\begin{cases}
+        u(x),&\quad |x|\leq n,\\
+        0,&\quad |x|>n.
+    \end{cases}$
+    其中$u\in L^p(\R)$是任意的，证明：$\{S_n\}$强收敛于恒通算子$I$，但不一致收敛于$I$.
+\end{problem}
+\begin{proof}
+    由于$S_nu = u\cdot \rchi_{[-n,n]}$，于是
+    \begin{equation*}
+        ||S_nu-Iu||_p^p = ||u\rchi_{(-\infty,u)\cup(u,\infty)}||_p^p = \int_{-\infty}^{-n}|u|^p\,\d x+\int_{n}^\infty |u|^p\,\d x\to 0,\quad (n\to\infty)
+    \end{equation*}
+    所以$S_n\overset{s}{\to} I$. 由于$\int_n^\infty \e^{-x}\,\d x=e^{-n}$，令$u_n(x) = \rchi_{[n,\infty)}\left(\e^{n-x}\right)^{\frac{1}{p}}$，则$||u_n||_p^p = \e^{n}\int_n^\infty \e^{-x}\,\d x=1$，于是
+    \begin{equation*}
+        ||S_n-I||\geq ||S_nu_n-u_n||_p = ||u_n||_p = 1
+    \end{equation*}
+    故$S_n\nrightarrow I$.
+\end{proof}
+\begin{problem}[(2.5.17)]
+     设$H$为Hilbert空间，在$H$中$x_n\weekto x_0$且$y_n\to y_0$，证明$(x_n,y_n)\to (x_0,y_0)$.
+\end{problem}
+\begin{proof}
+    由于$x_n\weekto x_0$，则$||x_n||$一致有界，$\exists M>0$使得$||x_n||\leq M$，有Riesz表示定理知$f_y(x) = (x,y)\in H^*$，则
+    \begin{align*}
+        |(x_n,y_n)-(x_0,y_0)| =&\ |(x_n,y_n-y_0)+(x_n,y_0)-(x_0,y_0)|\\
+        \leq&\ M\cdot ||y_n-y_0||+||f_{y_0}(x_n)-f_{y_0}(x_0)||\to 0
+    \end{align*}
+    所以$(x_n,y_n)\to (x_0,y_0)$.
+\end{proof}
+\begin{problem}[(2.5.18)]
+    设$\{e_n\}$为Hilbert空间空间$H$中的标准正交基，证明：在$H$中$e_n\weekto \theta$，但$e_n\nrightarrow \theta$.
+\end{problem}
+\begin{proof}
+    由Bessel不等式可知：$\forall x\in H$，有$\sum_{n\geq 1}|(x,e_n)|^2\leq ||x||^2$，于是$|(x,e_n)|\to 0$，由Riesz表示定理可知，$\forall f\in H^*$，$\exists y\in H$，使得$f(x) = (x, y)$，于是$|f(e_n)| = |(e_n, y)|\to 0,\ (n\to\infty)$，所以$e_n\weekto \theta$.
+
+    由于$\{e_n\}$为标准正交基，则$||e_n|| = 1$，故$e_n\nrightarrow \theta$.
+\end{proof}
+\begin{problem}[(2.5.19)]
+    设$H$为Hilbert空间，证明：在$H$中$x_n\to x$充要条件为$||x_n||\to ||x||$且$x_n\weekto x$.
+\end{problem}
+\begin{proof}
+    只需证$H$为一致凸的$B$空间，由于$H$为Hilbert空间，所以只需证$H$的一致凸性. $\forall \varepsilon>0$，$\exists \delta >0$，使得$\forall x,y\in X,\ ||x||\leq 1,\ ||y||\leq 1,\ ||x-y|| > \varepsilon$，由于$H$中有平行四边形公式成立，则
+    \begin{align*}
+        &\ ||x+y||^2 = 2(||x||^2+||y||^2)-||x-y||^2< 4-\varepsilon^2\\
+        \Rightarrow&\ \left|\left|\frac{x+y}{2}\right|\right|^2\leq 1-\frac{\varepsilon^2}{4} < 1-\delta
+    \end{align*}
+    故$H$满足一致凸性.
+\end{proof}
+\begin{problem}[(2.5.21)]
+    证明：$B^*$空间$X$中的闭凸集是弱闭的.
+\end{problem}
+\begin{proof}
+    设$M$为$X$中的闭凸子集，$\{x_n\}\subset M$，$x_n\weekto x$，则由Mazur定理可知，$x\in \ol{\text{co}\{x_n\}}$，于是只需证$\ol{\text{co}\{x_n\}}\subset M$，由于$M$是闭的，只需证$\text{co}\{x_n\}\subset M$，由于$M$为凸的，则$\alpha\in (0,1),\ \forall y_1,y_2\in\{x_n\}$有$\alpha y_1+(1-\alpha)y_2 \in M$，断言$\forall y_1,\cdots, y_n\in \{x_n\},\ \sum_{k=1}^n\alpha_k = 1$有$\sum_{k=1}^n\alpha_k y_k\in M$. 利用归纳假设当命题在$n$时成立，下推导在$n+1$时情况，任意的$\alpha_1,\cdots,\alpha_{n+1}\in \K$满足$\sum_{k=1}^{n+1}\alpha_k = 1$，由归纳假设可知$\frac{\sum_{k=1}^n\alpha_ky_k}{\sum_{k=1}^n\alpha_k}\in M$，于是由$M$的凸性可知
+    \begin{equation*}
+        \sum_{k=1}^{n+1}\alpha_ky_k = \sum_{k=1}^n\alpha_k\frac{\sum_{k=1}^n\alpha_ky_k}{\sum_{k=1}^n\alpha_k}+\alpha_{n+1}y_{n+1}\in M
+    \end{equation*}
+    故$\ol{\text{co}\{x_n\}}\subset M$.
+\end{proof}
+\begin{problem}[(2.5.22)]
+    设$X$是自反空间，$M$为$X$中的有界闭凸子集，$\forall f\in X^*$，证明：$f$在$M$上达到最大值和最小值.
+\end{problem}
+\begin{proof}
+    $\forall f\in X^*$，由于$M$有界，则$\forall x\in M$，$||x||\leq A$，则$\sup_{x\in M}||f(x)||\leq ||f||\cdot||x||\leq M||f||$，于是$f$在$M$上上极限和下极限存在，令$d = \sup_{x\in M}f(x)$，则$\exists \{x_n\}\in M$使得$d-1/n\leq f(x_n)\leq d$，由于$X$为自反空间且$\{x_n\}\subset M$有界，则$\{x_n\}$有弱收敛子列$\{x_{n_k}\}$使得$x_{n_k}\weekto x\in X$，由上题可知，由于$M$为闭凸集，则$x_n\weekto x\in M$，于是$d-1/n_k\leq f(x_{n_k})\leq d$，令$k\to\infty$可得$f(x) = d$，于是$x$是$f$在$M$中的最大值，同理可证，$f$在$M$中可取到最小值.
+\end{proof}
+\begin{problem}[(2.5.23)]
+    设$X$为自反空间，$M$为$X$中的非空闭凸集，证明$\exists x_0\in M$，使得$||x_0|| = \inf\{||x||:x\in M\}$.
+\end{problem}
+\begin{proof}
+    由于$M$非空，则$\exists x\in M$，取$M' = \ol{B(\theta, x)}\cap M$，于是$\inf\{||x||:x\in M'\} = \inf\{||x||:x\in M\}$，下证在有界闭凸集$M'$中能取到$||\cdot||$最小值. 令$d = \inf\{||x||:x\in M'\}$，则$\exists\{x_n\}\subset M'$，使得$||x_n||\to d$，由于$X$自反，则$\{x_n\}$存在弱收敛子列$\{x_{n_k}\}$使得$x_{n_k}\weekto x\in X$，由\textbf{2.5.21}可得$x_{n_k}\weekto x\in M'$. 又由Hahn-Banach定理可得$\exists f\in X^*$使得$f(x)=||x||,\ ||f|| = 1$，于是
+    \begin{equation*}
+        d\leq ||x|| = f(x) = \lim_{k\to\infty}f(x_{n_k})\leq \lim_{k\to\infty}||x_{n_k}|| = d
+    \end{equation*}
+    于是$||x|| = \inf\{||x||:x\in M'\} = \inf\{||x||:x\in M\}$.
+\end{proof}
+\begin{problem}
+    证明：设$X$是一致凸空间，则$X$是严格凸空间.
+\end{problem}
+\begin{proof}
+    $\forall x,y \in X$，$x\neq y$，$||x|| = ||y|| = 1$，$\forall \alpha\in (0,1)$，下证$\alpha x+(1-\alpha)\beta|| < 1$. 由于$||\cdot||$连续，只需证存在$(0,1)$的稠密子集$M$使得$\alpha\in M$，有$||\alpha x+(1-\alpha)\beta|| < 1$成立.\add
+
+    由于$X$是一致凸空间，又由于$x\neq y$，则取$\varepsilon = \frac{||x-y||}{2}$，$\exists \delta > 0$，使得$\left|\left|\frac{x+y}{2}\right|\right|\leq 1-\delta < 1$，于是$\alpha = 1/2$严格凸性质成立. 由于$\left|\left|\frac{x+y}{2}\right|\right|\leq 1$，于是再次使用一致凸性质，可得
+    \begin{equation*}
+        \left|\left|\frac{1}{4}x+\frac{3}{4}y\right|\right| < 1,\ \left|\left|\frac{3}{4}x+\frac{1}{4}y\right|\right| < 1,
+    \end{equation*}
+    于是$\alpha = 1/4, 3/4$时严格凸性质成立. 同理可得，$\alpha = 1/8,3/8,5/8,7/8,\cdots$也即
+    \begin{equation*}
+        M = \left\{\frac{1}{2^n},\frac{3}{2^n},\cdots,\frac{2^n-1}{2^n}:n=1,2,\cdots\right\}
+    \end{equation*}
+    上有$\alpha\in M$均满足严格凸性，由于$M$是$(0,1)$的稠密子集，则$\forall \alpha\in (0,1)$，$\exists\{\alpha_n\}\in M$，使得$\alpha_n\to \alpha$且$||\alpha_kx+(1-\alpha_k)y||< 1$，则$||\alpha x+(1-\alpha)y|| < 1$，故$X$是严格凸空间.
+\end{proof}
+\begin{problem}
+    设$X$为$B^*$空间，则$X$是一致凸空间$\iff\ ||x_n||\to 1,||y_n||\to 1,||x_n+y_n||\to 2$，则$||x_n-y_n||\to 0$.
+\end{problem}
+\begin{proof}
+    必要性：反设，当$||x_n||\leq 1,||y_n||\leq 1$，$\exists \varepsilon > 0$，$\forall n\geq 1$当$\left|\frac{x+y}{2}\right|\geq 1-\frac{1}{n}$时都有$||x-y||\geq \varepsilon$.
+
+    由于$||x_n||\to 1$不一定满足$||x_n||\leq 1$，考虑$\frac{x_n}{||x_n||}$，于是$\left|\left|\frac{x_n}{||x_n||}\right|\right| = \left|\left|\frac{y_n}{||y_n||}\right|\right| = 1$，则
+    \begin{align*}
+        &\ \Biggl|\left|\left|\frac{x_n}{||x_n||}+\frac{y_n}{||y_n||}\right|\right|-||x_n+y_n||\Biggl|\leq \Biggl|\left|\left|\frac{x_n}{||x_n||}-x_n+\frac{y_n}{||y_n||}-y_n\right|\right|\Biggl|\\
+        \leq&\ \Biggl|\left|\left|\frac{x_n}{||x_n||}-x_n\right|\right|+\left|\left|\frac{y_n}{||y_n||}-y_n\right|\right|\Biggl|\leq \big|1-||x_n||\big|+\big|1-||y_n||\big|\to 0,\quad(n\to\infty)
+    \end{align*}
+    \add 于是$\left|\left|\frac{x_{n_k}}{||x_{n_k}||}+\frac{y_{n_k}}{||y_{n_k}||}\right|\right|\to 2$则存在子列满足$\left|\left|\frac{x_{n_k}}{||x_{n_k}||}+\frac{y_{n_k}}{||y_{n_k}||}\right|\right|\geq 2-\frac{2}{n_k}$，由条件可得\\$\left|\left|\frac{x_n}{||x_n||}-\frac{y_n}{||y_n||}\right|\right|\to 0$但与\add $\left|\left|\frac{x_{n_k}}{||x_{n_k}||}-\frac{y_{n_k}}{||y_{n_k}||}\right|\right|\geq \varepsilon$矛盾，于是原命题成立.
+
+    充分性：设$||x_n||\to 1,||y_n||\to 1,||x_n+y_n||\to 2$，由必要性证明可知$\frac{x_n}{||x_n||}\to x_n$，$\frac{y_n}{||y_n||}\to y_n$，不妨令$||x_n|| = 1, ||y_n|| = 1$，于是$\forall \varepsilon > 0,\exists\delta >0$任意$||x||\leq 1,||y||\leq 1$满足$\left|\left|\frac{x+y}{2}\right|\right|<1-\delta$有$|x-y| < \varepsilon$. 由于$||x_n+y_n||\to 2$，则$\exists N >0$使得$\forall n\geq N$有$||x_n+y_n|| > 2-2\delta$，于是$||x_n-y_n|| < \varepsilon$，由$\varepsilon$任意性可知$||x_n-y_n||\to 0$.
+\end{proof}
+\begin{problem}
+    (1). $p\geq 2$时，$\left|\left|\frac{f+g}{2}\right|\right|_p^p+\left|\left|\frac{f-g}{2}\right|\right|_p^p\leq \frac{1}{2}\left(||f||_p^p+||g||_p^p\right),\quad \forall f,g\in L^p$.
+
+    (2). $1<p\leq 2$时，$\left|\left|\frac{f+g}{2}\right|\right|_p^q+\left|\left|\frac{f-g}{2}\right|\right|_p^q\leq \left(\frac{1}{2}||f||_p^p+\frac{1}{2}||f||_p^p\right)^{\frac{1}{p-1}}$，其中$\frac{1}{p}+\frac{1}{q}=1$.
+\end{problem}
+\begin{proof}
+    (1). 先证明$a^p+b^p\leq (a^2+b^2)^{\frac{p}{2}}\ (\forall a,b > 0)$，不妨令$b\geq a$，令$t = b/a$，只需证$x(t) = (1+t^2)^{\frac{p}{2}}-t^p-1\geq 0\ (\forall t\geq 1)$. 由于$x'(t) = pt\left((\sqrt{1+t^2})^{p-2}-t^{p-2}\right)\geq 0$，所以$x(t)\geq x(1) = 2^{\frac{p}{2}}-2\geq 0$.
+
+    令$a = \left|\frac{f+g}{2}\right|,b=\left|\frac{f-g}{2}\right|$，由于$x^{\frac{p}{2}}\ (p\geq 2)$为凸函数得
+    \begin{equation*}
+        \left|\frac{f+g}{2}\right|^p+\left|\frac{f-g}{2}\right|^p\leq \left(\frac{|f|^2+|g|^2}{2}\right)^{\frac{p}{2}}\leq \frac{|f|^p+|g|^p}{2}
+    \end{equation*}
+    再对其积分可得$\left|\left|\frac{f+g}{2}\right|\right|_p^p+\left|\left|\frac{f-g}{2}\right|\right|_p^p\leq \frac{1}{2}\left(||f||_p^p+||g||_p^p\right)$.
+\end{proof}
+\end{document}
