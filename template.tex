@@ -8,14 +8,10 @@
 \setsansfont{Calibri}
 \setmonofont{Consolas}
 
+%%%% 设置行间距与页边距 %%%%
 \linespread{1.4}
 %\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
 \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
-\newcounter{problem}  % 问题序号计数器
-\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
-\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
-\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
-\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -27,6 +23,7 @@
 \setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 \setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
+%%%% 自定义公式 %%%%
 \everymath{\displaystyle} % 默认全部行间公式
 \DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
 \DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
@@ -36,6 +33,15 @@
 \let\geq=\geqslant % geq同理
 \DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
 \newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-1cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
 
 %%%% 一些宏定义 %%%%
 \def\bd{\boldsymbol}        % 加粗(向量) boldsymbol

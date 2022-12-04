@@ -45,6 +45,7 @@
 \numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
 \newtheorem{algorithm}{算法}
 
+%%%% 自定义环境 %%%%
 \newsavebox{\nameinfo}
 \newenvironment{myTitle}[1]{
     \begin{center}
@@ -56,6 +57,8 @@
 \newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
 \newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
 \newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-1cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
@@ -67,6 +70,7 @@
 \setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 \setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
+%%%% 自定义公式 %%%%
 \everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
 \DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
 \DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}

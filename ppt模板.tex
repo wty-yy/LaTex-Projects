@@ -24,12 +24,15 @@
 
 %%%% 公式编号 %%%%
 \setbeamertemplate{theorems}[numbered]
+\BeforeBeginEnvironment{minted}{\vspace{-1cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
 \setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
 \setlength{\belowcaptionskip}{0pt} 
 
+%%%% 自定义公式 %%%%
 \everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
 \DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
 \DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
