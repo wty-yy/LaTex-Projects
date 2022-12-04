@@ -312,4 +312,113 @@
     \item $F(x;\theta)\sim I(0,1)$是因为$P(F(x;\theta)\leq y) = P(x\leq F^{-1}(y))=F(F^{-1}(y))=y$.
     \item 令$z=-\log Y$且$Y\sim I(0,1)$，则$Z\in(0,\infty)$且$f_Z(z)=f_Y(\e^{-z})\e^{-z}=\e^{-z}\sim\Gamma(1,1)$.
 \end{remark}
+\section{假设检验}
+\subsection{基本概念}
+\begin{definition}[假设\ Hypothesis]
+    对参数取值的一个断言，将假设记为$H$，$H$后接一个冒号，冒号后的描述该断言内容.
+    
+    若可通过该断言确定样本服从的分布函数，则称为\textbf{简单假设}；否则称为\textbf{复合假设}.
+\end{definition}
+\begin{remark}
+    \item 上述的断言就是对未知的参数$\theta$进行的一种前提假设，我们期望通过样本的相关信息判断该断言是否正确，这就是假设检验.
+    \item 设$X_1,\cdots, X_n\overset{iid}{\sim} f(x;\theta)$，$\theta_0\in \Theta,\Theta_0\subset \Theta$，其中$\Theta$为参数空间. 则$H:\theta=\theta_0$是简单断言；$H:\theta\in \Theta_0$是复合断言.（简单断言就是将参数取定，而符合断言中参数仍然不定）
+\end{remark}
+\begin{definition}[两个对立假设]
+    根据实际问题，提出\textbf{两个对立假设}：$H_0$称为\textbf{原假设(The null hypothesis)}，$H_1$称为\textbf{备择假设(The alternative hypothesis)}.
+\end{definition}
+\begin{remark}
+    \item 对立假设的含义是：若拒绝$H_0$，则一定接受$H_1$；反之若接受$H_0$，则一定拒绝$H_1$.
+    \item 实际含义上：原假设是实际问题中期望得到的结论（如：新产品的收益率比旧产品更高，女士不具有分辨茶和奶加入顺序）.
+\end{remark}
+\begin{definition}[检验\ Test]
+    根据样本结果，判断是否\textbf{拒绝}原假设$H_0$，将这个判断规则称为\textbf{检验}记为$T$. 判断规则一般通过\textbf{检验统计量}$T^*$是否在某个集合内来判断.
+
+    如果$T^*$属于某个集合内$\Omega$时就拒绝$H_0$，则称该检验$T$为\textbf{非随机化检验}.
+
+    如果以一定概率拒绝$H_0$，则称该检验$T$为\textbf{随机化检验}. 若样本落在某个集合$C_T$内时，拒绝原假设，则称$C_T$为\textbf{拒绝域}，无歧义时简记为$C$.
+    
+    将拒绝原假设概率记为\textbf{检验函数}$\psi_T = \psi_T(x_1,\cdots,x_n)=\psi_T(reject\ H_0|x_1,\cdots,x_n)$. 则非随机化检验的$\psi_T$只有$0$和$1$的取值；而随机化检验中$\psi_T$有介于$0,1$之间的取值.
+\end{definition}
+\begin{remark}
+    \item 我们一般只讨论\textbf{拒绝}原假设的情况（因为一般我们不认为原假设为真，例：不会轻易接受新产品）
+    \item 设拒绝域$C$为开集，则若$\psi_T=I_C = \begin{cases}
+        0,&\quad (x_1,\cdots,x_n)\in C,\\ 1,&\quad (x_1,\cdots,x_n)\notin C.
+    \end{cases}$则检验$T$是一个非随机化检验，\\
+    若$\psi_T = \begin{cases}
+        0,&\quad (x_1,\cdots,x_n)\in C^\circ,\\
+        1/2,&\quad (x_1,\cdots,x_n)\in \partial C,\\
+        1,&\quad (x_1,\cdots,x_n)\notin\bar C.
+    \end{cases}$则检验$T$是一个随机化检验.
+    \item 随机化检验一般是带有主观色彩得，因为它会以一定的概率去拒绝原假设，并不果断.（一般在离散随机变量时用到）
+    \item 一般难以直接找到拒绝域$C$，通过转化为检验统计量找等价条件，即\\$(x_1,\cdots,x_n)\in C\iff T^*(x_1,\cdots,x_n)\in C^*$.
+\end{remark}
+\begin{definition}[两类错误，势函数\ Power function]设$T$为$H_0\ vs.\ H_1$的检验
+
+    \textbf{第一类错误（弃真）}：$H_0$正确但是拒绝了$H_0$. 记为$\alpha=\alpha(\theta)=P_{H_0}(reject\ H_0)$
+
+    \textbf{第二类错误（取伪）}：$H_0$错误但是接受了$H_0$. 记为$\beta=\beta(\theta)=P_{H_1}(reject\ H_1)$
+
+    \textbf{$T$的势函数}：$\pi_T(\theta) = P_\theta(reject\ H_0)$，即参数取值为$\theta$时，拒绝$H_0$的概率.\\
+    势函数与两类错误的关系：
+    \begin{enumerate}
+        \item 若$H_0,H_1$均为简单假设时，设检验$T$为$H_0:\theta=\theta_0\ vs.\ H_1:\theta=\theta_1$，则$\alpha = P_{\theta_0}(reject\ H_0) = \pi_T(\theta_0)$，$\beta = P_{\theta_1}(reject\ H_1) = 1-\pi_T(\theta_1)$.
+        \item 若$H_0,H_1$均为复合假设时，设检验$T$为$H_0:\theta\in \Theta_0\ vs.\ H_1:\theta\in \Theta_1$，则$\begin{cases}
+            \alpha(\theta) = \pi_{T}(\theta),&\quad \theta\in \Theta_0,\\
+            \beta(\theta) = 1-\pi_{T}(\theta),&\quad \theta\in \Theta_1.
+        \end{cases}$此处的$\alpha,\beta$不是常数，与简单假设时不同.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    \item 在复合假设下，$\alpha,\beta$都是与$\theta$相关的函数，即在不同的参数下，犯错误的概率不同. 我们期望在任何情况下，我们犯错误能达到最小，于是有了检验水平的定义.
+    \item 脚标$P_{H_0}$表示$H_0$对应的断言成立前提下，计算出的概率.
+    \item 当$T$为非随机化检验时$\pi_T(\theta) = P_\theta[(x_1,\cdots,x_n)\in C]$.
+   
+    当$T$为随机化检验时（该结果可推出非随机化检验情况，取$\psi_{T} = I_{C}$即可）
+    \begin{align*}
+        \hspace*{-0.5cm}
+        \pi_T(\theta) =&\ P_\theta[reject\ H_0] = \int\cdots\int P(reject\ H_0|x_1,\cdots,x_n)f_{X_1,\cdots,X_n}(x_1,\cdots,x_n;\theta)\prod_{i=1}^n\d x_i\\
+        =&\ \int\cdots\int\psi_T(x_1,\cdots,x_n)f_{X_1,\cdots,X_n}(x_1,\cdots,x_n)\prod_{i=1}^n\,\d x_i = \E_\theta[\psi_T(x_1,\cdots,x_n)]
+    \end{align*}
+\end{remark}
+\begin{definition}[检验水平\ Size of test]
+    令原假设$H_0:\theta\in\Theta_0$，则检验$T$关于$H_0$的检验水平为$\alpha=\sup_{\theta\in\Theta_0}\pi_T(\theta)$，也称显著水平(Significance level)
+\end{definition}
+\begin{remark}
+    \item 若$\Theta_0=\{\theta_0\}$即为简单假设时，检验水平$\alpha$就是犯第一类错误的概率$\pi_T(\theta_0)$.
+\end{remark}
+解决假设检验的一般思路：
+\begin{enumerate}
+    \item 根据实际问题提出原假设和备择假设$H_0,H_1$.
+    \item 通过样本的分布和假设，确定检验模型$T$（简单似然比检验、广义似然比检验）.
+    \item 根据检验水平$\alpha$确定检验的拒绝域$C_T$.（此处拒绝域一般找某个充分统计量下的等价拒绝域）
+    \item 根据样本实际取值做出判断，是否要拒绝$H_0$.
+\end{enumerate}
+\begin{example}
+    设$X\sim \theta x^{\theta-1}I_{(0,1)}(x),\ \theta > 0$，求关于$H_0:\theta\geq 2\ vs.\ H_1<2$检验水平为$\alpha$的GLR检验.
+\end{example}
+\begin{solution}
+    由于$\frac{\d L(\theta)}{\d \theta} = x^{\theta-1}(1+\theta\log x)$，则$\theta = -\frac{1}{\log x}$处有最大值，于是
+    \begin{equation*}
+        \sup_{\theta > 0}L(\theta) = L\left(-\frac{1}{\log x}\right) = -\frac{1}{\log x}x^{-\frac{1}{log x}-1}
+    \end{equation*}
+    下讨论$\theta \geq 2$时，$L(\theta)$的最大值取值，当$2\leq -\frac{1}{\log x}\Rightarrow \e^{-\frac{1}{2}}<x<1$时，最大值在$-\frac{1}{\log x}$处取到；\\
+    当$-\frac{1}{\log x} < 2\Rightarrow 0 < x < \e^{-\frac{1}{2}}$时，最大值在$2$处取到，$L(2) = 2x$. 于是
+    \begin{equation*}
+        \lambda = \frac{\sup_{\theta\geq 2}L(\theta)}{\sup_{\theta > 0}L(\theta)} = \begin{cases}
+            1,&\quad \e^{-\frac{1}{2}}<x<1,\\
+            -2x^{\frac{1}{\log x}+2}\log x,&\quad 0<x<\e^{-\frac{1}{2}}.
+        \end{cases}
+    \end{equation*}
+    则拒绝$H\iff\ -2x^{\frac{1}{\log x}+2}\log x < \lambda_0$且$0 < x < \e^{-\frac{1}{2}}$，令$y=-\log x\Rightarrow x = \e^{-y},\ (y>1/2)$，于是
+    \begin{equation*}
+        -2x^{\frac{1}{\log x}+2}\log x = -2(\e^{-y})^{-\frac{1}{y}+2}(-y) = 2y\e^{1-2y} < \lambda_0
+    \end{equation*}
+    令$g(y) = 2y\e^{1-2y}$，则$g'(y) = (2-4y)\e^{1-2y}<0$，则在$y>1/2$上单调递减，于是$g(y) < \lambda_0\iff y > k$.
+
+    于是检验水平
+    \begin{equation*}
+        \alpha = \sup_{\theta\geq 2}P_\theta[y>k] = \sup_{\theta\geq 2}\int_k^\infty \theta\e^{-\theta y}\,\d y = \sup_{\theta\geq 2}\e^{-\theta k}=\e^{-2k}\Rightarrow k=-\frac{1}{2}\log \alpha
+    \end{equation*}
+    GLR检验的拒绝域为$C=\left\{x:-\log x > -\frac{1}{2}\log \alpha\right\} = \{x:x<\sqrt{\alpha}\}$.
+\end{solution}
 \end{document}
