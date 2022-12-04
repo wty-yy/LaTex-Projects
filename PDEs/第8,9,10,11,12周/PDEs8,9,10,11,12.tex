@@ -1,0 +1,487 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[ BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{偏微分方程} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第三章作业}
+\end{center}\vspace{-0.2cm}
+% 正文部分
+\begin{problem}[(1)] 求解Fourier变式：
+
+    (2) $f(x) = \begin{cases}
+            0,&\quad |x| > a,\\
+            1-\frac{|x|}{a},&\quad |x| \leq a;
+        \end{cases}$\qquad
+    (4) $f(x) = \e^{-a|x|},\quad (a > 0)$;
+\end{problem}
+\begin{solution}
+    (2) 令$g(x) = 1-\frac{x}{a},\quad (0\leq x < a)$，则$f(x) = g(x) - g(-x)$，由于
+    \begin{align*}
+        \hat{g}(\lambda) = \frac{1}{\sqrt{2\pi}}\int_0^a\left(1-\frac{x}{a}\right)\e^{-\i \lambda x}\,\d x = \frac{1}{\sqrt{2\pi}a\lambda^2}[1-\i a\lambda -\e^{-\i a\lambda}]
+    \end{align*}
+    于是$\hat{f}(\lambda) = \hat{g}(\lambda)+\wdh{g(-x)}(\lambda) = \hat{g}(\lambda) + \hat{g}(-\lambda) = \frac{1}{\sqrt{2\pi}a\lambda^2}\left(2-\e^{-\i a\lambda}-\e^{\i a\lambda}\right)$\add
+
+    (4) 令$g(x) = \e^{-a x}\rchi_{(0,\infty)}(x)$，则$f(x) = g(x)+g(-x)$，由于
+    \begin{equation*}
+        \hat{g}(\lambda) = \frac{1}{\sqrt{2\pi}}\int_0^\infty \e^{-ax}\e^{-\i \lambda x}\,\d x = \frac{1}{\sqrt{2\pi}}\,\frac{1}{\i \lambda+a}
+    \end{equation*}
+    于是$\hat{f}(\lambda) = \hat{g}(\lambda) + \wdh{g(-x)}(\lambda) = \hat{g}(\lambda) + \hat{g}(-\lambda) = \frac{1}{\sqrt{2\pi}}\,\frac{2a}{a^2+\lambda^2}$.
+\end{solution}
+
+\begin{problem}[(2)]求解下列函数的Fourier变式：
+
+    (3) $f(x) = \begin{cases}
+        \e^{\mu x},&\quad |x| < a,\\
+        0,&\quad |x|\geq a;
+    \end{cases}$\qquad $f(x) = \begin{cases}
+        \e^{\i \lambda_0 x},&\quad |x| < L,\\
+        0,&\quad |x| \geq L.;
+    \end{cases}$
+    \qquad$f(x) = \frac{x}{a^2+x^2}$
+\end{problem}
+\begin{solution}
+    (3) 令$g(x) = \e^{\mu x}\rchi_{[0,a)}(x)$，则$f(x) = g(x) + g(-x)$，由于
+    \begin{equation*}
+        \hat{g}(\lambda) = \frac{1}{\sqrt{2\pi}}\int_0^a\e^{\mu}\e^{-\i \lambda x}\,\d x = \frac{1}{\sqrt{2\pi}}\, \frac{1}{\mu-\i \lambda}\left(\e^{(\mu-\i \lambda)a}-1\right)
+    \end{equation*}
+    则$\hat{f}(\lambda) = \hat{g}(\lambda) + \hat{g}(-\lambda) = \frac{1}{\sqrt{2\pi}}\left[\frac{\e^{(\mu-\i\lambda)a}}{\mu-\i\lambda}+\frac{\e^{(\mu+\i\lambda)a}}{\mu+\i\lambda}-\frac{2\mu}{\mu^2+\lambda^2}\right]$.\add 
+
+    (5) 令$g = \e^{\i\lambda_0 x}\rchi_{[0,L)}(x)$，则$f(x) = g(x)+g(-x)$，由于
+    \begin{equation*}
+        \hat{g}(\lambda) = \frac{1}{\sqrt{2\pi}}\int_0^L\e^{\i\lambda_0 x}\e^{-\i \lambda x}\,\d x = \frac{1}{\sqrt{2\pi}}\int_0^L\e^{\i(\lambda_0-\lambda)x}\,\d x = \frac{1}{\sqrt{2\pi}}\,\frac{1}{\i(\lambda_0-\lambda)}\left(\e^{\i(\lambda_0-\lambda)L}-1\right)
+    \end{equation*}
+    则$\hat{f}(\lambda) = \hat{g}(\lambda)+\hat{g}(-\lambda) = \frac{1}{\sqrt{2\pi}\i}\left[\frac{\e^{\i(\lambda_0-\lambda)L}}{\lambda_0-\lambda}+\frac{\e^{\i(\lambda_0+\lambda)L}}{\lambda_0+\lambda}-\frac{2\lambda_0}{\lambda_0^2+\lambda^2}\right]$.\add
+
+    (8) \add 令$g(x) = \frac{1}{a^2+x^2}$，则$\check{g}(\lambda) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \frac{\e^{\i\lambda x}}{a^2+x^2}\,\d x$，考虑复函数$h(z) = \frac{\e^{\i|\lambda| z}}{a^2+z^2}$，半圆围道$C = [-R,R]\cup \gamma_R$，其中$\gamma_R = \{\e^{-i\theta}:\theta\in [0,\pi]\}$，则
+    \begin{equation*}
+        \int_Cf(z)\,\d z = \int_{-\R}^R\,\d x+\int_{\gamma_R}f(z)\,\d z
+    \end{equation*}
+    
+    由于$a\i$是$C$内的奇点，由留数定理可知：$\int_Cf(z)\,\d z = 2\pi\i \res(f;a\i)$，由于
+    \begin{equation*}
+        \res(f;a_i) = \lim_{z\to a\i}(z-a\i)\frac{\e^{\i |\lambda| z}}{a^2+z^2} = \lim_{z\to a\i}\frac{\e^{\i|\lambda| z}}{z+a\i} = \frac{\e^{-|\lambda| a}}{2a\i}
+    \end{equation*}
+    又由Jordan引理可知$\lim_{R\to\infty}f_{\gamma_R}f(z)\,\d z = 0$，于是$\int_Cf(z)\,\d z = \frac{\pi\e^{-|\lambda|}}{a}$.
+    
+    当$\lambda < 0$时，$\int_{-\infty}^\infty \frac{\e^{\i(-\lambda)x}}{a^2+x^2}\,\d x = \int_{-\infty}^\infty\frac{\e^{\i\lambda x}}{a^2+x^2}\,\d x$，于是$\hat{g}(\lambda) = \check{g}(-\lambda) = \frac{1}{\sqrt{2\pi}}\check{h}(-\lambda) = \sqrt{\frac{\pi}{2}}\frac{\e^{-|\lambda|a}}{a}$，则\del\del\del
+    \begin{align*}
+        \hat{f}(\lambda) =&\ \wdh{xg}(\lambda) = \i\frac{\d}{\d\lambda}\hat{g}(\lambda) = \begin{cases}
+            -\i\frac{\sqrt{\pi}{2}}\e^{-\lambda a},&\quad \lambda > 0,\\
+            \i\frac{\sqrt{\pi}{2}}\e^{\lambda a},&\quad \lambda < 0,\\
+        \end{cases}\\
+        =&\ -\i\sqrt{\frac{\pi}{2}}\e^{-|\lambda| a}\sign(\lambda).
+    \end{align*}\del\del
+\end{solution}
+\begin{problem}[(3)]求以下函数的Fourier逆变换：
+
+    (1) $f(\lambda) = \e^{-a^2\lambda^2}t,\quad t>0\text{为参数}$；
+
+    (2) $f(\lambda) = \e^{(-a^2\lambda^2+\i b\lambda+c)t},\quad a,b,c\text{为常数},\ t>0\text{为常数}$；
+
+    (3) $f(\lambda) = \e^{-|\lambda|y},\quad y>0\text{为参数}$.
+\end{problem}
+\begin{solution}
+    (1) 由(2)的结论，取$b=c=0$，$\check{f}(x) = \frac{1}{\sqrt{2a^2t}}\e^{-\frac{x^2}{4a^2t}}$.
+
+    (2) \del\del\begin{align*}
+        \check{f}(x) =&\ \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \e^{(-a^2\lambda^2+\i b\lambda+c)t}\e^{\i\lambda x}\,\d \lambda = \frac{\e^{ct}}{\sqrt{2\pi}}\int_{-\infty}^\infty \e^{-a^t\left(\lambda - \frac{\i(bt+x)}{2a^2t}\right)^2}\e^{-\frac{(bt+x)^2}{4a^2t}}\,\d \lambda\\
+        =&\ \frac{\e^{ct}}{\sqrt{2\pi}}\sqrt{\frac{\pi}{a^2 t}}\e^{-\frac{(bt+x)^2}{4a^2t}}=\frac{1}{\sqrt{2a^2t}}\e^{ct-\frac{(bt+x)^2}{4a^2t}}
+    \end{align*}
+
+    (3) 令$g(\lambda) = \e^{-\lambda y}\rchi_{[0,\infty)}(\lambda)$，则$f(\lambda) = g(\lambda)+g(-\lambda)$，由于
+    \begin{align*}
+        \hat{g}(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\e^{-\lambda y}\e^{-\i \lambda x}\,\d \lambda = \frac{1}{\sqrt{2\pi}}\,\frac{1}{\i x+y}
+    \end{align*}
+    则$\check{f}(x) = \wdh{f(-\lambda)}(x) = \hat{g}(x)+\hat{g}(-x) = \frac{1}{\sqrt{2\pi}}\left[\frac{1}{\i x+y}+\frac{1}{\i x+y}\right] = \sqrt{\frac{2}{\pi}}\,\frac{y}{y^2+x^2}$.
+\end{solution}
+\begin{problem}[(4.1)]应用Fourier变换求解以下定解问题：
+
+    $\begin{cases}
+        u_t - a^2u_{xx} - bu_x - cu = f(x,t),&\quad x\in\R,\ t > 0,\\
+        u|_{t=0}=\varphi(x),&\quad x\in\R.
+    \end{cases}$
+\end{problem}
+\begin{solution}
+    对于上述两式对$x$的Fourier变换，则
+    \begin{equation*}
+        \frac{\d \hat{u}}{\d t}+(a^2\lambda^2-\i b\lambda-c)\hat{u} = \hat{f}(\lambda,t),\\
+        \hat{u}|_{t=0} = \hat{\varphi}(\lambda).
+    \end{equation*}
+    求解第一个常微分方程：
+    \begin{align*}
+        &\ \frac{\d}{\d t}\left[\hat{u}\cdot\e^{(a^2\lambda^2-\i b\lambda-c)t}\right] = \hat{f}(\lambda, t)\e^{(a^2\lambda^2-\i b\lambda-c)t}\\
+        &\ \hat{u} = \int_0^t\hat{f}(\lambda,\tau)e^{(a^2\lambda^2-\i b\lambda-c)(t-\tau)}\,\d\tau+\hat{\varphi}(\lambda)\e^{-(a^2\lambda^2-\i b\lambda-c)t}
+    \end{align*}
+    令$g(x,t) = \left(e^{(a^2\lambda^2-\i b\lambda-c)t}\right)^\vee \xlongequal{\text{由3.(2)可知}}\frac{1}{a\sqrt{2t}}\e^{ct-\frac{(bt+x)^2}{4a^2t}}$，则
+    \begin{align*}
+        u =&\ \left(\hat{\varphi}\hat{g}\right)^{\vee} + \int_0^t\left(\hat{f}(\lambda,\tau)\hat{g}(\lambda,t-\tau)\right)^{\vee} = \frac{1}{\sqrt{2\pi}}\varphi*g+\frac{1}{\sqrt{2\pi}}\int_0^tf(x,\tau)*g(x,t-\tau)\,\d \tau\\
+        =&\ \frac{1}{\sqrt{2\pi}}\left[\int_{-\infty}^\infty \varphi(\xi)g(x-\xi,t)\,\d \xi+\int_0^t\,\d\tau\int_{-\infty}^\infty f(\xi,\tau)g(x-\xi,t-\tau)\,\d\tau\right]
+    \end{align*}
+\end{solution}
+\begin{problem}[(5)]证明在$D^*(\R)$的意义下：
+
+    (2) $\varphi(x)\delta'(x)=-\varphi'(0)\delta(x)+\varphi(0)\delta'(x)$；
+
+    (4) $x^m\delta^{(m)}(x) = (-1)^mm!\delta(x)$.
+\end{problem}
+\begin{solution}
+    (2) $\forall \psi(x)\in D^*(\R)$，则
+    \begin{align*}
+        \left\langle\varphi(x)\delta'(x),\psi(x)\right\rangle =&\ \left\langle\delta'(x),\varphi(x)\psi(x)\right\rangle = -\left\langle\delta(x),\varphi'(x)\psi(x)+\varphi(x)\psi'(x)\right\rangle\\
+        =&\ -\varphi'(0)\psi(0)-\varphi(0)\psi'(0) = \left\langle-\varphi'(0)\delta(x)+\varphi(0)\delta'(x),\psi(x)\right\rangle
+    \end{align*}
+    所以$\varphi(x)\delta'(x)=-\varphi'(0)\delta(x)+\varphi(0)\delta'(x)$.
+
+    (4) 由于
+    \begin{align*}
+        \left\langle x^m\delta^{(m)}(x),\varphi(x)\right\rangle =&\ \left\langle\delta^{(m)}(x),x^m\varphi(x)\right\rangle = (-1)^m\left\langle\delta(x),\frac{\d^m(x^m\varphi(x))}{\d x^m}\right\rangle\\
+        =&\ (-1)^m\left\langle\delta(x),\sum_{k=0}^m\binom{m}{k}\varphi^{(k)}(x)(x^m)^{(m-k)}\right\rangle\\
+        =&\ (-1)^m\left\langle\delta(x),\sum_{k=0}^m\binom{m}{k}\frac{m!}{k!}\varphi^{(k)}(x)x^k\right\rangle\\
+        =&\ (-1)^mm!\varphi(0) = \left\langle(-1)^mm!\delta(x),\varphi(x)\right\rangle
+    \end{align*}
+    所以$x^m\delta^{(m)}(x) = (-1)^mm!\delta(x)$.
+\end{solution}
+\begin{problem}[(6)]求解
+    
+    (1) $|x|^{(m)},\quad (m\geq 1)$；\qquad (3) $(H(x)\e^{ax})''$.
+\end{problem}
+\begin{solution}
+    (1) $|x|' = xH(x) - xH(-x) = (x(H(x)-H(-x)))' = H(x)-H(-x)+x(H(x)-H(-x))'$，由于
+    \begin{equation*}
+        -\left\langle H'(-x),\varphi(x)\right\rangle = -\int_{-\infty}^0 \varphi'(-x)\,\d x = -\int_0^\infty\varphi'(x)\,\d x = \varphi(0) = \left\langle \delta(x),\varphi(x)\right\rangle
+    \end{equation*}
+    于是$|x|' = H(x) - H(-x) + 2x\delta(x) = H(x)-H(-x)$，故
+    \begin{equation*}
+        |x|^{(m)} = [H(x)-H(-x)]^{(m-1)} = 2\delta^{(m-2)}(x)
+    \end{equation*}
+
+    (3) 由于
+    \begin{align*}
+        \left\langle [H(x)\e^{ax}]',\varphi(x)\right\rangle =&\ -\left\langle H(x),\varphi'(x)\e^{ax}\right\rangle = -\int_0^\infty \varphi'(x)\e^{ax}\,\d x\\
+        =&\ -\int_0^\infty \e^{ax}\,\d \varphi(x) = \varphi(0) + a\int_0^\infty \e^{ax}\varphi(x)\,\d x = \varphi(0) + a\int_0^\infty \e^{ax}\varphi(x)\,\d x\\
+        =&\ \left\langle\delta(x),\varphi(x)\right\rangle+a\left\langle H(x)\e^{ax},\varphi\right\rangle = \left\langle \delta(x)+aH(x)\e^{ax},\varphi(x)\right\rangle\\
+        \left\langle [\delta(x)+aH(x)\e^{ax}]',\varphi(x)\right\rangle =&\ -\left\langle\delta+aH(x)\e^{ax},\varphi'(x)\right\rangle\\
+        =&\ \left\langle\delta'(x),\varphi(x)\right\rangle-a\left\langle H(x),\varphi'(x)\e^{ax}\right\rangle\\
+        =&\ \left\langle \delta'+a\delta+a^2H(x)\e^{ax},\varphi(x)\right\rangle
+    \end{align*}
+    则$[H(x)\e^{ax}]'' = \delta'(x)+a\delta(x)+a^2H(x)\e^{ax}$.
+\end{solution}
+\begin{problem}[(7)]求广义导数$f'(x)$
+    
+    (1)$f(x) = \begin{cases}
+        \sin x,&\quad x\geq 0,\\
+        0,&\quad x < 0;
+    \end{cases}$\qquad (3)$f(x) = \begin{cases}
+        x^2,&\quad |x|\leq 1,\\
+        0,&\quad |x| > 1.
+    \end{cases}$
+\end{problem}
+\begin{solution}
+    (1) $f(x) = H(x)\sin x$，由于
+    \begin{equation*}
+        \left\langle f'(x),\varphi(x)\right\rangle = -\left\langle H(x),\varphi'(x)\sin x\right\rangle = -\int_0^\infty\varphi'\sin x\,\d x = \int_0^\infty \varphi\cos x\,\d x = \left\langle H(x)\cos x,\varphi(x)\right\rangle
+    \end{equation*}
+    则$f'(x) = H(x)\cos x$.
+
+    (3) 由于
+    \begin{align*}
+        \left\langle f'(x),\varphi(x)\right\rangle =&\ -\left\langle f(x),\varphi'(x)\right\rangle = -\int_{-1}^1x^2\varphi'(x)\,\d x = -\int_{-1}^1x^2\,\d \varphi(x)\\
+        =&\ -\varphi(1)+\varphi(-1)+\int_{-1}^12x\varphi(x)\,\d x = -\varphi(1)+\varphi(-1)+\left\langle g(x),\varphi(x)\right\rangle\\
+        =&\ \left\langle -\delta(x-1)+\delta(x+1)+g(x),\varphi(x)\right\rangle
+    \end{align*}
+    其中$g(x) = 2x\rchi_{[-1,1]}(x)$，所以$f' = -\delta(x-1)+\delta(x+1)+2x\rchi_{[-1,1]}(x)$.
+\end{solution}
+\begin{problem}[(9)]用分离变量法求解下列混合问题：
+
+    (2)$\begin{cases}
+        u_t = a^2u_{xx},&\quad 0<x<\pi,t>0,\\
+        u|_{t=0} =  \sin x,&\quad 0\leq x\leq l,\\
+        u|_{x=0} = 0,\quad u|_{x=l} = 0,&\quad t > 0;
+    \end{cases}$
+
+    (4)$\begin{cases}
+        u_t = a^2u_{xx},&\quad 0<x<l,t>0,\\
+        u|_{t=0}=0,&\quad 0\leq x\leq l,\\
+        u|_{x=0}=0,u|_{x=l}=At,&\quad t>0;
+    \end{cases}$
+
+    (6)$\begin{cases}
+        u_t-a^2u_{xx} = 0,&\quad 0<x<l,t>0,\\
+        u|_{t=0}=0,&\quad 0\leq x\leq l,\\
+        u_x|_{x=0}=0,u_x|_{x=l}=q,&\quad t>0.
+    \end{cases}$
+\end{problem}
+\begin{solution}
+    (2) 令$u(x,t) = X(x)T(t)$，则$\begin{cases}
+        X''+\lambda X = 0,\\
+        T'+a^2\lambda T = 0.
+    \end{cases}$
+    则
+    \begin{equation*}
+        X(x) = c_1\sin\sqrt{\lambda}x+c_2\cos\sqrt{\lambda}x,\quad X'(x) = c_1\sqrt{\lambda}\cos\sqrt{\lambda}x-c_2\sqrt{\lambda}\sin\sqrt{\lambda}x
+    \end{equation*}
+    由于$X'(0) = X'(\pi) = 0$，则$\begin{cases}
+        c_1\sqrt{\lambda} = 0\\
+        -c_2\sqrt{\lambda}\sin\sqrt{\lambda}\pi = 0
+    \end{cases}\Rightarrow\lambda = n^2,\ (n=0,1,2,\cdots)$，则$X_n(x) = c_2\cos nx,\ (n=0,1,2,\cdots)$. 求解可得$T(t) = \e^{-a^2n^2t}$，则$u = \sum_{n\geq 0}A_n\e^{-a^2n^2t}\cos nx$，由于$u|_{t=0} = \sum_{n\geq 0}A_n\cos nx = \sin x$，则
+    \begin{align*}
+        A_n=&\ \frac{2}{\pi}\int_0^{\pi}\sin\cos nx\,\d x = \frac{2}{\pi}\int_0^{\pi}\sin((n+1)x)-\sin((n-1)x)\,\d x\\
+        (n\geq 2\text{时})\quad =&\ \frac{4}{(1-n^2)\pi}[(-1)^n+1]\\
+        (n=1\text{时})\quad=&\ \frac{2}{\pi}\int_0^{\pi}\sin 2x\,\d x = 0\\
+        (n=0\text{时})\quad=&\ \frac{2}{\pi}\int_0^{\pi}\sin x\,\d x = \frac{4}{\pi}
+    \end{align*}
+    令$n=2k,\ (k=1,2,3,\cdots)$时$A_n\neq 0$，综上$u = \frac{4}{\pi} + \sum_{k\geq 1}\frac{8}{(1-4k^2)\pi}\e^{-4a^2k^2t}\cos 2kx$.
+
+    (4) 由于原方程边界条件不齐次，令$v = X(x)T(t)$，则原方程转化为
+    \begin{equation*}
+        \begin{cases}
+            v_t-a^2v_{xx} = -\frac{A}{l}x = f,\\
+            v|_{t=0} = 0,\\
+            v|_{x=0} = v|_{x=l}=  0.
+        \end{cases}
+    \end{equation*}
+    设$u = X(x)T(t)$，则$\begin{cases}
+        T'+a^2\lambda T = 0\\
+        X''+\lambda X = 0
+    \end{cases}$，于是$X = c_1\sin\sqrt{\lambda}x+c_2\cos\sqrt{\lambda}x$，代入边界条件可得$c_2 = 0,\ \lambda = \left(\frac{n\pi}{l}\right)^2,\ (n=1,2,\cdots)$，于是$x_n = c\sin\frac{n\pi}{l}x$.
+
+    设$v = \sum_{n\geq 1}T_n\sin\frac{n\pi}{l}x,\ -\frac{A}{l}x=  \sum_{n\geq 1}f_n\sin\frac{n\pi}{l}x$，满足
+    \begin{equation*}
+        \begin{cases}
+            T_n'+\left(\frac{an\pi}{l}\right)^2T_n = f_n\\
+            T_n(0) = 0
+        \end{cases}
+    \end{equation*}
+    由于$f_n = \frac{2}{l}\int_0^l-\frac{A}{l}x\sin\frac{n\pi}{l}x\,\d x = \frac{2A(-1)^n}{n\pi}$，解上述常微分方程可得
+    \begin{equation*}
+        T_n(t) = \int_0^t\frac{2A(-1)^n}{n\pi}\e^{-\left(\frac{n\pi a}{l}\right)^2(t-\tau)}\,\d \tau = \frac{2Al^2(-1)^n}{n^3\pi^3a^2}\left(1-\e^{-\left(\frac{n\pi a}{l}\right)^2t}\right)
+    \end{equation*}
+    综上，$u = v  + \frac{A}{l}xt = \sum_{n\geq 1}\frac{2Al^2(-1)^n}{n^3\pi^3a^2}\left(1-\e^{-\left(\frac{n\pi a}{l}\right)^2t}\right)\sin\frac{n\pi}{l}x + \frac{A}{l}xt$.
+
+    (6) 由于边界条件不齐次，令$v = u-\frac{q}{2l}x^2$，则原方程等价求解以下齐次边界问题\del
+    \begin{equation*}
+        \begin{cases}
+            v_t-a^2v_{xx} = \frac{a^2q}{l} = f,\\
+            v|_{t=0} = -\frac{q}{2l}x^2=\varphi,\\
+            v_x|_{x=0} = v_x|_{x=l} = 0.
+        \end{cases}
+    \end{equation*}
+    类似(4)题结果，可知特征函数为$X_n(x) = c\sin\frac{n\pi}{l}x$，设$v = \sum_{n\geq 1}T_n\sin\frac{n\pi}{l}x$，满足
+    \begin{equation*}
+        \begin{cases}
+            T_n' + \left(\frac{an\pi}{l}\right)^2T_n = f_n,\\
+            T_n(0) = \varphi_n.
+        \end{cases}
+    \end{equation*}
+    由于
+    \begin{align*}
+        f_n =&\ \frac{2}{l}\int_0^l\frac{a^2q}{l}\sin\frac{n\pi}{l}x\,\d x = \frac{2a^2q}{l^2}((-1)^{n-1}+1)\\
+        \varphi_n=&\ -\frac{2}{l}\int_0^l\frac{q}{2l}x^2\sin\frac{n\pi}{l}x\,\d x = \frac{ql}{n\pi}(-1)^n+\frac{2q}{n^2\pi^2}((-1)^{n-1}+1)
+    \end{align*}
+    求解常微分方程可得
+    \begin{align*}
+        T_n =&\ \varphi_n\e^{-\left(\frac{n\pi a}{l}\right)^2} + f_n\left(1-\e^{-\left(\frac{n\pi a}{l}\right)^2t}\right)\left(\frac{l}{n\pi a}\right)^2\\
+        =&\ \left(\frac{ql}{n\pi}(-1)^n+\frac{2q}{n^2\pi^2}((-1)^{n-1}+1)\right)\e^{-\left(\frac{n\pi a}{l}\right)^2} + \frac{2q}{n^2\pi^2}((-1)^{n-1}+1)\left(1-\e^{-\left(\frac{n\pi a}{l}\right)^2}\right)\\
+        =&\ \frac{ql(-1)^n}{n\pi}\e^{-\left(\frac{n\pi a}{l}\right)^2}+\frac{2q}{n^2\pi^2}((-1)^{n-1}+1)\\
+        =&\ (-1)^n\left(\frac{ql}{n\pi}\e^{-\left(\frac{n\pi a}{l}\right)^2}-\frac{2q}{n^2\pi^2}\right)+\frac{2q}{n^2\pi^2}
+    \end{align*}
+    综上
+    \begin{equation*}
+        u = v+\frac{q}{2l}x^2 = \sum_{n\geq 1}\left[(-1)^n\left(\frac{ql}{n\pi}\e^{-\left(\frac{n\pi a}{l}\right)^2}-\frac{2q}{n^2\pi^2}\right)+\frac{2q}{n^2\pi^2}\right]\sin\frac{n\pi}{l}x+\frac{q}{2l}x^2.
+    \end{equation*}
+\end{solution}
+\begin{problem}[(13)]设$u\in C^{2,1}(\bar{Q}),u_t\in C^{2,1}(Q)$且满足以下定解问题
+    \begin{equation*}
+        \begin{cases}
+            u_t-u_{xx} = f(x,t),&\quad (x,t)\in Q,\\
+            u|_{t=0}=\varphi(x),&\quad 0\leq x\leq l,\\
+            u|_{x=0}=u|_{x=l}=0,&\quad 0\leq t\leq T,
+        \end{cases}
+    \end{equation*}
+    则有以下估计
+    \begin{equation*}
+        \max_{\bar{Q}}|u_t(x,t)|\leq C(||f||_{C^1(\bar{Q})}+||\varphi''||_{C[0,l]}),
+    \end{equation*}
+    其中$C$仅依赖于$T$.
+\end{problem}
+\begin{solution}
+    对原式每个方程都对$t$求偏导，并令$v = u_t$可得
+    \begin{equation*}
+        \begin{cases}
+            u_{tt}-u_{txx}=f_t(x,t),\\
+            u_{xx}|_{t=0}= \varphi''(x),\\
+            u_{t}|_{x=0}=u_t|_{x=l} = 0.
+        \end{cases}\Rightarrow\quad\begin{cases}
+            v_t-v_{xx}=f_{t}(x,t),\\
+            v|_{t=0} = u_t|_{t=0} = [u_{xx}+f(x,t)]|_{t=0} = \varphi''(x)+f(x,0),\\
+            v|_{x=0} = v|_{x=l} = 0.
+        \end{cases}
+    \end{equation*}
+    记$F = ||f||_{C^1(\bar{Q})} = \sup_{\bar{Q}}|f|+\sup_{\bar{Q}}|f_t|,\ B = ||\varphi''||_{C[0,l]} = \sup_{x\in[0,l]}|\varphi''|$，令$w = F(t+1)+B$，要证$\max_{\bar{Q}}|v|\leq C(||f||_{C^1(\bar{Q})}+||\varphi''||_{C[0,l]})$，只需证$w\geq 0,\ (x,t)\in \bar{Q}$，也就是证$\begin{cases}
+        Lw\geq 0,\\
+        w|_\Gamma\geq 0.
+    \end{cases}$其中$\Gamma$为$Q$的抛物边界.\add
+    
+    由于$F\pm f_t\geq 0$，在$\Gamma$上有$F+B\pm(\varphi''(x)+f(x,0))\geq 0$，则取$C = T+1$，有
+    \begin{equation*}
+        \max_{\bar{Q}}|u_t(x,t)|=\max_{\bar{Q}}|v| \leq (T+1)(||f||_{C^1(\bar{Q})}+||\varphi''||_{C[0,l]}).
+    \end{equation*}\del\del
+\end{solution}
+\begin{problem}[(15)]
+    设$u,u_x\in C(\bar{Q})\cap C^{2,1}(Q)$，$u$满足第三边值问题
+    \begin{equation*}
+        \begin{cases}
+            Lu = u_t-u_{xx} = f(x,t),&\quad (x,t)\in Q,\\
+            u|_{t=0} = \varphi(x),&\quad 0\leq x\leq l,\\
+            \left[-u_x+\alpha u\right]_{x=0} = g_1(t),&\quad 0\leq t\leq T,\\
+            \left[u_x+\beta u\right]_{x=l} = g_2(t),&\quad 0\leq t\leq T.
+        \end{cases}
+    \end{equation*}
+    其中$\alpha \geq 0,\beta\geq 0$，给出$\max_{\bar{Q}}\left|u_x\right|$的估计.
+\end{problem}
+\begin{problem}[(18)]
+    设$u\in C(\bar{Q})\cap C^{2,1}(Q)$且满足：
+    \begin{equation*}
+        Lu = u_t-a^2u_{xx}+c(x,t)u\leq 0,\quad (x,t)\in Q,
+    \end{equation*}
+    其中$c(x,t)$有界，且$c(x,t)\geq 0$. 试证明：如果$u$在$\bar{Q}$上存在非负最大值，则$u$必在抛物边界$\Gamma$上达到它在$\bar{Q}$上的非负最大值.
+\end{problem}
+\begin{solution}
+    令$f(x,t) = Lu(x,t)$.
+    
+    (1) 设$f < 0$时，反设$u$能在$\bar{Q}\backslash \Gamma$上取到非负最大值$P_0(x_0,t_0)\in \bar{Q}\backslash \Gamma$，使得$u|_{P_0} = \max_{\bar{Q}}u(x,t)\geq 0$，于是
+    \begin{equation*}
+        u_x|_{P_0} = 0,\quad u_{xx}|_{P_0}\leq 0,\quad u_t|_{P_0} = 0\ (t_0<T),\quad u_t|_{P_0}\geq 0, (t_0=T).
+    \end{equation*}
+    则$f(x_0,t_0) = [u_t-a^2u_{xx}+c(x,t)u]_{P_0}\geq 0$与$f(x_0,t_0) < 0$矛盾，故$u$在$\Gamma$上取到非负最大值.
+
+    (2) 设$f\leq 0$，$\forall \varepsilon > 0$，考虑辅助函数$v(x,t) = u(x,t)-\varepsilon t$，则
+    \begin{equation*}
+        Lv = Lu - \varepsilon-c(x,t)\varepsilon t = f-\varepsilon(1+c(x,t)t) < 0
+    \end{equation*}
+    由(1)可知，$v$在$\Gamma$上非负最大值，则
+    \begin{equation*}
+        \max_{\bar{Q}}u(x,t) = \max_{\bar{Q}}(v+\varepsilon t)\leq \max_{\Gamma}v+\varepsilon T\leq \max_{\Gamma}u+\varepsilon T\leq \max_{\Gamma} u,\quad (\varepsilon\to 0)
+    \end{equation*}
+
+    故$u$在$\Gamma$上取到$\bar{Q}$上的非负最大值.
+\end{solution}
+\begin{problem}[(21)]
+    证明半无界问题
+    \begin{equation*}
+        \begin{cases}
+            u_t-a^2u_{xx} = f(x,t),&\quad 0 < x, t > 0,\\
+            u|_{t=0} = \varphi(x),&\quad 0\geq 0,\\
+            u|_{x=0} = \mu(x),&\quad t\geq 0,\\
+            \left(\text{或}-u_x+au|_{x=0}=\mu(t),\text{常数}\alpha > 0\right)
+        \end{cases}
+    \end{equation*}
+    的有界解是唯一的.
+\end{problem}
+\begin{problem}[(22)]
+    设$u(x,t)\in C^{2,1}(\bar{Q})$是问题
+    \begin{equation*}
+        \begin{cases}
+            u_t-u_{xx} = f,&\quad (x,t)\in Q,\\
+            u(x,0) = \varphi(x),&\quad 0\leq x\leq l,\\
+            u(0,t)=u(l,t) = 0,&\quad 0\leq t\leq T
+        \end{cases}
+    \end{equation*}
+    的解，证明$u$满足以下估计
+    \begin{equation*}
+        \sup_{0\leq t\leq T}\int_0^lu_x^2\,\d x+\int_0^T\int_0^lu_t^2\,\d x\,\d t\leq M\left[\int_0^l(\varphi'(x))^2\,\d x+\int_0^T\int_0^lf^2(x,t)\,\d x\,\d t\right],
+    \end{equation*}
+    其中$M$只依赖于$T,l$.
+\end{problem}
+\begin{problem}[(23)]
+    设$u(x,t)\in C^{1,0}(\bar{Q})\cap C^{2,1}(Q)$且满足以下定解问题
+    \begin{equation*}
+        \begin{cases}
+            u_t-a^2u_{xx} = f(x,t),&\quad (x,t)\in Q,\\
+            u(x,0) = \varphi(x),&\quad 0\leq x\leq l,\\
+            \left[-u_x+\alpha u\right]_{x=0} = [u_x+\beta u]_{x=l} = 0,&\quad 0\leq t\leq T,
+        \end{cases}
+    \end{equation*}
+    其中$\alpha \geq 0,\beta\geq 0$，证明
+    \begin{equation*}
+        \sup_{0\leq t\leq T}\int_0^lu_x^2\,\d x+\int_0^T\int_0^lu_t^2\,\d x\,\d t\leq M\left[\int_0^l\varphi^2(x)\,\d x+\int_0^T\int_0^lf^2(x,t)\,\d x\,\d t\right],
+    \end{equation*}
+    其中$M$只依赖于$T,a$.
+\end{problem}
+\end{document}
