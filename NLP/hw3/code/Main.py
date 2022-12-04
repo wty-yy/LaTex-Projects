@@ -6,6 +6,8 @@
 @file: main.py.py
 @time: 2022/11/30 17:26
 """
+import collections
+
 
 def solve(text):
     # 1.词库读取
@@ -15,6 +17,11 @@ def solve(text):
             word = s.split()[0]
             dic.add(word)
     print('词库大小', len(dic))
+
+    counter = collections.Counter()
+    for w in dic:
+        counter[w] = len(w)
+    print(counter.most_common()[:10])
 
     length = len(text)  # 获取文本长度
     print('原文本长度', length, '\n')
@@ -36,6 +43,7 @@ def solve(text):
         i = j
     print('正向最大匹配法长度：', len(pos_div))
     print('单个字个数：', pos_single)
+    print(pos_div)
 
     # 3.逆向最大匹配法
     neg_div= []
@@ -51,7 +59,9 @@ def solve(text):
         j = i
     neg_div = neg_div[::-1]
     print('逆向最大匹配法长度：', len(neg_div))
-    print('单个字个数：', neg_single, '\n')
+    print('单个字个数：', neg_single)
+    print(neg_div)
+    print()
 
     # 4.双向最大匹配法
     best_div = None
@@ -69,7 +79,8 @@ def solve(text):
     print(best_div)
 
 if __name__ == '__main__':
-    # with open('text.txt', encoding='utf-8') as file:
-    #     long_text = file.read()
+    with open('text.txt', encoding='utf-8') as file:
+        long_text = file.read()
     text = '我们在野生动物园玩'  # 设定目标文本
-    solve(text)
+    # solve(text)
+    solve(long_text)
