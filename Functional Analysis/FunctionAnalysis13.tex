@@ -107,18 +107,18 @@
 \begin{proof}
     设$x = \{\xi_n\}\in l^2$，满足$(\lambda I-A)x = 0\Rightarrow \lambda x = Ax\Rightarrow \lambda \xi_k = \xi_{k-1},\ (k\in \Z)$，则
     \begin{equation*}
-        x = \left(\cdots, k^n\xi_0,\cdots,k\xi_0,\xi_0,\frac{\xi_0}{k},\cdots,\frac{\xi_0}{k^n},\cdots\right)
+        x = \left(\cdots, \lambda^n\xi_0,\cdots,\lambda\xi_0,\xi_0,\frac{\xi_0}{\lambda},\cdots,\frac{\xi_0}{\lambda^n},\cdots\right)
     \end{equation*}
     
     由于$x\in l^2$，则$\sum_{n\in\Z}|\xi_n|^2 = |\xi_0|^2+\sum_{n\geq 1}\left|\frac{\xi_0}{\lambda^n}\right|^2+\sum_{n\leq 1}|\lambda^{-n}\xi_0|^2 < \infty$，则\\$|\xi_0|^2\left(1+\sum_{n\geq 1}\frac{1}{|\lambda|^{2n}}+|\lambda|^{2n}\right) < \infty$，若第二项为$0$，则$\frac{1}{\lambda}\to 0,\ \lambda\to 0$矛盾，于是$\xi_0 = 0$，则$x = 0$.
 
     综上，$(\lambda I-A)x = 0$只有零解，故$\sigma_p(A) = \varnothing$.
 
-    下证$\sigma_r(A) = \varnothing$，只需证$\ol{R(\lambda I-A)} = l^2$，只需证$R(\lambda I-A)^{\perp} = \varnothing$，设$y\in R(\lambda I-A)^\perp$，则$((\lambda I-A)x,y) = \sum_{k\in \Z}(\lambda\xi_k-\xi_{k-1})z_k = 0$，取$x = e_n = (\underbrace{0,\cdots,0, 1}_{n\text{个}}, 0,\cdots)$则
+    下证$\sigma_r(A) = \varnothing$，只需证$\ol{R(\lambda I-A)} = l^2$，只需证$R(\lambda I-A)^{\perp} = \{0\}$，设$y=\{\eta_n\}\in R(\lambda I-A)^\perp$，则$((\lambda I-A)x,y) = \sum_{k\in \Z}(\lambda\xi_k-\xi_{k-1})\eta_k = 0$，取$x = e_n = (\underbrace{0,\cdots,0, 1}_{n\text{个}}, 0,\cdots)$则
     \begin{equation*}
-        ((\lambda I-A)e_n,z) = \lambda z_n-z_{n+1} = 0
+        ((\lambda I-A)e_n,y) = \lambda \eta_n-\eta_{n+1} = 0
     \end{equation*}
-    类似上述证明可知$z=0$，故$\sigma_r(A) = \varnothing$.
+    类似上述证明可知$y=0$，故$\sigma_r(A) = \varnothing$.
 
     所以$\sigma(A) = \sigma_p(A) + \sigma_c(A) + \sigma_r(A) = \sigma_c(A)$.
 \end{proof}
