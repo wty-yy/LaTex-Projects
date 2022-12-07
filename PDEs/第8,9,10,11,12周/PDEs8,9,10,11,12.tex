@@ -448,12 +448,37 @@
         \begin{cases}
             u_t-a^2u_{xx} = f(x,t),&\quad 0 < x, t > 0,\\
             u|_{t=0} = \varphi(x),&\quad 0\geq 0,\\
-            u|_{x=0} = \mu(x),&\quad t\geq 0,\\
-            \left(\text{或}-u_x+au|_{x=0}=\mu(t),\text{常数}\alpha > 0\right)
+            u|_{x=0} = \mu(t),&\quad t\geq 0,\\
+            \left(\text{或}-u_x+\alpha u|_{x=0}=\mu(t),\text{常数}\alpha > 0\right)
         \end{cases}
     \end{equation*}
     的有界解是唯一的.
 \end{problem}
+\begin{proof}
+    令$u_1,u_2$为上述方程的解，令$v=u_1-u_2$，则
+    \begin{equation*}
+        \begin{cases}
+            Lv = v_t-a^2v_{xx} = 0,&\quad x > 0,t>0,\\
+            v|_{t=0} = 0,&\quad x > 0,\\
+            v|_{x=0}=0,&\quad t > 0.
+        \end{cases}
+    \end{equation*}
+    令$Q_L = \{(x,t):0 < x < L, 0 < t \leq T\}$，记$K = \sup_{Q}|v|$，过哦早$Q_L$上的辅助函数，$w(x,t) = g(x,t)\pm v(x,t)$，使得
+    \begin{equation*}
+        \begin{cases}
+            Lw = Lg \pm Lv = 0,\\
+            w|_{t=0} = g|_{t=0}\pm v|_{t=0} \geq 0,\\
+            w|_{x=0} = g|_{x=0}\pm v|_{x=0}\geq 0,\\
+            w|_{x=L} = g|_{x=L}\pm v|_{x=L}\geq K\pm v|_{x=L} \geq 0.
+        \end{cases}\text{即}\begin{cases}
+            Lg = 0,\\
+            g|_{t=0}\geq 0,\\
+            g|_{x=0}\geq 0,\\
+            g|_{x=L}\geq K.
+        \end{cases}
+    \end{equation*}
+    取$g = \frac{K}{L^2}(x^2+2a^2t)$即可满足上式，由比较定理可知$w(x,t)\geq 0,\ (x,t)\in Q_L$，于是$|v(x,t)|\leq g = \frac{K}{L^2}(x^2+2a^2t)\to 0,\ (L\to\infty)$，于是$v = 0\Rightarrow u_1 = u_2,\ (x\in Q)$.
+\end{proof}
 \begin{problem}[(22)]
     设$u(x,t)\in C^{2,1}(\bar{Q})$是问题
     \begin{equation*}
@@ -469,6 +494,21 @@
     \end{equation*}
     其中$M$只依赖于$T,l$.
 \end{problem}
+\begin{proof}
+    令$Q_\tau = \{(x,t):x\in[0,l], t\in [0,\tau]\}$，对热传导方程左右同乘$u_t$，再在$Q_\tau$上积分，得
+    \begin{align*}
+        &\ \int_{Q_\tau}u_t^2\,\d x\,\d t - \int_{Q_\tau}u_tu_{xx}\,\d x\,\d t = \int_0^\tau\int_0^lf\cdot u_t\,\d x\,\d t\\
+        \Rightarrow&\ \int_{Q_\tau}u_t^2\,\d t - \int_{Q_\tau}\left[\frac{\partial}{\partial x}(u_xu_t)-\frac{1}{2}\,\frac{\partial}{\partial t}(u_x^2)\right]\,\d x\,\d t\leq \frac{1}{2}\int_{Q_\tau}f^2\,\d x\,\d t + \frac{1}{2}\int_{Q_\tau}u_t^2\,\d x\,\d t
+    \end{align*}
+    左式第二项使用Green公式可得$I_2 = -\int_{\partial Q}u_xu_t\,\d t + \frac{1}{2}u_x^2\,\d x$，由于$u|_{x=0} = u|_{x=l} = 0$并注意符号，得$I_2 = -\frac{1}{2}\int_0^l\varphi_x^2\,\d x+\frac{1}{2}\int_0^lu_x^2(x,\tau)\,\d x$，于是原不等式转化为
+    \begin{equation*}
+        \int_0^lu_x^2(x,\tau)\,\d x + \int_{Q_\tau}u_t^2\,\d x\,\d t \leq \int_0^l\varphi_x^2\,\d x + \int_{Q_\tau}f^2\,\d x\,\d t
+    \end{equation*}
+    对$\tau$在$[0,T]$中取上确界可得
+    \begin{equation*}
+        \sup_{0\leq \tau\leq T}\int_0^lu_x^2(x,\tau)\,\d x+\int_0^T\int_0^lu_t^2\,\d x\,\d t\leq \int_0^l\varphi_x^2(x)\,\d x + \int_0^T\int_0^lf^2(x,t)\,\d x\,\d t
+    \end{equation*}
+\end{proof}
 \begin{problem}[(23)]
     设$u(x,t)\in C^{1,0}(\bar{Q})\cap C^{2,1}(Q)$且满足以下定解问题
     \begin{equation*}
@@ -484,4 +524,31 @@
     \end{equation*}
     其中$M$只依赖于$T,a$.
 \end{problem}
+\begin{proof}
+    令$Q_\tau = \{(x,t):x\in[0,l],t\in [0,\tau]\}$，对热传导方程左右同乘$u$，再在$Q_\tau$上积分可得
+    \begin{align*}
+        &\ \int_{Q_\tau}uu_t-a^2uu_{xx}\,\d t = \int_{Q_\tau}f\cdot u\,\d x\,\d t\\
+        \Rightarrow&\ I_1+I_2=\int_Q\frac{1}{2}(u^2)_t - a^2\int_{Q_\tau}uu_{xx}\,\d x\,\d t\leq \frac{1}{2}\int_{Q_\tau}f^2\,\d x\,\d t+\frac{1}{2}\int_{Q_\tau}u^2\,\d x\,\d t
+    \end{align*}
+    下面分别求解$I_1,I_2$
+    \begin{align*}
+        I_1=&\ \frac{1}{2}\int_{Q_\tau}(u^2)_t\,\d x\,\d t = \frac{1}{2}\int_0^lu^2(x,\tau)\,\d x-\frac{1}{2}\int_0^l\varphi^2\,\d x\\
+        I_2=&\ \int_{Q_\tau}-a^2u\,\d u_x\,\d t = -a^2\left[\int_0^\tau uu_x|_{x=l}\,\d t - \int_0^\tau uu_x|_{x=0}\,\d t\right]+a^2\int_{Q_\tau}u_x^2\,\d x\,\d t\\
+        =&\ a^2\left(\frac{1}{\beta}+\frac{1}{\alpha}\right)\int_0^\tau u_x^2\,\d t + a^2\int_{Q_\tau}u_x^2\,\d x\,\d t\\
+    \end{align*}
+    于是原不等式变为
+    \begin{align*}
+        \int_0^lu^2(x,\tau)\,\d x+2a^2\int_{Q_\tau}u_x^2\,\d x\,\d t+2a^2\left(\frac{1}{\beta}+\frac{1}{\alpha}\right)\int_0^\tau u_x^2\,\d t\leq& \int_{Q_\tau}f^2\,\d x\,\d t + \int_0^l\varphi^2\,\d x + \int_{Q_\tau}u^2\,\d x\,\d t\\
+        \Rightarrow\ \int_0^lu^2(x,\tau)\,\d x+2a^2\int_{Q_\tau}u_x^2\,\d x\,\d t\leq& \int_{Q_\tau}f^2\,\d x\,\d t + \int_0^l\varphi^2\,\d x + \int_{Q_\tau}u^2\,\d x\,\d t
+    \end{align*}
+    令$G(\tau) = \int_{Q_\tau}u^2\,\d x\,\d t, F(\tau) = \int_{Q_\tau}f^2\,\d x\,\d t + \int_0^l\varphi^2\,\d x$，则$G(0) = 0$且$G(\tau)$单调递增，则$\frac{\d G(\tau)}{\d \tau}\leq G(\tau)+F(\tau)$，有Gronwall不等式可知，存在$M>0$使得$G(\tau)\leq MF(\tau)$，于是
+    \begin{align*}
+        \int_0^lu^2(x,\tau)\,\d x+2a^2\int_{Q_\tau}u_x^2\,\d x\,\d t\leq (1+M)\left[\int_{Q_\tau}f^2\,\d x\,\d t + \int_0^l\varphi^2\,\d x\right]
+    \end{align*}
+    对$\tau$在$[0,T]$中取上确界可得
+    \begin{equation*}
+        \sup_{0\leq \tau\leq T}\int_0^lu_x^2(x,\tau)\,\d x+2a^2\int_0^T\int_0^lu_t^2\,\d x\,\d t\leq M'\left[\int_0^T\int_0^lf^2(x,t)\,\d x\,\d t + \int_0^l\varphi^2(x)\,\d x\right],
+    \end{equation*}
+    其中$M' = 1+M$.
+\end{proof}
 \end{document}
