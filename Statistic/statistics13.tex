@@ -126,15 +126,31 @@
     \end{cases}\Rightarrow \begin{cases}
         x_1 = y_1,\\
         x_2 = y_2/y_1.
-    \end{cases}$则$J = \frac{1}{y_1}$，由于$\theta = 1$，则$X_1,X_2\overset{iid}{\sim}I_{(0,1)}$，于是$f_{Y_1,Y_2}(y_1,y_2) = \frac{1}{y_1}$，则
+    \end{cases}$则$J = \frac{1}{y_1}$，由于$f_{X_1,X_2}(x_1,x_2) = \theta^2(x_1x_2)^{\theta-1}$，于是
+    \begin{align*}
+        &\ f_{Y_1,Y_2}(y_1,y_2) = f_{X_1,X_2}(y_1,y_2/y_1)\frac{1}{y_1} = \frac{\theta^2y_2^{\theta-1}}{y_1}\\
+        &\ f_{Y_2}(y_2) = \int_{y_2}^1\frac{\theta^2y_2^{\theta-1}}{y_1}\,\d y_1 = -\theta^2y_2^{\theta-1}\log y_2
+    \end{align*}
+    取$\theta = 1$，则$f_{Y_2}(y_2) = -\log y_2$，于是
     \begin{equation*}
-        f_{Y_2}(y_2) = \int_{y_2}^1\frac{1}{y_1}\,\d y_1 = -\log y_2
-    \end{equation*}
-    则
-    \begin{equation*}
-        \frac{1}{2}+\frac{1}{2}\log\frac{1}{2}=\alpha = P_{\theta=1}(x_1x_2> k') = P_{\theta = 1}(Y_2> k') = \int_{k'}^1-\log y\,\d y = 1+k'\log k'-k'
+        \frac{1}{2}+\frac{1}{2}\log\frac{1}{2}=\alpha = P_{\theta=1}(X_1X_2> k') = P_{\theta = 1}(Y_2> k') = \int_{k'}^1-\log y\,\d y = 1+k'\log k'-k'
     \end{equation*}
     故$k' = 1/2$，MPT为拒绝$H_0$当且仅当$X_1X_2> 1/2$.
+
+    (f). 由于(b)可知
+    \begin{align*}
+        \alpha =&\ \pi_{T}(1) = P_{\theta = 1}(X_1X_2 > k) = 1 + k\log k - k\\
+        \beta = &\ 1-\pi_{T}(2) = 1-P_{\theta = 2}(X_1X_2 > k) = 1+\int_k^1 4y_2\log y_2\,\d y_2 = -2k^2\log k+k^2
+    \end{align*}
+    由于$k\in (0,1)$，于是$\alpha'(k) = \log k < 0,\ \beta'(k) = -4k\log k > 0$，所以$\alpha(k)$单调递减，$\beta(k)$单调递增，且$\alpha(0) = \beta(1) = 1,\ \alpha(1) = \beta(0) = 0$，故存在$k_0$使得$\alpha(k_0) = \beta(k_0)$，使得
+    \begin{equation*}
+        \max\{\alpha(k), \beta(k)\} = \begin{cases}
+            \alpha(k),&\quad k < k_0,\\
+            \beta(k),&\quad k > k_0.
+        \end{cases}
+    \end{equation*}
+    所以当$k = k_0$时，$\max\{\alpha(k),\beta(k)\}$有最小值，检验为：拒绝$H_0$当且仅当$X_1X_2 > k_0$.\\(数值计算得到$k_0\approx 0.312$)
+
 \end{solution}
 \begin{problem}[(4)]设$X$来自分布$f(x;\theta) = \theta x^{\theta-1}I_{(0,1)}(x)$，其中$\theta >0$.
 
@@ -164,7 +180,14 @@
     \end{equation*}
     于是UMPT的拒绝域为$C = \{x:x < \sqrt{\alpha}\}$.
 
-    (e). 
+    (e). 由题目一(f)小问可知
+    \begin{equation*}
+        \left.\begin{aligned}
+            &\ \alpha = \pi_T(2) = 1 + 2k^2\log k - k^2\\
+            &\ \beta = 1 - \pi_T(1) = -k\log k + k
+        \end{aligned}\right\}\ \alpha+\beta = 1+(2k-1)k\log k + k(-k+1) = g(k)
+    \end{equation*}
+    由于$g'(k) = (4k-1)\log k,\ g''(k) = 4\log k + 4 - 1/k$，于是$k=1/4$时$g(k)$有极值，又由于$g''(1/4) = -8\log 2 < 0$，所以$g(1/4)$是极大值点，在$(0,1)$上$k$没有极小值点. 故没有检验可以最小化$\alpha+\beta$.
 
     (f). 由于$L(\theta) = \theta x^{\theta -1}$，$\frac{\d L(\theta)}{\d \theta} = x^{\theta-1}(1+\theta \log x)$，则$\theta = -\frac{1}{\log x}$时取到最大值，则$\sup_{\theta > 0}L(\theta) = -\frac{1}{\log x}x^{-\frac{1}{\log x}-1}$，$L(1) = 1$，于是
     \begin{equation*}
@@ -191,33 +214,82 @@
     综上，GLR检验水平为$\alpha$的拒绝域为$C = C_0\cup C_1 = (0,\min\{\alpha,\e^{-1}\})\cup (\max\{\e^{-1},1-\alpha\}, 1)$.
 \end{solution}
 \begin{problem}[(中文书7)]
-    设样本量为$1$，$X\sim \theta x^{\theta - 1}I_{(0,1)}(x)$，统计假设$H_0:\theta = 1\ vs. H_1:\theta = 2$，若拒绝域为$C = \{x:x\geq c\}$，确定$c$使得$\alpha+2\beta$最小，并求出最小值，$\alpha,\beta$为犯第一类和第二类错误的概率.
+    设样本量为$1$，$X\sim \theta x^{\theta - 1}I_{(0,1)}(x)$，统计假设$H_0:\theta = 1\ vs.\ H_1:\theta = 2$，若拒绝域为$C = \{x:x\geq c\}$，确定$c$使得$\alpha+2\beta$最小，并求出最小值，$\alpha,\beta$为犯第一类和第二类错误的概率.
 \end{problem}
+\begin{solution}
+    由于势函数为$\pi_T(\theta) = P_\theta[x\geq c] = \int_c^1\theta x^{\theta-1}\,\d x = 1-c^\theta$，于是
+    \begin{equation*}
+        \left.\begin{aligned}
+            &\ \alpha = \pi_T(1) = 1-c^\theta\\
+            &\ \beta = 1-\pi_T(2) = c^2
+        \end{aligned}\right\}\ \alpha+\beta = 2c^2-c+1 = g(c)
+    \end{equation*}
+    则$g'(c) = 4c-1,\ g''(c) = 4$，于是$g$在$c = 1/4$处有最小值$5/4$，故检验为拒绝$H_0$当且仅当$x\geq 1/4$时，$\alpha+2\beta$最小.
+\end{solution}
+\begin{problem}[(中文书7)]
+    假定考生成绩服从正态分布，在某地一次数学统考中，随机抽取了$36$位考生的成绩，算得平均成绩为$66.5$分，标准差为$15$分，问在显著性水平为$0.05$下，是否可以认为这次考试全体考生的平均成绩为$70$分？
+\end{problem}
+\begin{solution}
+    构造检验统计量$T = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$，则拒绝原假设当且仅当$|t| > t_{1-\alpha/2}(n-1)$.
 
-% 下面给一些功能的写法
-\iffalse
-% 图片模板
-\centerline{
-    \includegraphics[width=0.8\textwidth]{figure.png}
-}
-% 表格模板
-\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
-\begin{table}[!htbp] % table标准
-    \centering % 表格居中
-    \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{3cm}<{\centering}p{5cm}<{\centering}} % 设置表格宽度
-    %\begin{tabular}{cccc}
-        \toprule
-        $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ \\
-        \midrule
-        $x_0$ & $f(x_0)$ &                  &                          \\
-        $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
-        $x_0$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
-        \bottomrule
-    \end{tabular}
-\end{table}
+    由题可知，$n=36$，$\mu_0 = 70,\ \bar{x} = 66.5,\ S = 15,\ \alpha = 0.05$，查表可知$t_{0.975}(35) \approx 2.03$，于是$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} = 1.4$，故接受原假设，即考生的平均成绩为$70$分.
+\end{solution}
+\begin{problem}[(中文书14)]
+    在针织品漂白工艺过程中，要考察温度对针织品断裂强力(主要质量指标)的影响. 为了比较$70\ ^{\circ}$C与$80\ ^{\circ}$C的影响有无差别，在这两个温度下，分别重复做了$8$次试验，得到数据(单位：N)如下：
+    \begin{align*}
+        &\ 70\ ^{\circ}\text{C 时的强力}: \qquad 20.5\quad 18.8\quad 19.8\quad 20.9\quad 21.5\quad 19.5\quad 21.0\quad 21.2\\
+        &\ 80\ ^{\circ}\text{C 时的强力}: \qquad 17.7\quad 20.3\quad 20.0\quad 18.8\quad 19.0\quad 20.1\quad 20.0\quad 19.1
+    \end{align*}
+    根据经验，温度对针织品断裂强度的波动没有影响. 问在$70\ ^{\circ}$C时的平均断裂强力与$80\ ^{\circ}$C时的平均断裂强力之间是否有显著性差别(假定断裂强力服从正态分布，取$\alpha = 0.05$)？
+\end{problem}
+\begin{solution}
+    由于温度对断裂强力的波动没有影响，可以认为两个温度下的方差相同，记$70\ ^{\circ}$C下的样本为$X_1,\cdots,X_8\overset{iid}{\sim}N(\mu_1,\sigma)$，$80\ ^{\circ}$C下的样本为$Y_1,\cdots,Y_8\overset{iid}{\sim}N(\mu_2,\sigma)$. 构造$\mu_2-\mu_1$的检验统计量$T = \frac{\bar{Y}-\bar{X}}{S_w\sqrt{1/n+1/m}}$，有显著性差异当且仅当$|t| > t_{1-\alpha/2(n+m-2)}$.
 
-\def\Log{\text{Log}} % 一个简单的宏定义
-$\Log$ % 调用方法
-\fi
+    由题可知，$n=m=8$，$\bar{x} = 20.4,\ \bar{y} = 19.375,\ s_w = \frac{1}{14}[7\times(s_x^2+s_y^2)] \approx 0.8368$，查表可知$t_{0.975}(14) \approx 2.145$于是$t = \frac{\bar{y}-\bar{x}}{s_w\sqrt{1/4}} \approx -2.45 < -2.145$，故两种温度下的断裂强力有显著性差异.
+\end{solution}
+\begin{problem}(中文书15)
+    一药厂生产一种新的止痛片，厂房希望验证服用新药片后指开始起作用的事件间隔较原有止痛片至少缩短一半，因此厂房提出需检验假设$H_0:\mu_1=2\mu_2\ vs.\ H_1:\mu_1 > 2\mu_2$. 此处$\mu_1,\mu_2$表示服用原有止痛片和服用新止痛片后至开始起作用的时间间隔的总体均值. 设两总体均为正态分布且方差分别为已知值$\sigma_1^2,\sigma_2^2$，现在分别从两总体中取样本$x_1,\cdots,x_n$和$y_1,\cdots, y_m$，设两个样本独立. 试给出上述假设检验问题的检验统计量及拒绝域.
+\end{problem}
+\begin{solution}
+    由于$\bar{X},\bar{Y}$分别为$\mu_1,\mu_2$的MLE，则$\bar{X}-2\bar{Y}$是$\mu_1-2\mu_2$的估计量，则拒绝域满足如下形式：
+    \begin{equation*}
+        C = \{(X_1,\cdots,X_n;Y_1,\cdots,Y_m):\bar{X}-2\bar{Y} > k^*\} = \left\{(X_1,\cdots,X_n;Y_1,\cdots,Y_m):\frac{\bar{X}-2\bar{Y}-(\mu_1-2\mu_2)}{\sqrt{\frac{\sigma_1^2}{n}+\frac{2\sigma_2^2}{m}}} > k\right\}
+    \end{equation*}
+    于是有$\alpha = P_{\mu_1=2\mu_2}\left(\frac{\bar{X}-2\bar{Y}}{\sqrt{\frac{\sigma_1^2}{n}+\frac{2\sigma_2^2}{m}}} > k\right)$，则$k = z_{1-\alpha}$表示标准正态分布的$1-\alpha$分位数.
 
+    于是检验统计量为$\bar{X}-2\bar{Y}$，拒绝域为$C=\left\{(x_1,\cdots,x_n;y_1,\cdots,y_n):\bar{x}-2\bar{y} > \sqrt{\frac{\sigma_1^2}{n}+\frac{2\sigma_2^2}{m}}z_{1-\alpha}\right\}$.
+\end{solution}
+\begin{problem}[(中文书26)]
+    测得两批电子器件的样品的电阻(单位：$\Omega$)为
+    \begin{align*}
+        &\ \text{A批}(x):\qquad 0.140\quad 0.138\quad 0.143\quad 0.142\quad 0.144\quad 0.137\\
+        &\ \text{B批}(y):\qquad 0.135\quad 0.140\quad 0.142\quad 0.136\quad 0.138\quad 0.140
+    \end{align*}
+    设这两批器材的电阻值分别服从分布$N(\mu_1,\sigma_1^2),N(\mu_2,\sigma_2^2)$，且两样本独立.
+
+    (1) 试检验两个总体的方差是否相等(取$\alpha = 0.05$).
+
+    (2) 试检验两个总体的均值是否相等(取$\alpha = 0.05$).
+\end{problem}
+\begin{solution}
+    (1) 构造检验统计量$F = \frac{\frac{\sum_{i=1}^n(X_i-\bar{X})^2}{n-1}}{\frac{\sum_{j=1}^m(Y_j-\bar{Y})^2}{m-1}} = \frac{S_X^2}{S_Y^2}$，则$F > F_{1-\alpha/2}(n-1,m-1)$或$F>F_{\alpha/2}(n-1,m-1)$时拒绝原假设.
+
+    由题目可知$n=m=5$，$s_x^2 \approx 7.867\times 10^{-6}, s_y^2 \approx 7.1\times 10^{-6}$，$F_{0.975}(5, 5) \approx 7.147,\ F_{0.025}(5, 5)\approx 0.14$，由于检测统计量$F = \frac{s_x^2}{s_y^2} \approx 1.10798$，故接受原假设，即两个总体的方差相等.
+
+    (2) 由(1)可知，可以近似认为$\sigma_1=\sigma_2$，构造检验统计量$T = \frac{\bar{Y}-\bar{X}}{S_w\sqrt{1/n+1/m}}$，其中$S_w^2 = \frac{1}{n+m-2}[(n-1)S_X^2+(m-1)S_Y^2]$，当$|T| > t_{1-\alpha/2}(n+m-2)$时，拒绝原假设.\add
+
+    由题目可知$n=m=5$，$\bar{x}\approx 0.141,\ \bar{y}= 0.1385$，$s_w^2 \approx 7.484\times 10^{-6}$，$t_{0.975}(8)\approx 2.306$，于是$T = \frac{\bar{y}-\bar{x}}{s_w\sqrt{1/6+1/6}}\approx -1.3718$，故接受原假设，即两个总体的均值相同.\add
+\end{solution}
+\begin{problem}[(中文书27)]
+    某厂使用两种不同的原料生产同一种产品，随机选取使用原料A生产的样品$22$件，测得平均质量为$2.36$kg，样本标准差为$0.57$kg. 取使用原料B生产的样本$24$件，测得平均质量为$2.55$kg，样本标准差为$0.48$kg. 设产品质量服从正态分布，两个样本独立. 问能否认为使用原料B生产的产品平均质量较使用原料A显著大(取$\alpha = 0.05$)？
+\end{problem}
+\begin{solution}
+    假设两个总体分别服从$N(\mu_1,\sigma_1^2),N(\mu_2,\sigma_2^2)$，首先假设两个总体的方差相同，构造$\sigma_1/\sigma_2$的检验统计量$\tilde{F} = \frac{S_X^2}{S_Y^2}$，则拒绝原假设当且仅当$\tilde{F} > F_{1-\alpha/2}(n-1,m-1)$或$\tilde{F} < F_{\alpha/2}(n-1,m-1)$.
+
+    由题可知，$n=21,\ m=23$，$s_x^2 = 0.3249,\ s_y^2 = 0.2304,\ \tilde{F} = s_x^2/s_y^2 \approx 1.41$，通过查表可知$F_{0.025}(21, 23) = 0.42,\ F_{0.975}(21, 23) = 2.34$，则接受原假设，即可以认为两个总体方差相同.
+
+    基于方差相同的基础上，构造$\mu_2-\mu_1$的检验统计量$T = \frac{\bar{Y}-\bar{X}}{S_w\sqrt{1/n+1/m}}$，拒绝原假设当且仅当$t < t_\alpha(n+m-2)$.
+    
+    由题可知，$s_w = \frac{(n-1)s_x^2+(m-1)s_y^2}{n+m-2} \approx 0.2755$，通过查表可知$t_{0.05}(44) = -1.68$，由于$t = \frac{\bar{y}-\bar{x}}{s_w\sqrt{1/n+1/m}} \approx 2.3365 > -1.68$，则接受原假设，即原料$B$生产的产品质量较原料$A$显著大.
+\end{solution}
 \end{document}
