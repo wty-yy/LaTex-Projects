@@ -3,6 +3,7 @@
 #include <utility>
 #include <algorithm>
 #include <time.h>
+#include <string.h>
 using namespace std;
 const int N = 1e8;
 
@@ -13,7 +14,7 @@ void bubble(int l, int r) {  // 对a[l,r)进行冒泡排序
         for (int j = i + 1; j < r; j++)
             if (a[i] > a[j]) swap(a[i], a[j]);
 }
-
+// 划分函数，返回值为：最靠左的mid下标，与mid相同数个数
 pair<int, int> partition(int l, int r, int mid) {
     int i = l - 1, j = r;
     while (1) {
@@ -32,8 +33,7 @@ pair<int, int> partition(int l, int r, int mid) {
         while (a[rr] == mid && rr < r-1) rr++;
         if (a[i] == mid) swap(a[i], a[rr]), rr++;
     }
-    return make_pair(ll+1, rr-ll-1);  // 返回最靠左的mid下标，与mid相同数个数
-    // return ll+1;
+    return make_pair(ll+1, rr-ll-1);
 }
 
 int select(int l, int r, int k) {  // 返回a[l,r)中第k大的元素
@@ -60,7 +60,7 @@ int select(int l, int r, int k) {  // 返回a[l,r)中第k大的元素
 int main1() {  // 用于测试select函数速度
     ios::sync_with_stdio(0);
     cin.tie(0);
-    freopen("in.in", "r", stdin);
+    freopen("7-1.in", "r", stdin);
     cin >> n;
     for (int i = 0; i < n; i++) cin >> a[i];
     clock_t start = clock();
@@ -79,7 +79,7 @@ int main1() {  // 用于测试select函数速度
 }
 
 int main() {  // 求解距离中位数n/4近的数
-    freopen("in.in", "r", stdin);
+    freopen("7-1.in", "r", stdin);
     cin >> n;
     for (int i = 0; i < n; i++) cin >> a[i];
     memcpy(tmp, a, sizeof(int) * n);
@@ -96,7 +96,7 @@ int main() {  // 求解距离中位数n/4近的数
         }
     cout << '\n';
 
-    cout << "\n" << "After sorted: " << '\n';
+    cout << "\n" << "After sorted(Check): " << '\n';
     sort(a, a + n);
     for (int i = 0; i < n; i++)
         cout << a[i] << ' ';
