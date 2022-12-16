@@ -579,11 +579,27 @@ for cat, name in zip(cats, cat_names):
     item_df = item_df.sort_values(by=['rating'], ascending=False, ignore_index=True)  # 按评分排序保存到文本中
     item_df.to_csv(f"./validation/{name}.csv", index=False)
 \end{pythoncode}
+
+每种类别对应的文件数目如下
+\begin{pythoncode}
+'书籍'类别中商品数目383500, 评论数目2842292
+'平板'类别中商品数目363, 评论数目13341
+'手机'类别中商品数目1861, 评论数目81211
+'水果'类别中商品数目0, 评论数目0
+'洗发水'类别中商品数目501, 评论数目13923
+'热水器'类别中商品数目204, 评论数目3853
+'蒙牛'类别中商品数目0, 评论数目0
+'衣服'类别中商品数目5557, 评论数目2332
+'计算机'类别中商品数目20112, 评论数目359804
+'酒店'类别中商品数目0, 评论数目0
+\end{pythoncode}
+
 我们发现服装数据中的数据有较多的书籍评论，所以将其删去. 由于对于平板和手机的评论十分类似，我们打算用预测结果中前3个中正确则认为预测正确. 预测代码如下所示
 \begin{pythoncode}
 class_acc = [0, 0]  # 物品分类上的准确率
 
-def update_acc(classes_y, classes, acc, num=3):  # 结果在预测前num大中则正确
+# 真实值在前num个中则认为正确
+def update_acc(classes_y, classes, acc, num=3):
     for b in range(classes.shape[0]):
         acc[1] += 1
         pred = classes[b]
@@ -621,6 +637,8 @@ bert_classifier_seq_256
 商品分类准确率: 83.71%
 \end{pythoncode}
 \section{结论与讨论}
+全部代码均已上传至GitHub仓库：\href{https://github.com/wty-yy/LaTex-Projects/tree/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code}{大作业代码}，主要Jupyter代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.ipynb}{main.ipynb}，脚本代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.py}{main.py}
+
 通过本次实验我们学习了如何使用神经网络进行NLP的分类问题，首先我们学习了Bert的基本原理，与神经网络的编码基础知识；参考官方教程，学会如何使用Bert预训练模型进行文本的编码，对我们要训练的数据进行划分，训练集进行填充平均，使得每种类别的数据均匀分配，并搭建用于实际分类问题的神经网络；我们尝试了不同的输出层的神经网络，调整训练的次数、每次训练使用的步长、预处理文本的最大长度，最终比对不同模型的在验证集下的准确率，并自定义输入数据进行模型检验.
 
 本次大作业提高了我们对复杂模型神经网络模型的训练，学会了数据的各种处理方式，为以后科研打下基础.
