@@ -12,3 +12,6 @@ NLP/NLP大作业/dataset/test/Sports_and_Outdoors_5.json
 NLP/NLP大作业/dataset/test/Cell_Phones_and_Accessories_5.json
 NLP/NLP大作业/dataset/yf_amazon/ratings.csv
 model
+NLP/NLP大作业/code/checkpoints2/bert_classifier_epoch2.data-00000-of-00001
+NLP/NLP大作业/code/checkpoints2/bert_classifier_epoch2.index
+NLP/NLP大作业/code/validation

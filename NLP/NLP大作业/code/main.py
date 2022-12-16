@@ -9,12 +9,20 @@ import tensorflow_text as text
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+import os
 
-encoder_handle = r'model/bert_zh_L-12_H-768_A-12_4/'
-preprocesser_handle = r'model/bert_zh_preprocess_3/'
+
+os.environ["CUDA_VISIBLE_DEVICES"]='1'  # 指定显卡编号
+
+encoder_handle = r'model/bert_encoder/'  # 读取bert模型
+preprocesser_handle = r'model/bert_preprocessor/'  # 读取预处理模型
+ckp_load_handle = None  # 模型加载路径
+ckp_save_handle = r'./checkpoints/bert_classifier'  # 模型保存路径
+seq_length = 128  # 预处理文本最大长度
 
 # 数据预处理
-df = pd.read_csv(r'../dataset/online_shopping_10_cats.csv')
+df = pd.read_csv(r'online_shopping_10_cats.csv')
+df = df[df.review.isna() == False]  # 去掉Nan元素
 class_names = list(df.cat.drop_duplicates())
 info_df = pd.DataFrame(columns=['类别', '总数目', '正例', '负例'])
 class2idx = {}
@@ -22,7 +30,6 @@ for idx, name in enumerate(class_names):
     tmp = df[df.cat==name]
     info_df.loc[info_df.shape[0]] = [name, tmp.shape[0], tmp[tmp.label==1].shape[0], tmp[tmp.label==0].shape[0]]
     class2idx[name] = idx
-info_df
 
 # 平衡每种类别的商品数目到10000正负例均为5000，不足5000则重复性随机选取，补齐到5000
 data_x, data_y = [], []
@@ -39,7 +46,7 @@ for name in tqdm(class_names):
         except:
             print(text)
         data_x.append(text)
-        data_y.append((class2idx[name], 1))
+        data_y.append((1, class2idx[name]))
     if neg.shape[0] < 5000:
         add = neg.sample(5000 - neg.shape[0], replace=True)
         neg = pd.concat([neg, add], ignore_index=True)
@@ -47,14 +54,14 @@ for name in tqdm(class_names):
         text = neg.iloc[i][2]
         text = tf.constant(text, tf.string)
         data_x.append(text)
-        data_y.append((class2idx[name], 0))
+        data_y.append((0, class2idx[name]))
+print(f"输入特征: {len(data_x)}, 输出标签：{len(data_y)}")
 
-# ## 模型预处理
+# 模型预处理
 ds = tf.data.Dataset.from_tensor_slices((data_x, data_y))
 
-# 建立预处理模型
 # 自定义预处理模型
-def bert_preprocessor(sentence_features, seq_length=256):
+def bert_preprocessor(sentence_features, seq_length=128):
     text_inputs = [layers.Input(shape=(), dtype=tf.string, name=ft)
                    for ft in sentence_features]  # 处理输入的句子特征
     
@@ -69,69 +76,100 @@ def bert_preprocessor(sentence_features, seq_length=256):
     )
     encoder_inputs = packer(tokenized_inputs)
     return keras.Model(text_inputs, encoder_inputs, name='preprocessor')
-preprocessor = bert_preprocessor(['input1'])
-
-keras.utils.plot_model(preprocessor, show_shapes=True, show_dtype=True, to_file='Preprocessor.png')
-
-bert_model = hub.KerasLayer(encoder_handle)
+preprocessor = bert_preprocessor(['input1'], seq_length=seq_length)
 
 def build_classifier():
-    class Classifier(keras.Model):
-        def __init__(self):
-            super().__init__(name='prediction')
-            self.encoder = bert_model = hub.KerasLayer(encoder_handle, trainable=False)
-            # self.dense = layers.Dense(768, activation='relu')
-            self.dropout = layers.Dropout(0.3)
-            self.emotion = layers.Dense(1, activation='softmax')  # 情感分类
-            self.classifier = layers.Dense(10, activation='softmax')  # 文本分类
-            
-        def call(self, text):  # 经过预处理后的文本
-            output = self.encoder(text)
-            pooled_output = output['pooled_output']
-            x = self.dropout(pooled_output)
-            x1 = self.emotion(x)
-            x2 = self.classifier(x)
-            return (x1, x2)
-    
-    model = Classifier()
-    return model
+    text_input = layers.Input(shape=(), dtype=tf.string, name='input')
+    text_preprocessed = preprocessor(text_input)
+    encoder = hub.KerasLayer(encoder_handle, trainable=True, name='BERT_encoder')
+    x = encoder(text_preprocessed)['pooled_output']
+    # x = layers.Dense(256, activation='relu')(x)
+    x = layers.Dropout(0.3)(x)
+    x1 = layers.Dense(1, name='emotion')(x)
+    x2 = layers.Dense(10, name='classifier')(x)
+    return keras.Model(text_input, [x1, x2])
 
-model = build_classifier()
+classifier_model = build_classifier()
 
 # 超参数配置
-batch_size = 32
-batch_N = 100000 / 32
-epochs = 10
-optimizer = optimizers.Adam(learning_rate=1e-4)  # Adam优化器，设定步长
-loss_fn = losses.SparseCategoricalCrossentropy(from_logits=True)  # 使用交叉熵损失函数
+batch_size = 16
+batch_N = 100000 / batch_size
+epochs = 2
+optimizer = optimizers.Adam(learning_rate=1e-5)  # Adam优化器，设定步长
+binary_loss = losses.BinaryCrossentropy(from_logits=True)  # 二元交叉熵
+multi_loss = losses.SparseCategoricalCrossentropy(from_logits=True)  # 多元交叉熵
 dataset = ds.shuffle(100000).batch(batch_size).repeat(epochs)  # 随机打乱样本，设定batch大小
 # 计数器
-emotion_acc = keras.metrics.SparseCategoricalAccuracy('emotion_acc')  # 情感分类上的准确率
+emotion_acc = keras.metrics.BinaryAccuracy('emotion_acc')  # 情感分类上的准确率
 emotion_loss= keras.metrics.Mean('emotion_loss', dtype=tf.float32)  # 情感分类的平均损失
 class_acc = keras.metrics.SparseCategoricalAccuracy('class_acc')  # 物品分类上的准确率
 class_loss = keras.metrics.Mean('class_loss', dtype=tf.float32)  # 物品分类上的平均损失
 metrics = [emotion_acc, emotion_loss, class_acc, class_loss]
 
-history = dict([(metric.name, []) for metric in metrics])
-for step, (x, y) in enumerate(dataset):
-    with tf.GradientTape() as tape:
-        x_preprocessed = preprocessor(x)  # 特征编码
-        out = model(x_preprocessed)  # 模型预测
-        emotion, classes = out[:, 0], out[:, 1:]  # 将第一维作为情感分类，后面10维作为文本分类
-        loss1 = loss_fn(y[0], emotion)
-        loss2 = loss_fn(y[1], classes)
-        loss = tf.reduce_sum(loss1, loss2)  # 将两个loss求和作为总损失
-    grads = tape.gradient(loss, model.trainable_variables)  # 求梯度
-    optimizer.apply_gradients(zip(grads, model.trainable_variables))  # 更新网络参数
+if ckp_load_handle is not None:
+    classifier_model.load_weights(ckp_load_handle)  # 从之前的继续进行训练
 
-    emotion_acc.update_state(y[0], emotion)
+history = dict([(metric.name, []) for metric in metrics])
+print("Start training!!!")
+for step, (x, y) in tqdm(enumerate(dataset)):
+    emotion_y = tf.reshape(y[:, 0], [-1, 1])  # 情感标签
+    classes_y = tf.reshape(y[:, 1], [-1, 1])  # 分类标签
+    with tf.GradientTape() as tape:
+        emotion, classes = classifier_model(x, training=True)  # 模型预测
+        loss1 = binary_loss(emotion_y, emotion)  # y=(batch, 2)
+        loss2 = multi_loss(classes_y, classes)
+        loss = tf.reduce_mean(loss1 + loss2)  # 将两个loss求和作为总损失
+    grads = tape.gradient(loss, classifier_model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, classifier_model.trainable_variables))
+
+    emotion_acc.update_state(emotion_y, emotion)
     emotion_loss.update_state(loss1)
-    class_acc.update_state(y[1], classes)
+    class_acc.update_state(classes_y, classes)
     class_loss.update_state(loss2)
 
     if step % 100 == 0:
         s = f"step={step}/{batch_N * epochs}: "
         for metric in metrics:
-            s += f"{metric.name}={metric.result} "
-            history[metric.name].append(metric.result)
+            s += f"{metric.name}={metric.result().numpy():.3f} "
+            history[metric.name].append(metric.result().numpy())
             metric.reset_states()
+        print(s)
+        figure = plt.figure()
+        plt.plot(history['emotion_acc'], label='emotion_acc')
+        plt.plot(history['class_acc'], label='class_acc')
+        plt.legend()
+        plt.title('Accuracy')
+        figure.tight_layout()
+        plt.savefig('acc.png', dpi=300)
+        plt.close()
+
+        figure = plt.figure()
+        plt.plot(history['emotion_loss'], label='emotion_loss')
+        plt.plot(history['class_loss'], label='class_loss')
+        plt.legend()
+        plt.title('Loss')
+        figure.tight_layout()
+        plt.savefig('loss.png', dpi=300)
+        plt.close()
+
+        classifier_model.save_weights(ckp_save_handle)
+
+
+"""
+两者同时进行训练
+
+1个dense层：训练3125次，emotion_acc=0.952，emotion_loss=0.127
+class_acc=0.919, class_loss=0.251
+
+训练3125+6250次，emotion_acc=0.948，emotion_loss=0.134
+class_acc=0.922, class_loss=0.237
+---
+2个dense层：训练6200次，emotion_acc=0.931，emotion_loss=0.194
+class_acc=0.902，class_loss=0.310
+---
+预处理序列长度为256：batch_size=16，训练6250次，emotion_acc=0.933，emotion_loss=0.193
+class_acc=0.898，class_loss=0.321
+
+训练3个epochs，6250+12500：第后两个epoch降低learning_rate=1e-5，emotion_acc=0.966，emotion_loss=0.098
+class_acc=0.944，class_loss=0.154  效果很好了
+"""

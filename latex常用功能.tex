@@ -47,6 +47,7 @@ $\Log$ % 调用方法
 \end{wrapfigure}
 \footnotetext[1]{图片来源: \url{https://en.wikipedia.org/wiki/File:Colored_neural_network.svg}}
 文字文字
+% 这里一定要空一行
 }
 
 %%%% 普通图片, 标题加注释 %%%%
@@ -57,6 +58,26 @@ $\Log$ % 调用方法
     \label{figue-前馈神经网络}
 \end{figure}
 \footnotetext[1]{图片来源: 邱锡鹏, 神经网络与深度学习 \cite{ref-qxp}, 第92页}
+
+%%%% 两组图并排放（可溢出一些） %%%%
+\begin{figure}[htbp]
+    \hspace{-2.5cm}
+    \subfigure  % 子图的标题
+    {
+        % 如果一行放三个图改成0.3\linewidth即可
+        \begin{minipage}[b]{.62\linewidth}
+            \centering
+            \includegraphics[scale=0.5]{acc_dropout0.1.png}
+        \end{minipage}
+    }
+    \subfigure
+    {
+        \begin{minipage}[b]{.2\linewidth}
+            \centering
+            \includegraphics[scale=0.5]{loss_dropout0.1.png}
+        \end{minipage}
+    }
+\end{figure}
 
 %%%% 多组图 %%%%
 \begin{figure}[htbp]
