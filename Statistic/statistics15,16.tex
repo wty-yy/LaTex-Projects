@@ -137,8 +137,11 @@
 \end{table}\vspace{-0.3cm}
 \end{problem}
 \begin{solution}
-    由题可知，$n_{11} = 442, n_{12} = 514, n_{21} = 38, n_{22} = 6, \hat{p}_{1.} = 0.956, \hat{p}_{2.} = 0.044, \hat{p}_{.1}=0.48, \hat{p}_{.2}=0.52$.\add
+    由题可知，$n=1000, n_{11} = 442, n_{12} = 514, n_{21} = 38, n_{22} = 6, \hat{p}_{1.} = 0.956, \hat{p}_{2.} = 0.044, \hat{p}_{.1}=0.48, \hat{p}_{.2}=0.52$.\add
 
-    \textbf{卡方拟合优度检验}：广义似然比为$\lambda = \frac{\prod_{i=1}^2p_{i.}^{n_{i.}}\prod_{j=1}^2p_{.j}^{n_{.j}}}{\prod_{i=1}^2\prod_{j=1}^2p_{ij}^{n_{ij}}}\approx 3.426\times 10^{-7}$，通过查表可知$\rchi^2_{0.95}(1)\approx 3.838$则$-2\log \lambda \approx 29.773 > 3.838$，故拒绝原假设，
+    \textbf{卡方拟合优度检验}：广义似然比为$\lambda = \frac{\prod_{i=1}^2\hat{p}_{i.}^{n_{i.}}\prod_{j=1}^2\hat{p}_{.j}^{n_{.j}}}{\prod_{i=1}^2\prod_{j=1}^2\hat{p}_{ij}^{n_{ij}}}\approx 3.426\times 10^{-7}$，
+    通过查表可知$\rchi^2_{0.95}(1)\approx 3.838$则$-2\log \lambda \approx 29.773 > 3.838$，故可以以$0.05$的检验水平否定色盲与性别独立.
+
+    \textbf{Pearson统计量}：Pearson统计量为$q = \sum_{i=1}^2\sum_{j=1}^2\frac{(n_{ij}-n\hat{p}_{i.}\hat{p}_{.j})^2}{n\hat{p}_{i.}\hat{p}_{.j}}\approx 27.1387 > 3.838$，故也可以以$0.05$的检验水平否定色盲与性别独立.
 \end{solution}
 \end{document}
