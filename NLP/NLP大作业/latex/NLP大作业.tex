@@ -114,7 +114,7 @@
 \begin{document}
 
 %%%% 定义标题页,包括title,author,affiliation,email等 %%%%
-\title{最优化方法\\多层神经网络的训练问题}
+\title{NLP大作业报告\\基于Bert的中文商品评论分类模型}
 \author{
 西安交通大学，数学与统计学院，强基数学\\[3ex]
 吴天阳$^a$，马煜璇$^b$，孙思雨$^c$，陈江河$^d$\\[1ex]
@@ -500,22 +500,22 @@ def train():  # 模型训练
 1. batch=32, Dropout=0.3, Seqlength=128:
 \begin{pythoncode}
 emotion_acc=0.978 emotion_loss=0.070 class_acc=0.952 class_loss=0.130
-情感分类准确率: 94.57%
-商品分类准确率: 90.63%
+验证集上情感分类准确率: 94.57%
+验证集上商品分类准确率: 90.63%
 \end{pythoncode}
 
 2. batch=32, Dropout=0.1, Seqlength=128:
 \begin{pythoncode}
 emotion_acc=0.966 emotion_loss=0.095 class_acc=0.948 class_loss=0.146
-情感分类准确率: 93.99%
-商品分类准确率: 90.59%
+验证集上情感分类准确率: 93.99%
+验证集上商品分类准确率: 90.59%
 \end{pythoncode}
 
 3. batch=16, Dropout=0.3, Seqlength=256:
 \begin{pythoncode}
 emotion_acc=0.957 emotion_loss=0.114 class_acc=0.940 class_loss=0.164
-情感分类准确率: 93.26%
-商品分类准确率: 89.45% 
+验证集上情感分类准确率: 93.26%
+验证集上商品分类准确率: 89.45% 
 \end{pythoncode}
 
 测试自定义评论可以使用如下方法
@@ -637,7 +637,7 @@ bert_classifier_seq_256
 商品分类准确率: 83.71%
 \end{pythoncode}
 \section{结论与讨论}
-全部代码均已上传至GitHub仓库：\href{https://github.com/wty-yy/LaTex-Projects/tree/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code}{大作业代码}，主要Jupyter代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.ipynb}{main.ipynb}，脚本代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.py}{main.py}
+全部代码均已上传至GitHub仓库：\href{https://github.com/wty-yy/LaTex-Projects/tree/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code}{大作业代码}，主要Jupyter代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.ipynb}{main.ipynb}，脚本代码\href{https://github.com/wty-yy/LaTex-Projects/blob/main/NLP/NLP%E5%A4%A7%E4%BD%9C%E4%B8%9A/code/main.py}{main.py}，可共部署的代码：\href{https://github.com/wty-yy/Bert-Chinese-Text-Classifier-Tensorflow2}{Bert-Chinese-Text-Classifier-Tensorflow2}.
 
 通过本次实验我们学习了如何使用神经网络进行NLP的分类问题，首先我们学习了Bert的基本原理，与神经网络的编码基础知识；参考官方教程，学会如何使用Bert预训练模型进行文本的编码，对我们要训练的数据进行划分，训练集进行填充平均，使得每种类别的数据均匀分配，并搭建用于实际分类问题的神经网络；我们尝试了不同的输出层的神经网络，调整训练的次数、每次训练使用的步长、预处理文本的最大长度，最终比对不同模型的在验证集下的准确率，并自定义输入数据进行模型检验.
 

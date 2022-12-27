@@ -35,7 +35,8 @@
 \def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
 \def\weekto{\rightharpoonup}% 右半箭头
 \def\tsty{\textstyle}       % 使用行内公式 textstyle
-\def\sign{\text{sign}}      % sign function
+\def\sign{\text{sign }}      % sign function
+\def\supp{\text{supp }}      % supp
 \def\wtd{\widetilde}        % 宽波浪线 widetilde
 \def\R{\mathbb{R}}          % Real number
 \def\N{\mathbb{N}}          % Natural number
@@ -99,5 +100,35 @@
     上述第一个不等号是因为：$Ty_{n+p}-y_{n+p} = (T-I)y_{n+p}\in R(I-T)^{n+p+1}\subsetneqq R(I-T)^{n+1},\ y_{n+p}\in R(I-T)^{n+p}\subsetneqq R(I-T)^{n+1},\ y_n-Ty_n = (I-T)y_n\in R(I-T)^{n+1}$.
     
     故$\{Ty_n\}$没有收敛子列，与$T$是紧算子矛盾. 所以$I-T$是满射.
+\end{proof}
+\begin{problem}
+    $D(\Omega)$是序列完备的，即若$\{\varphi_j\}$满足：(1) 存在紧集$K\subset \Omega$使得$\supp\varphi_j\subset K$.\\
+    (2) $\forall \varepsilon > 0, \forall \alpha$，$\exists N > 0$使得$\max_{K}|\partial^\alpha \varphi_n(x)-\partial^\alpha\varphi_m(x)| < \varepsilon,\ (n,m > N)$，则$\exists \varphi\in D(\Omega)$使得$\varphi_j\to\varphi$.
+\end{problem}
+\begin{proof}
+    由于$\{\varphi_j\}$满足$\max_{K}|\varphi_i-\varphi_j|\to 0,\ (i,j\to\infty)$，由于$(C,||\cdot||_{\infty})$是完备的，则存在函数$\varphi$使得$\varphi_j\stackrel{||\cdot||_{\infty}}{\longrightarrow}\varphi$.
+
+    又由于$\forall \alpha=(\alpha_1,\cdots,\alpha_n)$，令$m=|\alpha|$，有$\max_{K}|\partial^\alpha\varphi_i-\partial^\alpha\varphi_j|\to0,\ (i,j\to\infty)$，由于$(C^m,||\cdot||)$是完备的，其中范数的定义为$||\varphi||:=\sup_{|\alpha|\leq m}\max_{K}|\partial^\alpha\varphi|$，则存在函数$\psi$使得$\partial^\alpha\varphi_j\stackrel{||\cdot||_\infty}{\longrightarrow}\psi$.
+
+    由于收敛极限的导数就是导函数收敛的极限，所以$\partial^\alpha\varphi = \psi$，由于$\alpha$的任意性可知，$\varphi$的任意阶导数都存在，即$\varphi\in C_0^\infty$. 故$\forall \alpha$有$\max_{K}|\partial^\alpha\varphi_j-\partial^\alpha\varphi|\to 0$，则在$D(\Omega)$中有$\varphi_j\to\varphi$.
+\end{proof}
+\begin{problem}
+    在$\R^1$中$f_j(x) = \frac{1}{\pi}\frac{\sin jx}{x}\ (j=1,2,\cdots)$，则$f_j\to\delta$.
+\end{problem}
+\begin{proof}
+    由于$\forall \varphi\in D(\R^1)$有
+    \begin{eqnarray*}
+        |\langle f_j,\varphi\rangle-\langle\delta, \varphi\rangle| = \left|\frac{1}{\pi}\int_{\R^1}\frac{\sin jx}{x}\varphi(x)\,\d x-\varphi(0)\right| = \left|\frac{1}{\pi}\int_{\R^1}\frac{\varphi(x)-\varphi(0)}{x}\sin jx\,\d x\right|
+    \end{eqnarray*}
+    第二个等号是因为可通过留数定理构造挖去原点的围道计算$\int_{\R^1}\frac{\sin jx}{\pi x}\,\d x = \int_{\R^1}\frac{\sin x}{\pi x}\,\d x = 1$，又由于$\varphi$在$0$处导数存在，于是通过Riemann-Lebesgue引理可知，当$j\to\infty$时，$|\langle f_j,\varphi\rangle-\langle \delta,\varphi\rangle|\to 0$，故$f_j\to\delta$.
+\end{proof}
+\begin{problem}
+    设$T\in D'(\Omega)$，则$\frac{\partial^2 T}{\partial x_k\partial x_j} = \frac{\partial^2 T}{\partial x_j\partial x_k}$.
+\end{problem}
+\begin{proof}
+    \begin{align*}
+        \langle\frac{\partial^2 T}{\partial x_k\partial x_j}, \varphi\rangle =&\ -\langle\frac{\partial T}{\partial x_k}, \frac{\partial \varphi}{\partial x_j}\rangle = \langle T, \frac{\partial^2 \varphi}{\partial x_j\partial x_k}\rangle = \langle T, \frac{\partial^2 \varphi}{\partial x_k\partial x_j}\rangle\\
+        =&\ -\langle\frac{\partial T}{\partial x_j}, \frac{\partial \varphi}{\partial x_k}\rangle = \langle\frac{\partial^2 T}{\partial x_j\partial x_k},\varphi\rangle
+    \end{align*}
 \end{proof}
 \end{document}

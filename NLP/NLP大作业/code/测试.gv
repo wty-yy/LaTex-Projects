@@ -1,5 +1,0 @@
-digraph "测试" {
-	1 [label="Life's too short"]
-	2 [label="I learn Python"]
-	1 -> 2
-}
