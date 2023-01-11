@@ -105,7 +105,7 @@ string solve(char a[], char b[], char c[]) {
 }
 
 int main() {
-    freopen("7-2.in", "r", stdin);
+    // freopen("7-2.in", "r", stdin);
     for (int i = 0; i < 3; i++) cin >> s[i]+1; // 输入三个字符串，下标从1开始
     clock_t start = clock();
     string ans = solve(s[0], s[1], s[2]);
