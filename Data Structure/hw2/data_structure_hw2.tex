@@ -1,0 +1,442 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK, BoldItalicFont = 方正粗楷简体]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.2}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理}[section] % 定理按section编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 自定义环境 %%%%
+\newsavebox{\nameinfo}
+\newenvironment{myTitle}[1]{
+    \begin{center}
+    {\zihao{-2}\bf #1\\}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 正文开始 %%%%
+\begin{document}
+%%%% 以下部分是正文 %%%%  
+\clearpage
+\begin{myTitle}{数据结构与算法 - 综合训练2\\用图解决问题}
+    吴天阳\ 2204210460\ 强基数学002
+\end{myTitle}
+\section{实验目的}
+给出电影的相关数据，包含电影名称与参与该电影拍摄的演员. 每行的数据格式为\pythoninline{电影名称/演员1/演员2/.../...}，电影名与演员之间均使用左斜杠进行分隔. 对于任何一个演员，给出该演员到Kevin Bacon之间联系所用的“Bacon Number”，定义如下：
+
+1. Kevin Bacon 的 Bacon Number 值为 0； 
+
+2. 和 Kevin Bacon 在一个电影里出现的所有演员的 Bacon Number 值为 1； 
+
+3. 任何演员的 Bacon Number 值为与该演员在同一个电影里的 Bacon Number 值最小的那个演员的 Bacon Number 值加 1.
+
+要求对于给定的某个演员，求出该演员到演员Kevin Bacon的 Bacon Number 并给出计算该数字的依据，也就是通过哪些电影与Kevin Bacon获得联系.
+
+\textbf{任务1}：建立为实现该游戏建立的抽象描述结构，包括图中顶点的意义以及存储的信息、边的意义以及存储的信息. 并给出图的逻辑示意图.
+
+\textbf{任务2}：在任务1的基础上，并结合教材中图的抽象数据类型的定义，设计并实现一个为该游戏而使用的具体的 Graph Class.
+
+\textbf{任务3}：根据文件\pythoninline{Simple.txt}构建图，根据输入的演员名，给出演员的Bacon Number，与其计算依据.（总演员数目为$72$人，总边数目为$192$条）
+
+\textbf{任务4}：根据文件\pythoninline{Complex.txt}构建图，根据输入的演员名，给出演员的Bacon Number，与其计算依据.（总演员数目为$348567$人，总边数目为$18005642$条）
+
+\textbf{任务5}：在你的日常学习生活中，寻找一个可以用图解决的问题原型，描述该问题原型，并陈述如何将该问题原型抽象成图的表示.
+
+\section{实验原理}
+\subsection{任务1,2}
+将每个演员视为图中的节点，与某电影相关的演员，对应的节点两两之间建立连边.
+
+\begin{itemize}
+    \item 每个节点存储演员的名称，并用邻接表储存所有出边的指针.
+    \item 每个边均为有向边，存储对应电影的名称，并存储该边的头节点与尾节点.
+\end{itemize}
+
+对于每个电影，假设有 $n$ 个相关的演员，则一共要添加 $2\binom{n}{2} = n(n-1)$，首先两两演员之间都要建立双向边联系，并且由于使用单向边存储，所以需要建立两个单向边用于表示双向边.
+
+\subsection{任务3,4}
+使用邻接表存储图结构，可以对\pythoninline{Complex.txt}中图结构进行存储，只是用时较长. 将读入数据存储为图结构后，由于每条边的权重均为$1$，可以使用广度优先搜索(BFS)查找从Kevin Bacon对应节点出发到其他所有节点的最短路径，该路径长度即为Bacon Number，并记录每个节点到达最短路的对应父节点的边，通过该边可以找到对应的电影名称和父节点，进而迭代即可复现路径.
+
+\subsection{任务5}
+一个日常生活中图论的例子是用于研究交通网络中的路线和交通流量.
+
+可将该问题抽象为如下图中的表示：其中节点表示道路交叉口或地铁站，边表示道路或地铁线路。可以使用不同大小边权来表示交通流量或车辆数量。可以使用图相关的算法来求解最短路径和交通瓶颈.
+
+\section{实验步骤与结果分析}
+\subsection{实验1,2}
+下面代码实现了节点与边的类，并使用 \pythoninline{add_edge} 进行边的添加.
+\begin{pythoncode}
+class Graph:
+    def __init__(self):
+        self.total_edge = 0  # 记录总边数
+
+    class Node:  # 存储图中节点，每个演员对应一个节点
+        def __init__(self, name, id):
+            self.id = id
+            self.name = name
+            self.next = []  # 用邻接表存储后继边
+
+    class Edge():  # 存储图中的边，每个边对应一个电影
+        def __init__(self, movie, previous_node, next_node):
+            self.movie = movie
+            self.previous_node = previous_node
+            self.next_node = next_node  # 存储后继节点
+
+    def add_edge(self, node1, node2, movie):  # 加入从node1到node2的单向边
+        edge = self.Edge(movie, node1, node2)
+        node1.next.append(edge)
+        self.total_edge += 1 
+\end{pythoncode}
+以\pythoninline{Apollo 13 (1995)/Bill Paxton/Tom Hanks/Kevin Bacon}为例，构建关系图如下
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{逻辑示意图.pdf}
+    \caption{逻辑示意图}
+\end{figure}
+\subsection{任务3,4}
+\subsubsection{统计与Kevin Bacon相关的演员数目}
+此部分为自己加的额外功能，并非原题中要求. 使用并查集判断一共有多少演员与Kevin Bacon相关，得出结果\pythoninline{Sample.txt}中有$70$个相关的（总共$72$个），\pythoninline{Complex.txt}中有$323278$个相关的（总共$348567$个）. 并查集类实现如下
+\begin{pythoncode}
+class Union:  # 并查集
+    def __init__(self):
+        self.name_id = 0
+        self.father = []
+
+    def add_id(self):  # 加入新id
+        self.father.append(self.name_id)
+        self.name_id += 1
+        return self.name_id - 1
+
+    def get_father(self, p):  # 查询父节点
+        if self.father[p] == p: return p
+        self.father[p] = self.get_father(self.father[p])
+        return self.father[p]
+    
+    def join(self, a, b):  # 将a与b的集合合并
+        self.father[self.get_father(a)] = self.get_father(b)
+\end{pythoncode}
+\subsubsection{核心代码}
+然后使主要求解代码，用于文件读取和广度优先搜索最短距离，广搜从Kevin Bacon开始进行.
+\begin{pythoncode}
+class Solver():
+    def __init__(self, fname, kevin_name):
+        self.graph = Graph()
+        self.fname = fname
+        self.kevin_name = kevin_name
+        self.name2node = {}  # 字典存储演员对应的节点
+
+    def read_data(self):
+        union = Union()
+        with open(self.fname, 'r', encoding='utf-8') as file:  # Bacon, Kevin
+            while True:
+                string = file.readline()
+                if not string: break
+
+                items = string.strip()
+                movie = items[0:items.find(')')+1]  # 电影名称
+                actors = items[items.find(')')+2:].split('/')  # 演员名称
+
+                for name in actors:  # 创建未见过的节点
+                    if name not in self.name2node.keys():
+                        name_id = union.add_id()
+                        self.name2node[name] = Graph.Node(name, name_id)  # 创建新的节点
+                    union.join(self.name2node[actors[0]].id, self.name2node[name].id)
+
+                for i, name1 in enumerate(actors):  # 创建边
+                    node1 = self.name2node[name1]
+                    for name2 in actors[i+1:]:
+                        node2 = self.name2node[name2]
+                        self.graph.add_edge(node1, node2, movie)
+                        self.graph.add_edge(node2, node1, movie)
+            
+        self.kevin_node = self.name2node[self.kevin_name]
+        self.kevin_id = self.kevin_node.id
+        relation_node = 0
+        for i in range(union.name_id):  # 计算与Kevin Bacon相关的演员数目
+            if union.get_father(i) == union.get_father(self.kevin_id):
+                relation_node += 1
+
+        print("总演员数目:", len(self.name2node))
+        print("总边数目:", self.graph.total_edge)
+        print(f"和{self.kevin_name}相关的演员总数:", relation_node)
+
+    def bfs(self):  # 广度优先搜索
+        from queue import Queue
+        self.father_edge = {}  # 记录连接到父节点的边
+        visited = {self.kevin_node}  # 判断是否访问过该节点
+        self.distance = {self.kevin_name: 0}  # 记录最短距离
+        q = Queue()
+        q.put(self.kevin_node)  # 加入Kevin节点
+        while not q.empty():
+            u = q.get()
+            for e in u.next:
+                v = e.next_node  # 访问新的节点
+                if v in visited: continue
+                visited.add(v)
+                self.distance[v.name] = self.distance[u.name] + 1  # 更新距离
+                self.father_edge[v] = e  # 记录连接父节点的边
+                q.put(v)
+    
+    def show_path(self, name):  # 回溯打印路径
+        if name not in self.distance.keys():  # 若无法到达该节点
+            print(f"\nCan't find path from {name} to {self.kevin_name}.")
+            return
+        print(f"\nPath from {name} to {self.kevin_name}:")
+        node = self.name2node[name]
+        while node.name != self.kevin_name:  # 利用连接父节点的边，复现路径
+            father_edge = self.father_edge[node]
+            father_node = father_edge.previous_node
+            print(f"{node.name} was in {father_edge.movie} with {father_node.name}")
+            node = father_node
+        print(f"{name}'s Bacon number is {self.distance[name]}")
+\end{pythoncode}
+最后是主程序代码：
+\begin{pythoncode}
+if __name__ == '__main__':
+    # solver = Solver("Simple.txt", "Kevin Bacon")
+    solver = Solver("Complex.txt", "Bacon, Kevin")
+    start_time = time.time()
+    solver.read_data()
+    solver.bfs()
+    print("预处理用时:", time.time() - start_time, "s")
+    print("距离Kevin的最大Bacon距离:", max(solver.distance.values()))
+    while True:
+        command = input("Actor's name (or All for everyone or Show Bacon distance bigger than NUMBER)?\n> ")
+        if command == 'All':
+            for name in solver.name2node.keys():
+                solver.show_path(name)
+        elif 'Show Bacon distance bigger than' in command:  # 新命令，可显示Bacon距离>=某个值的全部节点
+            num = int(command.split()[-1])
+            for name, distance in solver.distance.items():
+                if distance >= num:
+                    solver.show_path(name)
+        else:
+            solver.show_path(command)
+\end{pythoncode}
+
+\subsubsection{任务3执行结果}
+对于文件\pythoninline{Sample.txt}，执行效果如下（\pythoninline{> }右侧为用户输入的文本）：
+\begin{pythoncode}
+总演员数目: 72
+总边数目: 192
+和Kevin Bacon相关的演员总数: 70
+预处理用时: 0.012998819351196289
+距离Kevin的最大Bacon距离: 5
+Actor's name (or All for everyone or Show Bacon distance bigger than NUMBER)?
+> Brad Pitt
+
+Path from Brad Pitt to Kevin Bacon:
+Brad Pitt was in Ocean's Eleven (2001) with Julia Roberts
+Julia Roberts was in Flatliners (1990) with Kevin Bacon
+Brad Pitt's Bacon number is 2
+
+Actor's name (or All for everyone or Show Bacon distance bigger than NUMBER)?
+> Show Bacon distance bigger than 5 
+
+Path from P. Biryukov to Kevin Bacon:
+P. Biryukov was in Pikovaya dama (1910) with Aleksandr Gromov
+Aleksandr Gromov was in Tikhij Don (1930) with Yelena Maksimova
+Yelena Maksimova was in Bezottsovshchina (1976) with Lev Prygunov
+Lev Prygunov was in Saint, The (1997) with Elisabeth Shue
+Elisabeth Shue was in Hollow Man (2000) with Kevin Bacon
+P. Biryukov's Bacon number is 5
+
+
+Path from Yelena Chaika to Kevin Bacon:
+Yelena Chaika was in Ostrov zabenya (1917) with Viktor Tourjansky
+Viktor Tourjansky was in Zagrobnaya skitalitsa (1915) with Olga Baclanova
+Olga Baclanova was in Freaks (1932) with Angelo Rossitto
+Angelo Rossitto was in Dark, The (1979) with William Devane
+William Devane was in Hollow Man (2000) with Kevin Bacon
+Yelena Chaika's Bacon number is 5
+
+
+Path from Zoya Barantsevich to Kevin Bacon:
+Zoya Barantsevich was in Slesar i kantzler (1923) with Nikolai Panov
+Nikolai Panov was in Zhenshchina s kinzhalom (1916) with Zoia Karabanova
+Zoia Karabanova was in Song to Remember, A (1945) with William Challee
+William Challee was in Irish Whiskey Rebellion (1972) with William Devane
+William Devane was in Hollow Man (2000) with Kevin Bacon
+Zoya Barantsevich's Bacon number is 5
+
+
+Path from Christel Holch to Kevin Bacon:
+Christel Holch was in Hvide Slavehandel, Den (1910/I) with Aage Schmidt
+Aage Schmidt was in Begyndte ombord, Det (1937) with Valso Holm
+Valso Holm was in Spion 503 (1958) with Max von Sydow
+Max von Sydow was in Judge Dredd (1995) with Diane Lane
+Diane Lane was in My Dog Skip (2000) with Kevin Bacon
+Christel Holch's Bacon number is 5    
+\end{pythoncode}
+
+\subsubsection{任务4执行结果}
+对于文件\pythoninline{Complex.txt}，执行效果如下（\pythoninline{> }右侧为用户输入的文本）：
+\begin{pythoncode}
+总演员数目: 348567
+总边数目: 18005642
+和Bacon, Kevin相关的演员总数: 323278
+预处理用时: 39.396482944488525 s
+距离Kevin的最大Bacon距离: 9
+Actor's name (or All for everyone or Show Bacon distance bigger than NUMBER)?
+> Decleir, Jenne
+
+Path from Decleir, Jenne to Bacon, Kevin:
+Decleir, Jenne was in Verlossing, De (2001) with Ammelrooy, Willeke van
+Ammelrooy, Willeke van was in Lake House, The (2006) with Bullock, Sandra
+Bullock, Sandra was in Loverboy (2005) with Bacon, Kevin
+Decleir, Jenne's Bacon number is 3
+
+Actor's name (or All for everyone or Show Bacon distance bigger than NUMBER)?
+> Show Bacon distance bigger than 9     
+
+Path from Schieferdecker, Daniel to Bacon, Kevin:
+Schieferdecker, Daniel was in Soundcheck (2001) with Uhrich, Christian
+Uhrich, Christian was in Erste Nacht, Die (2003) with Havemann, Lars
+Havemann, Lars was in Sandzeit (2005) with Schilling, Lea
+Schilling, Lea was in Was denkt man, wenn... (2004) with Landsiedel, Timo
+Landsiedel, Timo was in Wagnisse (2006) with Schumacher, Christian (II)
+Schumacher, Christian (II) was in Bißchen Mord muß sein, Ein (2000) with Alfieri, Vittorio (I)
+Alfieri, Vittorio (I) was in Beyond the Sea (2004) with Goodman, John (I)
+Goodman, John (I) was in Clifford's Really Big Movie (2004) with Valderrama, Wilmer
+Valderrama, Wilmer was in Beauty Shop (2005) with Bacon, Kevin
+Schieferdecker, Daniel's Bacon number is 9
+
+
+Path from Heintze, Christoph to Bacon, Kevin:
+Heintze, Christoph was in Soundcheck (2001) with Uhrich, Christian
+Uhrich, Christian was in Erste Nacht, Die (2003) with Havemann, Lars
+Havemann, Lars was in Sandzeit (2005) with Schilling, Lea
+Schilling, Lea was in Was denkt man, wenn... (2004) with Landsiedel, Timo
+Landsiedel, Timo was in Wagnisse (2006) with Schumacher, Christian (II)
+Schumacher, Christian (II) was in Bißchen Mord muß sein, Ein (2000) with Alfieri, Vittorio (I)
+Alfieri, Vittorio (I) was in Beyond the Sea (2004) with Goodman, John (I)
+Goodman, John (I) was in Clifford's Really Big Movie (2004) with Valderrama, Wilmer
+Valderrama, Wilmer was in Beauty Shop (2005) with Bacon, Kevin
+Heintze, Christoph's Bacon number is 9
+
+
+Path from De Silva, Rahel to Bacon, Kevin:
+De Silva, Rahel was in Soundcheck (2001) with Uhrich, Christian
+Uhrich, Christian was in Erste Nacht, Die (2003) with Havemann, Lars
+Havemann, Lars was in Sandzeit (2005) with Schilling, Lea
+Schilling, Lea was in Was denkt man, wenn... (2004) with Landsiedel, Timo
+Landsiedel, Timo was in Wagnisse (2006) with Schumacher, Christian (II)
+Schumacher, Christian (II) was in Bißchen Mord muß sein, Ein (2000) with Alfieri, Vittorio (I)
+Alfieri, Vittorio (I) was in Beyond the Sea (2004) with Goodman, John (I)
+Goodman, John (I) was in Clifford's Really Big Movie (2004) with Valderrama, Wilmer
+Valderrama, Wilmer was in Beauty Shop (2005) with Bacon, Kevin
+De Silva, Rahel's Bacon number is 9
+
+
+Path from Wilken, Sonja (II) to Bacon, Kevin:
+Wilken, Sonja (II) was in Soundcheck (2001) with Uhrich, Christian
+Uhrich, Christian was in Erste Nacht, Die (2003) with Havemann, Lars
+Havemann, Lars was in Sandzeit (2005) with Schilling, Lea
+Schilling, Lea was in Was denkt man, wenn... (2004) with Landsiedel, Timo
+Landsiedel, Timo was in Wagnisse (2006) with Schumacher, Christian (II)
+Schumacher, Christian (II) was in Bißchen Mord muß sein, Ein (2000) with Alfieri, Vittorio (I)
+Alfieri, Vittorio (I) was in Beyond the Sea (2004) with Goodman, John (I)
+Goodman, John (I) was in Clifford's Really Big Movie (2004) with Valderrama, Wilmer
+Valderrama, Wilmer was in Beauty Shop (2005) with Bacon, Kevin
+Wilken, Sonja (II)'s Bacon number is 9
+\end{pythoncode}
+
+\section{结论与讨论}
+通过本次实验，学会了如何用邻接表存储图结构，将人际关系网络图转化为图论问题，进而求解两两人物之间的关系路径，提升将问题进行转化的能力. 学会如何用Python求解单源最短路经，使用不同的类完成固定的任务，学会如何将整体任务划分为较小的部分分块解决.
+
+\end{document}

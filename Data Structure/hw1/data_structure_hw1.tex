@@ -1,0 +1,393 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置中文字体 %%%%
+\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK, BoldItalicFont = 方正粗楷简体]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.2}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理}[section] % 定理按section编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 自定义环境 %%%%
+\newsavebox{\nameinfo}
+\newenvironment{myTitle}[1]{
+    \begin{center}
+    {\zihao{-2}\bf #1\\}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 正文开始 %%%%
+\begin{document}
+%%%% 以下部分是正文 %%%%  
+\clearpage
+\begin{myTitle}{数据结构与算法 - 综合训练1\\用树解决问题}
+    吴天阳\ 2204210460\ 强基数学002
+\end{myTitle}
+\section{实验目的}
+\textbf{实验1}：实现二叉检索树(Binary Search Tree, BST)，需要包含以下$8$种结构
+\begin{pythoncode}
+class BSTBase():  # BST基类
+    def insert(self, key, value): pass  # 插入(key,value)键值对
+    def remove(self, key): pass  # 删除key节点，若找到并删除节点，则返回对应的value，若无该节点则返回None
+    def search(self, key): pass  # 查询key对应的value，若无key节点，则返回None
+    def update(self, key, value): pass  # 更新key对应的value，若无key节点，返回False，否则返回True
+    def isEmpty(self): pass  # 判断二叉搜索树是否为空
+    def clear(self): pass  # 重新初始化BST
+    def showStructure(self, file): pass  # 输出当前二叉树的节点总数和高度到文件file中
+    def printInorder(self, file): pass  # 输出二叉树的中序遍历到文件file中
+\end{pythoncode}
+
+读入命令文件\pythoninline{BST_testcases.txt}并处理执行，将输出运行结果到文件中，并与\\\pythoninline{BST_result.txt}进行比较，判断程序是否正确.
+
+\textbf{实验2}：使用BST为文稿建立单词索引表，基于给出的英文文本\pythoninline{article.txt}，记录每个单词在文本中出现的行号（编号从$1$开始）.
+\section{实验原理}
+二叉搜索树是一种二叉树形式的数据结构，支持\textbf{插入、查找、删除}键值对的功能，对于一个有$n$个节点的二叉搜索树，每次操作的最优复杂度为 $\O(\log n)$，最坏为 $\O(n)$，随机构成一颗二叉树的期望高度为 $\O(\log n)$.
+
+\textbf{注}：平衡树是在二叉搜索树基础上进行的改进，可以保证每次查找的复杂度为 $\O(\log n)$.
+
+二叉搜索树定义如下：
+\begin{enumerate}
+    \item 空树是二叉搜索树.
+    \item 若二叉搜索树的左子树非空，则左子树上所有点的key值均小于根节点的key值.
+    \item 若二叉搜索树的右子树非空，则右子树上所有点的key值均大于根节点的key值.
+    \item 二叉搜索树的左右子树均为二叉搜索树.
+\end{enumerate}
+实现以上操作基本均通过递归即可实现，节点之间的关联可用指针实现，具体实现请见下文.
+
+\section{实验步骤与结果分析}
+使用\pythoninline{Python 3.9.12}进行实现. 在Python中数值类型数据\pythoninline{int, float, str}无法直接传入实参，但是使用\pythoninline{class, list, dict}则默认传入实参，所以需要利用该性质实现指针操作.
+
+代码文件总共有三个：\pythoninline{my_bst.py}包含BST核心类，\pythoninline{main1.py, main2.py}分别为实验1和实验2的代码，对应的输出文件分别为\pythoninline{my_result1.txt, my_result2.txt}.
+\subsection{实现BST类}
+\subsubsection{初始化}
+首先创建节点类\pythoninline{Node}，具体有以下属性：
+\begin{itemize}
+    \item \pythoninline{key(int)}：存储key值.
+    \item \pythoninline{val0}：用于初始化val值.（用于实验2，可以为list，存储多个value值）
+    \item \pythoninline{val}：存储val值.
+    \item \pythoninline{child(list)}：长度为2的list，\pythoninline{child[0],child[1]}分别表示左右子节点.
+\end{itemize}
+\begin{pythoncode}
+class Node():  # 节点子类
+    val0 = 0
+    def __init__(self):
+        self.key = None  # 初始化键值
+        self.child = [None, None]  # 初始化左右孩子节点
+        if isinstance(self.val0, list):
+            self.val = []  # 由于list按照实参赋值，必须重新创建空list
+        else: self.val = self.val0
+\end{pythoncode}
+
+初始化BST类
+\begin{pythoncode}
+def __init__(self, val0=0):
+    self.Node.val0 = val0  # val0为每个节点值的初值
+    self.file = None  # 将要写入的文件
+    self.root = None  # 创建根节点
+    self.height = 0  # 树的高度
+    self.size = 0  # 树的节点总数
+\end{pythoncode}
+
+判断二叉搜索树是否为空，只需判断\pythoninline{BST.root}是否为\pythoninline{None}即可.
+\begin{pythoncode}
+def isEmpty(self):
+    return self.root == None
+\end{pythoncode}
+
+重新初始化整个BST，由于需要删除掉全部节点，所以需要递归删除，这里使用中序遍历中的递归顺便完成该任务：
+\begin{pythoncode}
+def dfs(self, p, delete_node=False):  # 输出中序遍历结果
+    if p.child[0]:
+        self.dfs(p.child[0], delete_node)
+    if not delete_node:
+        self.file.write('[{} ---- < {} >]\n'.format(p.key, str(p.val)[1:-1]))  # 在文件中直接写入
+    if p.child[1]:
+        self.dfs(p.child[1], delete_node)
+    if delete_node:  # 用于清空整棵树
+        del p
+
+def clear(self):
+    self.dfs(self.root, delete_node=True)
+    self.__init__()  # 调用初始化函数, 清空BST
+
+def printInorder(self, file):
+    if file is None:
+        return None
+    self.file = file
+    self.dfs(self.root)
+    return   # 返回中序遍历
+\end{pythoncode}
+
+\subsubsection{加入节点}
+直接通过递归找到对应键值位置，然后修改value值即可.
+\begin{pythoncode}
+def add(self, p, key, val):
+    if p is None:  # 当前节点为空节点, 开始创建
+        p = self.Node()
+        p.key = key
+    if key == p.key:  # 找到key值对应节点, 更新节点val
+        if isinstance(p.val, list):  # 如果val当前是列表, 则加入值
+            p.val.append(val)
+        else:  # 否则直接修改当前值
+            p.val = val
+    elif key < p.key:  # key节点在左子树中
+        p.child[0] = self.add(p.child[0], key, val)
+    else:  # key节点在右子树中
+        p.child[1] = self.add(p.child[1], key, val)
+    return p
+
+def insert(self, key, val):
+    if key is None or val is None:
+        return
+    self.root = self.add(self.root, key, val)  # 每次从根节点开始查找插入位置
+\end{pythoncode}
+
+\subsubsection{查询节点}
+直接通过递归搜索即可.
+\begin{pythoncode}
+def find(self, p, key):
+    if p == None:  # 空节点
+        return None
+    elif key == p.key:  # 找到了key节点
+        return p.val
+    elif key < p.key:  # key节点在左子树中
+        return self.find(p.child[0], key)
+    return self.find(p.child[1], key)  # 否则只能在右子树中
+
+def search(self, key):
+    if key is None:
+        return None
+    return self.find(self.root, key)
+\end{pythoncode}
+
+\subsubsection{删除节点}
+删除节点稍微有点麻烦，若删除的节点有两个子节点，为了保持二叉搜索树的性质，需要用左子树中的最大值，或者右子树的最小值替代删除掉的节点；若删除的节点仅有一个儿子，则直接用它代替即可；若删除的节点为叶子结点，直接删去即可.
+\begin{pythoncode}
+def delete_min(self, p):  # 查找最小值
+    if p.child[0] is None:  # 找到最小值
+        return p, p.child[1]  # 返回的第一个参数为找到的最小值点, 第二个参数为更新点编号
+    min_p, update_p = self.delete_min(p.child[0])
+    p.child[0] = update_p  # 用第二个参数更新该点
+    return min_p, p  # 返回的第一个参数为找到的最小值点, 第二个参数为更新点编号
+
+def delete(self, p, key):
+    if p.key == key:
+        if p.child[0] and p.child[1]:  # 如果有两个儿子节点, 就需要找到左子树中的最大值或右子树的最小值替代
+            # 这里找右子树最小值替代
+            min_p, update_p = self.delete_min(p.child[1])
+            min_p.child[0] = p.child[0]
+            min_p.child[1] = update_p
+            del p  # 删除掉当前节点p
+            return min_p
+        else:
+            ret = p.child[0] if p.child[0] else p.child[1]
+            del p  # 删除掉当前节点p
+            return ret
+    elif key < p.key:  # key节点在左子树中
+        p.child[0] = self.delete(p.child[0], key)
+    else:  # key节点在右子树中
+        p.child[1] = self.delete(p.child[1], key)
+    return p
+
+def remove(self, key):
+    val = self.search(key)
+    if key is None or val is None:  # 如果找不到该key值也返回False
+        return None
+    self.root = self.delete(self.root, key)
+    return val
+\end{pythoncode}
+\subsubsection{查询BST结构}
+直接通过递归即可完成.
+\begin{pythoncode}
+def struct(self, p, h):  # 查找bst的节点数和高度
+    self.size += 1  # 总节点数+1
+    self.height = max(self.height, h)  # 更新树的深度
+    if p.child[0]:
+        self.struct(p.child[0], h + 1)
+    if p.child[1]:
+        self.struct(p.child[1], h + 1)
+
+def showStructure(self, file):  # 返回树的总节点数, 返回树的高度
+    if file is None:
+        return None
+    self.size, self.height = 0, 0  # 先初始化为0
+    self.struct(self.root, 1)
+    file.write('-----------------------------\n')
+    file.write(f'There are {self.size} nodes in this BST.\nThe height of this BST is {self.height}.\n')
+    file.write('-----------------------------\n')
+\end{pythoncode}
+\subsection{实验1}
+主要是对读入字符串的划分和条件判断，执行对应的BST函数即可.
+\begin{pythoncode}
+import my_bst
+
+with open('BST_testcases.txt', 'r', encoding='utf-8') as file,\
+        open('my_result1.txt', 'w', encoding='utf-8') as outfile:
+    bst = my_bst.BST()
+    while True:
+        line = file.readline()
+        if not line:
+            break
+        opt = line[0]
+        if opt == '#':
+            bst.showStructure(outfile)
+            continue
+        key = line.split(' ')[1]  # 提取key值
+        if opt == '+':
+            value = line.split('\"')[1]  # 提取value值
+            bst.insert(key, value)
+        elif opt == '-':
+            value = bst.remove(key)
+            if value is not None:
+                outfile.write(f'remove success ---{key} {value}\n')
+            else:
+                outfile.write(f'remove unsuccess ---{key}\n')
+        elif opt == '?':
+            value = bst.search(key)
+            if value is not None:
+                outfile.write(f'search success ---{key} {value}\n')
+            else:
+                outfile.write(f'search unsuccess ---{key}\n')
+        elif opt == '=':
+            value = line.split('\"')[1]  # 提取value值
+            flag = bst.update(key, value)
+            if flag:
+                outfile.write(f'update success ---{key} {value}\n')
+            else:
+                outfile.write(f'update unsuccess ---{key}\n')
+\end{pythoncode}
+\subsection{实验2}
+主要先对文本进行清洗，清洗方法非常简单，按空格划分出单词，然后去除掉首尾的非字母符号即可.
+\begin{pythoncode}
+import my_bst
+
+def wash(word):  # 将其他字符都去掉, 只剩下拉丁字母
+    while len(word):
+        if not word[-1].isalpha():
+            word = word[:-1]
+        elif not word[0].isalpha():
+            word = word[1:]
+        else:
+            break
+    return word
+
+with open('article.txt', 'r', encoding='utf-8', errors='ignore') as file:
+    bst = my_bst.BST(val0=[])
+    cnt = 0  # 用于记录行数
+    while True:
+        # print(cnt)
+        line = file.readline()
+        if not line:
+            break
+        cnt += 1
+        line = wash(line)  # 将每一行也洗一下, 把多余的空格去掉
+        words = line.split(' ')  # 将一行中的单词分离出来
+        for key in words:  # 逐个遍历
+            key = wash(key)  # 将key中的其他标点去掉, 只剩下单词
+            if not len(key):  # 洗没了
+                continue
+            bst.insert(key, cnt)
+
+with open("my_result2.txt", 'w') as file:
+    bst.printInorder(file)
+\end{pythoncode}
+
+\section{结论与讨论}
+最后通过比对，\pythoninline{my_reslut1.txt}与\pythoninline{BST_result.txt}完全一致，说明BST算法应该基本正确，实验2的输出文件为 \pythoninline{my_result2.txt}，去重后总计有 $16580$ 个单词.
+
+本次实验，我学会了如何使用Python实现BST的指针操作，相比C语言虽然不直观，但是实现效果非常简洁. Python在处理文本上相较于C也更为方便.
+\end{document}
