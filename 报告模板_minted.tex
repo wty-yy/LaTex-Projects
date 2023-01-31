@@ -1,5 +1,5 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem, titlesec}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 
 %%%% 设置中文字体 %%%%
@@ -29,6 +29,7 @@
 %%%% 设置行间距与页边距 %%%%
 \linespread{1.2}
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+% \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}  % 更小的页边距
 
 %%%% 定理类环境的定义 %%%%
 \newtheorem{example}{例}            % 整体编号
@@ -59,6 +60,10 @@
 \newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
 \BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
 \AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 自定义段落开头 (titlesec) %%%%
+% 中文序号：\zhnum{section}, 阿拉伯序号：\arabic
+\titleformat{\section}{\Large\bfseries}{\arabic{section}}{1em}{}[]
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
@@ -103,6 +108,7 @@
 \def\ker{\mathrm{Ker}}      % Kernel
 \def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
 \def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
 \def\wdh{\widehat}          % 宽帽子 widehat
 \def\ol{\overline}          % 上横线 overline
 \def\ul{\underline}         % 下横线 underline
