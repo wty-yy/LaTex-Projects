@@ -3,7 +3,8 @@
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 
 %%%% 设置中文字体 %%%%
-\setCJKmainfont{方正新书宋_GBK.ttf}[BoldFont = 方正小标宋_GBK, ItalicFont = 方正楷体_GBK, BoldItalicFont = 方正粗楷简体]
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont{方正书宋.ttf}[BoldFont = 方正黑体_GBK.ttf, ItalicFont = simkai.ttf, BoldItalicFont = 方正粗楷简体.ttf]
 %%%% 设置英文字体 %%%%
 \setmainfont{Times New Roman}
 \setsansfont{Calibri}
@@ -61,9 +62,12 @@
 \BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
 \AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
 
-%%%% 自定义段落开头 (titlesec) %%%%
+%%%% 自定义段落开头序号，间距 (titlesec) %%%%
 % 中文序号：\zhnum{section}, 阿拉伯序号：\arabic
 \titleformat{\section}{\Large\bfseries}{\arabic{section}}{1em}{}[]
+\titlespacing{\section}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsubsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
