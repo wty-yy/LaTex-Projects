@@ -1271,8 +1271,8 @@ $H$矩阵对应了相机平面到\textbf{全体同一偏转角度棋盘平面}�
 将式(\ref{eq-空间相对速度})代入式(\ref{eq-像点相对速度})中，并利用$Y = \frac{Z}{f}y,X=\frac{Z}{f}x$可得\textbf{运动场方程(Motion Field)}
 \begin{align*}
     \begin{cases}
-        u = \overbrace{\frac{xt_z-ft_x}{Z}}^{\text{平移部分}}+\overbrace{\frac{x_y}{f}w_x - (f+\frac{x^2}{f})w_y+yw_z}^{\text{旋转部分}},\\
-        v = \frac{yt_z-ft_y}{Z}+(f+\frac{y^2}{f})w_x-\frac{x_y}{f}w_y+xw_z.
+        u = \overbrace{\frac{xt_z-ft_x}{Z}}^{\text{平移部分}}+\overbrace{\frac{xy}{f}w_x - (f+\frac{x^2}{f})w_y+yw_z}^{\text{旋转部分}},\\
+        v = \frac{yt_z-ft_y}{Z}+(f+\frac{y^2}{f})w_x-\frac{xy}{f}w_y+xw_z.
     \end{cases}
 \end{align*}
 上述方程由两部分构成，一个为平移部分，另一个为旋转部分，注意到旋转部分与深度$Z$无关. 运动场方程还可以写成矩阵的形式
@@ -1300,7 +1300,7 @@ $H$矩阵对应了相机平面到\textbf{全体同一偏转角度棋盘平面}�
     \end{cases}
 \end{equation*}
 于是上述方程有不动点$(\frac{ft_x}{t_z}, \frac{ft_y}{t_z})$，该点称为\textbf{FOE(focus of expansion)}点，表示物体做带有深度变换的平移时，
-像点运动的相对速度向量MF$\bd{v}$会以FOE点作为中心，向外呈放射状，或者向内呈收缩状.
+像点运动的相对速度向量MF会以FOE点作为中心，向外呈放射状，或者向内呈收缩状.
 
 当$t_z = 0 $时，有
 \begin{equation*}
@@ -1356,7 +1356,7 @@ Lucas-Kanade光流算法也简称为L-K光流算法，设图像为$I(\cdot)$，�
     \end{bmatrix}\begin{bmatrix}
         u\\v
     \end{bmatrix} = -\sum_{(x,y)\in\Omega}w(x,y)\begin{bmatrix}
-        I_x&I_t\\I_y&I_t
+        I_xI_t\\I_yI_t
     \end{bmatrix}\\
     \Rightarrow&\ 
     G_\sigma*\begin{bmatrix}
@@ -1365,7 +1365,7 @@ Lucas-Kanade光流算法也简称为L-K光流算法，设图像为$I(\cdot)$，�
     \end{bmatrix}\begin{bmatrix}
         u\\v
     \end{bmatrix} = -G_\sigma*\begin{bmatrix}
-        I_x&I_t\\I_y&I_t
+        I_xI_t\\I_yI_t
     \end{bmatrix}
 \end{align*}
 通过最小二乘法即可解出$(u,v)$，得到$(x_0,y_0)$处的光流向量.
