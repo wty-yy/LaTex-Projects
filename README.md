@@ -9,7 +9,7 @@
 
 > GitHub 上只存储了大三开始的内容，之前的作业没有上传的习惯😣.
 
-## [大三上学期](.\大三上)
+## [大三上学期](./大三上)
 
 - 泛函分析
 - 数理统计
@@ -17,5 +17,5 @@
 - 数据结构
 - 数学建模
 - 人工智能导论
-- 算法设计与分析（[算法期末复习资料](.\大三上\Algorithm\final_review\算法设计总复习.pdf)）
-- 计算机视觉与模式识别（[CVPR期末复习资料（视觉部分）](.\大三上\CVPR\final_review\CVPR期末复习.pdf)，完整内容及22年期末考试原题：[blog - CVPR期末复习](https://wty-yy.space/posts/23744/)）
+- 算法设计与分析（[算法期末复习资料](./大三上/Algorithm/final_review/算法设计总复习.pdf)）
+- 计算机视觉与模式识别（[CVPR期末复习资料（视觉部分）](./大三上/CVPR/final_review/CVPR期末复习.pdf)，完整内容及22年期末考试原题：[blog - CVPR期末复习](https://wty-yy.space/posts/23744/)）
