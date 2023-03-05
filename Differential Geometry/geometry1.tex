@@ -97,10 +97,95 @@
     & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
 \end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业}
+    \zihao{3}\textbf{第一次作业}
 \end{center}\vspace{-0.2cm}
 \begin{problem}
+证明下面恒等式：
+\begin{enumerate}
+    \item $(\bd{a}\times \bd{b})\cdot (\bd{c}\times \bd{d}) = (\bd{a}\cdot \bd{c})(\bd{b}\cdot \bd{d}) - (\bd{b}\cdot \bd{c})(\bd{a}\cdot \bd{d})$
+    \item $\bd{a}\times(\bd{b}\times \bd{c})+\bd{b}\times(\bd{c}\times \bd{a}) + \bd{c}\times(\bd{a}\times\bd{b})=0$
+    \item $(\bd{a}\times \bd{b})\times(\bd{b}\times \bd{c})\times (\bd{c}\times \bd{a}) = (\bd{a}\cdot \bd{b}\times \bd{c})^2$
+\end{enumerate}
 \end{problem}
-% 正文部分
+\begin{proof}
+    1. \vspace{-1.2cm}
+    \begin{align*}
+        (\bd{a}\times \bd{b})\cdot(\bd{c}\times \bd{d}) =&\ a\cdot(\bd{b}\times (\bd{c}\times \bd{d}))\\
+        \xlongequal{\text{二重向量积}}&\ \bd{a}\cdot((\bd{b}\cdot \bd{d})\bd{c} - (\bd{b}\cdot \bd{c})\bd{d})\\
+        =&\ (\bd{a}\cdot \bd{c})(\bd{b}\cdot\bd{d}) - (\bd{a}\cdot\bd{d})(\bd{b}\cdot\bd{c})
+    \end{align*}
 
+    2. \vspace{-1.2cm}
+    \begin{align*}
+        &\ \bd{a}\times(\bd{b}\times \bd{c})+\bd{b}\times(\bd{c}\times \bd{a})+\bd{c}\times(\bd{a}\times \bd{b})\\
+        \xlongequal{\text{二重向量积}}&\ (\bd{a}\cdot\bd{c})\bd{b}-(\bd{a}\cdot\bd{b})\bd{c}+(\bd{b}\cdot\bd{a})\bd{c} - (\bd{b}\cdot\bd{c})\bd{a}+(\bd{c}\cdot\bd{b})\bd{a}-(\bd{c}\cdot\bd{a})\bd{b}\\
+        \xlongequal{\text{内积交换律}}&\ 0
+    \end{align*}
+
+    3. \vspace{-1.2cm}
+    \begin{align*}
+        &\ (\bd{a}\times \bd{b})\cdot(\bd{b}\times \bd{c})\times(\bd{c}\times \bd{a})\\
+        =&\ (\bd{a}\times \bd{b})\left[((\bd{b}\times\bd{c})\cdot\bd{a})\bd{c}-((\bd{b}\times\bd{c})\cdot\bd{c})\cdot \bd{a}\right]\\
+        \xlongequal{\bd{a}\times\bd{b}\cdot \bd{a} = 0}&\ [(\bd{b}\times\bd{c})\cdot\bd{a}][(\bd{a}\times\bd{b})\cdot \bd{c}]\\
+        =&\ (\bd{b}\times \bd{c}\cdot \bd{a})^2 = (\bd{a}\cdot \bd{b}\times \bd{c})^2
+    \end{align*}
+\end{proof}
+\begin{problem}
+采用向量方法证明：
+\begin{enumerate}
+    \item 平面上三角形的三条中线交于一点，这点分中线为1:2两部分，称为三角形的重心.
+    \item 空间中四面体的顶点到对面三角形的重心的连线称为四面体的中线. 
+    证明四条中线相交于同一个点，称为四面体的重心，并且重心分中线为1:3两个部分.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}\vspace{-0.5cm}\\
+\begin{wrapfigure}[8]{r}{.55\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \vspace{-1cm}
+    \includegraphics[scale=0.33]{微分几何第一次作业.pdf} % scale=0.7按比例缩放70%
+\end{wrapfigure}
+1. 以右图三角形$\triangle ABC$为例，$D,E,F$为三边的中点，则$G$为三条重心，设$\overrightarrow{AB} = \bd{a}$，$\overrightarrow{AC} = \bd{b}$，则$\overrightarrow{BC} = \bd{b}-\bd{a}$. 
+下证$G$为$AF$的三等分点，由于$\overrightarrow{AF} = \frac{\bd{a}+\bd{b}}{2}$，$\overrightarrow{CE} = \frac{\bd{a}-2\bd{b}}{2}$，设$|AG|:|AF| = \alpha, |CG|:|CE| = \beta$，于是
+\begin{equation*}
+    \alpha \overrightarrow{AF} + \beta\overrightarrow{EC} = \overrightarrow{AC}
+\end{equation*}
+也就是
+\begin{equation*}
+    \alpha\frac{\bd{a}+\bd{b}}{2}+\beta{2\bd{b}-\bd{a}}{2} = \bd{b}\Rightarrow \begin{cases}
+        \alpha-\beta = 0,\\
+        \alpha+2\beta = 2
+    \end{cases}\Rightarrow \alpha = \beta = \frac{2}{3}
+\end{equation*}
+于是$G$时$AF$的三等分点，类似地，可以证明$G$是$BD$，$CE$的三等分点.
+
+\begin{wrapfigure}[8]{r}{.55\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.13]{微分几何第一次作业2.jpg} % scale=0.7按比例缩放70%
+\end{wrapfigure}
+2. 以右图四面体$ABCD$为例，$G_1$为$\triangle BCD$的重心，$G_2$为$\triangle ACD$的重心，设
+\begin{align*}
+    \overrightarrow{AB} = \bd{b},\ \overrightarrow{AC} = \bd{c},\ \overrightarrow{AD} = \bd{d}
+\end{align*}
+则$\overrightarrow{BD} = \bd{d} - \bd{b},\ \overrightarrow{CD} = \bd{d} - \bd{c}$，于是
+\begin{align*}
+    \overrightarrow{DG_1} =&\ \frac{1}{3}(\overrightarrow{DB}+\overrightarrow{DC}) = \frac{1}{3}(\bd{b}+\bd{c}-2\bd{d})\\
+    \overrightarrow{DG_2} =&\ \frac{1}{3}(\overrightarrow{DA}+\overrightarrow{DC}) = \frac{1}{3}(\bd{c}-\bd{d})
+\end{align*}
+则
+\begin{equation*}
+    \overrightarrow{AG_1} = \overrightarrow{AD} + \overrightarrow{DG_1} = \frac{1}{3}(\bd{b}+\bd{c}+\bd{d}),\quad
+    \overrightarrow{BG_2} = \overrightarrow{BD}+\overrightarrow{DG_2} = -\bd{b}+\frac{1}{3}(\bd{c}+\bd{d})
+\end{equation*}
+假设存在$\alpha,\beta\in\R$，使得$\overrightarrow{AB} = \alpha\overrightarrow{AG_1} + \beta\overrightarrow{G_2B}$，于是
+\begin{equation*}
+    \frac{\alpha}{3}(\bd{b}+\bd{c}+\bd{d})  + \beta\bd{b} - \frac{\beta}{3}(\bd{c}+\bd{d}) = \bd{b}
+    \Rightarrow \begin{cases}
+        \alpha/3 + \beta = 1\\
+        \alpha/3 = \beta/3
+    \end{cases}\Rightarrow\alpha = \beta = \frac{3}{4}
+\end{equation*}
+故四面体重心是其中线的四等分点.
+
+
+\end{solution}
 \end{document}
