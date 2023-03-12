@@ -147,4 +147,177 @@
         \kappa(t) = ||\tilde{\bd{r}}''|| = ||(-r\cos t,-r\sin t)|| = \left|\left|-\frac{1}{r}(\cos s/r, \sin s/r)\right|\right| = \frac{1}{r}
     \end{equation*}
 \end{solution}
+\begin{problem}[2.3练习2]
+    计算螺线$\bd{r}(t) = (a\cos \omega t, a\sin \omega t, bt)$的曲率和挠率（$a,\omega,b>0$）.
+\end{problem}
+\begin{solution}
+    $\bd{r}'(t) = (-a\omega\sin\omega t, a\omega\cos\omega t, b), \bd{r}''(t) = -a\omega^2(\cos\omega t,\sin\omega t, 0),\bd{r}'''(t) = a\omega^3(\sin\omega t,-\cos\omega t, 0)$，
+    则$|\bd{r}'\times \bd{r}''| = a\omega\sqrt{a^2\omega^2+b^2},\ |\bd{r}'| = \sqrt{a^2w^2+b^2},\ (r',r'',r''') = -a^4b\omega^{10}$，于是
+    \begin{equation*}
+        \kappa(t) = \frac{|\bd{r}'\times \bd{r}''|}{|\bd{r}'|^2} = \frac{a\omega}{\sqrt{a^2\omega^2+b^2}},\quad \tau(t) = \frac{(r',r'',r''')}{|r'\times r''|^2} = -\frac{a^2b\omega^8}{a^2\omega^2+b^2}
+    \end{equation*}
+\end{solution}
+\begin{problem}[2.3练习3]
+    证明：如果一条平面曲线的挠率恒为零，且曲率为常数（$\neq 0$），则该曲线是一段圆弧.
+\end{problem}
+\begin{proof}
+    由于$\dot{\alpha}(s) = \kappa(s)\beta(s),\ \dot{\beta} = -\kappa(s)\alpha(s) + \tau(s)\gamma(s)$，由于$\tau(s) = 0,\ \kappa(s) = c$，其中$c > 0$为常数（曲率非负），则
+    \begin{equation*}
+        \dot{\alpha}(s) = c\cdot\beta(s),\ \dot{\beta}(s) = -c\cdot\alpha(s)\quad \Rightarrow\quad \ddot{\alpha}(s) = -c^2\cdot\alpha(s),
+    \end{equation*}
+    上述线性常微分方程对应的特征方程为$a^2 = -c^2\Rightarrow a = \pm\i c$，于是$\alpha(s) = \bd{a}\sin cs + \bd{b}\cos cs,\ (s \geq 0)$，其中$\bd{a},\bd{b}\in\R^3$为待定系数，
+    由弧长参数化性质可知
+    \begin{equation*}
+        |\alpha(s)| = |\bd{a}|^2\sin^2 cs + |\bd{b}|^2\cos^2 cs + 2(\bd{a},\bd{b})\sin cs\cos cs = 1
+    \end{equation*}
+    \add 取$s = 0,\ \frac{\pi}{2c}$，可得$|\bd{a}|^2=1,\ |\bd{b}|^2 = 1$，代入上式可得$(\bd{a},\bd{b})\sin cs\cos cs = 0$，由$s$的任意性可知$(\bd{a},\bd{b}) = 0$. 
+    设$A$为任一正交阵，$\bd{a}_0 = (1, 0, 0)^T, \bd{b}_0 = (0, 1, 0)^T$，取$\bd{a} = A\bd{a_0}, \bd{b} = -A\bd{b_0}$，于是
+    \begin{equation*}
+        \bd{r}(s) = A(\sin cs, \cos cs, 0) + \xi
+    \end{equation*}
+    其中$\xi\in\R^3$为常向量，故$\bd{r}$是一段圆弧.
+\end{proof}
+\begin{problem}[2.3练习6]
+    求
+    \begin{equation*}
+        \begin{cases}
+            x^2+y^2+z^2 = 1,\\
+            x^2+y^2=x
+        \end{cases}
+    \end{equation*}
+    在$(0,0,1)$处的曲率和挠率.
+\end{problem}
+\begin{solution}
+    令$\bd{r}(x,y,z) = \bd{r}(\sin\varphi\cos\theta, \sin\varphi\sin\theta, \cos\varphi)$，代入$x^2+y^2=x$中可得$\sin^2\varphi = \sin\varphi\cos\theta\Rightarrow \sin\varphi = \cos\theta\ (\varphi\neq 0)$，则
+    \begin{align*}
+        \bd{r}(\varphi) =&\ (\sin^2\varphi, \sin\varphi\cos\varphi, \cos\varphi),\\
+        \bd{r}'(\varphi) =&\ (-2\sin\varphi\cos\varphi, \cos^2\varphi-\sin^2\varphi, -\sin\varphi),\\
+        \bd{r}''(\varphi) =&\ (4\sin^2\varphi-2, -4\sin\varphi\cos\varphi, -\cos\varphi),\\
+        \bd{r}'''(\varphi) =&\ (8\cos\varphi, 4(\sin^2\varphi - \cos^2\varphi), \sin\varphi).
+    \end{align*}
+    取$\varphi\to 0^+$有$\bd{r}' = (0,1,0),\ \bd{r}'' = (-2, 0, 1),\ \bd{r}''' = (8, -4, 0),\ |\bd{r}'\times \bd{r}''| = \sqrt{5},\ (\bd{r}',\bd{r}'',\bd{r}''') = -8$则
+    \begin{equation*}
+        \kappa(0,0,1) = \frac{|\bd{r}'\times \bd{r}''|}{|\bd{r}'|} = \sqrt{5},\quad \tau(0,0,1) = -\frac{8\sqrt{5}}{5}.
+    \end{equation*}
+\end{solution}
+\begin{problem}[2.4练习3]
+    证明：若曲线段曲率$\kappa$处处不为$0$，每个点的密切平面都过一个固定点，则这个曲线段在一个平面内.
+\end{problem}
+\begin{proof}
+    令弧长参数化为
+    \begin{equation*}
+    \begin{aligned}
+        \bd{r}:(a,b)&\ \to \R^3\\
+        s&\ \mapsto \bd{r}(s)
+    \end{aligned}
+    \end{equation*}
+    设密切平面均过点$\bd{x}_0$，则存在实函数$a(s),b(s)$使得$\bd{r}(s) - \bd{x}_0 = a(s)\bd{\alpha}(s)+b(s)\bd{\beta}(s)$，两边对$s$求导可得
+    \begin{equation*}
+        \bd{\alpha}(s) = a'(s)\bd{\alpha}(s) + a(s)\dot{\bd{\alpha}}(s) + b'(s)\bd{\beta}(s) + b(s)\dot{\bd{\beta}}(s)
+    \end{equation*}
+    由标架运动公式可知
+    \begin{equation*}
+        \frac{\d}{\d s}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix} = \begin{bmatrix}
+            0&\kappa(s)&0\\
+            -\kappa(s)&0&0\\
+            0&-\tau(s)&0
+        \end{bmatrix}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix}
+    \end{equation*}
+    于是
+    \begin{equation*}
+        \bd{\alpha}(s) = (a'(s) - b(s)\kappa(s)-1)\bd{\alpha}(s) + (b'(s)+a(s)\kappa(s))\beta(s) + b(s)\tau(s)\bd{\gamma}(s) = 0
+    \end{equation*}
+    由于$\alpha(s), \beta(s), \gamma(s)$两两正交，于是上式系数恒为$0$，若$b(s)\equiv 0$，则$a(s)\kappa(s) = 0$，由于$\kappa(s)$几乎处处不为零，
+    则$a(s)$几乎处处为零，于是$\bd{r}(s)$几乎处处为$\bd{x}_0$，与$\kappa(s)$几乎处处不为零矛盾. 所以$\tau(s)$几乎处处为零，由\textbf{引理2.3}可知
+    该曲线段是平面曲线段.
+\end{proof}
+\begin{problem}[2.4练习4]
+    设$\{r(s),\alpha_1(s),\alpha_2(s),\alpha_3(s)\}$是定义在弧长参数曲线$r(s)$上的单位正交标架. 令
+    \begin{equation*}
+        \dot{\alpha_i}(s) = \sum_{j=1}^3\lambda_i^j(s)\alpha_j(s)
+    \end{equation*}
+    求证：$\lambda_i^j + \lambda_j^i = 0$.
+\end{problem}
+\begin{solution}
+    取$s\in(a,b)$，由于$\{\bd{\alpha}_1(s),\bd{\alpha}_2(s),\bd{\alpha}_3(s)\}$是单位正交标架，设$\bd{r}(s)$的Frenet标架为$\{\bd{\alpha}(s),\bd{\beta}(s),\bd{\gamma}(s)\}$，
+    于是存在正交阵$A$，使得$A(\bd{\alpha}_1(s),\bd{\alpha}_2(s),\bd{\alpha}_3(s))^T = (\bd{\alpha}(s),\bd{\beta}(s),\bd{\gamma}(s))^T$，且$A^T = A^{-1}$，
+    由题目可知，只需证下述矩阵$C$为反对称矩阵
+    \begin{equation}
+        \frac{\d}{\d s}\begin{bmatrix}
+            \bd{\alpha}_1(s)\\
+            \bd{\alpha}_2(s)\\
+            \bd{\alpha}_3(s)
+        \end{bmatrix} = \begin{bmatrix}
+            \lambda_1^1&\lambda_1^2&\lambda_1^3\\
+            \lambda_2^1&\lambda_2^2&\lambda_2^3\\
+            \lambda_3^1&\lambda_3^2&\lambda_3^3
+        \end{bmatrix}\begin{bmatrix}
+            \bd{\alpha}_1(s)\\
+            \bd{\alpha}_2(s)\\
+            \bd{\alpha}_3(s)
+        \end{bmatrix}=: C\begin{bmatrix}
+            \bd{\alpha}_1(s)\\
+            \bd{\alpha}_2(s)\\
+            \bd{\alpha}_3(s)
+        \end{bmatrix}
+    \end{equation}
+    由标架运动公式可知
+    \begin{equation*}
+        \frac{\d}{\d s}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix} = \begin{bmatrix}
+            0&\kappa(s)&0\\
+            -\kappa(s)&0&0\\
+            0&-\tau(s)&0
+        \end{bmatrix}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix}=: B\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix}
+    \end{equation*}
+    于是对式(1)两侧同时左乘正交阵$A$可得
+    \begin{equation*}
+        \frac{\d}{\d s}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix} = ACA^{-1}A\begin{bmatrix}
+            \bd{\alpha}_1(s)\\
+            \bd{\alpha}_2(s)\\
+            \bd{\alpha}_3(s)
+        \end{bmatrix} = ACA^{-1}\begin{bmatrix}
+            \bd{\alpha}(s)\\
+            \bd{\beta}(s)\\
+            \bd{\gamma}(s)
+        \end{bmatrix}
+    \end{equation*}
+    于是$ACA^{-1} = B\Rightarrow C = A^{-1}BA = A^TBA$，其中$B$为反对称矩阵，下面证明$C$是反对称矩阵：
+
+    令$AB = D = [d_{ij}]$，则$d_{ij} = \sum_{k}a_{ik}b_{kj}$，于是
+    \begin{align*}
+        c_{ij} =&\ \sum_{l}d_{il}a_{jl} = \sum_{k,l}a_{ik}b_{kl}a_{jl} = \sum_{l > k}a_{ik}a_{jl}b_{kl} + \sum_{l < k}a_{ik}a_{jl}b_{kl}\\
+        \xlongequal{b_{kl}=-b_{lk}}&\ \sum_{l > k}a_{ik}a_{jl}b_{kl} - \sum_{k > l}a_{ik}a_{jl}b_{lk}
+        = \sum_{l > k}(a_{ik}a_{jl} - a_{il}a_{jk})b_{kl}
+    \end{align*}
+    则
+    \begin{align*}
+        c_{ii} =&\ \sum_{l > k}(a_{ik}a_{il}-a_{ik}a_{il})b_{kl} = 0,\quad(\forall i = 1,2,3)\\
+        c_{ij} =&\ -\sum_{l > k}(a_{jk}a_{il} - a_{jl}a_{ik})b_{kl} = -c_{ji}\quad(\forall i,j = 1,2,3,\ i\neq j).
+    \end{align*}
+    故矩阵$C$为反对称矩阵.
+\end{solution}
 \end{document}
