@@ -1,0 +1,319 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem, subfigure, bbm}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont{方正书宋.ttf}[BoldFont = 方正黑体_GBK.ttf, ItalicFont = simkai.ttf, BoldItalicFont = 方正粗楷简体.ttf]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newminted{r}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\textrm{sign}}    % sign function
+\def\cov{\textrm{Cov}}      % 
+\def\var{\textrm{Var}}      % 
+\def\E{\textrm{E}}          % 
+\def\1{\bd{1}}
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\textrm{P}}          % Possibility
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{数据分析} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第二次作业}
+\end{center}\vspace{-0.2cm}
+\begin{problem}
+设$X^{(1)}$和$X^{(2)}$均为$p$维随机向量，已知
+\begin{equation*}
+    X = \begin{bmatrix}
+        X^{(1)}\\X^{(2)}
+    \end{bmatrix}\sim
+    N_{2p}\left(\begin{bmatrix}
+        \mu^{(1)}\\\mu^{(2)}
+    \end{bmatrix},\begin{bmatrix}
+        \Sigma_1&\Sigma_2\\
+        \Sigma_2&\Sigma_1
+    \end{bmatrix}
+    \right)
+\end{equation*}
+其中$\mu^{(i)}(i=1,2)$为$p$维向量，$\Sigma_i(i=1,2)$是$p$阶矩阵.
+
+1. 证明$X^{(1)}+X^{(2)}$和$X^{(1)}-X^{(2)}$相互独立；
+
+2. 求$X^{(1)}+X^{(2)}$和$X^{(1)}-X^{(2)}$的分布.
+\end{problem}
+\begin{solution}
+    1. 设$I_p$为$p$阶单位阵，由于
+    \begin{align*}
+        \begin{bmatrix}
+            X^{(1)}+X^{(2)}\\
+            X^{(1)}-X^{(2)}\\
+        \end{bmatrix} = \begin{bmatrix}
+            I_p&I_p\\ I_p&-I_p
+        \end{bmatrix}X\sim N_{2p}\left(
+            \begin{bmatrix}
+                \mu_1+\mu_2\\\mu_1 - \mu_2
+            \end{bmatrix},
+            \begin{bmatrix}
+                2(\Sigma_1+\Sigma_2)&0\\
+                0&2(\Sigma_1-\Sigma_2)
+            \end{bmatrix}
+        \right)
+    \end{align*}
+    于是$X^{(1)}+X^{(2)}$与$X^{(1)} - X^{(2)}$独立.
+
+    2. 由上一问可知
+    \begin{align*}
+        X^{(1)}+X^{(2)} = \begin{bmatrix}
+            I_p&I_p
+        \end{bmatrix}X &\ \sim N_p(\mu_1+\mu_2,2(\Sigma_1+\Sigma_2)),\\
+        X^{(1)}-X^{(2)} = \begin{bmatrix}
+            I_p&-I_p
+        \end{bmatrix}X &\ \sim N_p(\mu_1-\mu_2,2(\Sigma_1-\Sigma_2)).\\
+    \end{align*}
+\end{solution}
+\vspace{-1.3cm}
+\begin{problem}
+    设$X\sim N_3(\bd{\mu},\Sigma)$，其中
+    \begin{align*}
+        \bd{\mu} = (\mu_1,\mu_2,\mu_3)',\quad \Sigma = \begin{bmatrix}
+            1&\rho&\rho\\
+            \rho&1&\rho\\
+            \rho&\rho&1
+        \end{bmatrix}\quad(0<\rho<1)
+    \end{align*}
+
+    1. 求条件分布$(X_1,X_2|X_3)$和$(X_1|X_2,X_3)$.
+
+    2. 给定$X_3=x_3$时，求出$X_1$和$X_2$的条件协方差.
+\end{problem}
+\begin{solution}
+    1. 由条件分布计算公式可知
+    \begin{align*}
+        (X_1,X_2|X_3 = x_3)\sim&\ N_2\left(\begin{bmatrix}
+            \mu_1\\\mu_2
+        \end{bmatrix}+\begin{bmatrix}
+            \rho\\\rho
+        \end{bmatrix}(x_3-\mu_3)
+        ,\begin{bmatrix}
+            1&\rho\\\rho&1
+        \end{bmatrix} - \begin{bmatrix}
+            \rho\\\rho
+        \end{bmatrix}\begin{bmatrix}
+            \rho&\rho
+        \end{bmatrix}\right) \\
+        \sim&\ N_2\left(\begin{bmatrix}
+            \mu_1+\rho(x_3-\mu_3)\\
+            \mu_2+\rho(x_3-\mu_3)\\
+        \end{bmatrix},\begin{bmatrix}
+            1-\rho^2&\rho-\rho^2\\
+            \rho-\rho^2&1-\rho^2
+        \end{bmatrix}\right)
+    \end{align*}
+    \begin{align*}
+        (X_1|X_2=x_2,X_3=x_3)\sim&\ N_1\left(
+            \mu_1+\begin{bmatrix}
+                \rho&\rho
+            \end{bmatrix}\begin{bmatrix}
+                1&\rho\\\rho&1
+            \end{bmatrix}^{-1}\left(\begin{bmatrix}
+                x_2\\x_3
+            \end{bmatrix}-\begin{bmatrix}
+                \mu_2\\\mu_3
+            \end{bmatrix}\right), 1-\begin{bmatrix}
+                \rho&\rho
+            \end{bmatrix}\begin{bmatrix}
+                1&\rho\\\rho&1
+            \end{bmatrix}^{-1}\begin{bmatrix}
+                \rho\\\rho
+            \end{bmatrix}\right)\\
+            \sim&\ N_1\left(\mu_1+\frac{\rho}{1+\rho}(x_2+x_3-\mu_2-\mu_3), 1-\frac{2\rho^2}{1+\rho}\right)
+    \end{align*}
+    
+    2. 由第一问可知，$X_1,X_2$在给定$X_3=x_3$下的条件协方差均为$1-\rho^2$.
+\end{solution}\clearpage
+\begin{problem}
+    设$X_1\sim N(0,1)$，$X_2 = \begin{cases}
+        -X_1,&\quad -1\leq  X_1\leq 1,\\
+        X_1,&\text{否则}.
+    \end{cases}$
+    
+    1. 证明：$X_2\sim N(0,1)$.
+    
+    2. 证明$(X_1,X_2)$的联合分布不是正态分布.
+\end{problem}
+\begin{proof}
+    1. 当$x\in [-1,1]$时，$f_{X_2}(x) = f_{X_1}(-x) = \frac{1}{\sqrt{2\pi}}\e^{-\frac{x^2}{2}}$；当$x\notin[-1,1]$时，
+    $f_{X_2}(x) = f_{X_1}(x) = \frac{1}{\sqrt{2\pi}}\e^{-\frac{x^2}{2}}$. 综上$f_{X_1} = f_{X_2}$，所以$X_2\sim N(0,1)$.
+
+    2. 当$x_2\in [-1,1]$时，$X_1,X_2$的联合分布函数满足
+    \begin{equation*}
+        F_{X_1,X_2}(x_1,x_2) = \P[X_1\leq x_1,X_2\leq x_2] = \P[X_1 \leq x_1,-X_1\leq x_2] = P[-x_2\leq X_1\leq x_1]
+    \end{equation*}
+    所以$F_{X_1,X_2}(x_1,x_2)$不是正态分布.
+\end{proof}
+\begin{problem}
+    设$X\sim N_p(\mu,\Sigma)$，$A$为对称阵，证明：
+    
+    (1). $\E(XX') = \Sigma+\mu\mu'$；
+
+    (2). $\E(X'AX) = \text{tr}(\Sigma A) + \mu'A\mu$；
+
+    (3). 当$\mu = a\begin{bmatrix}
+        1\\\vdots\\1
+    \end{bmatrix}=: a\1_p,\ A = I_p - \frac{1}{p}\1_p\1_p',\ \Sigma = \sigma^2I_p$时，试利用(1)和(2)的结果证明$\E(X'AX) = \sigma^2(p-1)$.
+
+    若记$X = (X_1,\cdots, X_p)'$此时$X'AX = \sum_{i=1}^p(X_i - \bar{X})^2$，则
+    \begin{equation*}
+        \E\left[\sum_{i=1}^p(X_i-\bar{X})^2\right] = \sigma^2(p-1).
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    (1).  \del
+    \begin{align*}
+        &\ \int_{\R^p}\frac{xx'}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\exp\left\{-\frac{1}{2}(x-\mu)'\Sigma^{-1}(x-\mu)\right\}\,\d x\\
+        \xlongequal{x\leftarrow x-\mu}&\ \frac{1}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(x+\mu)(x+\mu)'\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        =&\ \frac{1}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(xx'+2\mu x'+\mu\mu')\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        =&\ \mu\mu' - \frac{\Sigma}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(x+2\mu)\,\d \exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\\
+        =&\ \mu\mu' + \frac{\Sigma}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        =&\ \Sigma+\mu\mu'
+    \end{align*} \vspace{0.5cm}
+
+    (2). \del
+    \begin{align*}
+        &\ \int_{\R^p}\frac{x'Ax}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\exp\left\{-\frac{1}{2}(x-\mu)'\Sigma^{-1}(x-\mu)\right\}\,\d x\\
+        \xlongequal{x\leftarrow x-\mu}&\ \frac{1}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(x+\mu)'A(x+\mu)\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        \xlongequal{A\text{为对称阵}}&\ \frac{1}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(x'Ax+2\mu'Ax+\mu'A\mu)\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        =&\ \mu'A\mu - \frac{\Sigma A}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}(x+2\mu)\,\d \exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\\
+        =&\ \mu\mu' + \frac{\Sigma A}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}\int_{\R^p}\exp\left\{-\frac{1}{2}x'\Sigma^{-1}x\right\}\,\d x\\
+        =&\ \text{tr}(\Sigma A) + \mu'A\mu
+    \end{align*}
+
+    (3). 由(2)可知：$\E(X'AX) = \text{tr}(\Sigma A) + \mu'A\mu = p\sigma^2(1-1/p) + a^2\begin{bmatrix}
+        0&0&\cdots&0
+    \end{bmatrix}\1_p = \sigma^2(p-1).$
+    由于
+    \begin{align*}
+        X'AX =&\ \begin{bmatrix}
+            X_1,\cdots,X_p
+        \end{bmatrix}\begin{bmatrix}
+            1-1/p&-1/p&\cdots&-1/p\\
+            -1/p&1-1/p&\ddots&\vdots\\
+            \vdots&\ddots&\ddots&-1/p\\
+            -1/p&\cdots&-1/p&1-1/p
+        \end{bmatrix}\begin{bmatrix}
+            X_1\\\vdots\\X_p
+        \end{bmatrix}\\
+        =&\ \begin{bmatrix}
+            X_1-\bar{X}&X_2-\bar{X}&\cdots&X_n-\bar{X}
+        \end{bmatrix}\begin{bmatrix}
+            X_1\\\vdots\\X_p
+        \end{bmatrix}\\
+        =&\ \sum_{i=1}^pX_i^2 - X_i\bar{X} = \sum_{i=1}^PX_i^2-2X_i\bar{X} + \sum_{i=1}^pX_i\bar{X}\\
+        =&\ \sum_{i=1}^p(X_i^2-2X_i\bar{X}+\bar{X}^2) = \sum_{i=1}^p(X_i-\bar{X})^2
+    \end{align*}
+    故
+    \begin{equation*}
+        \E\left[\sum_{i=1}^p(X_i-\bar{X})^2\right] = \sigma^2(p-1).
+    \end{equation*}
+\end{solution}
+\end{document}
