@@ -96,7 +96,9 @@
 \def\tsty{\textstyle}       % 使用行内公式 textstyle
 \def\sign{\text{sign}}      % sign function
 \def\wtd{\widetilde}        % 宽波浪线 widetilde
-\def\R{\mathbb{R}}          % Real number
+\def\R{\mathcal{R}}         % Rewards
+\def\S{\mathcal{S}}         % States
+\def\A{\mathcal{A}}         % Actions
 \def\N{\mathbb{N}}          % Natural number
 \def\Z{\mathbb{Z}}          % Integer number
 \def\Q{\mathbb{Q}}          % Rational number
@@ -220,8 +222,279 @@
 \end{solution}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.13]{../figures/033页练习2.5.png}
+    \includegraphics[scale=0.13]{../figures/033/033页练习2.5.png}
     \caption{非稳定问题中均值法与指数近因法的对比}
     \label{fig-averge_recency}
 \end{figure}
+\section{有限Markov决策}
+\subsection{智能体与环境}
+有限Markov决策过程（Markov Decision Process, MDP）是指\textbf{智能体（Agent）}与\textbf{环境（Environment）}通过\textbf{动作（Action）}进行交互的过程，
+环境返回每个动作的\textbf{收益（Reward）}，智能体可以观测到每次动作返回的收益与环境的\textbf{状态（State）}，智能体的目标是通过交互从而最大化全局收益，
+也就是\textbf{回报（Return）}. 如图\ref{fig-MDP}所示.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{../figures/046页Markov决策中交互图.png}
+    \caption{Markov决策交互图}
+    \label{fig-MDP}
+\end{figure}
+
+在MDP中，状态、收益、动作均为有限集合，分别记为$\S,\R,\A$. 类似游戏中的回合，MDP也有回合的定义称为\textbf{幕（Episode）}，任务从开始到结束
+称为一幕，将有结束状态的任务称为\textbf{分幕式任务（Episodic task）}，否则称为\textbf{持续性任务（Continuning task）}.
+
+将智能体在一幕中观测到的所有状态、动作、收益称为\textbf{轨迹（Trajectory）}：
+\begin{equation*}
+    S_0,A_0,R_1,S_1,A_1,R_2,S_2,A_2,R_3,\cdots
+\end{equation*}
+假设状态转移$S_t,R_t$出现的概率仅取决于前一个状态和动作$S_{t-1}, A_{t-1}$，则称符合Markov性质（Markov property），可以表示为下式：
+\begin{equation*}
+    p(s',r|s,a) := \P\{S_t =s', R_t = r|S_{t-1} = s, A_{t-1} = a\},\quad(s',s\in \S, r\in \R, a\in \A)
+\end{equation*}
+通过上式可以导出其他类似转移概率
+\begin{itemize}
+    \item 状态转移概率：$p(s'|s,a) = \sum_{r\in\R}p(s',r|s,a)$；
+    \item “状态-动作”收益：$r(s,a) = \E[R_t|S_{t-1} = s, A_{t-1} = a] = \sum_{r\in\R}r\sum_{s'\in\S}p(s',r|s,a)$；
+    \item “状态-动作-状态”收益：$r(s,a,s') = \E[R_t|S_{t-1} = s, A_{t-1} = a, S_{t} = s] = \sum_{r\in\R}r\cdot p(r|s,a,s') = \sum_{r\in\R}r\cdot \frac{p(r,s'|s,a)}{p(s'|s,a)}$.
+\end{itemize}
+回报记为$G_t := R_{t+1}+R_{t+2}+\cdots = \sum_{k=t+1}^\infty R_k$，\textbf{折后回报（Discounted return）}记为
+\begin{equation*}
+    G_{t}:= R_{t+1}+\gamma R_{t+2}+\gamma^2 R_{t+3} + \cdots = \sum_{k=t+1}^\infty \gamma^{k-t-1}R_k
+\end{equation*}
+其中$\gamma$称为\textbf{折扣率（Discounted rate）}，可以将分幕式任务视为持续性任务统一用上述回报表达式，只需将最终状态后的收益$R$均设置为$0$即可.
+
+可以用递推式表示折扣回报
+\begin{align*}
+    G_t =&\ R_{t+1} + \gamma R_{t+2}+\gamma^2 R_{t+3}+\cdots\\
+    =&\ R_{t+1} + \gamma(R_{t+2}+\gamma R_{t+3}\cdots)\\
+    =&\ R_{t+1} + \gamma G_{t+1}
+\end{align*}
+\subsection{策略与Bellman方程}
+\textbf{策略（Policy）}是指智能体基于环境状态$S$相应的动作的函数，具体来讲策略函数$\pi:\S\times \A\to[0,1]$是一个概率密度函数：
+\begin{equation*}
+    \pi(a|s) = \P_{\pi}[A_t = a| S_t = s]
+\end{equation*}
+
+基于给定的策略$\pi$，定义\textbf{策略$\pi$的状态价值函数}$v_\pi(s)$，即在状态$s$下，智能体按照策略$\pi$所能获得的期望回报：
+\begin{equation*}
+    v_{\pi}(s):= \E_{\pi}[G_t|S_t =s] = \E_{\pi}[R_{t} + \gamma G_{t+1}|S_t = s]
+\end{equation*}
+
+类似地，定义\textbf{策略$\pi$的动作价值函数}$q_{\pi}(s,a)$，即在$s$下采取动作$a$后，智能体按照策略$\pi$所能获得的期望回报：
+\begin{equation*}
+    q_{\pi}(s,a) := \E_{\pi}[G_t|S_t = s, A_t = a] = \E_{\pi}[R_{t+1}+\gamma G_{t+1}|S_t = s, A_t = a]
+\end{equation*}
+
+分析$v_{\pi}(s)$的递归关系式，首先注意到$G_{t+1}$的条件概率仅与$S_{t+1}$有关，所以
+\begin{align*}
+    \E_{\pi}[\gamma G_{t+1}|S_{t}=s] =&\ \gamma\sum_{g}g\cdot p(G_{t+1} = g|s)\\
+    \xlongequal{Bayes\text{公式}}&\ \gamma\sum_{g}g\sum_{s'\in \S}p(G_{t+1} = g|S_{t+1}=s',S_t = s)p(s'|s)\\
+    \xlongequal{G_{t+1}\text{条件概率仅与}S_{t+1}\text{相关}}&\ \gamma \sum_{s'\in \S}p(s'|s)\sum_{g}g\cdot p(G_{t+1} = g|S_{t+1}=s')\\
+    =&\ \gamma\sum_{s'\in \S}p(s'|s)\E[G_{t+1}|S_{t+1} = s']\\
+    \xlongequal{Bayes\text{公式}}&\ \gamma\sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)v_{\pi}(s')
+\end{align*}
+类似地通过Bayes公式可得$\E_{\pi}[R_{t+1}|S_t = s] = \sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)r$，
+于是得到\textbf{$v_{\pi}(s)$的Bellman方程}（图\ref{fig-状态价值回溯图}为回溯图，便于形象化理解）\del
+
+{ % 一般将文字环绕部分的图和文字, 用大括号括起来, 避免对文字外的格式发生影响, 有时也不需要自行尝试
+\begin{wrapfigure}[3]{r}{.4\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.5]{../figures/057页状态价值函数回溯图.png}
+    \caption{$v_{\pi}(s)$的回溯图}
+    \label{fig-状态价值回溯图}
+\end{wrapfigure}
+\begin{equation*}
+    v_{\pi}(s) = \sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)\big[r + \gamma v_\pi(s')\big]
+\end{equation*}
+% 这里一定要空一行
+}
+
+\noindent 类似地，也有\textbf{$q_{\pi}(s,a)$的Bellman方程}（图\ref{fig-状态动作价值回溯图}为回溯图）\del
+
+{ % 一般将文字环绕部分的图和文字, 用大括号括起来, 避免对文字外的格式发生影响, 有时也不需要自行尝试
+\begin{wrapfigure}[13]{r}{.4\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.5]{../figures/060页状态价值函数回溯图.png}
+    \caption{$q_{\pi}(s,a)$的回溯图}
+    \label{fig-状态动作价值回溯图}
+\end{wrapfigure}
+\begin{equation*}
+    q_{\pi}(s,a) = \sum_{r, s',a'}\pi(a'|s')p(s',r|s,a)\big[r + \gamma q_{\pi}(s',a')\big]
+\end{equation*}
+% 这里一定要空一行
+}
+\clearpage
+而状态价值函数$v_\pi(s)$与$q_\pi(s,a)$满足一下关系式：
+\begin{align*}
+    v_\pi(s) =&\ \sum_{a}\pi(a|s)q_\pi(s,a)\qquad \text{参考图\ref{fig-状态价值函数由动作价值函数表出}},\\
+    q_{\pi}(s,a) = &\ \sum_{s',r}p(s',r|s,a)\big[r+\gamma v_{\pi}(s')\big]\qquad\text{参考图\ref{fig-动作价值函数由状态价值函数表出}}.
+\end{align*}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{../figures/060页s,(s,a).png}
+    \caption{$v_{\pi}(s)$由$q_{\pi}(s,a)$表出}
+    \label{fig-状态价值函数由动作价值函数表出}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{../figures/060页(s,a),s.png}
+    \caption{$q_{\pi}(s,a)$由$v_{\pi}(s')$表出}
+    \label{fig-动作价值函数由状态价值函数表出}
+\end{figure}
+\subsection{最优策略与最优价值函数}
+定义\textbf{最优状态价值函数}$v_*$满足$\forall s\in \S$有$v_*(s) = \max_{\pi}v_{\pi}(s)$成立；
+类似地，定义\textbf{最优动作价值函数}满足$\forall s\in \S, a\in\A$有$q_*(s,a) = \max_{\pi}q_*(s,a)$成立.
+两者的关系为
+\begin{equation*}
+    q_*(s,a) = \E[R_{t+1}+\gamma v_*(S_{t+1})|S_t =s, A_t = a] = \sum_{s', r}p(s',r|s,a)\big[r+\gamma v_*(s')\big].
+\end{equation*}
+
+通过修改Bellman方程，只需将$\sum_{a}\pi(a|s)$改为$\max_{a}$，$v_\pi(s)$改为$v_*(s)$，
+$q_{\pi}(s,a)$改为$q_*(s,a)$即可得到\textbf{Bellman}最优方程（对应的回溯图如图\ref{fig-状态与动作最优价值函数回溯图}所示）：
+\begin{align*}
+    v_*(s) =&\ \max_{a}\sum_{s',r}p(s',r|s,a)\big[r+\gamma v_*(s')\big],\\
+    q_*(s,a) =&\ \sum_{s',r}p(s',r|s,a)\big[r+\gamma\max_{a'}q_*(s',a')\big].
+\end{align*}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{../figures/062页状态与动作最优价值函数回溯图.png}
+    \caption{$v_*(s)$与$q_*(s,a)$的回溯图}
+    \label{fig-状态与动作最优价值函数回溯图}
+\end{figure}
+下面将用已有的轨迹估计$v_*(s)$和$q_*(s,a)$，根据使用轨迹的不同长度和对Markov性质的已知情况分为以下三种策略：
+
+\begin{enumerate}
+    \item 动态规划（DP）：环境是完备的，智能体对Markov性质完全了解，$p(s',r|s,a)$分布已知.
+    \item 蒙特卡洛方法（MC）：环境是未知的，只能通过交互获得分布的近似，通过整个轨迹反向估计$G_t$.
+    \item 时序差分方法（TD）：环境是未知的，只能通过交互获得分布的近似，仅通过两步之间的结果估计$G_t$.
+\end{enumerate}
+
+\section{动态规划}
+动态规划（Dynamic Programming, DP）可以在给定Markov决策过程的完备环境模型下，计算最优策略.
+
+\subsection{策略评估}
+对于给定的策略$\pi(a|s)$，DP方法首先需要通过迭代的方式得到状态价值函数，迭代式如下所示
+\begin{equation*}
+    v_{k+1}(s) = \sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)\big[r+\gamma v_k(s')\big]
+\end{equation*}
+初始值$v_0(s) = 0,\quad (\forall s\in \S)$.
+
+\subsection{策略改进}
+\begin{theorem}[策略改进定理]
+    设$\pi,\pi'$为任意两个确定的策略，$\forall s\in \S$，有
+    \begin{equation*}
+        q_{\pi}(s,\pi'(s)) \geq v_\pi(s)
+    \end{equation*}
+    则称策略$\pi'$和$\pi$一样好或更好，并且$v_{\pi'}(s)\geq v_{\pi}(s)$. 也就是说如果$\pi'(s) = a$且$q_{\pi}(s,a) \geq v_{\pi}(s)$，
+    除去$s$的其他状态下$\pi=\pi'$，那么改进后的策略$\pi'$一定比$\pi$更优.
+\end{theorem}
+
+策略改进定理本质就是贪心的结果，这说明根据策略评估结果，只需贪心选择状态价值更高的策略更新已有的策略即可得到更优的策略，贪心策略$\pi'$满足
+\begin{equation*}
+    \pi'(s):= \argmax_{a}q_{\pi}(s, a) = \argmax_{a}\sum_{s',r}p(s',r|s,a)\big[r+\gamma v_{\pi}(s')\big].
+\end{equation*}
+不难发现这和最优状态价值函数的Bellman方程基本一致，只需将$v_{\pi}$改为$v_{\pi'}$即可，说明通过不断使用贪心策略进行改进，一定将状态价值函数逼近最优状态价值函数，
+从而得到最优策略.
+
+总的来说，动态规划有两种迭代方案：
+
+1. \textbf{策略迭代}：先进行评估再进行改进即可：
+\begin{equation*}
+    \pi_0\xrightarrow{E}v_{\pi_0}\xrightarrow{I}\pi_1\xrightarrow{E}v_{\pi_1}\xrightarrow{I}\pi_2\xrightarrow{E}\cdots\xrightarrow{I}\pi_*\xrightarrow{E}v_*,
+\end{equation*}
+其中$\xrightarrow{E}$表示策略评估，$\xrightarrow{I}$表示策略改进，直到策略$\pi_k = \pi_{k+1}$时停止迭代.
+
+2. \textbf{价值迭代}：直接使用最优状态价值函数进行迭代
+\begin{equation*}
+    v_{k+1}(s) = \max_a\sum_{s',r}p(s',r|s,a)\big[r+\gamma v_k(s')\big]
+\end{equation*}
+最后确定最优策略$\pi_*$的近似策略$\pi$：
+\begin{equation*}
+    \pi(s) = \argmax_{a}\sum_{s',r}p(s',r|s,a)\big[r+\gamma v(s')\big]
+\end{equation*}
+\section{蒙特卡洛方法}
+蒙特卡洛方法（Monte Carlo, MC），MC仅需智能体的经验，无需完备的环境知识，可以通过经验中进行学习，
+思路是通过一幕的平均样本回报来估计价值函数.
+
+\subsection{蒙特卡洛预测}
+由折扣回报的定义可知$G_{t} = R_{t+1} + \gamma G_{t+1}$，对于已生成的一幕序列
+\begin{equation*}
+    S_0,A_0,R_1,S_1,A_1,\cdots, S_{T-1}, A_{T-1},R_T
+\end{equation*}
+可以倒序计算每个时刻的$G_{t}$，初始化$G_{T} = 0$，然后倒序依次计算
+\begin{equation*}
+    G_{t} = R_{t+1}+\gamma G_{t+1},\ (t=T-1,T-2,\cdots,0)   
+\end{equation*}
+然后将$G_t$用于更新$S_t$处的状态$s_t$对应的价值函数$v_{\pi}(s_t) = \E(G_t|S_t = s_t)$，\add
+可以用递推式进行更新$v_{\pi}(s_t) \leftarrow v_{\pi}(s_t) + \frac{1}{n}(G_t - v_{\pi}(s_t))$\add ，
+其中$n$为$s_t$在之前幕中出现的总次数，也就是求$n$个状态价值$G_t$的均值作为$v_{\pi}(s_t)$的估计.
+
+在一幕中，某一状态$s\in\S$可能被多次访问到，如果只对第一次出现的$s$的状态价值函数进行更新，称为\textbf{首次访问型MC预测算法（First visit MC）}；
+如果对每次出现的$s$的状态价值均进行更新，称为\textbf{每次访问型MC预测算法（Every visit MC）}.
+
+类似地可以用蒙特卡洛方法对动作价值函数$q_{\pi}(s,a)$进行预测，方法与状态价值函数完全相同. 由于部分动作价值函数可能永远无法访问到，
+所以引入两种解决方法：
+\begin{enumerate}
+    \item 试探性出发假设：每一幕的出发状态是选定的“状态-动作”二元组，从而保证每个$(s,a)$组合可以遍历到.
+    \item 每个状态下做出策略时，所有动作都有非零的概率被选中（也就是$\varepsilon$-软性策略）.
+\end{enumerate}
+\subsection{蒙特卡洛控制}
+基本思想与DP中使用的广义策略迭代（Generalized Policy Iteration, GPI）相同，考虑同时维护一个近似的策略
+和近似的价值函数，近似价值函数通过迭代逼近当前策略的最优价值函数，而当前策略会根据价值函数不断调优，彼此为对方设定优化目标，
+从而使得策略和价值函数同时趋向最优解，如图\ref{fig-广义策略迭代与蒙特卡洛控制}所示.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.6]{../figures/095页广义策略迭代与蒙特卡洛控制.png}
+    \caption{广义策略迭代与蒙特卡洛控制}
+    \label{fig-广义策略迭代与蒙特卡洛控制}
+\end{figure}
+
+策略改进方法仍与DP相同，贪心地选取$\pi'(s) = \argmax_{a}q_{\pi}(s,a)$，即可保证$\pi'$至少不必$\pi$更坏.
+
+最简单的蒙特卡洛控制是基于试探性出发的，在每次更新完成$q(s_t, a_t)$后，更新策略$\pi(s_t)\rightarrow \argmax_{a}q(s_t, a)$.
+
+第二种蒙特卡洛控制是基于$\varepsilon$-软性策略，假设状态$s\in\S$下的动作集合记为$\A(s)$，则每一个动作
+均至少有$\frac{\varepsilon}{|\A(s)|}$的概率被选中，也就是更新后的策略为
+\begin{equation*}
+    \pi(a|s) = \begin{cases}
+        \varepsilon / |\A(s)| + 1 - \varepsilon,&\quad a = \argmax_{a\in\A}q(s,a),\\
+        \varepsilon / |\A(s)|,&\quad \text{否则}.
+    \end{cases}
+\end{equation*}
+
+上述方法称为\textbf{同轨策略（on-policy）}，也就是用于生成采样数据的策略与实际不断改进的策略相同；
+还有一种方法称为\textbf{离轨策略（off-policy）}，也就是用于生成采样数据的策略与实际改进的策略不同.
+
+\subsection{基于重要度采样的离轨策略}
+将离轨策略中用于生成样本的策略记为$b$，一般要求策略$b$能够覆盖当前更新的$\pi$，也就是指$\pi(a|s) > 0$时
+有$b(a|s) > 0$，由于策略$b$与策略$\pi$生成同一个轨迹具有差异，定义\textbf{重要度采样比}来衡量二者的差异大小，
+状态-动作轨迹$A_t,S_{t+1},A_{t+1},\cdots, S_{T}$在策略$\pi$下发生的概率为
+\begin{align*}
+    &\ \P\{A_t,S_{t+1},A_{t+1},\cdots, S_{T}|S_t, A_{t:T-1}\sim \pi\}\\
+    =&\ \pi(A_t|S_t)p(S_{t+1}|S_t,A_t)\pi(A_{t+1}|S_{t+1})\cdots p(S_T|S_{T-1},A_{T-1})\\
+    =&\ \prod_{k=t}^{T-1}\pi(A_k|S_k)p(S_{k+1}|S_k,A_k)
+\end{align*}
+于是$\pi,b$在$t:T-1$段上的重要度采样比为
+\begin{equation*}
+    \rho_{t:T-1} = \frac{\prod_{k=t}^{T-1}\pi(A_k|S_k)p(S_{k+1}|S_k,A_k)}{\prod_{k=t}^{T-1}b(A_k|S_k)p(S_{k+1}|S_k,A_k)} = 
+    \prod_{k=t}^{T-1}\frac{\pi(A_k|S_k)}{b(A_k|S_k)}.
+\end{equation*}
+这里给出两种根据重要度采样比调整回报加权平均的方法：
+\begin{align*}
+    \text{普通重要度采样: }v(s) =&\ \frac{\sum_{t\in\mathcal{T}(s)}\rho_{t:T(t)-1}G_t}{|\mathcal{T}(s)|},\\
+    \text{加权重要度采样: }v(s) =&\ \frac{\sum_{t\in\mathcal{T}(s)}\rho_{t:T(t)-1}G_t}{\sum_{t\in\mathcal{T}(s)}\rho_{t:T(t)-1}}.
+\end{align*}
+其中$\mathcal{T}(s)$表示所有访问过状态$s$的时刻集合，将所有幕连续地编号，并用$T(t)$表示$t$时刻后的首次中止时刻. 
+上述两种加权方式中，普通重要度采样是无偏的但是方差无界的，而加权重要度采样是有偏但是方差有界的，一般使用加权重要度采样.
+
+类似地，我们也有\textbf{增量式更新加权采样的方法}，假设
+\begin{equation*}
+    v_n = \frac{\sum_{k=1}^{n-1}w_kG_k}{\sum_{k=1}^{n-1}w_k} =\frac{\sum_{k=1}^{n-1}w_kG_k}{c_{n-1}}
+\end{equation*}
+则增量式更新方法为
+\begin{equation*}
+    v_{n+1} = v_n + \frac{w_n}{c_n}(G_n - v_n),\quad c_{n+1} = \sum_{k=1}^{n+1}w_k = c_n + w_{n+1}
+\end{equation*}
+\section{时序差分学习}
+时序差分学习（Temporal-Difference Learning, TD）
 \end{document}
