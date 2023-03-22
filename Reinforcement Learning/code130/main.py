@@ -34,6 +34,8 @@ def position_action_iterator():
                 yield position, action
 
 def plot_savefig(title: str, fname: str):
+    plt.xlabel("幕数")
+    plt.ylabel("每幕的收益之和")
     plt.title(title)
     plt.legend()
     plt.xlim(0, 500)
