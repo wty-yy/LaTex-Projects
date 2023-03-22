@@ -33,6 +33,13 @@ def position_action_iterator():
             for action in range(4):
                 yield position, action
 
+def plot_savefig(title: str, fname: str):
+    plt.title(title)
+    plt.legend()
+    plt.xlim(0, 500)
+    plt.tight_layout()
+    plt.savefig(fname, dpi=300)
+    plt.show()
 
 class WalkingEnvironment:
     def __init__(self) -> None:
@@ -54,12 +61,13 @@ class WalkingEnvironment:
 
 class Agent:
     alpha = None
-    def __init__(self, epsilon=0.1, gamma=0.9, seed=42, episode=500, average_times=10) -> None:
+    def __init__(self, epsilon=0.1, gamma=1, seed=42, episode=500, average_times=1000, is_plot=True) -> None:
         self.epsilon = epsilon
         self.gamma = gamma
         np.random.seed(seed)
         self.episode = episode
         self.average_times = average_times
+        self.is_plot = is_plot
 
         self.history = np.zeros(self.episode)
         self.available_actions = np.zeros((4, 12 , 4))
@@ -69,25 +77,26 @@ class Agent:
                 self.available_actions[position[0], position[1], action] = 1
 
     def start(self):
-        plt.figure(figsize=(10, 8))
         # alphas = [0.1, 0.5, 0.9]
         alphas = [0.9]
         for self.alpha in alphas:
             for _ in tqdm(range(self.average_times)):
                 self.history += (self.solve(policy='sarsa') - self.history) / (_+1)
+            self.solve(policy='sarsa', verbose=True)
             self.plot_rewards('sarsa')
             self.history = np.zeros(self.episode)
 
             for _ in tqdm(range(self.average_times)):
                 self.history += (self.solve(policy='q_learning') - self.history) / (_+1)
             self.plot_rewards('Q\ Learning')
+            self.solve(policy='q_learning', verbose=True)
             self.history = np.zeros(self.episode)
 
-        plt.title(f"$\\epsilon={self.epsilon}$")
-        plt.legend()
-        plt.show()
+        if self.is_plot:
+            plot_savefig(f"$\\epsilon={self.epsilon}$",
+                         f"epsilon={self.epsilon},alphas={alphas},gamma={self.gamma},average={self.average_times}.png")
     
-    def solve(self, policy):
+    def solve(self, policy, verbose=False):
         history = []
         policies = ['sarsa', 'q_learning']
         assert(policy in policies)
@@ -116,7 +125,6 @@ class Agent:
             action = epsilon_choose(state) if policy == 'sarsa' else None
             total_reward = 0
             total_step = 0
-            step_history = []
             while not terminal:
                 total_step += 1
                 action = action if policy == 'sarsa' else epsilon_choose(state)
@@ -131,16 +139,34 @@ class Agent:
 
                 state, action = state_, action_ if policy == 'sarsa' else action
                 total_reward = reward + total_reward
-                step_history.append((state_, action))
             history.append(total_reward)
+
+        if verbose:
+            print(f"{policy}'s best policy:")
+            state = env.reset()
+            step_history = [tuple(state)]
+            terminal = False
+            while not terminal:
+                action = np.argmax(q[state[0], state[1]])
+                reward, state, terminal = env.step(action)
+                step_history.append(tuple(state))
+            print(step_history)
         return np.array(history)
 
     def plot_rewards(self, name):
-        plt.plot(self.history, label=f'${name}, \\alpha={self.alpha:.1f}$ ')
+        # plt.plot(self.history, label=f'${name}, \\epsilon={self.epsilon}, \\alpha={self.alpha:.1f}, \\gamma={self.gamma}$ ')
+        plt.plot(self.history, label=f'${name}, \\epsilon={self.epsilon}$', ls='-' if name == 'sarsa' else '--')
 
 if __name__ == '__main__':
-    agent = Agent(epsilon=0.01)
-    agent.start()
+    plt.figure(figsize=(10, 8))
+    agent = Agent(is_plot=False)
+    epsilons = [0, 0.01, 0.1]
+    # agent.average_times = 10
+    for epsilon in epsilons:
+        agent.epsilon = epsilon
+        agent.start()
+    plot_savefig(f"$sarsa\\quad v.s.\\quad Q\ Learning$\n$\\alpha={agent.alpha:.1f}, \\gamma={agent.gamma}$",
+                 f"epsilon={epsilons},alphas={agent.alpha},gamma={agent.gamma},average={agent.average_times}.png")
 
 if __name__ == '__main__0':
     x, y, z = np.array([-np.inf, -np.inf, -1e9])
