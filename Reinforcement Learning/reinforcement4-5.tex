@@ -1,0 +1,153 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem, subfigure, bbm}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont{方正书宋.ttf}[BoldFont = 方正黑体_GBK.ttf, ItalicFont = simkai.ttf, BoldItalicFont = 方正粗楷简体.ttf]
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\1{\mathbbm{1}}
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{强化学习} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第六章作业}
+\end{center}\vspace{-0.2cm}
+\begin{problem}[例6.6、练习6.12：在悬崖边上行走]\ 
+
+\begin{wrapfigure}[9]{r}{.7\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.5]{130页例6.6在悬崖边上行走.png}
+\end{wrapfigure}
+如右图所示是一个$4\times 12$的网格图，起点在左下角，终点在右下角，最下面一行除去左右端点外均为悬崖.
+每一幕开始时，智能体从起点开始移动，每一步有上下左右四个方向可以选择，如果到达悬崖或达到终点，结束当前幕.
+当智能体掉下悬崖时收益为$-100$，其他每步收益均为$-1$，使用sarsa和Q Learning求解该问题，比较在不同$\varepsilon$
+下，sarsa和Q Learning的策略有何不同.
+\end{problem}
+\begin{solution}
+    设置步长$\alpha = 0.9$，折扣率为$\gamma = 1$，分别测试$\varepsilon = 0.1, 0.01, 0$下sarsa和Q Learning
+    在每一幕下收益之和的变换情况，其中$\varepsilon=0$即使用贪心方式选择策略.
+
+    通过平均$1000$次试验结果，得到以下收益之和变换情况（如图2所示），并输出不同$\varepsilon$下的最优策略（如图1所示），可以发现，
+    在$\varepsilon = 0$时，两者使用了相同的最优贪心策略，并且收益之和曲线几乎完全重合，即在悬崖边上行走；但当$\varepsilon$增大时，
+    Q Learning仍采用最优策略，但是sarsa逐渐转换为安全策略，靠远离悬崖的路线上行走.
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.4]{figures/130/不同epsilon下sarsa和Q Learning策略比较图.png}
+        \caption{不同$\varepsilon$下sarsa和Q Learning策略比较图}
+    \end{figure}
+    \clearpage
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.6]{code130/epsilon=[0, 0.01, 0.1],alphas=0.9,gamma=1,average=1000.png}
+        \caption{不同$\varepsilon$下策略收益变换情况}
+    \end{figure}
+
+    \textbf{源代码：}
+    \pythonfile{code130/main.py}
+\end{solution}
+\end{document}
