@@ -316,4 +316,166 @@
         \E\left[\sum_{i=1}^p(X_i-\bar{X})^2\right] = \sigma^2(p-1).
     \end{equation*}
 \end{solution}
+\begin{problem}[2-3练习1]
+    设$X\sim N_{n}(\bd{\mu},\sigma^2I_n)$，$A$为$n$阶对撑幂等矩阵，且$\text{rank}(A) = r(r\leq n)$，证明：
+    $\frac{1}{\sigma^2}X'AX\sim \rchi^2(r,\delta)$，其中$\delta = \frac{1}{\sigma^2}\bd{\mu}'A\bd{\mu}$.
+\end{problem}
+\begin{proof}
+    由于$X\sim N_n(\bd{\mu}, \sigma^2I_n)$，则$AX\sim N_n(A\bd{\mu}, \sigma^2A'A) = N_n(A\bd{\mu}, \sigma^2A)$，于是
+    \begin{equation*}
+        (AX)'(\sigma^2A)^{-1}(AX) = \frac{1}{\sigma^2}X'AX\sim \rchi^2(r, (A\bd{\mu})'(\sigma^2A)^{-1}(A\bd{\mu})) = \rchi^2(r,\frac{1}{\sigma^2}\bd{\mu}'A\bd{\mu})
+    \end{equation*}
+\end{proof}
+\begin{problem}[2-3练习2]
+    设$X\sim N_{n}(\bd{\mu},\sigma^2I_n)$，$A,B$为$n$阶对称矩阵，若$AB = O$，证明：$X'AX$与$X'BX$相互独立.
+\end{problem}
+\begin{proof}
+    由于$AB = O$，由高代知识可知$r(AB)\geq r(A) + r(B) - n\Rightarrow r(A)+r(B) \leq n$，令$r(A) = p, r(B) = q$，于是$p + q\leq n$，
+    又由于$A,B$为对称阵，\add 则存在正交阵$P,Q$使得$P'AP = \begin{bmatrix}
+        A_\lambda&0\\
+        0&0
+    \end{bmatrix},Q'BQ = \begin{bmatrix}
+        B_\lambda&0\\
+        0&0
+    \end{bmatrix}$\add 其中$A_\lambda =\text{diag}(\lambda_{11},\cdots,\lambda_{1p}),B_\lambda =\text{diag}(\lambda_{21},\cdots,\lambda_{2q})$，其中$\lambda_{1i},\lambda_{2j},\ (1\leq i\leq p,1\leq j\leq q)$分别为$A,B$的特征值.\add
+
+    由于\add $AB = P\begin{bmatrix}
+        A_\lambda&0\\
+        0&0
+    \end{bmatrix}P'Q\begin{bmatrix}
+        B_\lambda&0\\
+        0&0
+    \end{bmatrix}Q'$，令$P'Q = \begin{bmatrix}
+        C_{11}&C_{12}\\
+        C_{21}&C_{22}
+    \end{bmatrix}$其中$C_{11}\in\R^{p\times q},C_{12}\in\R^{p\times (n-q)},C_{21}\in\R^{(n-p)\times q},C_{22}\in\R^{(n-p)\times (n-q)}$，则
+    \begin{equation*}
+        AB = P\begin{bmatrix}
+        A_\lambda&0\\
+        0&0
+    \end{bmatrix}\begin{bmatrix}
+        C_{11}&C_{12}\\
+        C_{21}&C_{22}
+    \end{bmatrix}\begin{bmatrix}
+        B_\lambda&0\\
+        0&0
+    \end{bmatrix}Q' = P\begin{bmatrix}
+        A_{\lambda}C_{11}B_{\lambda}&0\\
+        0&0
+    \end{bmatrix}Q' = O
+    \end{equation*}
+    则$C_{11} = 0$. 令$Y_1 = P'X = (Y_{1i})_1^n, Y_2 = Q'X = (Y_{2i})_1^n$，于是
+    \begin{align*}
+        X'AX =&\ (P'X)'P'AP(P'X) = Y_1'\begin{bmatrix}
+        A_\lambda&0\\
+        0&0
+    \end{bmatrix}Y_1 = \sum_{i=1}^p\lambda_{1i}Y_{1i}^2\\
+        X'BX =&\ (Q'X)'Q'AQ(Q'X) = Y_2'\begin{bmatrix}
+        B_\lambda&0\\
+        0&0
+    \end{bmatrix}Y_2 = \sum_{i=1}^q\lambda_{2i}Y_{2i}^2
+    \end{align*}
+    且\add $Y_1 = P'QY_2 = \begin{bmatrix}
+        0&C_{12}\\
+        C_{21}&C_{22}
+    \end{bmatrix}\begin{bmatrix}
+        Z_q\\Z_{n-q}
+    \end{bmatrix} = \begin{bmatrix}
+        C_{12}Z_{n-q}\\
+        C_{21}Z_q+C_{22}Z_{n-q}
+    \end{bmatrix}$，其中$Z_q = (Y_{21},\cdots,Y_{2q})',Z_{n-q} = (Y_{2,q+1},\cdots,Y_{2n})'$，
+    由于$p\leq n-q$，于是$Y_{11},\cdots,Y_{1p}$是$Y_{2,q+1},\cdots,Y_{2n}$的线性组合，又由于$Y_2 = Q'X = N(Q'\bd{\mu},\sigma^2I_n)$，
+    则$Y_{2i}$与$Y_{2j},\ (i\neq j)$独立，所以$\{Y_{11},\cdots,Y_{1p}\}$与$\{Y_{21},\cdots,Y_{2q}\}$独立，故$X'AX$与$X'BX$独立.
+\end{proof}
+\begin{problem}[2-3练习3]
+    设$X\sim N_p(\bd{\mu},\Sigma),\Sigma > 0$，$A,B$为$p$阶对称阵，证明：$(X-\bd{\mu})'A(X-\bd{\mu})$与$(X-\bd{\mu})'B(X-\bd{\mu})$独立，当且仅当，
+    $\Sigma A\Sigma B\Sigma = O_{p\times p}$.
+\end{problem}
+\begin{proof}
+    下面证明充分性，令$r(\Sigma) = p$，特征值为$\lambda_1,\cdots,\lambda_p$，由于$\Sigma > 0$，则存在正交阵$P$，使得$P'\Sigma P = \text{diag}(\lambda_1,\cdots,\lambda_p)$.
+    令$\Sigma^{\frac{1}{2}} = P\text{diag}(\sqrt{\lambda_1},\cdots,\sqrt{\lambda_2})P'$，则$\Sigma = \Sigma^{\frac{1}{2}}\Sigma^{\frac{1}{2}}$.
+
+    令$Y = \Sigma^{\frac{1}{2}}(X-\mu)$，于是$Y\sim N_p(0, (\Sigma^{\frac{1}{2}})'\Sigma^{\frac{1}{2}}\Sigma^{\frac{1}{2}}) = N_p(0,I_p)$，于是
+    \begin{align*}
+        &\ (X-\bd{\mu})'A(X-\bd{\mu}) = Y'\Sigma^{\frac{1}{2}}A\Sigma^{\frac{1}{2}}Y = Y'C_1Y\\
+        &\ (X-\bd{\mu})'B(X-\bd{\mu}) = Y'\Sigma^{\frac{1}{2}}B\Sigma^{\frac{1}{2}}Y = Y'C_2Y
+    \end{align*}
+    其中$C_1 = \Sigma^{\frac{1}{2}}A\Sigma^{\frac{1}{2}}, C_2 = \Sigma^{\frac{1}{2}}B\Sigma^{\frac{1}{2}}$且均为对称阵，由上题可知，若$C_1C_2 = O$，则$Y'C_1Y$与$Y'C_2Y$独立，
+    于是$\Sigma A\Sigma B\Sigma = O\Leftrightarrow \Sigma^{\frac{1}{2}} A\Sigma B\Sigma^{\frac{1}{2}} = O\Leftrightarrow C_1C_2 = O\Rightarrow Y'C_1Y\text{ 与 }Y'C_2Y\text{ 独立 }$，
+\end{proof}
+\begin{problem}[2-3练习4]
+    证明Wishart分布的性质4：设$X_{(a)}\sim N_p(\bd{0},\Sigma)(a=1,2,\cdots,n)$相互独立，其中$\Sigma = \begin{bmatrix}
+        \Sigma_{11}&\Sigma_{12}\\
+        \Sigma_{21}&\Sigma_{22}
+    \end{bmatrix}$，其中$\Sigma_{11}\in\R^{r\times r},\Sigma_{22}\in\R^{(p-r)\times(p-r)}$，且已知
+    \begin{equation*}
+        W = \sum_{a=1}^nX_{(a)}X'_{(a)} = \begin{bmatrix}
+            W_{11}&W_{12}\\
+            W_{21}&W_{22}
+        \end{bmatrix}\sim W_p(n,\Sigma)
+    \end{equation*}
+    其中$W_{11}\in\R^{r\times r},W_{22}\in\R^{(p-r)\times(p-r)}$，则有以下结论：
+
+    (1) $W_{11}\sim W_r(n,\Sigma_{11}), W_{22}\sim W_{p-r}(n,\Sigma_{22})$.
+
+    (2) 当$\Sigma_{12} = O$时，$W_{11}$与$W_{22}$相互独立.
+\end{problem}
+\begin{proof}
+    (1) 令$X = (X_{(1)}, X_{(2)},\cdots, X_{(n)}) = (X_1, X_2)$，其中$X_1\in\R^{n\times r},X_2\in\R^{n\times (p-r)}$，且$X_1\sim N(\bd{0},\Sigma_{11}),X_2\sim N(\bd{0}, \Sigma_{22})$
+    由于$W = X'X$，则$W_{11} = X_1'X_1,W_{22} = X_2'X_2$，于是$W_{11}\sim W_{r}(n,\Sigma_{11}), W_{22}\sim W_{p-r}(n,\Sigma_{22})$.
+
+    (2) 由于$\Sigma_{12} = \Sigma_{21}' = 0$，则$X_1$与$X_2$独立，由于$W_{11},W_{22}$分别由$X_1$和$X_2$表出，所以$W_{11}$与$W_{22}$也独立.
+\end{proof}
+\begin{problem}[2-3练习5]
+    对单个$p$元正态总体$N_p(\bd{\mu},\Sigma)$的均值向量的检验问题，试用似然比原理导出检验$H_0:\mu=\mu_0(\Sigma_0\text{已知})$的似然比统计量及其分布.
+\end{problem}
+\begin{solution}
+    \add 似然比函数分子为$L_1 = L(\bd{\mu}_0, \Sigma_0) = (2\pi)^{-\frac{np}{2}}|\Sigma_0|^{-\frac{n}{2}}\exp\left\{-\frac{1}{2}\sum_{i=1}^n(X_i-\bd{\mu})'\Sigma_0^{-1}(X_i - \bd{\mu})\right\}$，
+    分母为$L_2 = \max_{\bd{\mu}}L(\bd{\mu}, \Sigma_0) = L(\hat{\bd{\mu}}, \Sigma_0) \xlongequal{\hat{\bd{\mu}} = \bar{X}} (2\pi)^{-\frac{np}{2}}|\Sigma_0|^{-\frac{n}{2}}\exp\left\{-\frac{1}{2}\sum_{i=1}^n(X_i-\bar{X})'\Sigma_0^{-1}(X_i - \bar{X})\right\}$，
+    于是广义似然比为
+    \begin{equation*}
+        \lambda = \frac{L_1}{L_2} = \exp\left\{-\frac{1}{2}\sum_{i=1}^n[(X_i-\bd{\mu})'\Sigma_0^{-1}(X_i - \bd{\mu}) - (X_i-\bar{X})'\Sigma_0^{-1}(X_i - \bar{X})]\right\}
+    \end{equation*}
+    由于
+    \begin{align*}
+        &\ \sum_{i=1}^n\bigg\{(X_i-\bd{\mu})'\Sigma_0^{-1}(X_i - \bd{\mu}) - (X_i-\bar{X})'\Sigma_0^{-1}(X_i - \bar{X})\bigg\}\\
+        =&\ \sum_{i=1}^n\bigg\{X_i'\Sigma_0^{-1}X_i - 2X_i'\Sigma_0^{-1}\bd{\mu} + \bd{\mu}'\Sigma_0^{-1}\bd{\mu} - \left(X_i'\Sigma_0^{-1}X_i-2X_i'\Sigma_0^{-1}\bar{X}+\bar{X}'\Sigma_0^{-1}\bar{X}\right)\bigg\}\\
+        =&\ \sum_{i=1}^n\bigg\{\bd{\mu}'\Sigma_0^{-1}\bd{\mu}+2(X_i'\Sigma_0^{-1}\bar{X}-X_i'\Sigma_0^{-1}\bd{\mu})-\bar{X}'\Sigma_0^{-1}\bar{X}\bigg\}\\
+        =&\ n\bd{\mu}'\Sigma_0^{-1}\bd{\mu}+2n(\bar{X}'\Sigma_0^{-1}\bar{X}-\bar{X}'\Sigma_0^{-1}\bd{\mu})-n\bar{X}'\Sigma_0^{-1}\bar{X}\\
+        =&\ n\bigg(\bd{\mu}'\Sigma_0^{-1}\bd{\mu}-2\bar{X}'\Sigma_0^{-1}\bd{\mu}+\bar{X}'\Sigma_0^{-1}\bar{X}\bigg)\\
+        =&\ n(\bar{X}-\bd{\mu})'\Sigma_0^{-1}(\bar{X}-\bd{\mu})
+    \end{align*}
+    于是$\lambda = \exp\left\{-\frac{1}{2}(\bar{X}-\bd{\mu})'(\Sigma_0/n)^{-1}(\bar{X}-\bd{\mu})\right\}$，于是似然比统计量为
+    \begin{equation*}
+        \Lambda = (2\pi)^{-\frac{p}{2}}|\Sigma_0/n|^{-\frac{1}{2}}\exp\left\{-\frac{1}{2}(\bar{X}-\bd{\mu})(\Sigma_0/n)^{-1}(\bar{X}-\bd{\mu})\right\}\sim N_p(\bd{\mu}, \Sigma_0/n)
+    \end{equation*}
+    服从均值为$\bd{\mu}$，协方差矩阵为$\Sigma_0/n$的$p$元正态分布.
+\end{solution}
+\begin{problem}[2-3练习6]
+    两个多元正态总体均值向量检验，样本量$n=10$，每个样本来自$X\sim N_4(\bd{\mu}_1,\Sigma_1),Y\sim N_4(\bd{\mu}_2,\Sigma_2)$，检验均值向量是否相同.
+\end{problem}
+\begin{solution}
+    \begin{rcode}
+setwd("C:/Users/99366/Documents/GitHub/LaTex-Projects/Data Analysis/3,4,5,6")
+data <- read.table(file = "data.csv", sep = ",")
+X <- data[1:10, ]
+Y <- data[11:20, ]
+print(t.test(X, Y, var.equal = FALSE, paired = FALSE, mu = 0))
+# var.equal为FALSE表示假设两个总体方差不相等，paired为FALSE表示假设两个样本是独立的，mu为0表示检验两个总体均值是否相等
+    \end{rcode}
+    输出结果
+    \begin{rcode}
+        Welch Two Sample t-test
+
+data:  X and Y
+t = -0.96819, df = 74.917, p-value = 0.3361
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -9.55497  3.30497
+sample estimates:
+mean of x mean of y
+   50.125    53.250
+    \end{rcode}
+    由于p-value大于0.05，所以接受原假设，即均值向量相同.
+\end{solution}
 \end{document}
