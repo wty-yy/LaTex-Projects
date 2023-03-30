@@ -1,0 +1,138 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, cases, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{离散数学}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{第六章}
+
+\paragraph{66.}\begin{solution}
+    方程组：
+    \begin{numcases}{}
+        x\oplus(c\otimes y) = a\\
+        (c\otimes x) \oplus y = b
+    \end{numcases}
+
+    对$(1)$进行变化：
+
+    \begin{equation}
+        x = a \oplus(-c\otimes y)
+    \end{equation}
+
+    将$(3)$代入$(2)$中，得
+
+    \begin{equation*}
+        \begin{aligned}
+            (c\otimes(a\oplus(-c\otimes y)))\oplus y =& b\\
+            c\otimes a\oplus c\otimes(-c\otimes y)\oplus y =& b\\
+            c\otimes a\oplus (-c^2\otimes y)\oplus y =& b\\
+            (-c^2\oplus 1)\otimes y =& b\oplus (-c\otimes a)
+        \end{aligned}
+    \end{equation*}
+
+    当$c=1$时，$a = b$，则$x\oplus y=a$，无唯一解。
+
+    当$c=-1$时，$a=-b$，则$x\oplus(-y) = a$，无唯一解。
+
+    当$c\neq\pm 1$时，则$y = (b\oplus(-c\otimes a))\otimes(-c^2\oplus 1)^{-1}$，则有
+    \begin{equation*}
+        \begin{aligned}
+            x =&\ a\oplus(-c\otimes(b\oplus(-c\otimes a))\otimes(-c^2\oplus 1)^{-1})\\
+            =&\ a\oplus(-(b\otimes c\oplus(-c^2\otimes a))\otimes(-c^2\oplus 1)^{-1})\\
+            =&\ (a\oplus(-a\otimes c^2)\oplus(-b\otimes c)\oplus(c^2\otimes a))\otimes(-c^2\oplus 1)^{-1}\\
+            =&\ (a\oplus(-b\otimes c))\otimes(-c^2\oplus 1)^{-1}
+        \end{aligned}
+    \end{equation*}
+
+    故
+    \begin{equation*}
+        \begin{cases}
+            x = (a\oplus(-b\otimes c))\otimes(-c^2\oplus 1 )^{-1}\\
+            y = (b\oplus(-c\otimes a))\otimes(-c^2\oplus 1)^{-1}
+        \end{cases}
+    \end{equation*}
+
+\end{solution}
+\paragraph{67.}\begin{solution}
+    不一定。设域为实数域，$\braket{\mathbb{R}, +, \times}$，取
+    \begin{equation*}
+        R = \{\text{所有偶数}\} = \{\cdots, -6,-4,-2,0,2,4,6,\cdots\}
+    \end{equation*}
+    则$\braket{R,+,\times}$构成环，所以$\braket{R,+\times}$是$\braket{\mathbb{R},+,\times}$的子环，但$1\notin R$，所以$R$中没有幺元，故$R$不是整环。
+\end{solution}
+\paragraph{68.}\begin{solution}
+    (1). 不是，因为$-1\notin X$，所以$1\in X$没有关于$\oplus$的逆元，故$\braket{X,+,\times}$不是域。
+
+    (2). 是，由上次作业$60.(5)$题知，$\braket{X,+,\times}$构成整环，则只需证明$\forall a+b\sqrt{3}\in X$都有逆元即可，由于
+    \begin{equation*}
+        \begin{aligned}
+            (a+b\sqrt{3})\frac{(a-b\sqrt{3})}{a^2-3b^2} =& 1\\
+            \frac{(a-b\sqrt{3})}{a^2-3b^2}(a+b\sqrt{3}) =& 1
+        \end{aligned}
+    \end{equation*}
+
+    假设$a^2-3b^2 = 0$，则$\dfrac{a}{b} = \sqrt{3}$，由于$a, b\in \mathbb Q$，则$\sqrt{3}$是有理数，与$\sqrt{3}$为无理数矛盾，所以$\forall a,b\in \mathbb{Q}$，$a+b\sqrt{3}$都有逆元，故$\braket{X,+,\times}$是域。
+
+    (3). 不是，由于$\sqrt[3]{5}\times \sqrt[3]{5} = \sqrt[3]{25}\notin X$，所以$\braket{X,+,\times}$不是域。
+
+    (4). 是，证明方式同本题的$(2)$。
+
+    (5). 不是，因为$a\neq kb$，所以$1\notin X$，则$X$无幺元，故$\braket{X,+,\times}$不是域。
+\end{solution}
+\paragraph{69.} \begin{proof}
+    由于：
+
+    1. $S_1\subset F\text{ 且 }S_2\subset F$，则$S_1\cap S_2\subset F$
+
+    2. $\braket{S_1, \oplus},\braket{S_2, \oplus}$为$\text{Abel}$群，则$\braket{S_1\cap S_2, \oplus}$为$\text{Abel}$群
+
+    3. $\braket{S_1\backslash\{0\}, \otimes},\braket{S_2\backslash\{0\}, \otimes}$为$\text{Abel}$群，则$\braket{S_1\cap S_2\backslash\{0\}, \otimes}$为$\text{Abel}$群
+
+    4. $\otimes, \oplus$为域$F$中的运算，则满足分配律，所以$S_1\cap S_2$中的$\otimes$对$\oplus$运算满足分配律。
+
+    综上，$\braket{S_1\cap S_2,\oplus,\otimes}$是$\braket{F,\oplus,\otimes}$的子域。
+\end{proof}
+\paragraph{70.}\begin{solution}
+    存在，取素多项式 $f(x)=1+x+x^2$ 为模数，可以构造出多项式模环 $\braket{R,+,\times}$，$R=\{0,1,x,1+x\},\ x\in\mathbb{Z}_{2}$，其中的 $+,\times$ 运算定义如下：
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    +   & 0   & 1   & x   & 1+x \\ \hline
+    0   & 0   & 1   & x   & 1+x \\ \hline
+    1   & 1   & 0   & 1+x & x   \\ \hline
+    x   & x   & 1+x & 0   & 1   \\ \hline
+    1+x & 1+x & x   & 1   & 0   \\ \hline
+    \end{tabular}
+    \quad\quad
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    $\times$   & 0 & 1   & x   & 1+x \\ \hline
+    0   & 0 & 0   & 0   & 0   \\ \hline
+    1   & 0 & 1   & x   & 1+x \\ \hline
+    x   & 0 & x   & 1+x & 1   \\ \hline
+    1+x & 0 & 1+x & 1   & x   \\ \hline
+    \end{tabular}
+    \end{center}
+
+\end{solution}
+
+\end{document}

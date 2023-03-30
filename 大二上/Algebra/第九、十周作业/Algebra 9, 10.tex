@@ -1,0 +1,407 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{近世代数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题1.8}
+\paragraph{4.}设$F$是一个域，求一般线性群$GL_n(F)$的中心。
+\begin{solution}
+
+    $Z(GL_n(F)) = \{A\in GL_n(F):AB=BA,\forall B\in GL_n(F)\}$，即$A$能和所有的$n$阶可逆矩阵可交换。
+
+    设$A=(a_{ij})_{n\times n}$，构造可逆矩阵$B$如下：
+    \begin{equation*}
+        B=E_n+\begin{bmatrix}
+            0&1&0&\cdots&0\\
+            0&0&0&\cdots&0\\
+            \vdots&\vdots&\vdots&\ddots&\vdots\\
+            0&0&0&\cdots&0
+        \end{bmatrix}
+         = E_n+C
+    \end{equation*}
+    
+    则$AB=BA\Rightarrow A+AC=CA+A\Rightarrow AC=CA$，故$a_{11} = a_{22}$，同理可证$a_{ii}=a_{i+1,i+1}\ (i=1,2,\cdots,n-1)$，所以$A$的对角线上元素都相等。
+
+    构造可逆矩阵$B$如下：
+    \begin{equation*}
+        B=E_n+\begin{bmatrix}
+            1&0&\cdots&0\\0&0&\cdots&0\\
+            \vdots&\vdots&\ddots&\vdots\\0&0&\cdots&0
+        \end{bmatrix}
+        =E_n+D
+    \end{equation*}
+
+    则$AB=BA\Rightarrow A+AD=DA+A\Rightarrow AD=DA$，于是
+    \begin{equation*}
+        AD=\begin{bmatrix}
+            a_{11}&0&\cdots&0\\
+            a_{21}&0&\cdots&0\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{n1}&0&\cdots&0
+        \end{bmatrix}=DA=\begin{bmatrix}
+            a_{11}&a_{12}&\cdots&a_{1n}\\0&0&\cdots&0\\
+            \vdots&\vdots&\ddots&\vdots\\0&0&\cdots&0
+        \end{bmatrix}
+    \end{equation*}
+
+    故$a_{12}=\cdots=a_{1n}=a_{21}=\cdots=a_{n1}=0$，
+
+    同理有$a_{k2}=\cdots=a_{kn}=a_{2k}=\cdots=a_{nk}=0\ (k=1,2\cdots,n)$。
+
+    即$A$的非对角线上的元素都是$0$。
+
+    综上，$A$只能为数量矩阵，即$Z(GL_n(F)) = \{kE_n:k\in F^*\}$，其中$E_n$为$GL_n(F)$上的单位阵。
+\end{solution}
+
+\paragraph{8.}求$S_n$的中心，其中$n\geqslant 3$。
+\begin{solution}
+    $\forall \sigma\in S_n$，设$\sigma = (a_1a_2\cdots a_r)$，其中$r\geqslant 2$，下面证明$\sigma\notin \text{Z}(S_n)$：
+
+    当$r=2$，则$\exists a_3\in [1,n]$且$a_3\neq a_1,a_3\neq a_2$，则
+    \begin{equation*}
+        (a_1a_3)\sigma(a_1a_3)^{-1}=(a_1a_3)(a_1a_2)(a_1a_3)^{-1}=(a_3a_2)\neq \sigma
+    \end{equation*}
+
+    当$r\geqslant 3$，则
+    \begin{equation*}
+        (a_1a_2)\sigma(a_1a_2)^{-1} = (a_2a_1\cdots a_r)=(a_1a_3\cdots a_ra_2)\neq \sigma
+    \end{equation*}
+
+    则$\sigma\notin \text{Z}(S_n)$，故$\text{Z}(S_n) = \{(1)\}$。
+
+\end{solution}
+\paragraph{12.}设$H$是群$G$的一个子群，如果$G$的每一个自同构都把$H$映成自身，那么称$H$是$G$的\textbf{特征子群}，证明：$G$的中心$\text{Z}(G)$和$G$的换位子群$G'$都是$G$的特征子群。
+\begin{proof}
+    设$\sigma\in\text{Aut}(G)$。
+    
+    $\forall z\in \text{Z}(G), \forall a\in G$，则
+    \begin{equation*}
+        \sigma(za)=\sigma(az) = \sigma(z)\sigma(a)=\sigma(a)\sigma(z)
+    \end{equation*}
+
+    由$\sigma$为自同构和$a$的任意性知，$\sigma(a)$能遍历$G$中的全体元素，所以$\sigma(z)\in \text{Z}(G)$，则$\sigma(\text{Z}(G)) \subset\text{Z}(G)$，又由于$\sigma$是双射，所以$\sigma(\text{Z}(G)) =\text{Z}(G)$，故$\text{Z}(G)$为$G$的特征子群。
+
+    $\forall x, y\in G$，则
+    \begin{equation*}
+        \sigma(xyx^{-1}y^{-1}) = \sigma(x)\sigma(y)\sigma(x^{-1})\sigma(y^{-1}) = \sigma(x)\sigma(y)\sigma(x)^{-1}\sigma(y)^{-1}\in G'
+    \end{equation*}
+
+    由于$G' = \braket{xyx^{-1}y^{-1}:x,y\in G}$，所以$\sigma(G')\subset G'$，又由于$\sigma$是双射，则$\sigma(G') = G'$，故$G'$是$G$的特征子群。
+
+\end{proof}
+\paragraph{16.}求$S_4$的共轭类的个数，以及每个共轭类的代表和元素数目。
+
+\begin{solution}
+    
+    先证明$S_n$的共轭类个数等于$n$的分拆数，设$\sigma\in S_n$的不相交的轮换分解式为：
+
+    \begin{equation*}
+        \sigma=(a_1a_2\cdots a_{l_1})(b_1b_2\cdots b_{l_2})\cdots(q_1q_2\cdots q_{l_t})
+    \end{equation*}
+
+    其中$l_1\geqslant l_2\geqslant \cdots\geqslant l_t$且$l_1+l_2+\cdots+l_t = n$，称有序数组$(l_1,l_2,\cdots, l_n)$为$n$的\textbf{分拆}，也称为$\sigma$的\textbf{型}，下证：如果$\sigma_1,\sigma_2$共轭当且仅当它们同型。
+
+    设$\sigma_1 =(a_1a_2\cdots a_{l_1})\cdots(q_1q_2\cdots q_{l_t})$。
+
+    $\Rightarrow$：由于$\sigma_1,\sigma_2$共轭，则$\exists \tau\in S_n$，使得$\tau\sigma_1\tau^{-1}=\sigma_2$，则
+    \begin{equation*}
+        \sigma_2 = \tau\sigma_1\tau^{-1}=(\tau(a_1)\tau(a_2)\cdots \tau(a_{l_1}))\cdots(\tau(q_1)\tau(q_2)\cdots \tau(q_{l_t}))
+    \end{equation*}
+    故$\sigma_2$与$\sigma_1$同型。
+
+    $\Leftarrow$：由于$\sigma_1,\sigma_2$同型，设$\sigma_2 =(b_1b_2\cdots b_{l_1})\cdots(p_1p_2\cdots p_{l_t})$，构造置换$\tau$如下：
+    \begin{equation*}
+        \tau = \begin{pmatrix}
+            a_1&a_2&\cdots&a_{l_1}&\cdots&q_1&q_2&\cdots&q_{l_t}\\
+            b_1&b_2&\cdots&b_{l_1}&\cdots&p_1&p_2&\cdots&p_{l_t}\\
+        \end{pmatrix}
+    \end{equation*}
+    则$\tau\sigma_1\tau^{-1} = \sigma_2$，故$\sigma_1,\sigma_2$共轭。
+
+    所以，在$S_n$上的共轭作用下，$\sigma_1,\sigma_2$在同一个共轭类中当且仅当它们的同型，又由于一个同型对应$n$的一个分拆，所以$S_n$的共轭类个数等于$n$的分拆数。
+
+    由于$4 = 3+1 = 2+2 = 2+1+1 = 1+1+1+1$，所以$4$的分拆数为$5$，故$S_4$的共轭类个数为$5$，代表元分别为：
+    \begin{equation*}
+        (1234)\quad(123)\quad(12)(34)\quad(12)\quad(1)
+    \end{equation*}
+    通过组合方法，得知其元素数目分别为：
+    \begin{equation*}
+        \begin{aligned}
+            &|C((1234))| = \frac{A_4^4}{4} = 6\\
+            &|C((123))| = \frac{A_4^3}{3} = 8\\
+            &|C((12)(34))| = \frac{1}{2}\binom{4}{2} = 3\\
+            &|C((12))| = \binom{4}{2} = 6\\
+            &|C((1))| = 1
+        \end{aligned}
+    \end{equation*}
+\end{solution}
+\paragraph{23.}设$G$是一个群，$G$的所有子群组成的集合记做$\Omega$，令
+\begin{equation*}
+    \begin{aligned}
+        G\times\Omega&\rightarrow \Omega\\
+        (a,H)&\mapsto aHa^{-1}
+    \end{aligned}
+\end{equation*}
+容易验证这给出了群$G$在$\Omega$上的一个作用，称它为群$G$在子群集合$\Omega$上的\textbf{共轭作用}，$H$的$G-\text{轨道}\ G(H)$是由$H$的所有共轭子群组成的，$H$的稳定子群
+\begin{equation*}
+    G_H = \{g\in G:gHg^{-1} = H\}
+\end{equation*}
+称为$H$在$G$中的\textbf{正规化子}，记做$N_G(H)$，容易看出$H\triangleleft N_G(H)$。证明：如果$G$为有限群，$H<G$，那么$H$的共轭子群的个数等于$[G:N_G(H)]$。
+\begin{proof}
+    设$G$在它的所有子群组成的集合$\Omega$上的共轭作用，下面证明这是一个作用
+    \begin{equation*}
+        \begin{aligned}
+            &(ab)\circ H = (ab)H(ab)^{-1} = abHb^{-1}a^{-1} = a(b\circ H)a^{-1} = a\circ(b\circ H)\\
+            &e\circ H = eHe^{-1} = H
+        \end{aligned}
+    \end{equation*}
+
+    由$\text{轨道-稳定子定理}$知，$H < G, |O(H)| = [G: G_H] = [G:N_G(H)]$，又由于$|O(H)|$就是$H$的所有共轭子群集合，所以$H$的共轭子群的个数等于$[G:N_G(H)]$。
+\end{proof}
+\paragraph{28.}设$G$为一个有限群，$p$为$|G|$的最小素因子。证明：指数为$p$的子群（如果存在）必为正规子群。
+\begin{proof}
+    设$H < G$，且$[G:H] = p$，则$|(G/H)_l| = p$，所以$S_{(G/H)_l}\cong S_p$，构造$G$到$(G/H)_l$上的左平移，则其对应的$G$到$S_{(G/H)_l}$上的群同态$\psi$为：
+    \begin{equation*}
+        \begin{aligned}
+            \psi:G&\rightarrow S_{(G/H)_l}\cong S_p\\
+            g&\mapsto \psi(g)(xH):= gxH
+        \end{aligned}
+    \end{equation*}
+
+    由$\text{群同态基本定理}$知，$G/\text{Ker }\psi \cong \text{Im }\psi\Rightarrow \dfrac{|G|}{|\text{Ker }\psi|}=|\text{Im }\psi|$，又由于$\text{Im }\psi< S_p$，由$\text{Lagrange定理}$知，$|\text{Im }\psi|\biggl||S_p|\Rightarrow |\text{Im }\psi|\biggl|p!$，于是
+    \begin{equation*}
+        \frac{|G|}{|\text{Ker }\psi|} \biggl | p!
+    \end{equation*}
+    
+    设$|G|$的标准分解为：$|G| = p^{a_0}p_1^{a_1}\cdots p_r^{a_r}$，其中$p<p_1<\cdots<p_r$，且$\alpha_i\geqslant 1$，则$|\text{Ker }\psi|=p^{a_0-1}p_1^{a_1}\cdots p_r^{a_r}=\dfrac{|G|}{p}$，或者$|\text{Ker }\psi|=|G|$。
+
+    由于
+    \begin{equation*}
+        \begin{aligned}
+        \text{Ker }\psi =& \{a\in G:axH = xH,\forall x\in G\} \\
+        =& \{a\in G:x^{-1}ax\in H,\forall x\in G\}\\
+        =& \{a\in G:a \in xHx^{-1},\forall x\in G\} \\
+        =& \bigcap_{x\in G}xHx^{-1}
+        \end{aligned}
+    \end{equation*}
+
+    所以$\text{Ker }\psi\subset H\Rightarrow |\text{Ker }\psi| \leqslant |H|$，又由于$[G:H]=\dfrac{|G|}{|H|} = p$，所以$|\text{Ker }\psi|\leqslant \dfrac{|G|}{p}$，故$|\text{Ker }\psi| = \dfrac{|G|}{p} = |H|$，于是
+    \begin{equation*}
+        \begin{aligned}
+            &\text{Ker }\psi = \bigcap_{x\in G}xHx^{-1} = H\\
+            \Rightarrow &\forall x\in G,xHx^{-1}\in H\\
+            \Rightarrow &H\text{为正规子群}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{29.}设群$G$在集合$\Omega$和$\Omega'$上分别有一个作用“$\circ$”和“$\cdot$”，如果$\Omega$到$\Omega'$有一个双射$\sigma$，使得
+\begin{equation*}
+    \sigma(a\circ x) = a\cdot(\sigma(x)) ,\quad a\in G,\forall x\in \Omega
+\end{equation*}
+那么称群$G$的这两个作用是\textbf{等价的}。证明：群$G$在任一集合$\Omega$上的传递作用等价于群$G$在左商集$(G/G_x)_l$上的左平移，其中$x\in G$。
+\begin{proof}
+    设$\Omega' = (G/G_x)_l$，“$\circ$”是$G$在$\Omega$上的传递作用，“$\cdot$”是$G$在$(G/G_x)_l$上的左平移，即$g\cdot aG_x = gaG_x$，由于$\circ$是传递作用，所以由“$\circ$”运算所定义的轨道$G(x)=\Omega$，利用证明$\text{轨道-稳定子定理}$时，所构造的双射$\sigma$：
+    \begin{equation*}
+        \begin{aligned}
+            \sigma:G(x)&\leftrightarrow (G/G_x)_l\\
+            a\circ x&\mapsto aG_x
+        \end{aligned}
+    \end{equation*}
+
+    则$\sigma$是$\Omega$到$\Omega'$的双射，且$\forall y\in \Omega,\ \exists b\in G$，使得$b\circ x = y$，则
+    \begin{equation*}
+        \begin{aligned}
+            a\cdot(\sigma(y)) =& a\cdot(\sigma(b\circ x))\\
+            =& a\cdot bG_x\\
+            =& abG_x\\
+            =& \sigma((ab)\circ x)\\
+            =& \sigma(a\circ(b\circ x))\\
+            =& \sigma(a\circ y)
+        \end{aligned}
+    \end{equation*}
+    由等价作用的定义知，“$\circ$”和“$\cdot$”等价。
+
+\end{proof}
+\paragraph{33.}证明：$n$阶循环群$G=\braket{a}$的自同构群同构于$\mathbb{Z}_n^*$。
+\begin{proof}
+    由于$\mathbb{Z}_n^*$中的元素都和$n$互素，所以$|\mathbb{Z}_n^*|=\varphi(n)$，设$\mathbb{Z}_n^* = \{\overline{b_1},\overline{b_2},\cdots,\overline{b_{\varphi(n)}}\}$。
+
+    由于$a$为群$G$的生成元，则$|a| = n$，又由于
+    \begin{equation*}
+        |a^k| = \frac{|a|}{(k, |a|)} = \frac{n}{(k, n)}
+    \end{equation*}
+    所以$G$中的生成元$|a^k|=n$当且仅当$(k, n) = 1$，所以$G$中所有生成元为
+    \begin{equation*}
+        \{a^{b_1},a^{b_2},\cdots,a^{b_\varphi(n)}\}
+    \end{equation*}
+    由于自同构将同阶元映射到同阶元上，而且如果定义了$G$的生成元上的映射，相当于对$G$中每个元素都做出了定义，所以只需讨论$G$的同阶生成元上的置换即可，又由于$G$是循环群（可以通过一个元素生成），故$G$上的全体自同构个数有且仅有$\varphi(n)$个，分别记为$\sigma_i(a) = a^{b_i},\ (i = 1, 2,\cdots, \varphi(n))$，则
+    \begin{equation*}
+        \text{Aut}(G) = \{\sigma_1,\sigma_2,\cdots,\sigma_{\varphi(n)}\}
+    \end{equation*}
+
+    构造映射$\psi$如下：
+    \begin{equation*}
+        \begin{aligned}
+            \psi:\text{Aut}(G)&\rightarrow \mathbb{Z}_n^*\\
+            \sigma_i(a)&\mapsto \overline{b_i}\quad (i = 1, 2, \cdots, \varphi(n))
+        \end{aligned}
+    \end{equation*}
+
+    由于$|\text{Aut}(G)| = \varphi(n) = |\mathbb{Z}_n^*|$，通过定义可以看出$\psi$为双射，下面证明$\psi$保运算
+
+    $\forall i, j\in \{1, 2, \cdots, \varphi(n)\}$，有
+    \begin{equation*}
+        \sigma_i\sigma_j(a) = \sigma_i(a^{b_j}) = (\sigma_i(a))^{b_j} = a^{b_ib_j}
+    \end{equation*}
+
+    由于$b_i,b_j$和$n$互素，所以$b_ib_j$也和$n$互素，则$\exists k\in \{1, 2, \cdots, \varphi(n)\}$，使得
+    \begin{equation*}
+        \begin{aligned}
+            &b_ib_j\equiv b_k\pmod{n}\\
+            \Rightarrow\ &\overline{b_i}\overline{b_j}=\overline{b_k}
+        \end{aligned}
+    \end{equation*}
+    则
+    \begin{equation*}
+        \sigma_i\sigma_j(a) = a^{b_ib_j} = a^{b_k} = \sigma_k(a)
+    \end{equation*}
+    故
+    \begin{equation*}
+        \psi(\sigma_i)\psi(\sigma_j) = \overline{b_i}\overline{b_j}=\overline{b_k}=\psi(\sigma_k)=\psi(\sigma_i\sigma_j)
+    \end{equation*}
+
+    综上，$\psi$是$\text{Aut}(G)$到$\mathbb{Z}_n^*$上的群同构映射。
+
+\end{proof}
+
+\paragraph{习题1.9}
+\paragraph{3.} 证明：不存在阶为$56$的单群。
+
+\begin{proof}
+    设群$G$的阶为$56$，则存在$G$的$\text{Sylow 2-子群 }P$，设$P$的个数有$r$个，由$\text{Sylow第三定理}$知，$r\equiv 1\pmod 2,\ r|7$，则$r$的取值只有$1, 7$。
+
+    1. 当$r=1$时，$P$唯一$\iff P\triangleleft G$，则$G$不为单群。
+
+    2. 当$r=7$时，设它们为
+    \begin{equation*}
+        \Omega = \{P_i:i=1,2,\cdots,7\}
+    \end{equation*}
+
+    构造$G$在$\Omega$上的共轭作用$g\circ P_i = gP_ig^{-1}$，因为$\Omega$上的元素两两共轭，所以这是一个良作用，设其对应的$G$到$\Omega$的变换群上的群同态为$\psi$：
+    \begin{equation*}
+        \begin{aligned}
+            \psi:G&\rightarrow S_{\Omega}\cong S_7\\
+            g&\mapsto \psi(g)(P_i):=g\circ P_i
+        \end{aligned}
+    \end{equation*}
+
+    由$\text{群同态基本定理}$知，
+    \begin{equation*}
+        G/\text{Ker }\psi\cong\text{Im }\psi\\
+    \end{equation*}
+
+    又由于$\text{Im }\psi < S_7\Rightarrow|\text{Im }\psi| \biggl| 7!$，于是
+    \begin{equation*}
+        \begin{aligned}
+            &\frac{2^3\cdot 7}{|\text{Ker }\psi|}=|\text{Im }\psi|\biggl| 7!\\
+            \Rightarrow\ &2^2\biggl | |\text{Ker }\psi|\\
+            \Rightarrow\ &|\text{Ker }\psi|\neq 0
+        \end{aligned}
+    \end{equation*}
+
+    又由于$\text{Ker }\psi\triangleleft G$，所以$\text{Ker }\psi$为$G$的非平凡正规子群。
+
+    综上，不存在阶为$56$的单群。
+
+\end{proof}
+\paragraph{6.}确定$15$阶群的类型。
+
+\begin{solution}
+    设群$G$的阶数为$15$，则$|G|=15=3\cdot 5$，设$\text{Sylow 3-子群}$为$H$，$\text{Sylow 5-子群}$为$P$，下证$H,P$均唯一
+
+    设$\text{Sylow 3-子群}$的个数为$r$个，$\text{Sylow 5-子群}$的个数为$s$个，则
+    \begin{equation*}
+        \left.\begin{aligned}
+            &r\equiv 1\pmod 3\ \text{且}\ r|5\\
+            &s\equiv 1\pmod 5\ \text{且}\ s|3
+        \end{aligned}\right\}
+        \Rightarrow
+        r=s=1
+    \end{equation*}
+
+    所以$H, P$均唯一，故$H\triangleleft G, P\triangleleft G$，由于$H\cong \mathbb{Z}_3, P\cong \mathbb{Z}_5$，所以$H\cap P = \{e\}$，又由于
+    \begin{equation*}
+        |HP|=\frac{|H|\cdot|P|}{|H\cap P|} = 15 = |G|
+    \end{equation*}
+
+    所以，$G\cong \mathbb{Z}_3\oplus \mathbb{Z}_5\cong \mathbb{Z}_{15}$，故$G$一定为$15$阶循环群。
+\end{solution}
+\paragraph{10.}设$p,q$是不同的素数，证明：$p^2q$阶群必有一个正规的$\text{Sylow子群}$。
+
+\begin{proof}分为以下两种情形：
+
+    1. 若$p>q$，由于$G$的$\text{Sylow-p子群}$的指数为$q$，为$|G|$的最小的素因数，所以$\text{Sylow-p子群}$为正规子群。
+
+    2. 若$p<q$，设$G$的$\text{Sylow-p子群}$个数为$r$，$\text{Sylow-q子群}$个数为$s$，则有
+    \begin{equation*}
+        \begin{aligned}
+            &r\equiv 1\pmod p\ \text{且}\ r|q\\
+            &s\equiv 1\pmod q\ \text{且}\ s|p^2
+        \end{aligned}
+    \end{equation*}
+
+    若$s=1$，则$\text{Sylow-q子群}$为正规子群。
+
+    若$s=p$，则$p\equiv 1\pmod{q}\Rightarrow p=1$，故$s$不能为$p$。
+
+    若$s=p^2$，则$p^2\equiv 1\pmod{q}$，则$\exists k\in \mathbb{Z}_{\geqslant 1}$，使得$p^2 = kq+1$，则$kq = (p-1)(p+1)$，有$q|(p-1)$或$q|(p+1)$，由于$p\leqslant q-1$，所以$p-1\leqslant q-2,p+1\leqslant q$，故$q=p+1$，所以$p=q-1$，又由于$p,q$均为素数，所以$p=2,q=3$，则$s=4$，下面对$r$进行讨论
+
+    若$r=1$，则$\text{Sylow-p子群}$为正规子群。
+    
+    若$r=3$，由于$4$阶群一定是循环群，所以$G$中至少有$3\cdot 3+4\cdot 2 + 1 = 18\geqslant |G| = 12$，矛盾，所以$r$不能为$3$。
+
+    综上，$p^2q$阶群必有一个正规的$\text{Sylow子群}$。
+
+\end{proof}
+\paragraph{13.}设$G$为一个有限群，$N\triangleleft G$，$P$是$N$的一个$\text{Sylow p-子群}$，证明：
+\begin{equation*}
+    G=N\cdot \text{N}_G(P)
+\end{equation*}
+\begin{proof}
+    $\forall g\in G$，由于$P < N$，则$gPg^{-1}\subset gNg^{-1} = N$，所以$gPg^{-1}$也是$N$的一个$\text{Sylow p-子群}$，由$\text{Sylow第二定理}$知，$\exists n\in N$，使得$gPg^{-1} = nPn^{-1}$，故
+    \begin{equation*}
+        \begin{aligned}
+            &n^{-1}gPg^{-1}n = P\\
+            \Rightarrow\ &n^{-1}gP(n^{-1}g)^{-1} = P\\
+            \Rightarrow\ &n^{-1}g\in \text{N}_G(P)\\
+            \Rightarrow\ &g\text{N}_G(P)=n\text{N}_G(P)\\
+            \Rightarrow\ &g\in N\cdot \text{N}_G(P)\\
+            \Rightarrow\ &G\subset N\cdot \text{N}_G(P)
+        \end{aligned}
+    \end{equation*}
+    
+    又由于$N\cdot\text{N}_G(P)\subset G$，所以$G=N\cdot\text{N}_G(P)$。
+\end{proof}
+
+
+\end{document}

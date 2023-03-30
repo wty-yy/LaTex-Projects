@@ -1,0 +1,220 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{实变函数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题1.2}
+\paragraph{2.}证明任一可列集的所有有限子集全体是可列集。
+\begin{proof}
+    设$Q$为任一可列集，令
+    \begin{equation*}
+        Q = \{q_1,q_2,\cdots,q_n,\cdots\}
+    \end{equation*}
+    
+    对于$Q$的每一个有限子集，$C_1,C_2,\cdots, C_n,\cdots\subset Q$，对于每一个$C_i$，将全体属于$Q$但不属于$C_i$的元素$q_{ij}$列出，构造映射$\varphi:$
+    \begin{equation*}
+        \begin{aligned}
+            C_1&\leftrightarrow\{q_{11},q_{12},\cdots,q_{1n},\cdots\}\\
+            C_2&\leftrightarrow\{q_{21},q_{22},\cdots,q_{2n},\cdots\}\\
+            \vdots&\\
+            C_n&\leftrightarrow\{q_{n1},q_{n2},\cdots,q_{nn},\cdots\}\\
+            \vdots&
+        \end{aligned}
+    \end{equation*}
+
+    可以发现，$\varphi$是双射，则$\{C_1,C_2,\cdots,C_n,\cdots\}$和“可列个可列集的和集”对等，又由于“可列个可列集的和集”是可列集，则$\{C_1,C_2,\cdots,C_n,\cdots\}$是可列集，即$Q$的所有有限子集全体是可列集。
+\end{proof}
+\paragraph{3.}证明$g$进制有限小数全体是可列集，循环小数全体也是可列集。
+\begin{proof}
+    $\forall n\geqslant 1$，记$g$进制下$n$位有限小数全体为$A_n$，则$\overline{\overline{A_n}}\leqslant g^n$，则$A_n$为有限集，$g$进制有限小数全体为$\{A_1,A_2,\cdots,A_n,\cdots\}$是可列个有限集的和集，则$g$进制有限小数全体为可列集。
+
+    $\forall n\geqslant 1$，记$g$进制下$n$位循环小数全体为$B_n$，则$\overline{\overline{B_n}}\leqslant g^n$，则$B_n$为有限集，$g$进制有限小数全体为$\{B_1,B_2,\cdots,B_n,\cdots\}$是可列个有限集的和集，则$g$进制循环小数全体为可列集。
+\end{proof}
+\paragraph{4.}对于有理数，施行$+,-,\times,\div,\sqrt{\quad},\sqrt[3]{\quad},\cdots$等有限次运算，这样得到的一切数其全体是可列的吗？
+\begin{solution}
+    是可列的。
+
+    因为运算的种类是可列的，进行计算的数均为有理数也是可列的，设进行$\forall n\geqslant 0$次运算，则参与运算的有理数个数至多为$n+1$个，是可列的，则运算所得到的数是“可列个可列集的和集”也是可列集，所以得到的一切数全体是可列的。
+\end{solution}
+\paragraph{6.}若集$A$中每个元素，由相互独立的可列个指标所决定，即$A=\{a_{x_1x_2\cdot}\cdots\}$，而每个指标$x_i$在一个势为$\aleph$的集中变化，则集$A$的势也是$\aleph$。
+\begin{proof}
+    设$\overline{\overline{B}} = \aleph$，$C=\{(x_1,x_2,\cdots,x_n):\forall n\geqslant 1, x_i\in B\}$，构造映射$\varphi$：
+    \begin{equation*}
+        \begin{aligned}
+            \varphi:A&\rightarrow C\\
+            a_{x_1x_2\cdots x_n}&\mapsto(x_1,x_2,\cdots,x_n)
+        \end{aligned}
+    \end{equation*}
+
+    可以看出$\varphi$为双射，则$\overline{\overline{A}} = \overline{\overline{C}}$，又由于$C=B^{\infty}$，则$\overline{\overline{C}} = \aleph$。
+    
+    综上，$\overline{\overline{A}} = \aleph$。
+\end{proof}
+\paragraph{9.}设集$B$与$C$的和集的势为$\aleph$。证明$B$及$C$中必有一个集的势也是$\aleph$。如果$\bigcup\limits_{n=1}^{\infty}A_n$的势是$\aleph$，证明必有一个$A_n$的势也是$\aleph$。
+
+\begin{proof}
+    令$A = C - B$，则$A\cap B = \varnothing$，由于$\overline{\overline{A\cup B}} = \aleph = \aleph^2$，所以存在双射$\varphi:A\cup B\rightarrow \mathbb{R}^2$，若$\exists x_0\in \mathbb{R}$使得过$(x_0,0)$平行于$y$轴的直线集合$\{(x, y):x=x_0\}\subset \varphi(A)$，则$\overline{\overline{A}} = \aleph$，否则$\forall x\in \mathbb{R}$，$\exists y_x\in \mathbb{R}$，使得$(x,y_x)\in \alpha(B)$，则$\overline{\overline{B}} = \aleph$，故$A$及$B$中必有一个集的势为$\aleph$。
+
+    由于$A\subset C$，所以$B$及$C$中必有一个集的势为$\aleph$。
+
+    不妨令$A_i\ (i\geqslant 1)$两两不交，由于$\overline{\overline{\bigcup\limits_{n=1}^{\infty}A_n}} = \aleph = \aleph^\infty$，则存在双射$\varphi:\bigcup\limits_{n=1}^{\infty}A_n \rightarrow \mathbb{R}^\infty$，设$B_i$为$\varphi(A_i)$的第$i$个分量的全体集合。若$\exists i\geqslant 1$，$B_i = \mathbb{R}$，则$\overline{\overline{\mathbb{R}}}\leqslant\overline{\overline{A}}\Rightarrow\overline{\overline{A}}=\aleph$；否则，取$x_i\notin B_i\ (\forall i \geqslant 1)$，由于$A_i$两两不交，则$\varphi(A_i)$两两不交，得$(x_1,x_2,\cdots,x_n,\cdots)\notin\varphi(\bigcup\limits_{n=1}^{\infty}A_n)$，与$\varphi(\bigcup\limits_{n=1}^{\infty}A_n) = \mathbb{R}^{\infty}$矛盾。
+
+    综上，必有一个$A_n$的势是$\aleph$
+\end{proof}
+\paragraph{10.}证明：直线上集$A$如果具有下面性质：对任何$x\in(-\infty,+\infty)$，总存在包含$x$的某个区间$(x-\delta,x+\delta)$，使得$x-\delta,x+\delta)\cap A$最多只有可列个点，那么$A$必是有限集或可列集。
+\begin{proof}
+    取$x_0\in A$，则存在$\delta_0$，使得$[x_0, x_0+\delta_0)$是可列集，继续取$x_1 = x_0+\frac{\delta_0}{2}$，则$x_1\in [x_0,x_0+\delta_0)$，且存在$\delta_1$，使得$[x_1,x_1+\delta_1)$是可列解，则$[x_0, x_0+\frac{\delta_0}{2}+\delta_1)$是可列集，如此继续构造$x_1,x_2,\cdots,x_n,\cdots$，则以下集合均为可列集
+    \begin{equation*}
+        \begin{aligned}
+            &[x_0,x_0+\delta_0)\\
+            &[x_0,x_0+\frac{\delta_0}{2}+\delta_1)\\
+            &\quad\vdots\\
+            &[x_0,x_0+\frac{\delta_0+\cdots+\delta_{n-1}}{2}+\delta_n)\\
+            &\quad\vdots\\
+        \end{aligned}
+    \end{equation*}
+
+    由于$\delta_i>0\ (i\geqslant 0)$，则$[x_0,+\infty)$是可列集，同理可证，$(-\infty, x_0]$也是可列集。
+
+    综上，$(-\infty,x_0]\cup[x_0,\infty) = (-\infty,+\infty)=A$是可列集。
+\end{proof}
+
+\paragraph{习题2.1}
+\paragraph{1.}$\mathbf{E}$是$X$的集类，在下列一些情况下分别求出$\mathcal{R}(\mathbf{E})$.
+
+(i) $\mathbf{E}=\{E_1,E_2,\cdots,E_n\}$.
+
+(ii) $X$是数直线，$\mathbf{E}$是$X$中开区间全体.
+
+(iii) $X$是数直线，$\mathbf{E}$是形如$(-\infty, a)$的开区间全体.
+\begin{solution}
+    (i) 如下给出了一种$\mathcal{R}(\mathbf{E})$中全体不交集的构造：
+    \begin{equation*}
+        \begin{aligned}
+            &E_i-E_1-\cdots-E_{i-1}-E_{i+1}-\cdots-E_n\quad(1\leqslant i\leqslant n)\\
+            &(E_i\cap E_j)-E_1-\cdots-E_{i-1}-E_{i+1}-\cdots E_{j-1}-E_{j+1}\cdots-E_n\quad(1\leqslant i < j\leqslant n)\\
+            &(E_i\cap E_j\cap E_k)-E_1-\cdots-E_{i-1}-E_{i+1}-\cdots E_{j-1}-E_{j+1}-\cdots-E_{k-1}-E_{k+1}\cdots-E_n\\
+            &\quad\quad\vdots\qquad\qquad\qquad\qquad\qquad\quad\qquad\qquad\qquad\qquad\qquad\qquad\qquad(1\leqslant i < j <k\leqslant n)\\
+            &E_1\cap E_2\cap \cdots\cap E_n
+        \end{aligned}
+    \end{equation*}
+    记以上集合全体为构成集类$\mathbf{F}$，则
+    \begin{equation*}
+        \mathcal{R}(\mathbf{E}) = \left\{\bigcup_{i\in I}F_i: F_i\in \mathbf{F},I\text{为有限集}\right\}
+    \end{equation*}
+    因为$\mathcal{R}(\mathbf{E})$中的全体不交集为$\mathcal{R}(\mathbf{E})$中的最小单元，所以可以通过全体不交集的并生成$E$张成的环。
+
+    (ii) $\forall c\in\mathbb{R}$，$\exists a < c < b$，使得
+    \begin{equation*}
+        \{c\} = (a, b) - (a , c)-(c,b)\in\mathcal{R}(\mathbf{E})
+    \end{equation*}
+    则
+    \begin{equation*}
+        \begin{aligned}
+            \{a\}\cup(a,b)=[a,b)\in\mathcal{R}(\mathbf{E})
+        \end{aligned}
+    \end{equation*}
+    同理可得，$(a,b], [a,b]\in\mathcal{R}(\mathbf{E})$，所以$\mathbb{R}$上的任意的区间均属于$\mathcal{R}(\mathbf{E})$，且单个区间之前的差仍然是单个区间，于是
+    \begin{equation*}
+        \mathcal{R}(\mathbf{E}) = \left\{\bigcup_{i\in I}A_i:A_i\text{为以}a_i,b_i\text{为端点的区间},-\infty<a_i\leqslant b_i<+\infty, I\text{为有限集}\right\}
+    \end{equation*}
+
+    (iii) 设$-\infty < a < b < +\infty$，则
+    \begin{equation*}
+        [a,b) = (-\infty, b)-(-\infty, a) \in \mathcal{R}(\mathbf{E})
+    \end{equation*}
+    令$\mathbf{R}_0$为$\mathbb{R}$上有限个左闭右开的有限区间的并集所成的集类，即
+    \begin{equation*}
+        \mathbf{R}_0=\left\{\bigcup_{i\in I}[a_i,b_i):-\infty< a_i\leqslant b_i < +\infty, I\text{为有限集}\right\}
+    \end{equation*}
+    对于$\forall c, d\in \mathbb{R}$，有如下三种情况
+    \begin{equation*}
+        (-\infty,a) - [c, d) = (-\infty, a) \text{或} (-\infty, c)\text{或}(-\infty, c)\cup [d, a)
+    \end{equation*}
+    所以
+    \begin{equation*}
+        \mathcal{R}(\mathbf{E}) = \{A\cup B:A\in E, B\in \mathbf{R}_0\}
+    \end{equation*}
+\end{solution}
+\paragraph{2.}求出\textbf{习题1}中各种情况下的$E$所张成的代数。
+\begin{solution}
+    由于$E$张成的代数只需在$E$所张成的环上加上$X$即可，所以
+
+    (i) $\mathcal{F}(\mathbf{E}) = \mathcal{R}(\mathbf{E})\cup (E_1\cup E_2 \cup\cdots\cup E_n) =  \mathcal{R}(\mathbf{E})$
+
+    (ii) $\displaystyle\mathcal{F}(\mathbf{E}) = \mathcal{R}(\mathbf{E})\cup\left(\bigcup_{n=1}^\infty (-n,n)\right) = \mathcal{R}(\mathbf{E})\cup(-\infty,+\infty)$
+
+    (iii) $\displaystyle\mathcal{F}(\mathbf{E}) = \mathcal{R}(\mathbf{E})\cup\left(\bigcup_{n=1}^\infty (-\infty,n)\right) = \mathcal{R}(\mathbf{E})\cup(-\infty,+\infty)$
+\end{solution}
+\paragraph{6.}证明定理$2.1.2$。
+\begin{proof}
+    存在性：由于$2^X$（$X$的全体子集组成的集类）为$\sigma$-环，则$E\subset 2^X$，所以存在一个$\sigma$-环包含$E$，令$S = \bigcup\{S_1\subset 2^X:E\subset S_1,S_1\text{为}\sigma\text{-环}\}$，由于任意个$\sigma$-环交集仍是$\sigma$-环，所以$S$为$\sigma$-环，由$S$的定义可知条件(ii)成立，存在性得证。
+
+    唯一性：假设$S'$也为满足题意的一个$\sigma$-环，则$S\subset S_1$且$S_1\subset S$，所以$S=S_1$。
+\end{proof}
+\paragraph{7.}设$\mathbf{R}$为$X$上的一个集类。证明$\mathbf{R}$是环的充要条件是下面(i)、(ii)中的任何一个。
+
+(i) $\mathbf{R}$对任意有限个互不相交集的和运算和减法运算封闭。
+
+(ii) $\mathbf{R}$对运算“$\triangle$”、“$\bigcap$”、“$-$”封闭。
+
+\begin{proof}
+    (i) 由环的定义可知，只需证明有限个集合的和运算可以分解为有限个互不相交集的和运算，由于\begin{equation*}
+        A_1\cup A_2\cup\cdots\cup A_n = A_1\cup(A_2-A_1)\cup(A_3-(A_1\cup A_2))\cup\cdots\cup(A_n-(A_1\cup\cdots\cup A_{n-1}))
+    \end{equation*}
+    则有限个集合的交集可以分解为不交集的交集，所以
+    \begin{equation*}
+        \left\{\bigcup_{i=I}A_i:A_i\in \mathbf{R},I\text{为有限集}\right\} = \left\{\bigcup_{i=I}A_i:A_i\in \mathbf{R},I\text{为有限集},i,j\in I, A_i\cap A_j=\varnothing\right\}
+    \end{equation*}
+
+    (ii) 由环的定义可知，只需证明$\mathbf{R}$对“$\cup$”封闭等价于对“$\triangle$”、“$\bigcap$”封闭，由于
+    \begin{equation*}
+        \begin{aligned}
+            (A\triangle B)\triangle(A\cap B) =&\ (A\triangle B)\cup(A\cap B)\\
+            \xlongequal{\textbf{1.1}\text{性质}11^\circ}&\ A\cup B
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{10.} 设$X$是一集，$\mathbf{R}$是$X$的某些子集所成的环。$\mathbf{M}$也是由$X$的某些子集所成的环，它有如下的性质(i) $\mathbf{M}\supset \mathbf{R}$，(ii)当$E_1,E_2,\cdots,E_n,\cdots$是$\mathbf{M}$中一列互不相交的集时，$\bigcup\limits_{n=1}^\infty E_n\in \mathbf{M}$。证明$\mathbf{M}\supset \mathcal{S}(\mathbf{R})$。
+\begin{proof}
+    考虑将$\mathbf{R}$逐次单调扩张为$\mathcal{S}(\mathbf{R})$，令$\mathbf{R} = \mathbf{R}_0$，对$m = 0, 1, 2,\cdots$做出如下定义
+    \begin{equation*}
+        \mathbf{R}_{m+1} = \left\{\left\{\bigcup_{n=1}^\infty E_n\right\}\cup\left\{\bigcap_{n=1}^\infty E_n\right\}:\{E_n\}\text{为}\mathbf{R}_m\text{的一列集类}\right\}
+    \end{equation*}
+    由于$\mathbf{R}_0=\mathbf{R}\subset \mathbf{M}$，通过\textbf{习题7.(1)}的方法可知$\mathbf{R}_0$的一列集合的并集可以分解为一列不交集合的并集，则$\bigcup\limits_{n=1}^\infty E_n\in \mathbf{M}, \bigcap\limits_{n=1}^\infty E_n\subset E_1\in \mathbf{M}$，所以$\mathbf{R}_1\subset \mathbf{M}$。由超限归纳法可知，$\mathbf{R}_{iw+j}\subset \mathbf{M}\ (\forall i, j\in\mathbb{N})$，由于
+    \begin{equation*}
+        \begin{aligned}
+            \mathbf{R} =&\ \mathbf{R}_0\subset\mathbf{R}_1\subset\mathbf{R}_2\subset\cdots\subset\mathbf{R}_n\subset\cdots\subset\mathbf{R}_\omega\\
+            &\ \mathbf{R}_\omega\subset\mathbf{R}_{\omega+1}\subset\mathbf{R}_{\omega+2}\subset\cdots\subset\mathbf{R}_{\omega+n}\subset\cdots\subset\mathbf{R}_{2\omega}\\
+            &\ \quad\cdots\cdots\cdots
+        \end{aligned}
+    \end{equation*}
+    该扩张过程到势不超过$\aleph$的超限数时必终止，且终止于$\mathcal{S}(\mathbf{R})$，所以存在$i_0, j_0\in\mathbb{N}$，使得
+    \begin{equation*}
+        \mathcal{S}(\mathbf{R})=\mathbf{R}_{i_0\omega+j_0} \subset \mathbf{M}
+    \end{equation*}
+\end{proof}
+
+\end{document}

@@ -1,0 +1,167 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置字号 %%%%
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 初号
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 小初号
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      % 一号
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      % 二号
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  % 小二号
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  % 三号
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 四号
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 小四号
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 五号
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 小五号
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 六号
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 七号
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理}[section] % 定理按section编号
+\newtheorem{definition}{定义}[section]
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+
+%%%% 一些宏定义 %%%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\C{\mathbb{C}}          % Complex number
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-3.5ex}}   % 减少行间距
+\CTEXsetup[format={\Large\bfseries}]{section}
+
+%%%% 正文开始 %%%%
+\begin{document}
+
+%%%% 以下部分是正文 %%%%  
+\centering{\sanhao{经济博弈论复习}}
+
+\section{第四章\ 重复博弈}
+\begin{definition}[重复博弈]
+给定一个基本博弈$G$(静态或动态博弈), 重复进行$T$次$g$, 每次重复$G$时, 博弈方都能观察到之前博弈的结果, 这样的博弈过程称为\textbf{$G$的$T$次重复博弈}, 记为$G(T)$.
+$G$称为$G(T)$的\textbf{原博弈}, $G(T)$中的每次重复称为$G(T)$的一个\textbf{阶段}.
+\end{definition}
+\begin{definition}[有限次重复博弈]
+    重复博弈是由基本博弈的有限次重复所构成的, 即$T < \infty$.
+\end{definition}
+\begin{definition}[无限次重复博弈]
+    重复博弈无限制地进行下去, 没有结束时间, 即$T=\infty$, 记为$G(\infty)$.
+\end{definition}
+
+\end{document}
+
+\iffalse
+%%%% 表格模板 %%%%
+\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
+\begin{table}[!htbp] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{3cm}<{\centering}p{5cm}<{\centering}} % 设置表格宽度
+    %\begin{tabular}{cccc}
+        \toprule
+        $x_i$ & $f[x_1]$ & $f[x_i, x_{i+1}]$ & $f[x_i, x_{i+1}, x_{i+2}]$ \\
+        \midrule
+        $x_0$ & $f(x_0)$ &                  &                          \\
+        $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
+        $x_0$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%%%% 文字环绕图片, 标题加注释 %%%%
+{ % 一般将文字环绕部分的图和文字, 用大括号括起来, 避免对文字外的格式发生影响
+\begin{wrapfigure}[13]{r}{.5\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.7]{neural_network.eps} % scale=0.7按比例缩放70%
+    \caption{神经网络结构\protect\footnotemark[1]} % 记得加\protect, 设置1号脚标
+    \label{figure-神经网络结构}
+\end{wrapfigure}
+\footnotetext[1]{图片来源: \url{https://en.wikipedia.org/wiki/File:Colored_neural_network.svg}}
+文字文字
+}
+
+%%%% 普通图片, 标题加注释 %%%%
+\begin{figure}[htbp] % h: 当前位置, t: 顶部, b: 底部, p: 浮动页, 这样组合指的是使用这个顺序进行排版
+    \centering
+    \includegraphics[scale=0.5]{前馈神经网络.eps}
+    \caption{前馈神经网络\protect\footnotemark[1]}
+    \label{figue-前馈神经网络}
+\end{figure}
+\footnotetext[1]{图片来源: 邱锡鹏, 神经网络与深度学习 \cite{ref-qxp}, 第92页}
+
+%%%% 多组图 %%%%
+    \begin{figure}[htbp]
+        \centering
+        \subfigure[迭代1次]  % 子图的标题
+        {
+            % 如果一行放三个图改成0.3\linewidth即可
+            \begin{minipage}[b]{.45\linewidth}  % 0.45排版行距, 即一行放2个图, 一行放不下就换行
+                \centering
+                \includegraphics[scale=0.35]{1.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代100次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{100.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代500次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{500.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代2000次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{2000.eps}
+            \end{minipage}
+        }
+        \caption{迭代过程图}
+        \label{figure-迭代过程图}
+    \end{figure}
+\fi

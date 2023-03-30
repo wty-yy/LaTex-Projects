@@ -1,0 +1,343 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{实变函数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题1.1}
+\paragraph{3.}(i)等式$(A-B)\cup C=A-(B-C)$成立的充要条件是什么？
+
+(ii)证明：\begin{equation*}
+    \begin{aligned}
+        &(A\cup B)-C=(A-C)\cup(B-C)\\
+        &A-(B\cup C)=(A-B)\cap(A-C)
+    \end{aligned}
+\end{equation*}
+\begin{solution}
+    记$A\cap B = AB$。
+
+    (i). \begin{equation*}
+        \begin{aligned}
+            &\begin{aligned}
+                (A-B)\cup C &= A-(B-C)\\
+                (AB^c)\cup C &= A(BC^c)^c\\
+                (A\cup C)(B^c\cup C) &= A(B^c\cup C)
+            \end{aligned}\\
+            \iff& \begin{cases}
+                ((A\cup C)-A)(B^c\cup C) = \varnothing\\
+                (A-(A\cup C))(B^c\cup C) = \varnothing\Rightarrow \varnothing = \varnothing\\
+            \end{cases}\\
+            \iff&\begin{aligned}
+                \varnothing &= ((A\cup C)-A)(B^c\cup C)= ((A\cup C)A^c)(B^c\cup C)\\
+                &= (A^cC)(B^c\cup C)= A^cB^cC\cup A^cC \\
+            \end{aligned}\\
+            \iff&\begin{cases}
+                A^cB^cC = \varnothing\\
+                A^cC = \varnothing
+            \end{cases}\\
+            \iff& C\subset A
+        \end{aligned}
+    \end{equation*}
+
+    (ii). \begin{equation*}
+        \begin{aligned}
+            (A-C)\cup(B-C)&=(AC^c)\cup(BC^c)\\
+            &= (A\cup B)C^c\\
+            &= (A\cup B)-C
+        \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+        \begin{aligned}
+            A-(B\cup C) &= A(B\cup C)^c\\
+            &= A(B^c\cap C^c)\\
+            &= (AB^c)\cap(AC^c)\\
+            &= (A-B)\cap(A-C)
+        \end{aligned}
+    \end{equation*}
+\end{solution}
+\paragraph{5.}设$\{A_n\}$是一列集，
+
+(i) 作$B_1=A_1,B_n=A_n-\left(\bigcup_{i=1}^{n-1}A_i\right)\ (n > 1)$。证明$\{B_n\}$是一列互不相交的集，而且
+\begin{equation*}
+    \bigcup_{i=1}^nA_i=\bigcup_{i=1}^nB_i,\quad n=1,2,3,\cdots.
+\end{equation*}
+
+(ii) 如果$\{A_n\}$是单调减少的集列，那么
+\begin{equation*}
+    A_1=(A_1-A_2)\cup(A_2-A_3)\cup\cdots\cup(A_n-A_{n+1})\cup\cdots\cup(\bigcap_{i=1}^{\infty}A_i),
+\end{equation*}
+
+并且其中各项互不相交。
+\begin{solution}
+    (i) 对于$\forall n \geqslant 1$，根据$B_n$的定义知，$B_n\subset A_n$，且\begin{equation*}
+        \begin{aligned}
+            &B_n\cap\left(\bigcup_{i=1}^{n-1}A_i\right) = \varnothing\\
+            \Rightarrow&B_n\cap\left(\bigcup_{i=1}^{n-1}B_i\right)=\varnothing
+        \end{aligned}
+    \end{equation*}
+
+    则$\{B_n\}$是一列互不相交的集。
+
+    下面用归纳法证明
+    \begin{equation*}
+        \bigcup_{i=1}^{n}A_i=\bigcup_{i=1}^{n}B_i,\quad n=1,2,3,\cdots
+    \end{equation*}
+    
+    当$n=1$时，$A_1=B_1$ 成立。
+
+    假设命题在$k$时成立，下面讨论$k+1$的情况，
+
+    \begin{equation*}
+        \begin{aligned}
+            &B_{k+1} = A_{k+1}-\left(\bigcup_{i=1}^kA_i\right)=A_{k+1}-\bigcup_{i=1}^kB_i\\
+            \Rightarrow&A_{k+1}\subset \bigcup_{i=1}^{k+1}B_i\\
+            \Rightarrow&\bigcup_{i=1}^{k+1}A_i\subset\bigcup_{i=1}^{k+1}B_i
+        \end{aligned}
+    \end{equation*}
+    
+    又由于$B_i\subset A_i$，则
+    \begin{equation*}
+        \bigcup_{i=1}^{k+1}B_i\subset\bigcup_{i=1}^{k+1}A_i
+    \end{equation*}
+
+    得，
+    \begin{equation*}
+        \bigcup_{i=1}^{k+1}A_i=\bigcup_{i=1}^{k+1}B_i
+    \end{equation*}
+
+    由数学归纳法知，
+    \begin{equation*}
+        \bigcup_{i=1}^{n}A_i=\bigcup_{i=1}^{n}B_i,\quad n=1,2,3,\cdots
+    \end{equation*}
+
+    (ii) 记$B = (A_1-A_2)\cup(A_2-A_3)\cup\cdots\cup(A_n-A_{n+1})\cup\cdots\cup(\bigcap_{i=1}^{\infty}A_i)$，
+    
+    $\forall x\in A_1$，若$\exists i \geqslant 1$，使得$x\in A_i$，且$x\notin A_{i+1}$，则$x\in A_i-A_{i+1}\subset B$；否则$\forall i\geqslant 1$，有$x\in A_i$，则$x\in \bigcap_{i=1}^{\infty}A_i\subset B$。故$A\subset B$。
+
+    由于$\{A_n\}$单调减小，则$B\subset A$。综上，$A=B$。
+
+    对于任意的$i, j\ (i< j)$，由于$A_j\subset A_{i+1}$，则$A_j\cap A_iA_{i+1}^c = \varnothing$，则
+    \begin{equation*}
+        (A_i-A_{i+1})\cap(A_j-A_{j+1})\subset(A_iA_{i+1}^c)\cap A_j=\varnothing
+    \end{equation*}
+
+    由于$A_{i+2}\subset A_{i+1}$，则
+    \begin{equation*}
+        \begin{aligned}
+            &A_{i+2}\cap(A_i-A_{i+1}) = \varnothing\\
+            \Rightarrow&\left(\bigcap_{k=1}^{\infty}A_k\right)\cap(A_i-A_{i+1})=  \varnothing
+        \end{aligned}
+    \end{equation*}
+
+    所以，$B$中各项互不相交。
+\end{solution}
+\paragraph{6.}设$A_{2n-1}=\left(0,\frac{1}{n}\right), A_{2n}=(0,n),\ n=1,2,3,\cdots$，求出集列$\{A_n\}$的上限集和下限集。
+\begin{solution}
+    通过上下极限定义可知，\begin{equation*}
+        \begin{aligned}
+            &\limsup_{n\rightarrow \infty}A_n = (0, +\infty)\\
+            &\liminf_{n\rightarrow \infty}A_n = \varnothing
+        \end{aligned}
+    \end{equation*}
+\end{solution}
+\paragraph{8.}证明：(i) $A\triangle B = (A\cap B^c)\cup(A^c\cap B)$;
+
+(ii) $A\cup B=(A\triangle B)\cup(A\cap B)$;
+
+(iii) $\chi_{A\triangle B}(x) = |\chi_{A}(x)-\chi_B(x)|$;
+
+(iv) $A\triangle B = \{x:\chi_A(x)\neq\chi_B(x)\}$.
+
+\begin{solution}
+    记$A\cap B = AB$，全集为$X$。
+
+    (i)
+    \begin{equation*}
+        \begin{aligned}
+            A\triangle B &= (A-B)\cup (B-A)\\
+            &= (A B^c)\cup(B A^c)\\
+            &= (A B^c)\cup(A^c B)
+        \end{aligned}
+    \end{equation*}
+
+    (ii) 
+    \begin{equation*}
+        \begin{aligned}
+            (A\triangle B)\cup(AB) &= (AB^c)\cup(A^cB)\cup(AB)\\
+            &= (AB^c)\cup\left((A^cB)\cup(AB)\right)\\
+            &= (AB^c)\cup\left(X(A^c\cup B)(A\cup B)B\right)\\
+            &= (AB^c)\cup B\\
+            &= (A\cup B)X\\
+            &= A\cup B\\
+        \end{aligned}
+    \end{equation*}
+
+    (iii) \begin{equation*}
+        \begin{aligned}
+            &x\in AB^c, \text{则} \chi_{A\triangle B}(x) = 1 = |1-0| = |\chi_A(x)-\chi_B(x)|\\
+            &x\in A^cB, \text{则} \chi_{A\triangle B}(x) = 1 = |0-1| = |\chi_A(x)-\chi_B(x)|\\
+            &x\in A\cap B, \text{则} \chi_{A\triangle B}(x) = 0 = |1-1| = |\chi_A(x)-\chi_B(x)|\\
+            &x\in (A\cup B)^c, \text{则} \chi_{A\triangle B}(x) = 0 = |0-0| = |\chi_A(x)-\chi_B(x)|\\
+            \Rightarrow & 
+            \chi_{A\triangle B}(x) = |\chi_A(x)-\chi_B(x)|
+        \end{aligned}
+    \end{equation*}
+    
+    (iv) \begin{equation*}
+        \begin{aligned}
+            A\triangle B &= \{x:\chi_{A\triangle B}(x) = 1\}\\
+            &= \{x:|\chi_A(x)-\chi_B(x)| = 1\}\\
+            &= \{x:\chi_A(x)\neq \chi_B(x)\}
+        \end{aligned}
+    \end{equation*}
+\end{solution}
+\paragraph{10.}设集$E$上的实函数列$\{f_n\}$及$f$具有性质$f_1(x)\leqslant f_2(x)\leqslant \cdots \leqslant f_n(x)\leqslant \cdots$，并且$\lim\limits_{n\rightarrow \infty}f_n(x)=f(x)$。证明
+\begin{equation*}
+    E(f\leqslant c)=\bigcap_{n=1}^{\infty}E(f_n\leqslant c)=\lim_{n\rightarrow \infty}E(f_n\leqslant c).
+\end{equation*}
+\begin{proof}
+    令$A_n = E(f_n\leqslant c)$，由于$f_1(x)\leqslant f_2(x)\leqslant \cdots \leqslant f_n(x)\leqslant \cdots$，则$A_{n+1}\subset A_n$，$\{A_n\}$为单调下降集列，所以
+    \begin{equation*}
+        \begin{aligned}
+            &\lim_{n\rightarrow\infty}A_n=\bigcap_{n=1}^{\infty}A_n\\
+            \Rightarrow&\lim_{n\rightarrow\infty}E(f_n\leqslant c)=\bigcap_{n=1}^{\infty}E(f_n\leqslant c)
+        \end{aligned}
+    \end{equation*}
+    
+    由于
+    \begin{equation*}
+        \lim_{n\rightarrow \infty}E(f_n\leqslant c) = \lim_{n\rightarrow \infty}\{x\in E:f_n(x)\leqslant c\}=\{x\in E:f(x)\leqslant c)=E(f\leqslant c)
+    \end{equation*}
+
+    故
+    \begin{equation*}
+        E(f\leqslant c)=\bigcap_{n=1}^{\infty}E(f_n\leqslant c)=\lim_{n\rightarrow \infty}E(f_n\leqslant c).
+    \end{equation*}
+\end{proof}
+
+\paragraph{12.}设$X$是固定的集，$A\subset X$，$\chi_A(x)$是集$A$的特征函数，证明：
+
+(i) $A=X$等价于$\chi_A(x)\equiv 1,A=\varnothing$等价于$\chi_A(x)\equiv 0$；
+
+(ii) $A\subset B$等价于$\chi_A(x)\leqslant \chi_B(x)$；$A=B$等价于$\chi_A(x)=\chi_B(x)$；
+
+(iii) $\chi_{\bigcup\limits_{\alpha\in N}A_{\alpha}}(x) = \max\limits_{\alpha\in N}\chi_{A_{\alpha}}(x)$；
+$\chi_{\bigcap\limits_{\alpha\in N}A_{\alpha}}(x) = \min\limits_{\alpha\in N}\chi_{A_{\alpha}}(x)$；
+
+(iv) 设$\{A_n\}$是一列集，那么极限$\lim\limits_{n\rightarrow\infty}A_n$存在的充要条件是$\lim\limits_{n\rightarrow\infty}\chi_{A_n}(x)$存在，而且当极限存在时，有
+\begin{equation*}
+    \chi_{\lim\limits_{n\rightarrow\infty}A_n}(x) = \lim_{n\rightarrow \infty}\chi_{A_n}(x).
+\end{equation*}
+\begin{proof}
+    (i) $\forall x\in X$，由于$A=X$，则$x\in A\iff \chi_A(x) = 1$，由$x$的任意性知，$\chi_A(x)\equiv 1$。
+
+    $\forall x\in X$，由于$A=\varnothing$，则$x\notin A\iff \chi_A(x) = 0$，由$x$的任意性知，$\chi_A(x)\equiv 0$。
+
+    (ii) $A\subset B\iff\forall x\in A, x\in B\iff \forall x\in A, \chi_A(x)= \chi_B(x)\iff\forall x\in X, \chi_A(x)\leqslant \chi_B(x)$。
+
+    $A=B\iff A\subset B \text{且} B\subset A\iff \chi_A(x)\leqslant \chi_B(x) \text{且} \chi_A(x)\geqslant \chi_B(x)\iff \chi_A(x)=\chi_B(x)$。
+
+    (iii) 设$\{A_\alpha\}_{\alpha\in N}=\{A_1,A_2,\cdots,A_n\}$，当$n=2$时，$\forall x\in A_1\cup A_2$，有$\chi_{A_1}(x)=1$或$\chi_{A_2}(x)=1$，则$\chi_{A_1\cup A_2} = \max(\chi_{A_1}(x), \chi_{A_2}(x))$，由数学归纳法知，
+    \begin{equation*}
+        \chi_{\bigcup\limits_{\alpha\in N}A_{\alpha}}(x) = \max\limits_{\alpha\in N}\chi_{A_{\alpha}}(x)
+    \end{equation*}
+
+    同理可得，
+    \begin{equation*}
+        \chi_{\bigcap\limits_{\alpha\in N}A_{\alpha}}(x) = \min\limits_{\alpha\in N}\chi_{A_{\alpha}}(x)
+    \end{equation*}
+
+    (iv). $\forall x\in \overline{\lim}A_n$，当且仅当，$x$属于无穷多项$A_{n_1},A_{n_2},\cdots,A_{n_k},\cdots$中，所以有
+    \begin{equation*}
+        \chi_{\overline{\lim}A_n}=\overline{\lim}\chi_{A_n}
+    \end{equation*}
+
+    同理可得，
+    \begin{equation*}
+        \chi_{\underline{\lim}A_n}=\underline{\lim}\chi_{A_n}
+    \end{equation*}
+
+    所以，
+    \begin{equation*}
+        \begin{aligned}
+        \lim A_n\text{存在}&\iff \overline{\lim}A_n=\underline{\lim}A_n\iff \chi_{\overline{\lim}A_n}=\chi_{\overline{\lim}A_n}\\
+        &\iff\overline{\lim}\chi_{A_n}=\underline{\lim}\chi_{A_n}\iff\lim\chi_{A_n}\text{存在}
+        \end{aligned}
+    \end{equation*}
+
+    由$\underline{\lim}A_n\subset\lim A_n\subset \overline{\lim}A_n$，知
+    \begin{equation*}
+        \underline{\lim}\chi_{A_n} = \chi_{\underline{\lim}A_n}\leqslant\chi_{\lim A_n}\leqslant\chi_{\overline{\lim}A_n}=\overline{\lim}\chi_{A_n}
+    \end{equation*}
+
+    由夹逼定理知，当极限存在时，有
+    \begin{equation*}
+        \chi_{\lim\limits_{n\rightarrow \infty} A_n} =  \lim\limits_{n\rightarrow\infty}\chi_{A_n}
+    \end{equation*}
+
+\end{proof}
+\paragraph{14.}设$F,E_1$及$E_2$是$X$的任意三个子集，记$F_1=F\cap(E_1\cap E_2^c)^c$，证明：
+
+(i) $F_1\cap E_1\cap E_2=F\cap E_1\cap E_2$;
+
+(ii) $F_1\cap E_1\cap E_2^c=\varnothing$;
+
+(iii) $F_1\cap E_1^c\cap E_2=F\cap E_1^c\cap E_2$;
+
+(iv) $F_1\cap E_1^c\cap E_2^c=F\cap E_1^c\cap E_2^c$.
+
+\begin{proof}
+    $F_1=F\cap(E_1\cap E_2^c)^c = F\cap(E_1^c\cup E_2)$
+
+    (i)\begin{equation*}
+        \begin{aligned}
+            F_1\cap E_1\cap E_2=&F\cap(E_1^c\cup E_2)\cap E_1\cap E_2\\
+            \xlongequal{E_2\subset (E_1^c\cup E_2)}&F\cap E_1\cap E_2
+        \end{aligned}
+    \end{equation*}
+
+    (ii) \begin{equation*}
+        \begin{aligned}
+            F_1\cap E_1\cap E_2^c=&F\cap(E_1^c\cup E_2)\cap E_1\cap E_2^c\\
+            =&F\cap(E_1^c\cup E_2)\cap(E_1^c\cup E_2)^c\\
+            =& F\cap \varnothing = \varnothing
+        \end{aligned}
+    \end{equation*}
+
+    (iii) \begin{equation*}
+        \begin{aligned}
+            F_1\cap E_1^c\cap E_2=&F\cap(E_1^c\cup E_2)\cap E_1^c\cap E_2\\
+            \xlongequal{E_2\subset (E_1^c\cup E_2)}&F\cap E_1^c\cap E_2
+        \end{aligned}
+    \end{equation*}
+
+    (iv) \begin{equation*}
+        \begin{aligned}
+            F_1\cap E_1^c\cap E_2^c=&F\cap(E_1^c\cup E_2)\cap E_1^c\cap E_2^c\\
+            \xlongequal{E_1^c\subset (E_1^c\cup E_2)}&F\cap E_1^c\cap E_2^c
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\end{document}

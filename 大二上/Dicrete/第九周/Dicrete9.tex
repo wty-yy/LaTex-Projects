@@ -1,0 +1,80 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{离散数学}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{37.}\begin{proof}
+    $S_1$的封闭性：$\forall a_1, a_2\in S_1,\ \exists y_1, y_2\in S$，使得$y_1*a_1 = e, y_2*a_2 = e$，则
+    \begin{equation*}
+        (y_2*y_1)*(a_1*a_2) = y_2*(y_1*a_1)*a_2=y_2*e*a_2=y_2*a_2=e
+    \end{equation*}
+    所以$a_1*a_2\in S_1$，故$S_1$满足封闭性。
+
+    结合律，由于$S_1$是$S$的子集，所以$S_1$具有结合律。
+
+    幺元，由于$e*e = e$，所以$e\in S_1$，故$S_1$中含有幺元$e$。
+
+    综上，$\braket{S_1,*}$是$\braket{S,*}$的子含幺半群。
+\end{proof}
+
+\paragraph{39.}\begin{proof}
+    (1). 由于$\braket{G,*}$为群，所以$G$中每个元素都存在唯一的逆元，则$x = a^{-1}*b$，故$x$是唯一的。
+
+    (2). 由于$\braket{G,*}$为群，所以$G$中每个元素都存在唯一的逆元，则$y = b * a^{-1}$，故$y$是唯一的。
+\end{proof}
+
+\paragraph{40.}\begin{proof}
+    (1). $\exists d\in S$，使得$d*a = e$，则
+    \begin{equation*}
+        \begin{aligned}
+            a*b&=a*c\\
+            \Rightarrow  d*a*b&=d*a*c\\
+            \Rightarrow  b&=c
+        \end{aligned}
+    \end{equation*}
+
+    (2). $\braket{S,*}$是半群，所以具有结合律。
+
+    下证$S$含有幺元，由于$e*e=e$，则$\forall a \in G$，有
+    \begin{equation*}
+        a*e*e=a*e\Rightarrow a*e = a
+    \end{equation*}
+    所以$e$也是右幺元，故$e$为$S$中的幺元。
+
+    下证$S$中元素都含有逆元，$\forall x\in G,\ \exists y\in G$，使得$y*x = e$，则
+    \begin{equation*}
+        y*x*y=e*y=y=y*e=y*y*x
+    \end{equation*}
+    对上式同时左乘$y$的逆元，得
+    \begin{equation*}
+        x*y=y*x=e
+    \end{equation*}
+    所以$y$也是$x$的右逆元，故$y$是$x$的逆元。
+
+    综上，$\braket{S,*}$是群。
+\end{proof}
+\paragraph{41.}\begin{proof}
+    反设，$G$中不含有二阶元，则$\forall a\in G, a\neq e$都有$a^{-1}\neq a$，所以$G$中所有的非零元都可以两两配对，设这样的配对一共有$m$对，则$|G| = 2m+1$，与$|G| = 2n$矛盾，故$G$中至少有一个二阶元素。
+\end{proof}
+
+\end{document}

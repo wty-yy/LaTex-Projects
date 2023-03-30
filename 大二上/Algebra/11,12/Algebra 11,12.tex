@@ -1,0 +1,324 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{近世代数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题 1.10}
+\paragraph{2.}求下列$\text{Abel}$群的初等因子：
+
+(1). $(\mathbb{Z}_{10},+)\oplus(\mathbb{Z}_{15},+)\oplus(\mathbb{Z}_{20},+)$;
+
+(2). $(\mathbb{Z}_{28},+)\oplus(\mathbb{Z}_{42},+)$;
+
+(3). $(\mathbb{Z}_{9},+)\oplus(\mathbb{Z}_{14},+)\oplus(\mathbb{Z}_{6},+)\oplus(\mathbb{Z}_{16},+)$.
+
+\begin{solution}
+    (1). 由于$10=2\cdot 5,15=3\cdot 5,20=2^2\cdot 5$，则其初等因子为：
+    \begin{equation*}
+        \{2,2^2,3,5,5,5\}
+    \end{equation*}
+
+    (2). 由于$28 = 2^2\cdot 7,42=2\cdot 3\cdot 7$，则其初等因子为：
+    \begin{equation*}
+        \{2,2^2,3,7,7\}
+    \end{equation*}
+    
+    (3). 由于$9=3^2,14=2\cdot 7,6=2\cdot 3,16=2^4$，则其初等因子为：
+    \begin{equation*}
+        \{2,2,2^4,3,3^2,7\}
+    \end{equation*}
+\end{solution}
+\paragraph{3.}设$G$为$100$阶$\text{Abel}$群。
+
+(1). 证明$G$必含有$10$阶元；
+
+(2). $G$的初等因子应当怎样才能使$G$不含阶大于$10$的元素？
+
+\begin{solution}
+(1). 由于$100=2^2\cdot 5$，且$2$的分拆为$2=1+1$，则$G$的初等因子当且仅有两种：
+\begin{equation*}
+    \{4,5\},\{2,2,5\}
+\end{equation*}
+
+I. 若$G\cong \mathbb{Z}_4\oplus\mathbb{Z}_5\cong \mathbb{Z}_{20}$，则$\overline{2}\in \mathbb{Z}_{20}$，且$|\overline{2}|=10$，故存在$10$阶元。
+
+II. 若$G\cong\mathbb{Z}_2\oplus\mathbb{Z}_2\oplus\mathbb{Z}_5\cong\mathbb{Z}_2\oplus\mathbb{Z}_{10}$，则$(\overline{0},\tilde{1})\in \mathbb{Z}_2\oplus\mathbb{Z}_{10}$，且$|(\overline{0},\tilde{1})| = 10$，故存在$10$阶元。
+
+综上，$G$必含有$10$阶元。
+
+(2). 当$G$的初等因子为$\{4,5\}$时，$G\cong \mathbb{Z}_{20}$为循环群，存在$20$阶元素，舍去。
+
+当$G$的初等因子为$\{2,2,5\}$时，$G\cong\mathbb{Z}_{2}\oplus\mathbb{Z}_{10}$，$\forall (a,b)\in\mathbb{Z}_{2}\oplus\mathbb{Z}_{10}$，且
+\begin{equation*}
+    (a,b)^{10} = (a^{10},b^{10}) = ((a^2)^5,b^{10}) = (\overline{0},\tilde{0})
+\end{equation*}
+
+所以，$|(a,b)|\biggl|10\Rightarrow |(a,b)|\leqslant 10$，满足题意。
+
+综上，$G$的初等因子应当为$\{2,2,5\}$才能使$G$不含大于$10$的元素。
+\end{solution}
+\paragraph{5.}证明：如果一个$\text{Abel }p\text{-群}$恰好含有$p-1$个$p$阶元，那么它一定是循环群。
+\begin{proof}
+    设$G$为$\text{Abel }p\text{-群}$，$|G|=p^l$，它的初等因子为：
+    \begin{equation*}
+        \{p^{k_1},p^{k_2},\cdots,p^{k_r}\}
+    \end{equation*}
+    其中，$k_1\geqslant k_2\geqslant \cdots\geqslant k_r\geqslant 1$且$k_1+k_2+\cdots+k_r=l$，则
+    \begin{equation*}
+        G\cong \mathbb{Z}_{p^{k_1}}\oplus\mathbb{Z}_{p^{k_2}}\oplus\cdots\oplus\mathbb{Z}_{p^{k_r}}
+    \end{equation*}
+    设$a_1=(\overline{p},\overline{0},\cdots,\overline{0}), \cdots,a_i = (\overline{0},\cdots,\overline{p},\cdots,\overline{0}),\cdots,a_r=(\overline{0},\cdots,\overline{0},\overline{p})$，则$|a_i|=p,i=1,2\cdots,r$，且每个$a_i$都可以确定$p-1$个$p$阶元，所以一共有$r(p-1)$个$p$阶元，且它们两两不同，又由于$G$中恰好有$p-1$个$p$阶元，所以$r\equiv 1$，故$G\cong\mathbb{Z}_{p^{k_1}}=\mathbb{Z}_{p^l}$。
+    
+    综上，$G$为循环群。
+\end{proof}
+
+\paragraph{6.}设$p$是素数，$V$是域$\mathbb{Z}_p$上的$n$维线性空间，$V$的加法群$(V,+)$是不是初等$\text{Abel }p\text{-群}$？
+
+\begin{solution}
+    是的，因为$V$有$n$个正交的单位向量$\vec{e}_i,i=1,2,\cdots,n$，且由$\vec{e}_i$生成的子空间$W_i$同构于$\mathbb{Z}_{p}$，又由于$V\cong W_1\oplus W_2\oplus\cdots\oplus W_n$，于是
+    \begin{equation*}
+        V\cong\mathbb{Z}_{p}\oplus\mathbb{Z}_{p}\oplus\cdots\oplus\mathbb{Z}_{p}
+    \end{equation*}
+    所以，$V$的初等因子为$\{p,p,\cdots,p\}$，故$(V,+)$是初等$\text{Abel }p\text{-群}$。
+\end{solution}
+\paragraph{习题 2.1}
+\paragraph{4.}设$R$是一个有单位元$1(\neq 0)$的交换环，证明：如果$R$没有非平凡的理想，那么$R$是一个域。
+\begin{proof}
+    反设，$R$不是一个域，则存在$a\in R$，使得$a$在$R$中无逆元，令$Ra:=\{ra:r\in R\}$，则
+    \begin{equation*}
+        \begin{aligned}
+            r_1a-r_2a &= (r_1-r_2)a\in Ra\\
+            r\cdot r_1a &= r_1a\cdot r = r_1ra\in Ra
+        \end{aligned}
+    \end{equation*}
+
+    所以，$Ra$为$R$的一个理想，由于$a$无逆元，则$1\notin Ra$，故$Ra$为非平凡理想，与$R$无非平凡理想矛盾，则$R$中每个元素都有逆元，所以$(R,\cdot)$为$\text{Abel}$群，则$R$为域。
+\end{proof}
+
+\paragraph{6.}若$R$是有单位元$1(\neq 0)$的交换环，且$R$没有非零的零因子，则$R$称为整环。证明：有限整环一定是域。
+\begin{proof}
+    要证有限整环$R$一定是域，只需证明$R$中每一个元素都有逆元，由于$R$有限，令
+    \begin{equation*}
+        R = \{a_1,a_2,\cdots, a_n\}
+    \end{equation*}
+
+    $\forall a_i\in R\backslash\{0\},\ i=1,2,\cdots,n$，令
+    \begin{equation*}
+        J_i = \{a_ia_1,a_ia_2,\cdots,a_ia_n\}
+    \end{equation*}
+
+    假设$a_ia_j=a_ia_k,\ j\neq k$，则$a_ia_j-a_ia_k=0\Rightarrow a_i(a_j-a_k)=0$，由于$R$中无非零的零因子，且$a_i\neq 0$，所以$a_j-a_k=0\Rightarrow j = k$与$j\neq k$矛盾，所以$J_i$的基数为$n$。
+    
+    又由于$J_i\subset R$，则$J_i = R$，所以$J_i$为$R$的一个轮换，则$\exists j\in [1,n]$，使得$a_ia_j = 1$，则$a_j$为$a_i$的逆元。
+
+    综上，有限整环一定是域。
+\end{proof}
+\paragraph{8.}若$R$是一个有单位元$1(\neq 0)$的环，且$R$的每一个非零元都可逆，则$R$称为一个除环或体，令
+\begin{equation*}
+    \mathcal{H} = \left\{\begin{pmatrix}
+        \alpha&\beta\\-\bar{\beta}&\bar{\alpha}
+    \end{pmatrix}
+    :\alpha,\beta\in\mathbb{C}\right\}
+\end{equation*}
+
+证明：$\mathcal{H}$是一个除环，且$\mathcal{H}$与四元数体$\mathbf{H}$环同构。
+
+\begin{proof}
+    减法封闭：
+    \begin{equation*}
+        \begin{pmatrix}
+            \alpha_1&\beta_1\\-\overline{\beta_1}&\overline{\alpha_1}
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            \alpha_2&\beta_2\\-\overline{\beta_2}&\overline{\alpha_2}
+        \end{pmatrix}
+        =\begin{pmatrix}
+            \alpha_1-\alpha_2&\beta_1-\beta_2\\-\overline{\beta_1}+\overline{\beta_2}&\overline{\alpha_1}-\overline{\alpha_2}
+        \end{pmatrix}
+        =\begin{pmatrix}
+            \alpha_1-\alpha_2&\beta_1-\beta_2\\-\overline{\beta_1-\beta_2}&\overline{\alpha_1-\alpha}
+        \end{pmatrix}
+        \in \mathcal{H}
+    \end{equation*}
+
+    乘法封闭：
+    \begin{equation*}
+        \begin{pmatrix}
+            \alpha_1&\beta_1\\-\overline{\beta_1}&\overline{\alpha_1}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \alpha_2&\beta_2\\-\overline{\beta_2}&\overline{\alpha_2}
+        \end{pmatrix}
+        =\begin{pmatrix}
+            \alpha_1\alpha_2-\beta_1\overline{\beta_2}&\alpha_1\beta_2+\overline{\alpha_2}\beta_1\\
+            -\overline{\alpha_1\beta_2+\overline{\alpha_2}\beta_1}&\overline{\alpha_1\alpha_2-\beta_1\overline{\beta_2}}
+        \end{pmatrix}\in \mathcal{H}
+    \end{equation*}
+
+    则$\mathcal{H}$为$(M_2(\mathbb{C}),+,\cdot)$的一个含幺子环。
+
+    逆元($\mathcal{H}\text{中非零元}\iff \alpha\neq 0\text{ 且 }\ \beta\neq 0\iff\alpha\bar{\alpha}+\beta\bar{\beta}\neq 0$)：
+    \begin{equation*}
+        \begin{pmatrix}
+            \alpha&\beta\\-\bar{\beta}&\bar{\alpha}
+        \end{pmatrix}\cdot
+        \frac{1}{\alpha\bar{\alpha}+\beta\bar{\beta}}\begin{pmatrix}
+            \bar{\alpha}&-\beta\\
+            \bar{\beta}&\alpha
+        \end{pmatrix}=\begin{pmatrix}
+            1&0\\0&1
+        \end{pmatrix}
+    \end{equation*}
+
+    综上，$\mathcal{H}$为除环。
+
+    令 $\alpha = a+bi, \beta = c+di$，则
+    \begin{equation*}
+        \begin{aligned}
+            \begin{pmatrix}
+                a+bi&c+di\\-c+di&a-bi
+            \end{pmatrix}
+            =&\ \begin{pmatrix}
+                a&c\\-c&a
+            \end{pmatrix}
+            +\begin{pmatrix}
+                b&d\\d&-b
+            \end{pmatrix}
+            i\\
+            =&\ a\begin{pmatrix}
+                1&0\\0&1
+            \end{pmatrix}
+            +b\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}
+            +c\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}
+            +d\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}
+        \end{aligned}
+    \end{equation*}
+
+    构造映射：
+    \begin{equation*}
+        \begin{aligned}
+            \psi:\mathbf{H}&\rightarrow \mathcal{H} \\
+            a+bi+cj+dk&\mapsto 
+            \ a\begin{pmatrix}
+                1&0\\0&1
+            \end{pmatrix}
+            +b\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}
+            +c\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}
+            +d\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}
+        \end{aligned}
+    \end{equation*}
+
+    下面验证$\psi$保乘法运算（只需要验证生成元之间的关系即可）：
+
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}
+            ^2=\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}
+            ^2=\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}
+            ^2=-\begin{pmatrix}
+                1&0\\0&1
+            \end{pmatrix}\\
+            \Rightarrow&\ \psi(i)^2=\psi(j)^2=\psi(k)^2=-\psi(1)=\psi(-1)=\psi(i^2)=\psi(j^2)=\psi(k^2)\\
+            \Rightarrow&\ \psi(i)^2=\psi(i^2),\ \psi(j)^2=\psi(j^2),\ \psi(k)^2=\psi(k^2)
+        \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}
+            =\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}=-\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}
+            \begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}\\
+            \Rightarrow&\ \psi(i)\psi(j)=\psi(k)=-\psi(j)\psi(i)\\
+            \Rightarrow&\ \psi(i)\psi(j)=\psi(ij),\ -\psi(j)\psi(i)=\psi(-ji)
+        \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}
+            =\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}=-\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}
+            \begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}\\
+            \Rightarrow&\ \psi(j)\psi(k)=\psi(i)=-\psi(k)\psi(j)\\
+            \Rightarrow&\ \psi(j)\psi(k)=\psi(jk),\ -\psi(k)\psi(j)=\psi(-kj)
+        \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}
+            =\begin{pmatrix}
+                0&1\\-1&0
+            \end{pmatrix}=-\begin{pmatrix}
+                i&0\\0&-i
+            \end{pmatrix}
+            \begin{pmatrix}
+                0&i\\i&0
+            \end{pmatrix}\\
+            \Rightarrow&\ \psi(k)\psi(i)=\psi(j)=-\psi(i)\psi(k)\\
+            \Rightarrow&\ \psi(k)\psi(i)=\psi(ki),\ -\psi(i)\psi(k)=\psi(-ik)
+        \end{aligned}
+    \end{equation*}
+
+    综上，$\psi$保持乘法运算，不难看出，$\psi$保持加法运算，根据$\psi$的定义，知$\psi$为满射，所以$\psi$为环同态，故$\mathbf{H}\cong\mathcal{H}$。
+\end{proof}
+\end{document}

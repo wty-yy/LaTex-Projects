@@ -1,0 +1,305 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{近世代数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+\paragraph{习题1.5}
+\paragraph{2.}设$G=\braket{a}$是6阶循环群，把$G$分解成它的两个非平凡子群的内直积。
+\begin{solution}
+    由$\text{Lagrange定理}$知，子群的阶一定是群的阶的因数，且$|G|=6=1\cdot 6=2\cdot 3$，所以$G$只能分解为两个阶分别为$2, 3$的非平凡子群。
+
+    又由于$\braket{a^3} = \{e, a^3\}, \braket{a^2} = \{e, a^2, a^4\}$，且$\braket{a^3}\cap\braket{a^2} = \{e\}, G = \braket{a^3}\braket{a^2}$，由循环群的性质知，$G$是$\text{Abel群}$，群中元素两两可交换，则
+    \begin{equation*}
+        G = \braket{a^2}\times\braket{a^3}
+    \end{equation*}
+\end{solution}
+\paragraph{5.}设$G$是$p^m$阶循环群，其中$p$为素数，$m$为正整数，证明：$G$不能分解成它的一些非平凡子群的内直和。
+\begin{proof}
+    若$G$能分解成它的一些非平凡子群的内直和，则
+    \begin{equation*}
+        G = H_1\oplus H_2\oplus\cdots\oplus H_n = H_1\oplus K,\ (K = H_2\oplus\cdots\oplus H_n)
+    \end{equation*}
+    所以$G$至少能被分解为它的两个非平凡子群的内直和。
+
+    反设$G$可以分解为它的两个非平凡子群的内直和，由于$p^m = p^n\cdot p^{m-n}$，由循环群子群的性质，设$G = \braket{a}$，令
+    \begin{equation*}
+        G = \braket{a^{p^n}}\times\braket{a^{p^{m-n}}},\ (n=1,2,\cdots m-1)
+    \end{equation*}
+    不妨令$n < m-n$，则$a^{p^n}\in \braket{a^{p^{m-n}}}$，与$\braket{a^{p^n}}\cap\braket{a^{p^{m-n}}}=\{e\}$矛盾。
+
+    故$G$不能分解为它的两个非平凡子群的内直和，由上述讨论知，$G$更不能分解为它的一些非平凡子群的内直和。
+\end{proof}
+\paragraph{8.}证明：$U_1\cong SO_2$。
+\begin{proof}
+    设$z\in U_1$，由$U_1$的定义知，$\bar{z}\cdot z = 1$，则$z$在复平面的单位圆上，由$\text{Euler公式}$知
+    \begin{equation*}
+        U_1 = \{e^{i\theta}:\theta\in[0,2\pi)\}
+    \end{equation*}
+    由于2阶特殊正交阵都可以写成
+    \begin{equation*}
+        \begin{bmatrix}
+            cos\theta&-\sin\theta\\
+            \sin\theta&\cos\theta
+        \end{bmatrix}
+    \end{equation*}
+    所以
+    \begin{equation*}
+        SO_2 = \left\{
+        \begin{bmatrix}
+            cos\theta&-\sin\theta\\
+            \sin\theta&\cos\theta
+        \end{bmatrix}
+        :\theta\in[0,2\pi)\right\}
+    \end{equation*}
+    构造$U_1$到$SO_2$上的映射：
+    \begin{equation*}
+        \begin{aligned}
+            \sigma: U_1&\rightarrow SO_2\\
+            e^{i\theta}&\mapsto
+            \begin{bmatrix}
+                cos\theta&-\sin\theta\\
+                \sin\theta&\cos\theta
+            \end{bmatrix}
+        \end{aligned}
+    \end{equation*}
+    下证$\sigma$保运算
+    \begin{equation*}
+        \begin{aligned}
+            \sigma(e^{i\theta_1})\sigma(e^{i\theta_2})&=\begin{bmatrix}
+                \cos\theta_1&-\sin\theta_1\\
+                \sin\theta_1&\cos\theta_1
+            \end{bmatrix}\begin{bmatrix}
+                \cos\theta_2&-\sin\theta_2\\
+                \sin\theta_2&\cos\theta_2
+            \end{bmatrix}\\
+            &=\begin{bmatrix}
+                \cos(\theta_1+\theta_2)&-\sin(\theta_1+\theta_2)\\
+                \sin(\theta_1+\theta_2)&\cos(\theta_1+\theta_2)
+            \end{bmatrix}\\
+            &=\sigma(e^{i(\theta_1+\theta_2)})\\
+            &=\sigma(e^{i\theta_1}\cdot e^{i\theta_2})
+        \end{aligned}
+    \end{equation*}
+    由$\sigma$的定义看出，$\sigma$是满同态，所以$\text{Im}\sigma = SO_2$，$\text{Ker}\sigma = \{1\}$。
+
+    由\textbf{群同态基本定理}，知
+    \begin{equation*}
+        U_1\cong U_1/\{1\}\cong SO_2
+    \end{equation*}
+\end{proof}
+\paragraph{习题1.6}
+\paragraph{1.}设$f$是实数加法群$(\mathbb R, +)$到非零复数乘法群$\mathbb C^*$的一个映射：
+\begin{equation*}
+    f(x)=e^{2\pi ix}
+\end{equation*}
+
+(1).证明：$f$是一个同态。
+
+(2).求$\text{Ker}f$和$\text{Im}f$。
+
+\begin{solution}
+
+    (1). $\forall x, y\in \mathbb R$，有
+    \begin{equation*}
+        f(x)\cdot f(y)=e^{2\pi ix}\cdot e^{2\pi iy}=e^{2\pi i(x+y)}=f(x+y)
+    \end{equation*}
+
+    则$f$是一个$(\mathbb R, +)\rightarrow (\mathbb C^*, \cdot)$上的同态。
+
+    (2). $\mathbb C^*$中的幺元为$1$，由$\text{Euler}$公式知：$e^{2\pi ix} = \cos(2\pi x) + i\cdot \sin(2\pi x)$，则
+
+    \begin{equation*}
+        \begin{aligned}
+            &1 = \cos(2\pi x) + i\cdot \sin(2\pi x)\\
+            \Rightarrow&\begin{cases}
+                \cos(2\pi x) = 1\\
+                \sin(2\pi x) = 0
+            \end{cases}
+            \Rightarrow x\in \mathbb Z
+        \end{aligned}
+    \end{equation*}
+
+    则 $\text{Ker}f=\mathbb Z$。
+
+    由$\text{Euler}$公式知，$e^{2\pi ix} = cos(2\pi x) + i\cdot \sin(2\pi x)$的周期为$1$，故$\text{Im} f$为复平面上的单位元，$\text{Im}f = \{\cos(2\pi x) + i\cdot\sin(2\pi x):0\leqslant x < 1\}$。
+\end{solution}
+
+\paragraph{5.}设$F$是一个域，$\sigma$是$\text{GL}_n(F)$到$F^*$的行列式映射，即$\sigma(A)=|A|$。
+
+(1). 证明：$\sigma$是$\text{GL}_n(F)$到$F^*$的一个群同态；
+
+(2). 求$\text{Ker}\sigma$和$\text{Im}\sigma$；
+
+(3). 证明：$\text{SL}_n(F)\triangleleft \text{GL}_n(F)$；
+
+(4). 证明：$\text{GL}_n(F)/\text{SL}_n(F)\cong F^*$。
+
+\begin{solution}
+   
+    (1). $\forall A, B\in \text{GL}_n(F)$，有
+    \begin{equation*}
+        \sigma(A)\sigma(B) = |A|\cdot |B| = |AB| = \sigma(AB)
+    \end{equation*}
+    则$\sigma$是一个同态。
+
+    (2). $|A|=1$，则 $\{A\in \text{GL}_n(F):|A|=1\}=\text{SL}_n(F)$，则$\text{Ker}\sigma=\text{SL}_n(F)$。
+
+    对$\forall a\in F^*$，则
+    \begin{equation*}
+        \sigma\left(\begin{bmatrix}
+            a&0&\cdots&0\\
+            0&1&\ddots&\vdots\\
+            \vdots&\ddots&\ddots&0\\
+            0&\cdots&0&1
+        \end{bmatrix}\right)=\left|\begin{bmatrix}
+            a&0&\cdots&0\\
+            0&1&\ddots&\vdots\\
+            \vdots&\ddots&\ddots&0\\
+            0&\cdots&0&1
+        \end{bmatrix}\right|=a
+    \end{equation*}
+
+    则$\text{Im}\sigma=F^*$。
+
+    (3). 由(2)和\textbf{群同态基本定理}知：$\text{SL}_n(F) = \text{Ker}\sigma\triangleleft \text{GL}_n(F)$。
+
+    (4). 由(2)和\textbf{群同态基本定理}知：$\text{GL}_n(F)/\text{SL}_n(F)\cong F^*$。
+\end{solution}
+\paragraph{10.}设$G$是一个群，$N\triangleleft G$，$H < G$，如果$G=NH$，且$N\cap H=\{e\}$，那么称$G$可分解成它的正规子群$N$与子群$H$的\textbf{半直积}，记做$G=N\rtimes H$，证明：如果$G=N\rtimes H$，那么
+\begin{equation*}
+    G/H\cong H
+\end{equation*}
+\begin{proof}
+    由于$N\triangleleft G$且$H < G$，由\textbf{第一群同构定理}知：
+    \begin{equation*}
+        H/H\cap N\cong HN/N\Rightarrow H/\{e\} \cong G/N
+    \end{equation*}
+
+    下证$H\cong H/\{e\}$。
+
+    $H/\{e\}=\{h\{e\}:h\in H\}=\{\{h\}:h\in H\}$，构造映射：
+    \begin{equation*}
+        \begin{aligned}
+            \sigma: H/\{e\}&\rightarrow H\\
+            \{h\}&\mapsto h
+        \end{aligned}
+    \end{equation*}
+    由于
+    \begin{equation*}
+        \sigma(\{h_1\}) = \sigma(\{h_2\})\iff h_1 = h_2\iff \{h_1\} = \{h_2\}
+    \end{equation*}
+    则$\sigma$是单射，从$\sigma$定义看出它是满射，所以$\sigma$是双射，又由于
+    \begin{equation*}
+        \sigma(\{h_1\})\sigma(\{h_2\}) = h_1h_2 = \sigma(\{h_1h_2\}) = \sigma(\{h_1\}\{h_2\})
+    \end{equation*}
+    则$\sigma$是$H/\{e\}$到$H$的群同构映射，所以
+    \begin{equation*}
+        H\cong H/\{e\}\cong G/N
+    \end{equation*}
+\end{proof}
+\paragraph{11.}证明：$S_n$可分解成$A_n$与$\braket{(12)}$的半直积，其中$n\geqslant 3$。
+\begin{proof}
+    由于$A_n\triangleleft S_n, \braket{(12)} < S_n$，$A_n\cap \braket{(12)} = \{(1)\}$，且
+    \begin{equation*}
+        A_n\braket{(12)} = A_n\sqcup A_n(12)
+    \end{equation*}
+    $A_n(12)$表示$S_n$中的所有奇置换组成的集合，由于$S_n$中的置换要么是偶置换要么是奇置换，所以$S_n\subset A_n\braket{(12)}$，又因为$A_n\braket{(12)} < S_n$，所以$S_n = A_n\braket{(12)}$，由半直积定义知
+    \begin{equation*}
+        S_n = A_n\rtimes \braket{(12)}
+    \end{equation*}
+\end{proof}
+\paragraph{12.}证明：如果置换群$G$含有奇置换，那么$G$必有指数为$2$的子群。
+\begin{proof}
+    由于$G$可能为无限群，所以不能直接使用11题结论，模仿\textbf{例一}，构造$G$到$\{-1, 1\}$对于复数乘法构成的群上的一个映射：
+    \begin{equation*}
+        \begin{aligned}
+           \sigma: G&\rightarrow \{-1, 1\}\\ 
+           \text{奇置换}&\mapsto -1\\
+           \text{偶置换}&\mapsto 1
+        \end{aligned}
+    \end{equation*}
+
+    由\textbf{例一}知，$\sigma$是$G$到$\{-1, 1\}$上的满同态，且$\text{Ker}\sigma = \{\text{偶置换}\} = A$由\textbf{群同态基本定理}知
+    \begin{equation*}
+        G/A \cong \{-1, 1\}
+    \end{equation*}
+    所以，$|G/A| = [G:A] = |\{-1, 1\}| = 2$，$G$上的所有偶置换构成的集合指数为$2$。
+\end{proof}
+
+\paragraph{习题1.7}
+\paragraph{1.}分别求$D_3,D_4$的换位子群。
+\begin{solution}
+
+    $D_3 = \{\text{I}, \sigma, \sigma^2, \tau, \sigma\tau, \sigma^2\tau\}$，$|D_3| = 6$，其非平凡子群的阶数只能为$2,3$。
+    
+    设$H=\{\text{I}, \sigma, \sigma^2\}=\braket{\sigma}$，则$\forall \tau\in D_3$，有$\tau\sigma\tau^{-1} = \sigma^{-1} = \sigma^{2}\in H$，则$H\triangleleft D_3$，且$|D_3/H|=|D_3|/|H|=6/3=2$，则$D_3/H\cong \mathbb Z_2$为$\text{Abel群}$，于是$D_3'\subset H$，又由于$|H| = 3=1\cdot 3$，则$H$没有非平凡正规子群，故$D_3' = H$。
+
+    $D_4 = \{\text{I},\sigma,\sigma^2,\sigma^3,\tau,\sigma\tau,\sigma^2\tau,\sigma^3\tau\}=\braket{\sigma}$，$|D_4|=8$，其非平凡子群的阶数只能为$2,4$。
+
+    设$H=\{\text{I}, \sigma,\sigma^2,\sigma^3\}$，则$\forall \tau\in D_4$，有$\tau\sigma\tau^{-1}=\sigma^{-1}=\sigma^3$，则$H\triangleleft D_4$，且$|D_4/H|=|D_4|/|H|=8/4=2$，则$D_4/H\cong\mathbb Z_2$为$\text{Abel群}$，于是$D_4'\subset H$。
+
+    又由于$|H|=4=2\cdot 2$，则$H$的非平凡子群的阶数只能为$2$，设$N=\{\text{I}, \sigma^2\}=\braket{2}$，则$N$是$H$的唯一的非平凡子群，由于
+    \begin{equation*}
+        \begin{aligned}
+            &\sigma\sigma^2\sigma^{-1}=\sigma^3\sigma^2\sigma^{-3}=\sigma^{2}\in N\\
+            &\tau\sigma^2\tau^{-1}=\sigma^{-2}=\sigma^2\in N
+        \end{aligned}
+    \end{equation*}
+    则$N\triangleleft D_4$，且$|D_4/H|=|D_4|/|H|=8/2=4$，由于$4$阶群只能为$\text{Abel群}$，故$D_4/H$为$\text{Abel群}$，又由于$N$是$D_4$中最小的正规子群，所以$D_4'=N$。
+\end{solution}
+
+\paragraph{3.}求$S_n$的换位子群，其中$n\geqslant 3$。
+\begin{solution}
+    
+    由于$A_n\triangleleft S_n$，且$|S_n/A_n| = |S_n|/|A_n|=2$，则$S_n/A_n\cong \mathbb Z_2$为$\text{Abel群}$，则$S_n'\subset A_n$，由于$A_n$中的元素可以由$3-\text{轮换}$生成，设$(i j k)\in A_n$，则
+    \begin{equation*}
+        (ijk)=(ikj)^{-1}=(ikj)^2=((ij)(ik))^2=(ij)(ik)(ij)(ik)=(ij)(ik)(ij)^{-1}(ik)^{-1}\subset S_n'
+    \end{equation*}
+    则$A_n\subset S_n'$，综上$S_n'=A_n$。
+\end{solution}
+
+\paragraph{5.}$S_4$是不是可解群？
+\begin{solution}
+    $S_4$是可解群。
+    
+    因为$S_4'=A_4,S_4''=V_4,S_4^{(3)}=\{(1)\}$，所以$S_4$是可解群。
+\end{solution}
+
+\paragraph{6.}$n\geqslant 5$时，$S_n$是不可解群么？
+\begin{solution}
+    是的。
+
+    因为$S_n'=A_n$，下面证明，当$n\geqslant 5$时，$A_n'=A_n$。
+
+    由于$A_n'\triangleleft A_n$，只需证明$A_n\subset A_n'$，由于$A_n$可以由$3-\text{轮换}$生成，所以只需证明$3-\text{轮换}$都属于$A_n'$。
+
+    设$(a_1a_2a_3)\in A_n$，则
+    \begin{equation*}
+        \begin{aligned}
+            (a_1a_2a_3) &= (a_1a_4a_3)(a_1a_2a_4) = (a_1a_4a_3)(a_1a_4a_2)^{-1} = (a_1a_4a_3)(a_2a_1a_4)^{-1}\\
+            &= (a_5a_2a_1a_4a_3)(a_2a_1a_4)(a_5a_2a_1a_4a_3)^{-1}(a_2a_1a_4)^{-1}\in A_n'
+        \end{aligned}
+    \end{equation*}
+    所以$A_n'=A_n$，则$S_n^{(m)}=A_n\ (m\in\mathbb Z_{\geqslant 1})$，故$n\geqslant 5$时，$S_n$是不可解群。
+\end{solution}
+
+\end{document}

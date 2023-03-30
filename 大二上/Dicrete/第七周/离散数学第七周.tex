@@ -1,0 +1,146 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{离散数学}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+\paragraph{习题六}
+\paragraph{1.}\begin{solution}
+    
+    (1). 是
+
+    (2). 是
+
+    (3). 是
+
+    (4). 不是，因为$1 / 2\notin\mathbb Z$，所以$(1, 2)$没有定义。
+
+    (5). 不是，因为$2^{-1}\notin\mathbb Z$，所以$(2,-1)$没有定义。
+
+    (6). 不是，因为$\sqrt[1]{2}\notin\mathbb Z$，所以$(2, 1)$没有定义。
+
+    (7). 是
+
+    (8). 是
+
+    (9). 是
+
+    (10). 是
+
+\end{solution}
+\paragraph{6.}\begin{solution}
+    观察表格知，$a$是$X$上关于$*$二元运算的幺元，则
+    \begin{center}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            元素&左逆元&右逆元\\
+            \hline
+            a&a&a\\
+            \hline
+            b&c, d&c\\
+            \hline
+            c&b, e&b, d\\
+            \hline
+            d&c&b\\
+            \hline
+            e&\text{无}&c\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{solution}
+\paragraph{8.}\begin{solution}
+    
+    满足结合律，先证明$\text{LCM}(x,y,z) = \text{LCM}(\text{LCM}(x,y),z)$，设$d$为$x, y,z$的公倍数，则$x|d,y|d,z|d$，特别的，$\text{LCM}(x, y)|d$，于是$d$为$\text{LCM}(x,y),z$的公倍数，因此，$x, y, z$的公倍数是$\text{LCM}(x, y),z$的公倍数。反之亦然，比较两组数的公倍数中的最小者即可得证，所以
+    \begin{equation*}
+        \begin{aligned}
+            x*y*z&=\text{LCM}(x,y)*z=\text{LCM}(\text{LCM}(x, y), z)=\text{LCM}(x, y, z)\\
+            &=\text{LCM}(x,\text{LCM}(y,z))=x*\text{LCM}(y,z)=x*(y*z)
+        \end{aligned}
+    \end{equation*}
+
+    满足交换律，因为$x, y$的最小公倍数和$y,x$的最小公倍数相同，所以
+    \begin{equation*}
+        x*y=\text{LCM}(x, y)=\text{LCM}(y, x)=y*x
+    \end{equation*}
+
+    存在幺元，且幺元为$0$，因为$0$是任何正整数的因数，所以
+    \begin{equation*}
+        x*0=0*x=\text{LCM}(0, x) = x
+    \end{equation*}
+
+    不存在零元，反设存在零元$z$，则$z=(z+1)*z=\text{LCM}(z+1,z)\geqslant z+1$，矛盾。
+
+    不存在逆元，$x\in \mathbb N^*$，对于$\forall y\in \mathbb N$，$\text{LCM}(x, y) \geqslant x > 0$，所以不存在逆元。
+\end{solution}
+\paragraph{12.}\begin{solution}
+
+    对应于$S_1$的子关系：
+    \begin{center}
+        \begin{tabular}{c|cc}
+            $\oplus$ & b & d \\ \hline
+            b     & b & b \\
+            d     & b & d
+        \end{tabular}
+        \quad\quad
+        \begin{tabular}{c|cc}
+            $\otimes$ & b & d \\ \hline
+            b     & b & d \\
+            d     & d & d
+        \end{tabular}
+    \end{center}
+
+    则$\braket{S_1,\oplus,\otimes}$是$\braket{X,\oplus,\otimes}$的子代数系统。
+
+    对应于$S_2$的子关系：
+    \begin{center}
+        \begin{tabular}{c|cc}
+            $\oplus$ & a & d \\ \hline
+            a     & a & a \\
+            d     & a & d
+        \end{tabular}
+        \quad\quad
+        \begin{tabular}{c|cc}
+            $\oplus$ & a & d \\ \hline
+            a     & a & d \\
+            d     & d & d
+        \end{tabular}
+    \end{center}
+
+    则$\braket{S_2,\oplus,\otimes}$是$\braket{X,\oplus,\otimes}$的子代数系统。
+
+    对应于$S_3$的子关系：
+    \begin{center}
+        \begin{tabular}{c|cc}
+            $\oplus$ & b & c \\ \hline
+            b     & b & a \\
+            c     & a & c
+        \end{tabular}
+        \quad\quad
+        \begin{tabular}{c|cc}
+            $\oplus$ & b & c \\ \hline
+            b     & b & d \\
+            c     & d & c
+        \end{tabular}
+    \end{center}
+
+    则$\braket{S_3,\oplus,\otimes}$不是$\braket{X,\oplus,\otimes}$的子代数系统，因为$b\oplus c\notin S_3$。
+\end{solution}
+\end{document}

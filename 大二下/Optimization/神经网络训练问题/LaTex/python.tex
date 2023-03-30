@@ -1,0 +1,11 @@
+\documentclass[a4paper]{ctexart}
+\usepackage{minted}
+
+\usemintedstyle{lovelace}
+\newminted{python}{linenos, breaklines, frame=lines, python3}
+\newmintedfile{python}{linenos, breaklines, frame=lines, python3}
+
+\begin{document}
+\pythonfile{../Python/Perceptron.py}
+%\inputminted[]{python}{../Python/Perceptron.py}
+\end{document}

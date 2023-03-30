@@ -1,0 +1,173 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+\usepackage[slantfont, boldfont]{xeCJK}
+
+\linespread{1.5}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newenvironment{solution}{\par\noindent\textbf{Solution. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{Complex Analysis}
+\newcommand{\vt}{吴天阳, 2204210460}
+\begin{document}
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{Data}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{Subject}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{Name, ID}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{1.} Find the real and imaginary parts of each of the following:
+\begin{equation*}
+    \frac{1}{z},z^3,\frac{3+5i}{1+7i},\left(\frac{-1-i\sqrt{3}}{2}\right)^6.
+\end{equation*}
+\begin{solution} Let $ z = a + ib$, then
+    \begin{equation}
+        \begin{aligned}
+            \frac{1}{z} = \frac{1}{a+ib} = \frac{a-ib}{a^2+b^2} = \frac{a}{a^2+b^2}-i\frac{b}{a^2+b^2}
+        \end{aligned}
+    \end{equation}
+    \begin{equation*}
+        \text{real part}: \frac{a}{a^2+b^2}\quad \text{imaginary part}: -\frac{b}{a^2+b^2}
+    \end{equation*}
+    \begin{equation}
+        \begin{aligned}
+            z^3 = (a+ib)^3 =&\ a^3+3a^2(ib)+3a(ib)^2+(ib)^3\\
+            =&\ a^3+3ia^2b-3ab^2-ib^3\\
+            =&\ a^3-3ab^2+i(3a^2b-b^3)
+        \end{aligned}
+    \end{equation}
+    \begin{equation*}
+        \text{real part}: a^3-3ab^2 \quad \text{imaginary part}: 3a^2b-b^3
+    \end{equation*}
+    \begin{equation}
+        \begin{aligned}
+            \frac{3+5i}{1+7i} = \frac{(3+5i)(1-7i)}{50} = \frac{19}{25}-\frac{8}{25}i
+        \end{aligned}
+    \end{equation}
+    \begin{equation*}
+        \text{real part}: \frac{19}{25} \quad \text{imaginary part}: -\frac{8}{25}
+    \end{equation*}
+    \begin{equation}
+        \begin{aligned}
+            \left(\frac{-1-i\sqrt{3}}{2}\right)^6 = \left(\frac{1}{2}+\frac{\sqrt{3}}{2}i\right)^6=\left(e^{2\pi i/6}\right)^6=e^{2\pi i} = 1
+        \end{aligned}
+    \end{equation}
+    \begin{equation*}
+        \text{real part}: 1\quad \text{imaginary part}: 0
+    \end{equation*}
+\end{solution}
+\paragraph{2.}Prove \begin{equation*}
+    |z+w|^2+|z-w|^2=2(|z|^2+|w|^2)
+\end{equation*}
+
+for complex numbers $z$ and $w$.
+\begin{proof}
+    Let $z = a+ib, w=c+id$, then
+    \begin{equation*}
+        \begin{aligned}
+            |z+w|^2+|z-w|^2 =&\ |(a+c)+i(b+d)|^2+|(a-c)+i(b-d)|^2\\
+            =&\ (a+c)^2+(b+d)^2+(a-c)^2+(b-d)^2\\
+            =&\ 2(a^2+b^2+c^2+d^2)\\
+            =&\ 2(|z|^2+|w|^2)
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\paragraph{3.} Find the sixth roots of unity.
+\begin{solution}
+    The sixth roots of unity are the roots of the equation $x^6 = 1$ in $\mathbb{C}$. 
+    
+    Let $\xi = e^{2\pi i / 6} = e^{\pi i / 3}$, we have six different values
+    \begin{equation*}
+        \xi^0, \xi^1, \xi^2, \xi^3, \xi^4,\xi^5
+    \end{equation*}
+
+    Since $(\xi^n)^6 = e^{2\pi in} = 1$, hence, $\xi^n\ (n=0,1,\cdots, 5)$ are the sixth roots of unity.
+\end{solution}
+\paragraph{4.} Show the limits\begin{equation*}
+    \lim_{z\rightarrow 0}\frac{z}{|z|},\quad \lim_{z\rightarrow 0}e^{1/z}
+\end{equation*}
+
+do not exist.
+\begin{proof}
+    (1) Suppose the limit exits. Let $z = x$ be purely real, then
+    \begin{equation*}
+        \begin{aligned}
+            \lim_{z\rightarrow 0} \frac{z}{|z|} =& \ \lim_{x\rightarrow 0^+}\frac{x}{x} = 1\\
+            =&\ \lim_{x\rightarrow 0^-}\frac{x}{-x} = -1
+        \end{aligned}
+    \end{equation*}
+
+    $\lim\limits_{z\rightarrow 0} \dfrac{z}{|z|} =1=-1$ is contradictive. Hence, $\lim\limits_{z\rightarrow 0}\dfrac{z}{|z|}$ do not exits.
+
+    (2) Suppose the limit exits. Let $z = x$ be purely real, then
+    \begin{equation*}
+        \begin{aligned}
+            \lim_{z\rightarrow 0}e^{1/z} =&\ \lim_{x\rightarrow 0^+} e^{1/x} = +\infty\\
+            =&\ \lim_{x\rightarrow 0^-}e^{1/x} = 0
+        \end{aligned}
+    \end{equation*}
+
+    $\lim\limits_{z\rightarrow 0}e^{1/z} = +\infty = 0$ is contradictive. Hence, $\lim\limits_{z\rightarrow 0}e^{1/z}$ do not exits.
+\end{proof}
+\paragraph{5.}Assume that the function $f$ does not vanish on a deleted neighborhood of $z_0\in \mathbb{C}$. Show that $\lim\limits_{z\rightarrow z_0}f(z)=0$ if and only if $\lim\limits_{z\rightarrow z_0}\dfrac{1}{f(z)} = \infty$.
+\begin{proof}
+    "$\Rightarrow$": For all $M > 0$ exists $\delta > 0$, such that
+    \begin{equation*}
+        |f(z_0+h)| < \frac{1}{M}\Rightarrow \frac{1}{|f(z_0+h)|} > M\quad (h\in D_{\delta}(z_0))
+    \end{equation*}
+
+    Hence, $\lim\limits_{z\rightarrow z_0}\dfrac{1}{f(z)} = \infty$.
+
+    "$\Leftarrow$": Forall $\epsilon > 0$ exists $\delta > 0$, such that
+    \begin{equation*}
+        \frac{1}{|f(z_0+h)|} > \frac{1}{\epsilon}\Rightarrow|f(z_0+h)| < \epsilon\quad(h\in D_{\delta}(z_0))
+    \end{equation*}
+
+    Hence, $\lim\limits_{z\rightarrow z_0}f(z) = 0$.
+\end{proof}
+\paragraph{6.}Prove the Chain Rule of analytic functions.
+\begin{proof}
+    We define two holomorphic functions $g:U\rightarrow V, f:V\rightarrow W$ and $U, V, W$ are open subset of $\mathbb{C}$. Assert that $f\circ g$ is holomorphic and
+    \begin{equation*}
+        (f\circ g)'(z_0)=f'(g(z_0))g'(z_0)\quad (z_0\in U)
+    \end{equation*}
+
+    Since $g, f$ are differentiable at $z_0, g(z_0)$, respectively, we write
+    \begin{equation*}
+        \begin{aligned}
+            \frac{g(z_0+h_1)-g(z_0)}{h_1} =&\  g'(z_0)+\psi_1(h_1)\\
+            \frac{f(g(z_0)+h_2)-f(g(z_0))}{h_2}=&\ f'(g(z_0))h_2+\psi_2(h_2)h_2
+        \end{aligned}
+    \end{equation*}
+
+    where $\psi_j(h)\rightarrow 0\ (j = 1, 2)$ as $h\rightarrow 0$. 
+    
+    Let $h_2 = g(z_0+h_1)-g(z_0)$, dividing by $h_1$, we obtain
+    \begin{equation*}
+        \begin{aligned}
+            \frac{f(g(z_0+h_1))-f(g(z_0))}{h_1}=&\ f'(g(z_0))\frac{g(z_0+h_1)-g(z_0)}{h_1}+\psi_2(g(z_0+h_1)-g(z_0))\frac{g(z_0+h_1)-g(z_0)}{h_1}\\
+            =&\ f'(g(z_0))g'(z_0)+\psi_1(h_1)f'(g(z_0))\\
+            &\quad\quad\quad\quad\quad\quad\ +\psi_2((g'(z_0)+\psi_1(h_1))h_1)(g'(z_0)+\psi_1(h_1))
+        \end{aligned}
+    \end{equation*}
+    
+    Let $\psi_3(h_1) = \psi_1(h_1)f'(g(z_0))+\psi_2((g'(z_0)+\psi_1(h_1))h_1)(g'(z_0)+\psi_1(h_1))$. As $h_1\rightarrow 0$, $\psi_3(h_1)\rightarrow 0$, then
+    \begin{equation*}
+        \frac{f(g(z_0+h))-f(g(z_0))}{h_1}= f'(g(z_0))g'(z_0)+\psi_3(h_1)
+    \end{equation*}
+
+    We conclude that
+
+    \begin{equation*}
+        \lim_{h_1\rightarrow 0}\frac{f(g(z_0+h))-f(g(z_0))}{h_1}= f'(g(z_0))g'(z_0)
+    \end{equation*}
+    as asserted by the Chain Rule.
+\end{proof}
+\end{document}

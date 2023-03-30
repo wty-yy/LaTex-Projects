@@ -1,0 +1,309 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket, booktabs, array}
+
+\linespread{1.5}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{数值分析}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{4.7}$f(x) = x^7+x^4+3x+1$，求$f[2^0,2^1,\cdots,2^7]$和$f[2^0,2^1,\cdots, 2^8]$。
+
+\begin{solution}
+    设插值区间为$[a,b]$，对于插值点$\{x_0,x_1,\cdots,x_n\}$，由差商的性质知，存在$\xi$介于所有插值点之间，满足
+    \begin{equation*}
+        f[x_0,x_1,\cdots,x_n] = \frac{f^{n}(\xi)}{n!}
+    \end{equation*}
+
+    由于$f(x)$为$7$阶首一多项式，则$f^{7}(x) = 7!, f^{8}(x) = 0$，所以
+    \begin{equation*}
+        f[2^0,2^1,\cdots,2^6, 2^7] = \frac{f^7(\xi)}{7!} = 1
+    \end{equation*}
+    \begin{equation*}
+        f[2^0,2^1,\cdots, 2^7, 2^8] = \frac{f^8(\xi')}{8!} = 0
+    \end{equation*}
+\end{solution}
+\paragraph{4.8}设$f(x)$在区间$[a,b]$上三阶导数连续，$x_0,x_1\in[a,b]$，构造满足如下条件：
+\begin{equation*}
+    p(x_0)=f(x_0),\quad p'(x_0)=f'(x_0),\quad p(x_1)=f(x_1)
+\end{equation*}
+的二次插值多项式$p(x)$，并写出截断误差表达式。
+\begin{solution}
+    通过计算得到如下的差商表：
+    \renewcommand\arraystretch{0.8}
+    \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{cccc}
+            \toprule
+            $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ \\
+            \midrule
+            $x_0$ & $f(x_0)$ &                  &                          \\
+            $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
+            $x_1$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    通过差商表可得插值多项式和截断误差表达式：
+    \begin{equation*}
+        p(x) = f(x_0)+f'(x_0)(x-x_0)+\left(\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}\right)(x-x_0)^2
+    \end{equation*}
+    \begin{equation*}
+        R_n(x)=f[x_0,x_0,x_1,x](x-x_0)^2(x-x_1)
+    \end{equation*}
+\end{solution}
+\paragraph{4.9}已知函数$y=f(x)$在若干点处的函数值、导数值如下表所示，求埃尔米特插值多项式和截断误差表达式：
+
+
+(1)
+\renewcommand\arraystretch{0.5}
+\begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}}
+    \specialrule{0em}{1pt}{1pt}
+    \toprule
+    $x_i$  & $-1$ & $0$ & $1$ \\
+    \midrule
+    $y_i$  & $-1$ & $0$ & $1$ \\
+    \midrule
+    $y_i'$ & $0$  & $0$ & $0$ \\
+    \bottomrule
+\end{tabular};\quad\quad
+(2)
+\begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}}
+    \toprule
+    $x_i$  & $0$ & $1$ & $2$ \\
+    \midrule
+    $y_i$  & $1$ & $-1$ & $0$ \\
+    \midrule
+    $y_i'$ & $0$  & $0$ &  \\
+    \midrule
+    $y_i''$ & $2$  & & \\
+    \bottomrule
+\end{tabular}.
+\newpage
+\begin{solution} (1) 计算差商表如下：
+    \renewcommand\arraystretch{0.8}
+    \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{2cm}<{\centering}p{3cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}}
+            \toprule
+            $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ & $\cdots$ & $\cdots$ & $\cdots$\\
+            \midrule
+            $-1$ & $-1$ & & & & & \\
+            $-1$ & $-1$ & $0$ & & & & \\
+            $0$ & $0$ & $1$ & $1$ & & & \\
+            $0$ & $0$ & $0$ & $-1$ & $-2$ & & \\
+            $1$ & $1$ & $1$ & $1$ & $1$ & $\frac{3}{2}$ & \\
+            $1$ & $1$ & $0$ & $-1$ & $-2$ & $-\frac{3}{2}$ & $-\frac{3}{2}$\\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    通过差商表可得插值多项式和截断误差表达式：
+    \begin{equation*}
+        \begin{aligned}
+            H_5(x) =&\ -1+(x+1)^2-2(x+1)^2x+\frac{3}{2}(x+1)^2x^2-\frac{3}{2}(x+1)^2x^2(x-1)\\
+            =&\ -\frac{x^3}{2}(3x^2-5)
+        \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+        R_5(x)=f[-1,-1,0,0,1,1,x](x+1)^2x^2(x-1)^2
+    \end{equation*}
+
+    (2) 计算差商表如下：
+    \renewcommand\arraystretch{0.8}
+    \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{2cm}<{\centering}p{3cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}p{1cm}<{\centering}}
+            \toprule
+            $x_i$ & $f[x_1]$ & $f[x_i,x_{i+1}]$ & $f[x_i,x_{i+1},x_{i+2}]$ & $\cdots$ & $\cdots$ & $\cdots$\\
+            \midrule
+            $0$ & $1$ & & & & & \\
+            $0$ & $1$ & $0$ & & & & \\
+            $0$ & $1$ & $0$ & $1$ & & & \\
+            $1$ & $-1$ & $-2$ & $-2$ & $-3$ & & \\
+            $1$ & $-1$ & $0$ & $2$ & $4$ & $7$ & \\
+            $2$ & $0$ & $1$ & $1$ & $-\frac{1}{2}$ & $-\frac{9}{4}$ & $-\frac{37}{8}$\\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    通过差商表可得插值多项式和截断误差表达式：
+    \begin{equation*}
+        H_5(x)=1+x^2-3x^3+7x^3(x-1)-\frac{37}{8}x^3(x-1)^2
+    \end{equation*}
+    \begin{equation*}
+        R_5(x)=f[0,0,0,1,1,2,x]x^3(x-1)^2(x-2)
+    \end{equation*}
+\end{solution}
+\paragraph{4.10}设$x_i\ (i=0,1,\cdots, n)$是互不相同的插值节点，$l_i(x)\ (i = 0, 1,\cdots, n)$是拉格朗日插值基函数。证明：
+
+(1) $\sum\limits_{i=0}^nl_i(x)=1$;
+
+(2) $\sum\limits_{i=0}^nl_i(x)x_i^k=x^k\ (k=1,2,\cdots, n)$;
+
+(3) $\sum\limits_{i=0}^nl_i(x)(x_i-x)^k=0\ (k=1,2,\cdots, n)$;
+
+(4) $\sum\limits_{i=0}^nl_i(0)x_i^k=
+\begin{cases}
+    1,&k=0,\\0,&k=1,2,\cdots,n,\\(-1)^nx_0x_1\cdots x_n,&k=n+1.
+\end{cases}$
+\begin{proof}
+    (1) 构造常值函数$f(x) = 1$，则$f^{(k)}(x)=0\ (\forall k\in\mathbb{N}^*)$。设插值区间为$(-\infty, +\infty)$，对于$\mathbb{R}$上任意$n+1$个插值点，由$\text{Lagrange插值法}$知
+    \begin{equation*}
+        L_n(x) = l_0(x)+l_1(x)+\cdots+l_n(x) = \sum_{i=0}^nl_i(x)
+    \end{equation*}
+    \begin{equation*}
+        R_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}\pi_{n+1}(x)\equiv 0
+    \end{equation*}
+    由于$R_n(x)\equiv 0$，则$\forall x \in \mathbb{R}$，有$L_n(x) \equiv f(x) = 1$，故
+    \begin{equation*}
+        \sum_{i=0}^nl_i(x) = 1
+    \end{equation*}
+
+    (2) 构造函数$f(x)=  x^k\ (k = 1,2,\cdots, n)$，则$f^{(n+1)}=0$。设插值区间为$(-\infty, +\infty)$，对于$\mathbb{R}$上任意$n+1$个插值点，由$\text{Lagrange插值法}$知
+    \begin{equation*}
+        L_n(x) = l_0(x)x_0^k+l_1(x)x_1^k+\cdots+l_n(x)x_n^k=\sum_{i=0}^nl_i(x)x_i^k
+    \end{equation*}
+    \begin{equation*}
+        R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\pi_{n+1}(x)\equiv 0
+    \end{equation*}
+    由于$R_n(x)\equiv 0$，则$\forall x \in \mathbb{R}$，有$L_n(x) \equiv f(x) = x^k$，故
+    \begin{equation*}
+        \sum_{i=0}^nl_i(x)x_i^k = x^k
+    \end{equation*}
+
+    (3) $\forall t\in\mathbb{R}$，构造函数$f(x)=  (x-t)^k\ (k = 1,2,\cdots, n)$，则$f^{(n+1)}=0$。设插值区间为$(-\infty, +\infty)$，对于$\mathbb{R}$上任意$n+1$个插值点，由$\text{Lagrange插值法}$知
+    \begin{equation*}
+        L_n(x) = l_0(x)(x_0-t)^k+l_1(x)(x_1-t)^k+\cdots+l_n(x)(x_n-t)^k=\sum_{i=0}^nl_i(x)(x_i-t)^k
+    \end{equation*}
+    \begin{equation*}
+        R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\pi_{n+1}(x)\equiv 0
+    \end{equation*}
+    由于$R_n(x)\equiv 0$，则$\forall x \in \mathbb{R}$，有$L_n(x) \equiv f(x) = (x-t)^k$，所以
+    \begin{equation*}
+        \sum_{i=0}^nl_i(x)(x_i-t)^k = (x-t)^k
+    \end{equation*}
+    又由于$t$的任意性，取$t=x$，得
+    \begin{equation*}
+        \sum_{i=0}^nl_i(x)(x_i-x)^k = 0
+    \end{equation*}
+
+    (4) 由 (1),(2) 分别可知$k=0, k=1,2,\cdots, n$的两种情况，下面证明$k=n+1$的情况：
+
+    构造函数$f(x)=  x^{n+1}$，则$f^{(n+1)}=(n+1)!$。设插值区间为$(-\infty, +\infty)$，对于$\mathbb{R}$上任意$n+1$个插值点，由$\text{Lagrange插值法}$知
+    \begin{equation*}
+        L_n(x) = l_0(x)x_0^{n+1}+l_1(x)x_1^{n+1}+\cdots+l_n(x)x_n^{n+1}=\sum_{i=0}^nl_i(x)x_i^{n+1}
+    \end{equation*}
+    \begin{equation*}
+        R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\pi_{n+1}(x) = \pi_{n+1}(x)
+    \end{equation*}
+    则
+    \begin{equation*}
+        \begin{aligned}
+            &\ f(x)-L_n(x) = R_n(x) = \pi_{n+1}(x)\\
+            \Rightarrow &\ \sum_{i=0}^nl_i(x)x_i^{n+1} = x^{n+1}-(x-x_0)(x-x_1)\cdots(x-x_n)\\
+            (\text{令}x = 0)\ \Rightarrow&\ \sum_{i=0}^nl_i(0)x_i^{n+1} = (-1)^nx_0x_1\cdots x_n
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{4.11}设$f(x) = a_0+a_1x+a_2x^2+\cdots+a_{n-1}x^{n-1}+a_nx^n$，方程$f(x)=0$有$n$个不同的实根$x_1,x_2,\cdots,x_n$，证明
+
+(1)\begin{equation*}
+    \sum_{i=1}^n\frac{x_i^k}{f'(x_i)}=\begin{cases}
+        0,&0\leqslant k\leqslant n-2,\\
+        1/a_n,&k=n-1.
+    \end{cases}
+\end{equation*}
+
+(2) 设$x_i\neq 0,-1\ (i=1,2,\cdots, n)$，则
+\begin{equation*}
+    \sum_{i=1}^n\frac{x_i^nf(x_i^{-1})}{f'(x_i)(1+x_i)}=(-1)^n(x_1x_2\cdots x_n-1);
+\end{equation*}
+
+(3)\begin{equation*}
+    \sum_{i=1}^n\frac{i^k}{(i-1)\cdots(i-i+1)(i-i-1)\cdots(i-n)}=0,\quad k=0,1,\cdots, n-2.
+\end{equation*}
+\begin{proof}
+    由代数基本定理知，$f(x) = a_n(x-x_1)(x-x_2)\cdots(x-x_n) = a_n\pi_n(x)$，
+
+    (1) 令$g(x) = x^k$，根据差商的性质可知，
+
+    \begin{equation*}
+        \sum_{i=1}^n\frac{x_i^k}{f'(x_i)}=\sum_{i=1}^n\frac{x_i^k}{a_n\pi'_n(x_i)} = \frac{1}{a_n}g[x_1,x_2,\cdots,x_n]=\frac{g^{(n-1)}(\xi)}{a_n(n-1)!}
+    \end{equation*}
+
+    其中$\xi$在$x_1,x_2,\cdots,x_n$之间。当$k\leqslant n-2$时$g^{(n-1)}\equiv 0$，当$k=n-1$时$g^{(n-1)}=(n-1)!$，则
+    \begin{equation*}
+        \sum_{i=1}^n\frac{x_i^k}{f'(x_i)}=\begin{cases}
+            0,&0\leqslant k\leqslant n-2,\\
+            1/a_n,&k=n-1.
+        \end{cases}
+    \end{equation*}
+    
+    (2) 令$g(x) = x^nf(x^{-1})=a_0x^n+a_1x^{n-1}+\cdots+a_{n-1}x+a_n$，做$g(x)$对$(1+x)$的带余数除法，存在唯一的$q(x),r(x)$，使得
+    \begin{equation*}
+            g(x) = (1+x)q(x) + r(x)
+    \end{equation*}
+    其中$\text{deg}\ q(x) = n-1$且首项为$a_n$，由多项式除法可知
+    \begin{equation*}
+        r(x) = a_0(-1)^n+a_1(-1)^{n-1}+\cdots+a_{n-1}(-1)+a_n=g(-1)=(-1)^nf(-1)
+    \end{equation*}
+
+    则
+
+    \begin{equation}
+        \begin{aligned}
+            \sum_{i=1}^n\frac{x_i^nf(x_i^{-1})}{f'(x_i)(1+x_i)} = &\sum_{i=1}^n\frac{g(x_i)}{f'(x_i)(1+x_i)}\\
+            =&\sum_{i=1}^n\left(\frac{q(x_i)}{f'(x_i)}+\frac{r(x_i)}{f'(x_i)(1+x_i)}\right)\\
+            \xlongequal[\text{利用}(1)\text{结论}]{\text{将}q(x)\text{首项提出来}}&\ \frac{a_0}{a_n}+\sum_{i=1}^n\frac{(-1)^nf(-1)}{f'(x_i)(1+x_i)}
+        \end{aligned}
+    \end{equation}
+
+    令$l_i = \dfrac{f(x)}{f'(x_i)(x-x_i)}$，由\textbf{4.10(1)}可知
+
+    \begin{equation}
+        \begin{aligned}
+            &\sum_{i=1}^nl_i = \sum_{i=1}^n\frac{f(x)}{f'(x_i)(x-x_i)} = 1\\
+            (\text{令}x=-1) \Rightarrow& \sum_{i=1}^n\frac{f(-1)}{f'(x_i)(-1-x_i)} = 1\\
+            \Rightarrow& \sum_{i=1}^n\frac{f(-1)}{f'(x_i)(1+x_i)} = -1
+        \end{aligned}
+    \end{equation}
+
+    又由于$f(x) = a_nx^n+a_{n-1}x^{n-1}+\cdots+a_0=a_n(x-x_1)\cdots(x-x_n)$，通过对比常数项系数可以发现：
+    \begin{equation}
+        a_0=(-1)^na_nx_1x_2\cdots x_n
+    \end{equation}
+
+    将$(2),(3)$带回到$(1)$式中，可得
+    \begin{equation*}
+        \begin{aligned}
+            \sum_{i=1}^n\frac{x_i^nf(x_i^{-1})}{f'(x_i)(1+x_i)} =&\ (-1)^nx_1x_2\cdots x_n+(-1)^{n+1}\\
+            =&\ (-1)^n(x_1x_2\cdots x_n-1)
+        \end{aligned}
+    \end{equation*}
+
+    (3) 令$f(x) = (x-1)(x-2)\cdots(x-n)$，$x_i=i\ (i=1,2,\cdots, n)$，由 (1) 知，
+
+    \begin{equation*}
+        \sum_{i=1}^n\frac{i^k}{(i-1)\cdots(i-i+1)(i-i-1)\cdots(i-n)}=0,\quad k=0,1,\cdots,n-2.
+    \end{equation*}
+\end{proof}
+\end{document}

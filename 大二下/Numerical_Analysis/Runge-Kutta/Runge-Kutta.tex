@@ -1,0 +1,295 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, numprint}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+\newmintinline{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置字号 %%%%
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 初号
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 小初号
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      % 一号
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      % 二号
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  % 小二号
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  % 三号
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 四号
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 小四号
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 五号
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 小五号
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 六号
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 七号
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.2}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理} % 定理按section编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figure/}} % 当前目录下的figure文件夹, {../figure/}则是父目录的figure文件夹
+
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+
+%%%% 一些宏定义 %%%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\C{\mathbb{C}}          % Complex number
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\L{\mathcal{L}}         % Loss function
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-3.5ex}}   % 减少行间距
+
+%%%% 正文开始 %%%%
+\begin{document}
+
+%%%% 定义标题格式,包括title,author,affiliation,email等 %%%%
+\title{数值分析第三次上机作业\\经典Runge-Kutta法求解微分方程组}
+\author{
+西安交通大学, 数学与统计学院, 强基数学002\\[1ex]
+吴天阳\\[1ex]
+2204210460\\[1ex]
+59
+}
+\date{2022年5月13日}
+
+\maketitle % 设置上面的标题
+\tableofcontents % 创建目录,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
+
+%%%% 以下部分是正文 %%%%  
+\clearpage
+\section{问题描述}
+用标准$4$级$4$阶R-K法求解
+\begin{equation}\label{eq-问题描述}
+    \begin{cases}
+        y''' = y'' + y' - y + 2x -3,\\
+        y(0) = -1,\ y'(0) = 3,' y''(0) = 2.
+    \end{cases}
+\end{equation}
+取步长$h=0.05$, 计算$y(1)$的近似值, 并与解析解$y(x) = xe^x+2x-1$作比较.
+\section{问题分析}
+\subsection{一阶微分方程组}
+\subsubsection{理论基础}
+考虑求解以下一阶微分方程组初值问题
+\begin{equation}\label{eq-微分方程组}
+\begin{cases}
+    y_1'(x) = f_1(x,y_1(x), y_2(x), \cdots, y_n(x)),\\
+    y_2'(x) = f_2(x,y_1(x), y_2(x), \cdots, y_n(x)),\\
+    \qquad\qquad\qquad\cdots\cdots\\
+    y_n'(x) = f_n(x,y_1(x), y_2(x), \cdots, y_n(x)),\\
+    y_1(x_0) = y_0^{(1)}, y_2(x_0) = y_0^{(2)}, \cdots, y_n(x_0) = y_0^{(n)},
+\end{cases}
+\end{equation}
+其中$a\leq x\leq b$. 记
+\begin{equation}\label{eq-定义}
+    \begin{aligned}
+        &\ \bd{y} = \bd{y}(x) = (y_1(x),y_2(x),\cdots, y_n(x))^T,\quad \bd{y}_0 = (y_0^{(1)}, y_0^{(2)},\cdots, y_0^{(n)})^T,\\
+        &\ f(x,\bd{y}) = (f_1(x, \bd{y}), f_2(x, \bd{y}), \cdots, f_n(x,\bd{y}))^T,
+    \end{aligned}
+\end{equation}
+于是求解微分方程组(\ref{eq-微分方程组})等价于求解以下向量形式
+\begin{equation}\label{eq-向量形式}
+    \begin{cases}
+        \bd{y}'(x) = f(x,\bd{y}),\\
+        \bd{y}(x_0) = y_0,
+    \end{cases}
+\end{equation}
+微分方程初值问题(\ref{eq-微分方程组})的解存在唯一性定理如下:
+\begin{theorem}
+    设根据公式(\ref{eq-定义})定义的$f(x,\bd{y})$在$n+1$维区域$D=\{(x, \bd{y}):a\leq x \leq b,\ -\infty < y_i < \infty,\ i=1,2,\cdots,n\}$上连续, 且关于$\bd{y}$满足Lipschitz条件, 即存在常数$L$, 使
+    \begin{equation}
+        ||f(x, \bd{y}) - f(x, \ol{\bd{y}})||\leq L||\bd{y}-\ol{\bd{y}}||,
+    \end{equation}
+    对于任意的$x\in[a, b]$, 任意的$\bd{y},\ol{\bd{y}}$都成立, 则微分方程组(\ref{eq-向量形式})存在唯一连续解$\bd{y} = \bd{y}(x)$.
+\end{theorem}
+微分方程组初值问题(\ref{eq-向量形式})在形式上和单个微分方程初值问题完全相同, 于是可以将单个微分方程初值问题的解法平移到微分方程组上. 
+
+经典$4$级$4$阶R-K法的向量形式如下:
+\begin{equation}
+    \begin{cases}
+        \bd{y}^{(i+1)} = \bd{y}^{(i)}+\frac{1}{6}(\bd{K}_1+\bd{K}_2+\bd{K}_3+\bd{K}_4),\\
+        \bd{K}_1 = hf(x^{(i)}, \bd{y}^{(i)}),\\
+        \bd{K}_2 = hf(x^{(i)}+\frac{h}{2}, \bd{y}^{(i)}+\frac{1}{2}\bd{K}_1),\\
+        \bd{K}_3 = hf(x^{(i)}+\frac{h}{2}, \bd{y}^{(i)}+\frac{1}{2}\bd{K}_2),\\
+        \bd{K}_4 = hf(x^{(i)}+h, \bd{y}^{(i)}+\bd{K}_3).\\
+    \end{cases}
+\end{equation}
+初始值: $x^{(0)} = x_0,\ \bd{y}^{(0)} = \bd{y}_0$.
+\subsubsection{算法实现}
+\pythonfile{python/algorithm.py}
+\subsection{高阶常微分方程}
+考虑$m$阶微分方程初值问题
+\begin{equation}\label{eq-高阶微分方程组}
+    \begin{cases}
+        y^{(m)} = f(x, y, y', y'', \cdots, y^{(m-1)}),\ a\leq x\leq b,\\
+        y(x_0) = y_0^{(1)}, y'(x_0) = y_0^{(2)},\cdots,y^{(m-1)}(x_0) = y^{(m)},
+    \end{cases}
+\end{equation}
+求解高次微分方程组问题(\ref{eq-高阶微分方程组})可以转化为一阶微分方程组(\ref{eq-微分方程组}), 引入变量
+\begin{equation}
+    y_1 = y,\ y_2 = y', \cdots, y_m = y^{(m-1)},
+\end{equation}
+即可将(\ref{eq-高阶微分方程组})转化为以下一阶微分方程组
+\begin{equation}
+    \begin{cases}
+        y_1' = y_2,\\
+        y_2' = y_3,\\
+        \quad\cdots\cdots\\
+        y_{m-1}' = y_m,\\
+        y_m' = f(x, y_1, y_2,\cdots, y_m),\\
+        y_1(x_0) = y_0^{(1)},y_2(x_2) = y_0^{(2)},\cdots,y_m(x_0) = y_0^{(m)}.
+    \end{cases}
+\end{equation}
+\section{问题求解}
+令$y_1 = y,\ y_2 = y',\ y_3 = y''$, 则高阶微分方程(\ref{eq-问题描述})可以转化为如下一阶线性微分方程组
+\begin{equation}
+    \begin{cases}
+        y_1' = y_2\\
+        y_2' = y_3\\
+        y_3' = y_3 + y_2 - y_1 + 2x - 3\\
+        y_1(0) = -1,\ y_2(0)=  3,\ y_3(0) = 2.
+    \end{cases}
+\end{equation}
+根据(\ref{eq-定义})式转化为向量形式
+\begin{equation}
+    \begin{aligned}
+        &\ \bd{y} = (y_1, y_2, y_3)^T,\quad \bd{y}_0 = (-1,3,2)^T,\\
+        &\ f(x,\bd{y}) = (y_2, y_3, y_3+y_2-y_1+2x-3)^T.
+    \end{aligned}
+\end{equation}
+具体代码如下:
+\pythonfile{python/Main.py}
+运行程序可得到在$y(1)$处, 
+\begin{align*}
+\text{Runge-Kutta计算结果}=&\ 3.\numprint{7182810192944746},\\
+\text{解析解}=&\ 3.\numprint{7182818284590446},\\
+\text{误差}=&\ 8.\numprint{091645700147865}\times 10^{-7}.
+\end{align*}
+\section{总结}
+本次上机实验使用的仍然是Python, 利用numpy库可以很轻松的完成矩阵运算, 使得Runge-Kutta算法更类似于单个微分方程组的写法. LaTeX中尝试使用了代码高亮更丰富的minted库, 结合Python中的Pygments库完成对LaTeX中代码高亮.
+\clearpage
+\begin{appendices}
+    \section{完整代码}
+    \subsection{algorithm.py}
+    \pythonfile{python/algorithm.py}
+    \subsection{Main.py}
+    \pythonfile{python/Main.py}
+\end{appendices}
+
+
+\end{document}
+
+\iffalse
+%%%% 表格模板 %%%%
+\renewcommand\arraystretch{0.8} % 设置表格高度为原来的0.8倍
+\begin{table}[!htbp] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{1cm}<{\centering}p{1cm}<{\centering}p{3cm}<{\centering}p{5cm}<{\centering}} % 设置表格宽度
+    %\begin{tabular}{cccc}
+        \toprule
+        $x_i$ & $f[x_1]$ & $f[x_i, x_{i+1}]$ & $f[x_i, x_{i+1}, x_{i+2}]$ \\
+        \midrule
+        $x_0$ & $f(x_0)$ &                  &                          \\
+        $x_0$ & $f(x_0)$ & $f'(x_0)$        &                          \\
+        $x_0$ & $f(x_1)$ & $\frac{f(x_1)-f(x_0)}{x_1-x_0}$ & $\frac{f(x_1)-f(x_0)}{(x_1-x_0)^2}-\frac{f'(x_0)}{x_1-x_0}$\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%%%% 文字环绕图片, 标题加注释 %%%%
+{ % 一般将文字环绕部分的图和文字, 用大括号括起来, 避免对文字外的格式发生影响
+\begin{wrapfigure}[13]{r}{.5\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+    \centering
+    \includegraphics[scale=0.7]{neural_network.eps} % scale=0.7按比例缩放70%
+    \caption{神经网络结构\protect\footnotemark[1]} % 记得加\protect, 设置1号脚标
+    \label{figure-神经网络结构}
+\end{wrapfigure}
+\footnotetext[1]{图片来源: \url{https://en.wikipedia.org/wiki/File:Colored_neural_network.svg}}
+文字文字
+}
+
+%%%% 普通图片, 标题加注释 %%%%
+\begin{figure}[htbp] % h: 当前位置, t: 顶部, b: 底部, p: 浮动页, 这样组合指的是使用这个顺序进行排版
+    \centering
+    \includegraphics[scale=0.5]{前馈神经网络.eps}
+    \caption{前馈神经网络\protect\footnotemark[1]}
+    \label{figue-前馈神经网络}
+\end{figure}
+\footnotetext[1]{图片来源: 邱锡鹏, 神经网络与深度学习 \cite{ref-qxp}, 第92页}
+
+%%%% 多组图 %%%%
+    \begin{figure}[htbp]
+        \centering
+        \subfigure[迭代1次]  % 子图的标题
+        {
+            % 如果一行放三个图改成0.3\linewidth即可
+            \begin{minipage}[b]{.45\linewidth}  % 0.45排版行距, 即一行放2个图, 一行放不下就换行
+                \centering
+                \includegraphics[scale=0.35]{1.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代100次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{100.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代500次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{500.eps}
+            \end{minipage}
+        }
+        \subfigure[迭代2000次]
+        {
+            \begin{minipage}[b]{.45\linewidth}
+                \centering
+                \includegraphics[scale=0.35]{2000.eps}
+            \end{minipage}
+        }
+        \caption{迭代过程图}
+        \label{figure-迭代过程图}
+    \end{figure}
+\fi

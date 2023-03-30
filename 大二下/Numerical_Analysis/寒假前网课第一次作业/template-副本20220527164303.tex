@@ -1,0 +1,34 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{数值分析}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+1. $e = 2.718281828\cdots$，则近似值：$x_1=2.71828325$有$6$位有效数字，$x_2=2.71828225$有$7$位有效数字；
+
+2. 在浮点数系中求解方程$x^2-16x+1=0$，应如何计算，才能获得较准确的根$x_1,x_2$？请写出计算式：较大的正根$x_1=8+3\sqrt{7}$，较小的正根$x_2 = \frac{1}{8+3\sqrt{7}}$；
+
+3. $e = 2.718281828\cdots,e^{10} = 22026.46579\cdots$，它们在浮点数系$F(10,8,-8,8)$中浮点化数$fl(e)=0.27182818\times 10^1,fl(e^{10})=0.22026466\times10^5$，在浮点数系$F(10,8,-8,8)$中计算$fl(e)+fl(e^{10})=0.22029184\times10^5$；
+
+4. 在浮点数系$F(2,8,-7,8)$中，共有$4097$个数（包括0），实数$3.625$和$59.6$在系数中的浮点化数$fl(3.625) = 0.11101000\times2^2,fl(59.6)=0.11101110\times2^{6}$，在浮点数系$F(2,8,-7,8)$中计算$fl(3.625)+fl(59.6)=0.11111101\times2^6$。
+
+\end{document}

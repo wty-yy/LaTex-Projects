@@ -1,0 +1,183 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{离散数学}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题六}
+\paragraph{14.}\begin{solution}
+
+    (1).不是，因为$(-1,-2),(2,1)\in R$，但$(-1+2,1-2)=(1,-1)\notin R$，则$R$不是同余关系。
+
+    (2).不是，因为$(-5,4)\in R$，但$(-5-5,4+4)=(-10,8)\notin R$，则$R$不是同余关系。
+
+    (3).不是，因为$(1,1),(-1,1)\in R$，但$(1-1,1+1)=(0,2)\notin R$，则$R$不是同余关系。
+
+    (4).不是，因为$(2,1)\in R$，但$(1,2)\notin R$，则$R$不是对称的，所以$R$不是等价关系，更不是同余关系。
+\end{solution}
+\paragraph{17.}\begin{solution}
+    构造$X\rightarrow Y$上的映射$\sigma$如下：
+    \begin{equation*}
+        \begin{aligned}
+            \sigma:\mathbb N&\rightarrow \{0,1\}\\
+            n&\mapsto \begin{cases}
+                0,&n\text{为偶数};\\
+                1,&n\text{为奇数}.
+            \end{cases}
+        \end{aligned}
+    \end{equation*}
+    下面证明$\sigma$是$X\rightarrow Y$上的满同态。
+
+    设$n_1,n_2,m_1,m_2\in \mathbb N$，其中$n_1,n_2$为偶数，$m_1,m_2$为奇数，所以
+    \begin{equation*}
+        \begin{aligned}
+            &\sigma(n_1)\sigma(n_2) = 0\times 0 = 0 = \sigma(n_1n_2)\\
+            &\sigma(n_1)\sigma(m_1) = 0\times 1 = 0 = \sigma(n_1m_1)\\
+            &\sigma(m_1)\sigma(m_2) = 1\times 1 = 1 = \sigma(m_1m_2)
+        \end{aligned}
+    \end{equation*}
+    故$\sigma$保运算，又由于$\sigma(0) = 0,\sigma(1) = 1$，所以$\sigma$是满同态。
+    
+    综上，$Y$是$X$的同态像。
+\end{solution}
+
+\newpage
+\paragraph{19.}\begin{proof}
+    
+    由于$f_1,f_2$是$\braket{X,*}\rightarrow\braket{Y,\oplus}$的同态函数，且$*$和$\oplus$满足交换律和结合律，则
+    \begin{equation*}
+        \begin{aligned}
+            h(x_1)\oplus h(x_2)=&f_1(x_1)\oplus f_2(x_1)\oplus f_1(x_2)\oplus f_2(x_2)\\
+            \xlongequal{\text{交换律}}& f_1(x_1)\oplus f_1(x_2)\oplus f_2(x_1)\oplus f_2(x_2)\\
+            \xlongequal{\text{结合律}}& (f_1(x_1)\oplus f_1(x_2))\oplus (f_2(x_1)\oplus f_2(x_2))\\
+            \xlongequal{\text{保运算}}& f_1(x_1x_2)\oplus f_2(x_1x_2)\\
+            =&h(x_1x_2)
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{补充题：}
+
+\begin{solution}
+    
+    由二元运算表知，$\braket{2^A,\cap,\cup},\braket{B,\wedge,\vee}$都是$\text{交换群}$，则
+    \begin{equation*}
+        \begin{aligned}
+            &h(\varnothing)\wedge h(\varnothing)=1\wedge 1=1=h(\varnothing)=h(\varnothing\cup \varnothing)\\
+            &h(\varnothing)\vee h(\varnothing) = 1\vee 1 = 1 =h(\varnothing)= h(\varnothing\cap \varnothing)\\
+            &h(\varnothing)\wedge h(A) = 1\wedge 0 = 0 = h(A) = h(\varnothing\cup A)\\
+            &h(\varnothing)\vee h(A) = 1\vee 0 = 1 = h(\varnothing) = h(\varnothing \cap A)\\
+            &h(A)\wedge h(A) = 0\wedge 0 = 0 = h(A)=h(A\cup A)\\
+            &h(A)\vee h(A) = 0\vee 0 = 0 = h(A)=h(A\cap A)
+        \end{aligned}
+    \end{equation*}
+
+    综上，$h$是$\braket{2^A,\cap,\cup}\rightarrow \braket{B,\wedge,\vee}$上的同态函数，并且将运算$\cap$映射为$\vee$，$\cup$映射为$\wedge$。
+\end{solution}
+\paragraph{23.}\begin{proof}
+    设$x,y,z\in S$，则
+    \begin{equation*}
+        \begin{aligned}
+            (x\oplus y)\oplus z=&(x*a*y)\oplus z\\
+            =&(x*a*y)*a*z\\
+            \xlongequal{*\text{ 运算具有结合律}}&x*a*(y*a*z)\\
+            =&x\oplus(y*a*z)\\
+            =&x\oplus(y\oplus z)
+        \end{aligned}
+    \end{equation*}
+
+    故$\oplus$运算满足结合律，所以$\braket{S,\oplus}$是半群。
+\end{proof}
+\paragraph{27.}\begin{proof}
+    (1). 反设$x*x=y$且$y\neq x$，则$x*y\neq y*x$，但
+    \begin{equation*}
+        y*x=(x*x)*x=x*(x*x)=x*y
+    \end{equation*}
+
+    与$x*y\neq y*x$矛盾，所以$x*x=x$。
+
+    (2). 反设$x*y*x=z$且$z\neq x$，则$x*z\neq z*x$，但
+    \begin{equation*}
+        x*z=x*(x*y*x)=x*y*x=(x*y*x)*x=z*x
+    \end{equation*}
+
+    与$x*z\neq z*x$矛盾，所以$x*y*x=x$。
+
+    (3). 反设$x*y*z=a$且$a\neq x*z$，则$x*z*a\neq a*x*z$，但
+    \begin{equation*}
+        \begin{aligned}
+            x*z*a=&x*z*(x*y*z)\\
+            =&(x*z*x)*y*z=x*y*z=x*y*(z*x*z)\\
+            =&(x*y*z)*x*z=a*x*z
+        \end{aligned}
+    \end{equation*}
+
+    与$x*z*a\neq a*x*z$矛盾，所以$x*y*z=x*z$。
+\end{proof}
+\paragraph{29.}\begin{proof}
+    (1). 反设$x*y\neq y*x$，不妨令$x*y=x,y*x=y$，则
+    \begin{equation*}
+        y=x*x=(x*y)*x=x*(y*x)=x*y=x
+    \end{equation*}
+    
+    与$x\neq y$矛盾，另一种情况$x*y=y,y*x=x$，则
+    \begin{equation*}
+        y=x*x=x*(y*x)=(x*y)*x=y*x=x
+    \end{equation*}
+
+    也与$x\neq y$矛盾。
+
+    综上$x*y=y*x$。
+
+    (2). 反设$y*y=x$，不妨令$x*y=y*x=x$，则
+    \begin{equation*}
+        \begin{aligned}
+            &y*y=x\\
+            \Rightarrow&x*y*y*x=x*x*x\\
+            \Rightarrow&(x*y)*(y*x)=(x*x)*x\\
+            \Rightarrow&x*x=y*x\\
+            \Rightarrow&y=x
+        \end{aligned}
+    \end{equation*}
+    
+    与$x\neq y$矛盾，若$x*y=y*x=y$同理可得出$x=y$矛盾。
+
+    综上$y*y=y$。
+\end{proof}
+\paragraph{30.}\begin{proof}
+    
+    令$x=a$，则$\exists u_0,v_0\in S$，使得$a*u_0=v_0*a=a$。
+
+    当$x\neq a$，则$\exists u_1,v_1\in S$，使得$a*u_1=v_1*a=x$，又有
+    \begin{equation*}
+        \begin{aligned}
+            &x*u_0=(v_1*a)*u_0=v_1*(a*u_0)=v_1*a=x\\
+            &v_0*x=v_0*(a*u_1)=(v_0*a)*u_1=a*u_1=x
+        \end{aligned}
+    \end{equation*}
+    故，对于$\forall x\in S$，都有$x=x*u_0=v_0*x$，分别令$x=u_0,x=v_0$，得
+    \begin{equation*}
+        u_0=v_0*u_0=v_0
+    \end{equation*}
+    令$e=u_0$，则$\forall x\in S$，有$x*e=e*x=x$，所以$\braket{S,*}$是含幺半群。
+\end{proof}
+
+\end{document}

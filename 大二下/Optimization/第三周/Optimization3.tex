@@ -1,0 +1,195 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{最优化方法}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+\paragraph{4.} (1) 证明有限个凸集的交集仍然是凸集。
+
+(2) 设$D_1=\{x:x_1+x_2\leqslant 1, x_1\geqslant 0\}, D_2=\{x:x_1-x_2\geqslant 0, x_1\leqslant 0\}$。
+令$D=D_1\cup D_2$。证明$D_1,D_2$均为凸集，但$D$却不是凸的，由此得出凸集的并集未必是凸集。
+\begin{proof}
+    (1) 设$n\in \mathbb{N}$，集合类$\{D_1,D_2,\cdots, D_n\}$，其中$D_i\ (1\leqslant i\leqslant n)$均为凸集，下面利用数学归纳法证明命题：$\bigcap\limits_{i=1}^nD_i$为凸集。
+
+    当$n=1$时，命题显然成立。
+
+    假设命题在$n$时成立，下面讨论$n+1$的情况。
+    
+    $\forall x, y\in\bigcap\limits_{i=1}^{n+1}D_i, \lambda \in [0,1]$，由归纳假设知，$\bigcap\limits_{i=1}^nD_i$为凸集，则
+    \begin{equation*}
+        \begin{aligned}
+            &\ \lambda x+(1-\lambda)y\in\bigcap_{i=1}^n D_i\ \text{且}\ \lambda x+(1-\lambda)y\in D_{n+1}\\
+            \Rightarrow &\ \lambda x+(1-\lambda)y\in\bigcap_{i=1}^{n+1} D_i\\
+            \Rightarrow &\ \bigcap_{i=1}^{n+1}D_i\ \text{为凸集}
+        \end{aligned}
+    \end{equation*}
+
+    由数学归纳法知，对$n \in \mathbb{N}$该命题成立。
+
+    (2) $\forall x, y\in D_1, \lambda\in[0, 1]$，记$x=(x_1,x_2), y=(y_1,y_2)$，则
+    \begin{equation*}
+        \begin{cases}
+            x_1+x_2\leqslant 1,\ x_1\geqslant 0\\
+            y_1+y_2\leqslant 1,\ y_1\geqslant 0\\
+        \end{cases}
+        \text{且}\ \lambda x + (1-\lambda) y = (\lambda x_1+(1-\lambda)y_1, \lambda x_2+(1-\lambda) y_2)
+    \end{equation*}
+
+    所以
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{cases}
+                \lambda x_1+(1-\lambda)y_1+ \lambda x_2+(1-\lambda) y_2=\lambda(x_1+x_2)+(1-\lambda)(y_1+y_2)\leqslant \lambda+(1-\lambda) = 1\\
+                \lambda x_1+(1-\lambda) y_1\geqslant 0
+            \end{cases}\\
+            \Rightarrow &\ \lambda x+(1-\lambda)y\in D_1\\
+            \Rightarrow &\ D_1\ \text{为凸集}
+        \end{aligned}
+    \end{equation*}
+
+    $\forall x, y\in D_2, \lambda\in[0, 1]$，记$x=(x_1,x_2), y=(y_1,y_2)$，则
+    \begin{equation*}
+        \begin{cases}
+            x_1-x_2\geqslant 1,\ x_1\leqslant 0\\
+            y_1-y_2\geqslant 1,\ y_1\leqslant 0\\
+        \end{cases}
+        \text{且}\ \lambda x + (1-\lambda) y = (\lambda x_1+(1-\lambda)y_1, \lambda x_2+(1-\lambda) y_2)
+    \end{equation*}
+
+    所以
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{cases}
+                \lambda x_1+(1-\lambda)y_1- (\lambda x_2+(1-\lambda) y_2)=\lambda(x_1-x_2)+(1-\lambda)(y_1-y_2)\geqslant 0\\
+                \lambda x_1+(1-\lambda) y_1\leqslant 0
+            \end{cases}\\
+            \Rightarrow &\ \lambda x+(1-\lambda)y\in D_2\\
+            \Rightarrow &\ D_2\ \text{为凸集}
+        \end{aligned}
+    \end{equation*}
+
+    取$x=(0, -1)\in D_1, y=(-1,-1)\in D_2, \lambda = \dfrac{1}{2}$，则
+    \begin{equation*}
+        \begin{aligned}
+            &\ z = \lambda x + (1-\lambda)y = (-\frac{1}{2}, -1)\\
+            \Rightarrow &\ z\notin D_1\ \text{且}\ z\notin D_2\\
+            \Rightarrow &\ z\notin D\\
+            \Rightarrow &\ D\ \text{不是凸集}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{6.}设$f(x)$为定义在凸集$D\subset \mathbb{R}^n$上的凸函数，$\alpha$为一个给定的实数，称集合
+\begin{equation*}
+    \mathcal{T} =\{x:f(x)\leqslant \alpha\}
+\end{equation*}
+为函数$f(x)$关于实数$\alpha$的水平集，证明对任意实数$\alpha$，集合$\mathcal{T}$是凸集。
+\begin{proof}
+    $\forall x, y\in \mathcal{T},\lambda\in [0,1]$，由$f$的凸性知，
+    \begin{equation*}
+        \begin{aligned}
+            &\ f(\lambda x+(1-\lambda)y)\leqslant \lambda f(x)+(1-\lambda)f(y)\leqslant \lambda \alpha + (1-\lambda)\alpha= \alpha\\
+            \Rightarrow&\ \lambda x+(1-\lambda)y\in \mathcal{T}\\
+            \Rightarrow&\ \mathcal{T}\ \text{为凸集}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{14.}求出函数
+\begin{equation*}
+    f(x)=2x_1^3-3x_1^2-6x_1x_2(x_1-x_2-1)
+\end{equation*}
+的所有稳定点，其中哪一个点是极小值点？哪一个点是极大值点？有没有既不是极大又不是极小的点？
+\begin{solution}
+    $\nabla f = 6((x_1-x_2)(x_1-x_2-1),x_1(-x_1+2x_2+1))^T$，稳定点为所有$\nabla f=\boldsymbol{0}$的点，即
+    \begin{equation*}
+        \begin{aligned}
+            &\begin{cases}
+                (x_1-x_2)(x_1-x_2-1) = 0\\
+                x_1(-x_1+2x_2+1) = 0
+            \end{cases}\\
+            \Rightarrow&
+            \begin{cases}
+                x_1 = 0\\
+                x_2 = 0
+            \end{cases}\text{或}
+            \begin{cases}
+                x_1 = -1\\
+                x_2 = -1
+            \end{cases}\text{或}
+            \begin{cases}
+                x_1 = 1\\
+                x_2 = 0
+            \end{cases}\text{或}
+            \begin{cases}
+                x_1 = 0\\
+                x_2 = -1
+            \end{cases}
+        \end{aligned}
+    \end{equation*}
+
+    由于
+    \begin{equation*}
+        \begin{aligned}
+            \nabla^2f =&\ \left[\begin{matrix}
+                \frac{\partial^2 f}{\partial x_1^2}&\frac{\partial^2 f}{\partial x_1\partial x_2}\\
+                \frac{\partial^2 f}{\partial x_2\partial x_1}&\frac{\partial^2 f}{\partial x_2^2}
+            \end{matrix}\right] = 6\left[\begin{matrix}
+                2x_1-2x_2-1&-2x_1+2x_2+1\\
+                -2x_1+2x_2+1&2x_1
+            \end{matrix}\right]
+        \end{aligned}
+    \end{equation*}
+
+    令$x^*$为稳定点，当$x^*= (0, 0)$时，$\nabla^2f(x^*)=6\left[\begin{matrix}
+        -1&1\\1&0
+    \end{matrix}\right]$为负定矩阵，则$x^*$为极大值点。
+
+    当$x^*= (-1, -1)$时，$\nabla^2f(x^*)=6\left[\begin{matrix}
+        -1&1\\1&-2
+    \end{matrix}\right]$为不定矩阵，则$x^*$既不是极大值又不是极小值。
+
+    当$x^*= (1, 0)$时，$\nabla^2f(x^*)=6\left[\begin{matrix}
+        1&-1\\-1&2
+    \end{matrix}\right]$为正定矩阵，则$x^*$为极小值点。
+
+    当$x^*= (0, -1)$时，$\nabla^2f(x^*)=6\left[\begin{matrix}
+        1&-1\\-1&0
+    \end{matrix}\right]$为不定矩阵，则$x^*$既不是极大值又不是极小值。
+\end{solution}
+\paragraph{15.}确定线性函数$f(x)=2x_1-x_2+3x_3$的所有下降方向。请问这样的下降方向是否同所在点的位置有关？
+\begin{solution}
+    $\forall x_0\in \mathbb{R}^3$，设$s\in\mathbb{R}^3,\alpha > 0$，$s$为$f(x)$在$x_0$处的下降方向，$\alpha$为充分小量，由带$\text{Lagrange}$余项的$\text{Taylor}$展式，知
+    \begin{equation*}
+        \begin{aligned}
+            &\ f(x+\alpha s) = f(x)+\alpha\nabla f(\xi)^Ts\\
+            \Rightarrow&\ \alpha\nabla f(\xi)^Ts = f(x+\alpha s)-f(x) < 0\\
+            \Rightarrow&\ \nabla f(\xi)^Ts < 0
+        \end{aligned}
+    \end{equation*}
+    其中$\xi = x_0+\lambda \alpha s$。当$\alpha\rightarrow 0^+$时，$\xi\rightarrow x_0$，由$\nabla f$的连续性知，$f(\xi)\rightarrow f(x_0)$，则$\nabla f(x_0)^T s < 0$，故
+    \begin{equation*}
+        \mathcal{D}(x_0) = \{s:\nabla f(x_0)^Ts < 0\} = \{s:(2,-1,3)^Ts < 0\}
+    \end{equation*}
+    由$x_0$的任意性知，下降方向与所在点的位置无关。
+\end{solution}
+
+\end{document}

@@ -1,0 +1,143 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, hyperref, mathrsfs,extarrows, braket}
+
+\linespread{1.5}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\newenvironment{problem}{\par\noindent\textbf{题目. }}{\bigskip\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\bigskip\par}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\bigskip\par}
+
+% 基本信息
+\newcommand{\dt}{\today}
+\newcommand{\sj}{近世代数}
+\newcommand{\vt}{吴天阳 2204210460}
+
+\begin{document}
+
+\pagestyle{empty}
+\vspace*{-20ex}
+\centerline{\begin{tabular}{*3{c}}
+    \parbox[t]{0.3\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\dt}\end{center}} 
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\sj}\end{center}}
+    & \parbox[t]{0.3\linewidth}{\begin{center}\textbf{姓名，学号}\\ \large \textcolor{blue}{\vt}\end{center}} \\ \hline
+\end{tabular}}
+\vspace*{4ex}
+
+\paragraph{习题 3.1}
+\paragraph{1.}证明：$\mathbb{Z}[x]$是一个整环，并且$x^2+5$是$\mathbb{Z}[x]$的一个素元。
+\begin{proof}
+    由于$\mathbb{Z}[x]$为$\mathbb{Q}[x]$的一个子环，则$\mathbb{Z}[x]$对$+$和$\cdot$满足封闭性，分配律和交换律，$0$为$\mathbb{Z}[x]$的零元，且$1\in \mathbb{Z}[x]$，则$\mathbb{Z}[x]$有幺元，由于$\mathbb{Q}[x]$没有非零的零因子，所以$\mathbb{Z}[x]$中也没有非零的零因子，综上$\mathbb{Z}[x]$是一个整环。
+
+    由于$x^2+5$中$(1,5)=1$，所以$x^2+5$是本原多项式，又由于方程$x^2+5=0$的根为$x=\pm \sqrt{5}\notin \mathbb{Z}$，所以$x^2+5$是不可约多项式，对于不可约的本原多项式，任意的$f(x),g(x)\in\mathbb{Z}(x)$，有
+    \begin{equation*}
+        (x^2+5)|f(x)\cdot g(x)\Rightarrow (x^2+5)|f(x)\text{或}(x^2+5)|g(x)
+    \end{equation*}
+
+    所以，$x^2+5$是$\mathbb{Z}[x]$的一个素元。
+\end{proof}
+
+\paragraph{8.}证明：$\mathbb{Z}[x]/(x^2+5)\cong\mathbb{Z}[\sqrt{5}i]$。
+
+\begin{proof}
+    证明该命题需要先证明如下的一个\textbf{引理}（整多项式环上首一多项式的带余除法）：
+    \paragraph{引理.}设$f(x),m(x)\in\mathbb{Z}[x]$，其中$m(x)$为首项系数为$1$的多项式且$\text{deg}\,m(x)\geqslant 1$，则存在唯一的一对$h(x),r(x)\in\mathbb{Z}[x]$，使得
+    \begin{equation*}
+        f(x)=h(x)m(x)+r(x)\quad\text{deg}\,r(x) < \text{deg}\,m(x)
+    \end{equation*}
+    下面对$f(x)$的阶用归纳法证明该引理：
+
+    当$\text{deg}\,f(x)=0$时，由于$\text{deg}\,m(x) \geqslant 1$，则存在唯一的$h(x)=0,r(x)=f(x)$，满足命题。
+
+    假设命题在$\text{deg}\,f(x)=n-1$时成立，则当$\text{deg}\,f(x)=n$时，令
+    \begin{equation*}
+        f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0
+    \end{equation*}
+
+    若$\text{deg}\,m(x) > \text{deg}\,f(x)$，则存在唯一的$h(x) = 0,r(x)=f(x)$，满足命题。
+
+    若$\text{deg}\,m(x)\leqslant \text{deg}\,f(x)$，记$\text{deg}\,m(x) = t$，则
+    \begin{equation*}
+        \text{deg}\,(f(x)-a_nx^tm(x))\leqslant n-1
+    \end{equation*}
+    由归纳假设知，存在唯一的一对$h(x),r(x)$，使得
+    \begin{equation*}
+        \begin{aligned}
+            f(x)-a_nx^tm(x)=&\ h(x)m(x)+r(x)&\text{deg}\,r(x) < t\\
+            f(x)=&\ (a_nx^t+h(x))m(x)+r(x)
+        \end{aligned}
+    \end{equation*}
+    满足命题。综上，该引理得证。
+
+    构造$\mathbb{Z}[x]$到$C$上的一个同态$\sigma$：
+
+    \begin{equation*}
+        \begin{aligned}
+            \sigma:\mathbb{Z}[x]&\rightarrow \mathbb{C}\\
+            f(x)=\sum_{k=0}^na_kx^k&\mapsto\sum_{k=0}^na_k(\sqrt{5}i)^k=:f(\sqrt{5}i)
+        \end{aligned}
+    \end{equation*}
+
+    $\sigma$对$+$和$\cdot$保持运算，且$\sigma(1)=1$，所以$\sigma$为一个环同态。
+
+    由于
+    \begin{equation*}
+        \mathbb{Z}[\sqrt{5}i]=\left\{\sum_{k=0}^na_k(\sqrt{5}i)^k:a_k\in\mathbb{Z},n\in\mathbb{N}\right\}
+    \end{equation*}
+    所以$\text{Im }\sigma = \mathbb{Z}[\sqrt{5}i]$，又由于
+    \begin{equation*}
+        \begin{aligned}
+            \text{Ker }\sigma = &\{f(x)\in\mathbb{Z}[x]:f(\sqrt{5}i)=0\}\\
+            =&\{f(x)\in\mathbb{Z}[x]:\sqrt{5}i\text{为}f(x)\text{的一个复根}\}
+        \end{aligned}
+    \end{equation*}
+
+    下证$\text{Ker }\sigma = (x^2+5)$，假设存在$f(x)\in\text{Ker }\sigma$使得$(x^2+5)\nmid f(x)$，有\textbf{引理}知，存在唯一的一对$h(x),r(x)\in\mathbb{Z}[x]$，使得
+    \begin{equation*}
+        f(x) = (x^2+5)h(x)+r(x)\quad \text{deg }r(x) < 2
+    \end{equation*}
+
+    因为$\text{deg }r(x) <2$且$r(x)\neq 0$，令$r(x) = ax + b$，$a,b\in \mathbb{Z}$，由于
+    \begin{equation*}
+        r(x)=f(x)-(x^2+5)h(x)
+    \end{equation*}
+
+    则$r(\sqrt{5}i)=0\Rightarrow a\sqrt{5}i+b=0\Rightarrow i=-\dfrac{b}{a\sqrt{5}}\in\mathbb{R}$与$i=\sqrt{-1}\notin\mathbb{R}$矛盾。
+
+    于是$\forall f(x)\in \text{Ker }\sigma$，都有$(x^2+5)|f(x)$，则$\text{Ker }\sigma\subset (x^2+5)$，又因为$\sqrt{5}i$为$x^2+5=0$的根，所以$x^2+5\in\text{Ker }\sigma\Rightarrow(x^2+5)\subset \text{Ker }\sigma$，故$\text{Ker }\sigma = (x^2+\sqrt{5})$。
+
+    由环同态基本定理，知
+    \begin{equation*}
+        \begin{aligned}
+            &\ \mathbb{Z}[x]/\text{Ker }\sigma\cong \text{Im }\sigma\\
+            \Rightarrow&\ \mathbb{Z}[x]/(x^2+5)\cong\mathbb{Z}[\sqrt{5}i]
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+\paragraph{习题 3.2}
+\paragraph{3.}证明：$\mathbb{Z}[x]$不是主理想整环。
+
+\begin{proof}
+    反设$\mathbb{Z}[x]$为主理想整环，则
+    \begin{equation*}
+        a\text{为不可约元}\iff (a)\text{为极大理想}\iff \mathbb{Z}[x]/(a)\text{为域}
+    \end{equation*}
+    由于$x\in \mathbb{Z}[x]$，且$x$为不可约本原多项式，所以$x$为$\mathbb{Z}[x]$中的不可约元，则$\mathbb{Z}[x]/(x)$为域，但
+    \begin{equation*}
+        Z[x]/(x)=\{f(x)+(x):f(x)\in\mathbb{Z}[x]\}=\{a+(x):a\in\mathbb{Z}\}\cong \mathbb{Z}
+    \end{equation*}
+    则$\mathbb{Z}[x]/(x)$同构于整环$\mathbb{Z}$，与$Z[x]/(x)$为域矛盾，故$\mathbb{Z}[x]$不是主理想整环。
+\end{proof}
+
+\paragraph{7.}设$m$是一个不含平方因子的整数，且$m\neq 0,1$。证明：$\mathbb{Q}[\sqrt{m}]$是一个域，它的元素形如$a+b\sqrt{m},a,b\in\mathbb{Q}$。把$Q[\sqrt{m}]$，称它为$Q$上的一个\textbf{二次数域}。
+\begin{proof}
+    由于$m$不含平方因子，设它的标准分解式为
+    \begin{equation*}
+        m = p_1p_2\cdots p_s
+    \end{equation*}
+    其中$p_i\ (i=1,2,\cdots,s)$均为素数，由$\text{Eisenstein}$判别法知，素数$p_1$使得多项式$x^2-m$在$\mathbb{Q}[x]$中不可约，且$\sqrt{m}$为该多项式的一个根，所以$x^2-m$为$\sqrt{m}$的极小多项式，则$\mathbb{Q}[x]/(x^2-m)\cong \mathbb{Q}[\sqrt{m}]$是一个域，且
+    \begin{equation*}
+        \mathbb{Q}[\sqrt{m}] \cong \mathbb{Q}[x]/(x^2-m)=\{a+bu:a,b\in\mathbb{Q},u=x+(x^2-m)\}\cong\{a+b\sqrt{m}:a,b\in\mathbb{Q}\}
+    \end{equation*}
+\end{proof}
+
+\end{document}
