@@ -3,9 +3,9 @@
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 %%%% 设置中文字体 %%%%
 % fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
-\setCJKmainfont{方正书宋.ttf}[BoldFont = 方正黑体_GBK.ttf, ItalicFont = simkai.ttf, BoldItalicFont = 方正粗楷简体.ttf]
+\setCJKmainfont{方正书宋简体}[BoldFont=方正黑体_GBK, ItalicFont=方正楷体_GBK, BoldItalicFont=方正粗楷简体]
 %%%% 设置英文字体 %%%%
-\setmainfont{Times New Roman}
+\setmainfont{Minion Pro}
 \setsansfont{Calibri}
 \setmonofont{Consolas}
 
@@ -97,9 +97,13 @@
     & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
 \end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业}
+    \zihao{3}\textbf{第二章第一次作业（方正黑体\_GBK）}
 \end{center}\vspace{-0.2cm}
 \begin{problem}
+    正文：方正书宋简体，\textbf{粗体：方正黑体\_GBK}，English: Minion Pro Family, \textbf{BoldFont}.
+    \begin{theorem}
+        楷体：方正楷体\_GBK，\textbf{粗楷体：方正粗楷简体}，English ItalicFont, \textbf{BoldItalicFont}
+    \end{theorem}
 \end{problem}
 % 正文部分
 
