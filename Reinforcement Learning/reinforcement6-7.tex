@@ -1,5 +1,5 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem, subfigure, bbm}
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 %%%% 设置中文字体 %%%%
 % fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
@@ -7,12 +7,29 @@
     BoldFont=方正黑体_GBK,  % 黑体
     ItalicFont=方正楷体_GBK,  % 楷体
     BoldItalicFont=方正粗楷简体,  % 粗楷体
-    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
 ]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
 %%%% 设置英文字体 %%%%
-\setmainfont{Minion Pro}
+\setmainfont{Times New Roman}
 \setsansfont{Calibri}
 \setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
 
 %%%% 设置行间距与页边距 %%%%
 \linespread{1.4}
@@ -63,6 +80,7 @@
 \def\C{\mathbb{C}}          % Complex number
 \def\K{\mathbb{K}}          % Number Field
 \def\P{\mathbb{P}}          % Polynomial
+\def\1{\mathbbm{1}}
 \def\d{\mathrm{d}}          % differential operator
 \def\e{\mathrm{e}}          % Euler's number
 \def\i{\mathrm{i}}          % imaginary number
@@ -84,7 +102,7 @@
 
 %%%% 基本信息 %%%%
 \newcommand{\RQ}{\today} % 日期
-\newcommand{\km}{实变函数} % 科目
+\newcommand{\km}{强化学习} % 科目
 \newcommand{\bj}{强基数学002} % 班级
 \newcommand{\xm}{吴天阳} % 姓名
 \newcommand{\xh}{2204210460} % 学号
@@ -102,14 +120,53 @@
     & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
 \end{tabular}}
 \begin{center}
-    \zihao{3}\textbf{第二章第一次作业（方正黑体\_GBK）}
+    \zihao{3}\textbf{第四次作业\quad 第七章}
 \end{center}\vspace{-0.2cm}
-\begin{problem}
-    正文：方正书宋简体，\textbf{粗体：方正黑体\_GBK}，English: Minion Pro Family, \textbf{BoldFont}.
-    \begin{theorem}
-        楷体：方正楷体\_GBK，\textbf{粗楷体：方正粗楷简体}，English ItalicFont, \textbf{BoldItalicFont}
-    \end{theorem}
+\begin{problem}[练习7.2]在$n$步方法中，价值函数需要每步都更新，所以利用TD误差值和代替下述公式
+    \begin{equation*}
+        V(S_t)\leftarrow V(S_t)+\alpha[G_{t:t+n}-V(S_t)],\quad 0\leq t< T
+    \end{equation*}
+    中的错误项的算法将会与之前不同。这种算法是一个更好的还是更差的算法？请设计一个小实验并编程验证这个问题。
 \end{problem}
-% 正文部分
+\begin{solution}
+    类似MC算法，如果不考虑每步都进行更新，则也可表示为TD误差值和；在$n$步TD方法中，如果不考虑每步都更新，则可写为$n$个TD误差和
+    \begin{align*}
+        G_{t:t+n} - V(S_t) =&\ R_{t+1}+\gamma V(S_{t+1})-V(S_t)\\
+        &\ + \gamma(R_{t+2}+\cdots+\gamma^{n-2}R_{t+n}+\gamma^{n-1}V(S_{t+n})-V(S_{t+1}))\\
+        =&\ \delta_t + \gamma(R_{t+2}+\gamma V(S_{t+2}) - V(S_{t+1}))\\
+        &\ + \gamma^2(R_{t+3}+\cdots\gamma^{n-3}R_{t+n}+\gamma^{n-2}V(S_{t+n})-V(S_{t+2}))\\
+        =&\ \delta_t+\gamma\delta_{t+1}+\cdots+\gamma^{n-2}\delta^{t+n-2}\\
+        &\ +\gamma^{n-1}(R_{t+n}+\gamma V(S_{t+n})-V(S_{t+n-1})) + \gamma^n(V(S_{t+n}) - V(S_{t+n}))\\
+        =&\ \delta_t + \gamma\delta_{t+1}+\cdots\gamma^{n-1}\delta_{t+n-1} = \sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k
+    \end{align*}
+    所以该题的问题就是比较$n$步TD算法的实时更新和非实时更新（每次一幕结束之后，更新状态价值函数）的好坏。
 
+    我使用的例子是书上\textbf{例6.2随机游走}：
+
+    \begin{wrapfigure}[13]{r}{.55\linewidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.5的行宽
+        \vspace*{-2cm}
+        \includegraphics[scale=0.6]{code142/state value function in diff time.png}
+    \end{wrapfigure}
+    \noindent A$\sim$E的真实价值分别为$\tsty\{\frac{1}{6},\frac{2}{6},\frac{3}{6},\frac{4}{6},\frac{5}{6}\}$，使用实时更新$4$步TD算法状态价值函数（Real time n-TD）
+    图像如右图所示。
+
+    我绘制了实时TD算法（Real time）和非实时TD算法（non-Real time）的均方误差和幕数的变换关系图，容易看出，实时TD算法的均方误差一直比非实时TD算法要小，
+    说明实时TD算法更优，因为在实时更新算法中智能体学习过程中，仍在不断更新状态价值函数，从而可以更快地收敛到真实状态价值函数。
+    
+    但二者差别并不是很大，因为策略是固定的，如果在策略迭代中，实时算法收敛速度应该更加迅速。
+    % 这里一定要空一行
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.4]{figures/123页随机游走.png}
+        \caption{随机游走}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.65]{code142/compare (non)real time n-TD.png}
+    \end{figure}
+    \clearpage
+    \textbf{完整代码：}
+    \pythonfile{code142/main.py}
+
+\end{solution}
 \end{document}

@@ -3,9 +3,14 @@
 \usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
 %%%% 设置中文字体 %%%%
 % fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
-\setCJKmainfont{方正书宋.ttf}[BoldFont = 方正黑体_GBK.ttf, ItalicFont = simkai.ttf, BoldItalicFont = 方正粗楷简体.ttf]
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
 %%%% 设置英文字体 %%%%
-\setmainfont{Times New Roman}
+\setmainfont{Minion Pro}
 \setsansfont{Calibri}
 \setmonofont{Consolas}
 
@@ -155,4 +160,110 @@
     \end{equation*}
     由于$(\varphi_U\circ\varphi_{U'}^{-1})$是同胚映射，所以$(f\circ\varphi_{U'}^{-1})^{-1}(W)$为开集，故$f\circ\varphi_{U'}^{-1}$连续.
 \end{proof}
+\begin{problem}[3.5练习1.]
+    仍然考虑$\R^3$上的柱面坐标系，
+    \begin{equation*}
+        x^1 = r\cos\theta,\ x^2 = r\sin\theta,\ x^3 = z
+    \end{equation*}
+    其中，$r > 0,\theta\in(0,2\pi),z\in\R$，计算柱面坐标系的自然标架场（在$R^3$的自然坐标系$\mathcal{A} = \{O = (0,0,0),\bd{e}_1 = (1,0,0),
+    \bd{e}_2 = (0,1,0),\bd{e}_3 = (0,0,1)\}$上表出）
+\end{problem}
+\begin{solution}
+    由于
+    \begin{equation*}
+        T = \left[\frac{\partial x^i}{\partial r}\quad\frac{\partial x^i}{\partial \theta}\quad\frac{\partial x^i}{\partial z}\right]_{i=1}^3 = 
+        \begin{bmatrix}
+            \cos\theta&-r\sin\theta&0\\
+            \sin\theta&r\cos\theta&0\\
+            0&0&1
+        \end{bmatrix}
+    \end{equation*}
+    又由自然标架$(\bd{\sigma}_1,\bd{\sigma}_2,\bd{\sigma}_3)$的定义可得
+    \begin{equation*}
+        \begin{bmatrix}
+            \bd{\sigma}_1\\
+            \bd{\sigma}_2\\
+            \bd{\sigma}_3
+        \end{bmatrix} = T\begin{bmatrix}
+            \bd{e}_1\\
+            \bd{e}_2\\
+            \bd{e}_3
+        \end{bmatrix} = \begin{bmatrix}
+            \cos\theta\bd{e}_1-r\sin\theta\bd{e}_2\\
+            \sin\theta\bd{e}_1+r\cos\theta\bd{e}_2\\
+            \bd{e}_3
+        \end{bmatrix}\Rightarrow\begin{cases}
+            \bd{\sigma}_1 = (\cos\theta,-r\sin\theta,0),\\
+            \bd{\sigma}_2 = (\sin\theta,r\cos\theta,0),\\
+            \bd{\sigma}_3 = (0,0,1)
+        \end{cases}
+    \end{equation*}
+\end{solution}
+\begin{problem}
+    考虑$\R^3$上的球坐标系：
+    \begin{equation*}
+        x^1 = r\cos\theta\sin\phi,\ x^2 = r\sin\theta\sin\phi,\ x^3 = r\cos\theta
+    \end{equation*}
+    计算该坐标系的自然标架（在$\R^3$的自然坐标系$\mathcal{A} = \{O = (0,0,0),\bd{e}_1 = (1,0,0),
+    \bd{e}_2 = (0,1,0),\bd{e}_3 = (0,0,1)\}$上表出）
+\end{problem}
+\begin{solution}
+    由于
+    \begin{equation*}
+        T = \left[\frac{\partial x^i}{\partial r}\quad\frac{\partial x^i}{\partial \theta}\quad\frac{\partial x^i}{\partial z}\right]_{i=1}^3 = 
+        \begin{bmatrix}
+            -r\sin\theta\sin\phi&r\cos\theta\cos\phi&\cos\theta\sin\phi\\
+            r\cos\theta\sin\phi&r\sin\theta\cos\phi&\sin\theta\sin\phi\\
+            -r\sin\theta&0&\cos\theta
+        \end{bmatrix}
+    \end{equation*}
+    又由自然标架$(\bd{\sigma}_1,\bd{\sigma}_2,\bd{\sigma}_3)$的定义可得
+    \begin{equation*}
+        \hspace{-1.8cm}
+        \begin{bmatrix}
+            \bd{\sigma}_1\\
+            \bd{\sigma}_2\\
+            \bd{\sigma}_3
+        \end{bmatrix} = T\begin{bmatrix}
+            \bd{e}_1\\
+            \bd{e}_2\\
+            \bd{e}_3
+        \end{bmatrix} = 
+        \begin{bmatrix}
+            -r\sin\theta\sin\phi\bd{e}_1+r\cos\theta\cos\phi\bd{e}_2+\cos\theta\sin\phi\bd{e}_3\\
+            r\cos\theta\sin\phi\bd{e}_1+r\sin\theta\cos\phi\bd{e}_2+\sin\theta\sin\phi\bd{e}_3\\
+            -r\sin\theta\bd{e}_1+\cos\theta\bd{e}_3
+        \end{bmatrix}
+        \Rightarrow\begin{cases}
+            \bd{\sigma}_1 = (-r\sin\theta\sin\phi,r\cos\theta\cos\phi,\cos\theta\sin\phi),\\
+            \bd{\sigma}_2 = (r\cos\theta\sin\phi,r\sin\theta\cos\phi,\sin\theta\sin\phi),\\
+            \bd{\sigma}_3 = (-r\sin\theta,0,\cos\theta)
+        \end{cases}
+    \end{equation*}
+\end{solution}
+\begin{problem}[3.6练习1.]
+    证明引理3.7
+\end{problem}
+\begin{solution} 设$V$是$A\in\mathscr{A}$的一个邻域，$\A = \{O,\bd{e}_i\}$是一个仿射坐标系，$A = v^i\bd{e}_i$，于是\\
+    (1). 局部性，若在邻域$V$上有$f_{\A} = g_{\A}$，于是$\nabla f_{\A} = \nabla g_{\A}$，所以
+    \begin{equation*}
+        \partial_{\bd{v}}f(A) = \frac{\partial f_{\A}}{\partial x^i}\bigg|_{\varphi_\A}v^i = \nabla f_{\A}\cdot \bd{v} =  \nabla g_{\A}\cdot \bd{v} = \frac{\partial g_{\A}}{\partial x^i}\bigg|_{\varphi_\A}v^i = \partial_{\bd{v}}g(A)
+    \end{equation*}
+    (2). 线性性，由$f_{\A}$和$g_{\A}$的线性性可知
+    \begin{align*}
+        \partial_{\bd{v}}(\alpha f+\beta g)(A) =&\ \frac{\partial(\alpha f + \beta g)_\A}{\partial x^i}\bigg|_{\varphi_\A}v^i = \frac{\alpha\partial f_\A + \beta \partial g_\A}{\partial x^i}\bigg|_{\varphi_\A}v^i\\
+        =&\ \alpha\frac{f_\A}{\partial x^i}\bigg|_{\varphi_\A}v^i + \beta\frac{g_\A}{\partial x^i}\bigg|_{\varphi_\A}v^i = \alpha\partial_{\bd{v}}f(A)+\beta\partial_{\bd{v}}g(A)
+    \end{align*}
+    (3). Leibniz公式，由$\partial(fg)_{\A} = f_{\A}\partial g_{\A} + g_{\A}\partial f_{\A}$可知
+    \begin{equation*}
+        \partial_{\bd{v}}(fg)(A) = \frac{\partial_{\bd{v}}(fg)_\A}{\partial x^i}\bigg|_{\varphi_{\A}}v^i = \frac{f_{\A}\partial g_{\A} + g_{\A}\partial f_{\A}}{\partial x^i}\bigg|_{\varphi_\A}v^i = f(A)\partial_{\bd{v}}g(A)+g(A)\partial_{\bd{v}}f(A)
+    \end{equation*}
+\end{solution}
+\begin{problem}[3.7练习2.]
+    设$D$是$A\in\mathscr{A}^n$上的导算子，$f$为定义在$A$的一个邻域上的可微函数，并且在$A$的某个邻域$U$上为常数。求证$Df = 0$。
+\end{problem}
+\begin{solution}
+    由导算子的Leibniz公式$D(fg) = f(A)Dg+g(A)Df$可知，只需令$f = g = 1$，于是$D1 = D1 + D1\Rightarrow D1 = 0$，又由于导算子具有线性性，所以$DC = 0$，
+    由于$f$在$U$的邻域上是常数，不妨令$f = C$，于是$Df = DC = 0$.
+\end{solution}
 \end{document}
