@@ -1,0 +1,268 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Minion Pro}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\A{\mathcal{A}}         % 仿射坐标系
+\def\sA{\mathscr{A}}        % 点空间
+\def\F{\mathcal{F}}         % 光滑函数空间
+\def\sF{\mathscr{F}}        % 光滑函数商空间
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{微分几何} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第五次作业}
+\end{center}\vspace{-0.2cm}
+\begin{problem}[3.7练习1.]证明命题3.6的逆命题也成立，即如果一条仿射空间中的曲线在其每个点附近都可以被某个广义坐标系的映射映射为$\R^3$中的
+    连续/可微/光滑/正则曲线段，那么该曲线本身也是连续/可微/光滑/正则。
+\end{problem}
+\begin{proof}
+    设$\gamma:(-\varepsilon, \varepsilon)\to \sA^3$为$\sA^3$中的曲线，$A = \gamma(t_0),\ t_0\in (-\varepsilon, \varepsilon)$，
+    $U$为$A$在$\sA^3$中的邻域，存在广义坐标系$\{U, \varphi_U\}$，坐标映射为$\varphi_U:\sA^3\to\{y^i\}$，则存在$\varepsilon'$使得
+    \begin{equation*}
+        (t_0-\varepsilon',t_0+\varepsilon')\xrightarrow{\gamma}U\xrightarrow{\varphi_U}\varphi_U(U)\subset\R^3
+    \end{equation*}
+    连续/可微/光滑，且$\varphi_U\circ\gamma$是$\R^3$上的正则曲线。
+
+    设$\A = \{O, \bd{e}_i\}$为仿射坐标系，坐标映射为$\varphi_{\A}$，则
+    \begin{equation*}
+        \varphi_{\A}\circ\gamma = (\varphi_{\A}\circ\varphi_{U}^{-1})\circ(\varphi_U\circ\gamma)
+    \end{equation*}
+    由于$\varphi_{\A}\circ\varphi_{U}^{-1}$是光滑映射，且$\varphi_U\circ\gamma$连续/可微/光滑，于是$\varphi_{\A}\circ\gamma$
+    是连续/可微/光滑映射，所以$\gamma$在$\sA^3$上连续。
+
+    由于
+    \begin{equation*}
+        \frac{\d(\varphi_{\A}\circ\gamma)}{\d t}(t) = \frac{\partial x^j}{\partial y^i}\bigg|_{\varphi_U(\gamma(t))}\frac{\d (\varphi_U\circ\gamma)}{\d t}(t),\quad
+        t\in(t_0-\varepsilon', t_0+\varepsilon')
+    \end{equation*}
+    其中矩阵$\frac{\partial x^j}{\partial y^i}\bigg|_{\varphi_U(\gamma(t))}$非退化，且$\frac{\d (\varphi_U\circ\gamma)}{\d t}(t)\neq 0$，于是
+    $\frac{\d(\varphi_{\A}\circ\gamma)}{\d t}(t)\neq 0$，故$\gamma$为正则曲线。
+\end{proof}
+\begin{problem}[3.8练习1.]
+    证明\textbf{定义3.14}中引入的关系$\sim$是$\F_A$上的一个等价关系，并证明\textbf{定义3.15}在$\F_A/\sim$上定义的线性运算的合理性。
+\end{problem}
+\begin{proof}
+    设$A$为$\sA^n$中的点，记$\F_A$为定义在$A$附近的光滑函数全体，$\forall f,g,h\in\F_A$，设$D$为定义在$A$的导算子$D$，定义关系如下
+    \begin{equation*}
+        f\sim g\iff Df = Dg,\quad(\forall D\in \F_A)
+    \end{equation*}
+    下证其是一个等价关系：
+
+    1. 自反性：由于$Df = Df$，则$f\sim f$。
+
+    2. 对称性：由于$Df = Dg = Df$，则$f\sim g\iff g\sim f$。
+
+    3. 传递性：由于$Df = Dg = Dh$，则$f\sim g,g\sim h\iff f\sim h$。
+
+    综上，$f\sim g$是一个等价关系。
+
+    记$\sF_A = \F_A/\sim$为$A$点的余向量空间，函数$f$所在的等价类记为$\bar{f}$，定义如下线性运算
+    \begin{equation}
+        \alpha\bar{f}+\beta\bar{g} = \ol{\alpha f+\beta g},\quad(\forall \alpha,\beta\in\R)
+    \end{equation}
+    下证明上式与代表元选取无关：设$\bar{f}_1 = \bar{f}_2,f_1\neq f_2$，$\bar{g}_1 = \bar{g}_2,g_1\neq g_2$，则
+    \begin{equation*}
+        D(\alpha f_1 + \beta g_1) = \alpha Df_1 + \beta Dg_1 = \alpha Df_2 + \beta Dg_2 = D(\alpha f_2 + \beta g_2)
+    \end{equation*}
+    于是$\ol{\alpha f_1 + \beta g_1} = \ol{\alpha f_2 + \beta g_2}$，故(1)式结果与代表元选取无关。
+\end{proof}
+\begin{problem}[3.8练习2.]
+    证明$\ol{fg} = g(A)\bar{f} + f(A)\bar{g}$.
+\end{problem}
+\begin{proof}
+    由于$D(fg) = f(A)Dg + Df\cdot g(A) = D(f(A)g + g(A)f)$，于是$\ol{fg} = \ol{f(A)g+g(A)f} = f(A)\bar{g} + g(A)\bar{f}$.
+\end{proof}
+\begin{problem}[3.8练习3.]
+    考虑$\R^3\backslash r = 0$或$x^1 = x^2 = 0$上的标准柱面坐标系：
+    \begin{equation*}
+        x^1 = r\cos\theta,\ x^2 = r\sin\theta,\ x^3 = z
+    \end{equation*}
+    在每个点写出自然余标架场，表出在$(\d x^1, \d x^2,\d x^3)$这组基下。
+\end{problem}
+\begin{solution}
+    由于
+    \begin{equation*}
+        \begin{bmatrix}
+            \partial r\\
+            \partial \theta\\
+            \partial z
+        \end{bmatrix} = \begin{bmatrix}
+            \tsty\frac{\partial x^1}{\partial r}&\tsty\frac{\partial x^2}{\partial r}&\tsty\frac{\partial x^3}{\partial r}\\
+            \tsty\frac{\partial x^1}{\partial \theta}&\tsty\frac{\partial x^2}{\partial \theta}&\tsty\frac{\partial x^3}{\partial \theta}\\
+            \tsty\frac{\partial x^1}{\partial z}&\tsty\frac{\partial x^2}{\partial z}&\tsty\frac{\partial x^3}{\partial z}
+        \end{bmatrix}\begin{bmatrix}
+            \partial_1\\
+            \partial_2\\
+            \partial_3
+        \end{bmatrix} = \begin{bmatrix}
+            \cos\theta\partial_1+\sin\theta\partial_2\\
+            -r\sin\theta\partial_1+r\cos\theta\partial_2\\
+            \partial_3
+        \end{bmatrix}
+    \end{equation*}
+    由于$r,\theta,z$可以视为$\sA^3$中的光滑函数，所以$\d r,\d \theta,\d z$是余向量空间中的元素，
+    可以在$\d x^1,\d x^2,\d x^3$中线性表出，令$\d r = a\d x^1+b\d x^2 + c\d x^3$，由对偶基的性质可知
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 1,\\
+            \langle\partial \theta,\d r\rangle = 0,\\
+            \langle\partial z,\d r\rangle = 0.
+        \end{cases}\Rightarrow\begin{cases}
+            \cos\theta a + \sin\theta b = 1,\\
+            -r\sin\theta a + r\cos\theta b = 0,\\
+            c = 0.
+        \end{cases}\Rightarrow\begin{cases}
+            a = \cos\theta,\\
+            b = \sin\theta,\\
+            c = 0.
+        \end{cases}\Rightarrow \d r = \cos\theta\d x^1 + \sin\theta\d x^2.
+    \end{equation*}
+
+    类似地，可以令$\d \theta = a\d x^1+b\d x^2 + c\d x^3$，由对偶基的性质可知
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 0,\\
+            \langle\partial \theta,\d r\rangle = 1,\\
+            \langle\partial z,\d r\rangle = 0.
+        \end{cases}\Rightarrow\begin{cases}
+            \cos\theta a + \sin\theta b = 0,\\
+            -r\sin\theta a + r\cos\theta b = 1,\\
+            c = 0.
+        \end{cases}\Rightarrow\begin{cases}
+            a = -\sin\theta/r,\\
+            b = \cos\theta/,\\
+            c = 0.
+        \end{cases}\Rightarrow \d \theta = \frac{1}{r}(-sin\theta\d x^1 + \cos\theta\d x^2).
+    \end{equation*}
+    令$\d z = a\d x^1+b\d x^2 + c\d x^3$，由对偶基的性质可知
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 0,\\
+            \langle\partial \theta,\d r\rangle = 0,\\
+            \langle\partial z,\d r\rangle = 1.
+        \end{cases}\Rightarrow\begin{cases}
+            \cos\theta a + \sin\theta b = 0,\\
+            -r\sin\theta a + r\cos\theta b = 0,\\
+            c = 1.
+        \end{cases}\Rightarrow\begin{cases}
+            a = 0,\\
+            b = 0,\\
+            c = 1.
+        \end{cases}\Rightarrow \d z = \d x^3.
+    \end{equation*}
+\end{solution}
+\begin{problem}[3.9练习1.]
+    严格证明\textbf{引理3.11}：设$V$为$n$维实线性空间，则$\dim \text{Sym}_2(V^*) = \frac{n(n+1)}{2}$，如果$\{e_i\}$为$V$的一组基，
+    那么
+    \begin{equation*}
+        e^{*i}e^{*j} = \frac{1}{2}(e^{*i}\otimes e^{*j}+e^{*j}\otimes e^{*i}),\quad i\leq j
+    \end{equation*}
+    为$\text{Sym}_2(V^*)$的一组基。
+\end{problem}
+\begin{problem}[3.9练习3.]
+    求$\R^3\backslash\{0\}$上的球坐标系
+    \begin{equation*}
+        x^1 = r\sin\theta\cos\varphi,\ x^2 = r\sin\theta\sin\varphi,\ x^3 = r\cos\theta
+    \end{equation*}
+    在每个点写出自然余标架场，在$(\d x^1,\d x^2,\d x^3)$下表出。
+\end{problem}
+\begin{problem}[3.9练习4.]
+    将$\R^3$上的欧几里德度量表出在球坐标系的自然余标架场下。
+\end{problem}
+\end{document}
