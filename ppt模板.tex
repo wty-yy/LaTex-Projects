@@ -4,7 +4,12 @@
 
 %%%% 设置中文字体 %%%%
 % fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
-\setCJKmainfont{方正书宋简体}[BoldFont=方正黑体_GBK, ItalicFont=方正楷体_GBK, BoldItalicFont=方正粗楷简体]
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
 %%%% 设置英文字体 %%%%
 \setmainfont{Minion Pro}
 \setsansfont{Calibri}

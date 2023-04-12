@@ -255,6 +255,25 @@
     \end{equation*}
     为$\text{Sym}_2(V^*)$的一组基。
 \end{problem}
+\begin{proof}
+    设$V$为有限维实线性空间，$\{e_1,\cdots e_n\}$为$V$的一组基，$\forall g\in\text{Sym}_2(V^*)$，
+    则
+    \begin{equation*}
+        g = \sum_{i\leq j}g_{ij}e^{*i}e^{*j},\quad\text{其中}g_{ij} = g(e_i,e_j)
+    \end{equation*}
+    所以$e^{*i}e^{*j}$能够线性表出$\text{Sym}_2(V^*)$上的元素。令$\lambda_{ij}\in \R,\ (i\leq j)$满足
+    \begin{equation*}
+        \sum_{i\leq j}\lambda_{ij}e^{*i}e^{*j} = 0
+    \end{equation*}
+    代入$(e_i, e_j),\ (i\leq j)$可得
+    \begin{align*}
+        &\ \sum_{i\leq j}\lambda_{ij}e^{*i}e^{*j}(e_i,e_j) = \sum_{i\leq j}\frac{\lambda_{ij}}{2}(e^{*i}\otimes e^{*j}(e_i,e_j)+e^{*j}\otimes e^{*i}(e_i,e_j)) = 0\\
+        \Rightarrow&\ \frac{\lambda_{ij}}{2} = 0\Rightarrow \lambda_{ij} = 0,\quad(i\leq j)
+    \end{align*}
+    所以$e^{*i}e^{*j}$在$V^*\otimes V^*$上线性无关。
+
+    综上，$\{e^{*i}e^{*j}:i\leq j\}$是$\text{Sym}_2(V^*)$的一组基。
+\end{proof}
 \begin{problem}[3.9练习3.]
     求$\R^3\backslash\{0\}$上的球坐标系
     \begin{equation*}
@@ -262,7 +281,95 @@
     \end{equation*}
     在每个点写出自然余标架场，在$(\d x^1,\d x^2,\d x^3)$下表出。
 \end{problem}
+\begin{solution}
+    由于
+    \begin{equation*}
+        \begin{bmatrix}
+            \partial r\\
+            \partial \theta\\
+            \partial \varphi
+        \end{bmatrix} = \begin{bmatrix}
+            \sin\theta\cos\varphi&\sin\theta\sin\varphi&\cos\theta\\
+            r\cos\theta\cos\varphi&r\cos\theta\sin\varphi&-r\sin\theta\\
+            -r\cos\theta\sin\varphi&r\sin\theta\cos\varphi&0
+        \end{bmatrix}\begin{bmatrix}
+            \partial_1\\
+            \partial_2\\
+            \partial_3
+        \end{bmatrix}
+    \end{equation*}
+    由于$r,\theta,\varphi$可以视为$\sA^3$中的光滑函数，所以$\d r,\d \theta,\d z$是余向量空间中的元素，
+    可以在$\d x^1,\d x^2,\d x^3$中线性表出，令$\d r = a\d x^1+b\d x^2+c\d x^3$，由对偶基性质可知
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 1,\\
+            \langle\partial \theta,\d r\rangle = 0,\\
+            \langle\partial \varphi,\d r\rangle = 0.
+        \end{cases}
+        \hspace{-0.35cm}\Rightarrow\begin{cases}
+            \sin\theta\cos\varphi a+\sin\theta\sin\varphi b + \cos\theta c = 1,\\
+            r\cos\theta\cos\varphi a+r\cos\theta\sin\varphi b - r\sin\theta c = 0,\\
+            -r\sin\theta\sin\varphi + r\sin\theta\cos\varphi b = 0.
+        \end{cases}\hspace{-0.35cm}\Rightarrow\begin{cases}
+            a = \sin\theta\cos\varphi,\\
+            b = \sin\theta\sin\varphi,\\
+            c = \cos\theta.
+        \end{cases}
+    \end{equation*}
+    于是$\d r = \sin\theta\cos\varphi \d x^1 + \sin\theta\sin\varphi\d x^2 + \cos\theta\d x^3$；
+    同理，令$\d \theta = a\d x^1 + b\d x^2 + c\d x^3$，则
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 0,\\
+            \langle\partial \theta,\d r\rangle = 1,\\
+            \langle\partial \varphi,\d r\rangle = 0.
+        \end{cases}
+        \hspace{-0.35cm}\Rightarrow\begin{cases}
+            \sin\theta\cos\varphi a+\sin\theta\sin\varphi b + \cos\theta c = 0,\\
+            r\cos\theta\cos\varphi a+r\cos\theta\sin\varphi b - r\sin\theta c = 1,\\
+            -r\sin\theta\sin\varphi + r\sin\theta\cos\varphi b = 0.
+        \end{cases}\hspace{-0.35cm}\Rightarrow\begin{cases}
+            a = \cos\theta\cos\varphi/r,\\
+            b = \cos\theta\sin\varphi/r,\\
+            c = -\sin\theta/r.
+        \end{cases}
+    \end{equation*}
+    于是$\d \theta = \frac{1}{r}(\cos\theta\cos\varphi\d x^1 + \cos\theta\sin\varphi\d x^2 - \sin\theta\d x^3)$；
+    令$\d \varphi = a\d x^1 + b\d x^2 + c\d x^3$，则
+    \begin{equation*}
+        \begin{cases}
+            \langle\partial r,\d r\rangle = 0,\\
+            \langle\partial \theta,\d r\rangle = 0,\\
+            \langle\partial \varphi,\d r\rangle = 1.
+        \end{cases}
+        \hspace{-0.35cm}\Rightarrow\begin{cases}
+            \sin\theta\cos\varphi a+\sin\theta\sin\varphi b + \cos\theta c = 0,\\
+            r\cos\theta\cos\varphi a+r\cos\theta\sin\varphi b - r\sin\theta c = 0,\\
+            -r\sin\theta\sin\varphi + r\sin\theta\cos\varphi b = 1.
+        \end{cases}\hspace{-0.35cm}\Rightarrow\begin{cases}
+            a = -\frac{\sin\varphi}{r\sin\theta},\add\\
+            b = \frac{\cos\varphi}{r\sin\theta},\\
+            c = 0.
+        \end{cases}
+    \end{equation*}
+    于是$\d \varphi = \frac{1}{r\sin\theta}(-\sin\varphi\d x^1 + \cos\varphi\d x^2)$.\add
+\end{solution}
 \begin{problem}[3.9练习4.]
     将$\R^3$上的欧几里德度量表出在球坐标系的自然余标架场下。
 \end{problem}
+\begin{solution}
+    由于在$\R^3$的欧式度量可以表示为$g = (\d x^1)^2 + (\d x^2)^2 + (\d x^3)^2 = g_{rr}\d r\d r + g_{\theta\theta}\d \theta\d \theta + 
+    g_{\varphi\varphi}\d\varphi\d\varphi + 2g_{r\theta}\d r\d\theta+2g_{r\varphi}\d r\d\varphi+2g_{\theta\varphi}\d\theta\d\varphi$，
+    又由于
+    \begin{align*}
+        g_{rr} = g(\partial_r,\partial_r) =&\ (\d x^1(\partial_r))^2 + (\d x^2(\partial_r))^2 + (\d x^3(\partial_r))^2\\
+        =&\ \sin^2\theta\cos^2\varphi+\sin^2\theta\sin^2\varphi+\cos^2\theta = 1
+    \end{align*}
+    同理可得$g_{\theta\theta} = r^2, g_{\varphi\varphi} = r^2\sin^2\theta, g_{r\theta}=g_{r\varphi}=g_{\theta\varphi} = 0$。
+
+    综上，欧式空间中的度量在球坐标下的表出为
+    \begin{equation*}
+        g = (\d r)^2 + r^2(\d \theta)^2 + r^2\sin^2\theta(\d \varphi)^2
+    \end{equation*}
+\end{solution}
 \end{document}
