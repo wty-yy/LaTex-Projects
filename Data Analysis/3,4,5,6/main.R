@@ -1,4 +1,4 @@
-setwd("C:/Users/99366/Documents/GitHub/LaTex-Projects/Data Analysis/3,4,5,6")
+setwd("/home/wty/Documents/LaTex-Projects/Data Analysis/3,4,5,6")
 data <- read.table(file = "data.csv", sep = ",")
 X <- data[1:10, ]
 Y <- data[11:20, ]
