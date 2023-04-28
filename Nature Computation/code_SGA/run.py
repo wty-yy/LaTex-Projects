@@ -48,6 +48,6 @@ def grid_test():
     plt.show()
 
 if __name__ == '__main__':
-    # single_test()
-    grid_test()
+    single_test()
+    # grid_test()
 
