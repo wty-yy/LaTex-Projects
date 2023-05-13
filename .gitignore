@@ -20,3 +20,4 @@ model
 大三上/NLP/NLP大作业/code/checkpoints2/bert_classifier.data-00000-of-00001
 大三上/NLP/NLP大作业/code/checkpoints2/bert_classifier.index
 *.bkp
+.RData
