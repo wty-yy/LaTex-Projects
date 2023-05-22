@@ -156,10 +156,10 @@
 \makebox[5em][s]{\textbf{起止年月：}}2022年5月至2023年5月\\[1ex]
 \makebox[5em][s]{\textbf{负责人：}}喻彭\\[1ex]
 \makebox[5em][s]{\textbf{手机：}}13036784398\\[1ex]
-\makebox[5em][s]{\textbf{邮箱：}}yupeng666@stu.xjtu.edu.cn\\[1ex]
-\makebox[5em][s]{\textbf{项目成员：}}吴天阳，王承杰\\[1ex]
+\makebox[5em][s]{\textbf{邮箱：}}yu.peng@stu.xjtu.edu.cn\\[1ex]
+\makebox[5em][s]{\textbf{项目成员：}}吴天阳，王承杰，储文煜\\[1ex]
 \makebox[5em][s]{\textbf{指导老师：}}孙剑\\[1ex]
-\makebox[5em][s]{\textbf{批准经费：}}10000\ \ \textbf{已用金额：}631.12\\[1ex]
+\makebox[5em][s]{\textbf{批准经费：}}5000\ \ \textbf{已用金额：}705.59\\[1ex]
 \makebox[5em][s]{\textbf{填报日期：}}\today
     \end{minipage}
 }
@@ -171,7 +171,7 @@
 \fancypagestyle{abstructstyle}{\fancyhf{}\fancyhead[C]{\small\it 摘要}}
 \thispagestyle{abstructstyle}
 \noindent\textbf{报告题目：基于多元数据分析的重症监护室病人健康状态预警方法研究}\\
-\textbf{学生姓名：喻彭，吴天阳，王承杰}\\
+\textbf{学生姓名：喻彭，吴天阳，王承杰，储文煜}\\
 \textbf{指导老师：孙剑}\\[1em]
 
 \textbf{中文摘要}：医疗实践活动产生海量的数据，随着信息化的发展，我们得以及时记录医疗数据，
@@ -245,7 +245,7 @@ MIMIC-IV数据集通过医院中的数字电子健康记录系统(Electronic Hea
 
 经过分析处理后，我们得到如图\ref{fig-capture}，两个图分别显示了每种标签的化验条例数目和每个时刻下的检测数据中所包含的非空条例数目。
 从图中不难看出，D-Dim的条例数目最少，很有可能是因为该化验只会对感染某些与呼吸道相关疾病时才会检验，从第二个图中可以看出
-大多数的时刻下的数据都只包含3个特征数据，所以我们首先需要按照一个时间短对数据进行插补。
+大多数的时刻下的数据都只包含3个特征数据，所以我们首先需要按照一个时间段对数据进行插补。
 
 % \renewcommand\arraystretch{1} % 设置表格高度为原来的0.8倍
 \begin{table}[H] % table标准
@@ -350,7 +350,7 @@ def relative_hours(date_string):
 我们之所以要这样定义信息块，是因为首先要保证其中的信息段之间的时间差不超过$L$小时，这样才能使得新的数据信息具有时序性，
 并且要求信息段至少有两个，因为我们希望通过前几个连续的时间段预测未来的一个时间段是否会患有DIC.
  
-数据插补得到的最终结果为每个病人的全部信息块，经过插补操作后每种表情对应的非空信息占比如图\ref{fig-interpolation}
+数据插补得到的最终结果为每个病人的全部信息块，经过插补操作后每种标签对应的非空信息占比如图\ref{fig-interpolation}
 \vspace{-1em}
 \begin{figure}[H]
     \hspace{-1.5cm}
@@ -563,6 +563,102 @@ KNN           & {[}0.9223 0.943  0.9482{]} & 0.9379          & 0.9171           
 \clearpage
 \section{模型可解释性分析}
 \subsection{SHAP值基本原理}
+\subsubsection{加性特征归因方法}
+设$f$为待解释的模型，$g$是用于解释该模型的模型。解释模型通常使用简化的输入$x'$，其通过函数$h_x(x')=x$来映射到原本的输入。我们主要关注的是解释单个$x$来预测$f(x)$的局部方法，该方法试图保证当$z'\approx x'$时，$g(z')\approx f(h_x(z'))$。目前文献中的六种解释性方法所使用的$g$都是如下定义的加性解释模型：
+\begin{equation}\label{eq-shap-line}
+    g(z')=\phi_0+\sum\limits_{i=1}^{M}\phi_iz_i'
+\end{equation}
+其中$z\in\{0,1\}^M$，$M$是简化输入中特征的个数，$\phi_i\in\R$。称使用该类型解释模型的解释方法为加性特征归因方法。
+\subsubsection{加性特征归因方法中的唯一解}
+我们希望加性特征归因方法能够满足下列三个良好的性质，这些性质在经典的Shapley值估计方法中是能够保证的，但在其他方法中是未知的。
+
+
+\textbf{性质一}：局部精度。当对特定输入$x$近似原始模型$f$时，局部精度要求解释模型至少匹配简化输入$x'$(对应于原始输入$x$)的$f$输出。
+\begin{equation}\label{eq-prop1}
+    f(x)=g(x')=\phi_0+\sum\limits_{i=1}^{M}\phi_ix_i'
+\end{equation}
+其中$\phi_0=f(h_x(0))$表示关闭所有简化输入(即缺失)时的模型输出。
+
+\textbf{性质二}：缺失性。如果简化的输入中某特征不存在，那么缺失性要求原始输入中缺失的特征没有影响，具体来说即：
+\begin{equation}\label{eq-prop2}
+    x_i'=0\Rightarrow \phi_i=0
+\end{equation}
+当今的所有方法都满足该性质。
+
+\textbf{性质三}：一致性。该性质要求如果模型发生变化，使某些简化输入的贡献增加或保持不变，而不考虑其他输入，则该输入的归因$\phi_i$不应减少。具体来说，若记$f_x(z')=f(h_x(z'))$，并令$z'\backslash i$表示在$z'$中令$z_i'=0$，对于任意的两个模型$f$以及$f'$，如果：
+\begin{equation}\label{eq-prop3}
+    f_x'(z')-f_x'(z'\backslash i)\geq f_x(z')-f_x(z'\backslash i),\quad\forall z'\in\{0,1\}^{M}
+\end{equation}
+那么$\phi_i(f',x)>\phi_i(f,x)$。
+
+以下定理表明，只有一个解释模型能够同时满足上述的三条性质:
+\begin{theorem}\label{theo-shapley}
+    只有一个解释模型$g$能够同时满足性质\ref{eq-prop1},\ref{eq-prop2}以及\ref{eq-prop3}，其各个归因如下给出：
+    \begin{equation}
+\phi_i(f,x) = \sum_{z'\subseteq x'}\frac{|z'|!(M-|z'|-1)!}{M!}[f_x(z')-f_x(z'\backslash i)]
+    \end{equation}
+其中$|z'|$是$z'$中非零特征的个数，$z'\subseteq x'$表示取$x'$中非零项的子集。
+\end{theorem}
+定理\ref{theo-shapley}是由博弈论中的结果得出的，其中$\phi_i$的值被称为\textbf{Shapley值}。Young(1985)证明Shapley值是满足三个性质的唯一值集。
+
+
+在性质\ref{eq-prop1}-\ref{eq-prop3}下，对于给定的简化输入映射$h_x$，定理\ref{eq-prop1}表明只有一种可能的加性特征归因方法。
+这个结果意味着不基于Shapley值的方法违反了局部精度和/或一致性(所有已知的方法都满足缺失性)。
+下面的章节提出了一种统一的方法来改进之前的方法，防止它们无意中违反性质\ref{eq-prop1}和\ref{eq-prop3}。
+\subsubsection{SHAP(SHapley Additive exPlanation)值}
+在这个部分中，我们将提出SHAP值作为衡量特征重要度的统一度量。SHAP值是原始模型条件期望函数的Shapley值，即取$f_x(z')=f(h_x(z'))=E[f(z)|z_S]$时对应的Shapley值，其中$S$是$z'$中非零指标的集合。由于大多数模型不能处理任意的含有缺失值的模式，我们用$E[f(z)|z_S]$近似$f(z_S)$。SHAP值的定义旨在与Shapley回归、Shapley采样紧密结合，同时还允许与LIME、DeepLIFT等其他加性特征归因方法相结合。
+
+SHAP值也可以理解成某个特征在以该特征为条件的期望模型上的变化量。他们解释了如果我们不知道当前输出$f(x)$的任何特征，如何从预测的基值$E[f(z)]$得到当前输出$f(x)$。下图显示了特征逐步加入来计算SHAP值的一种排序。然而，当模型是非线性的或输入特征不是独立的时，将特征添加到期望中的顺序很重要，并且SHAP值来自于对所有可能顺序的$\phi_i$值进行平均。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{SHAP理论解释}
+    \caption{SHAP值是由模型中的每一个特征变化得到的}
+\end{figure}
+
+
+SHAP值的精确计算具有挑战性。然而，通过结合当前加性特征归因方法的见解，我们可以近似它们。
+有两种模型不可知的近似方法，一种是已知的(Shapley采样值)，另一种是新颖的(Kernel SHAP)。
+还有四种模型类型特定的近似方法，其中两种是新颖的(Max SHAP, Deep SHAP)。在使用这些方法时，
+特征之间的独立性和模型的线性性是简化期望值计算的两个可选假设(注意$\bar{S}$是不在$S$中的特征集):
+\begin{align}
+    \nonumber f(h_x(z')) =&\ \E[f(z)|z_S] &\text{SHAP模型简化输入映射}\\
+    \nonumber =&\ \E_{z_{\bar{S}}|z_{S}}[f(z)]&\text{转化为}z_{\bar{S}}|z_{S}\\
+    \nonumber \approx&\ \E_{z_{\bar{S}}}[f(z)]&\text{假设特征相互独立}\\
+    \label{eq-shap-model-line}\approx&\ f(E_{z_{\bar(S)}}[z])&\text{假设模型线性}
+\end{align}
+下面我们着重介绍模型未知时的近似计算方法。
+\subsubsection{LIME解释方法}
+在这里着重介绍一下LIME解释方法，LIME使用的局部线性解释模型完全符合方程\ref{eq-shap-line}，
+从而是一种加性特征归因方法。LIME将简化的输入$x'$称为“可解释输入”，映射$x=h_x(x')$将可解释输入的二进制向量转换为原始输入空间。
+不同类型的$h_x$映射用于不同的输入空间。
+
+为了找到合适的$\phi$，LIME最小化如下的目标函数:
+\begin{equation}\label{eq-lime}
+\xi=\arg\min\limits_{g\in G}L(f,g,\pi_{x'})+\Omega(g)
+\end{equation}
+解释模型$g(z')$对原始模型$f(h_x(z'))$的忠实性是通过局部核$\pi_{x'}$加权的简化输入空间中一组样本上的损失$L$来实现的。
+$\Omega$惩罚了$g$的复杂性。由于在LIME中，$g$遵循方程\ref{eq-shap-line}，$L$是平方损失，因此可以使用惩罚线性回归来求解方程\ref{eq-lime}。
+\subsubsection{Kernel SHAP 方法}
+Kernel SHAP方法是线性LIME方法与Shapley值方法的综合。尽管管方程\ref{eq-lime}中LIME的回归公式似乎与经典Shapley值公式有很大的不同。
+然而，由于线性LIME是一种加性特征归因方法，我们知道Shapley值是方程\ref{eq-lime}满足三条性质（局部精度，缺失性，一致性）的唯一可能解。
+一个自然的问题是，方程\ref{eq-lime}的解是否能够恢复这些性质。答案取决于损失函数$L$、加权核$\pi_{x'}$和正则化项$\Omega$的选取。
+下面我们将展示如何选取\ref{eq-lime}中的参数来达到恢复Shapley值的效果。
+\begin{theorem}
+    能够使方程\ref{eq-lime}的解满足性质\ref{eq-prop1}-\ref{eq-prop3}的损失函数$L$,加权核$\pi_{x'}$和正则化项$\Omega$为：
+    \begin{align*}
+        \Omega(g) =&\ 0,\\
+        \pi_{x'}(z') =&\ \frac{M-1}{|z'|(M-|z'|)},\\
+        L(f,g,\pi_{x'}) =&\ \sum_{z'\in Z}[f(h_x(z'))-g(z')]^2\pi_{x'}(z'),
+    \end{align*}
+\end{theorem}
+注意到，当$|z'|\in\{0,M\}$时，$\pi_{x'}(z')=+\infty$，
+从而强制地让$\phi_0 = f_x(\varnothing)$和$f(x)=\sum\limits_{i=0}^{M}\phi_i$。\add
+在实践中，通过使用约束条件消除这两个变量，可以在优化过程中避免这些无限权值。
+
+
+由于$g(z')$遵循线性形式，而$L$是平方损失，因此仍然可以使用线性回归求解方程\ref{eq-lime}。
+因此，博弈论中的Shapley值可以使用加权线性回归来计算。由于LIME使用简化的输入映射，
+它相当于公式\ref{eq-shap-model-line}中给出的SHAP映射的近似值，因此可以对SHAP值进行基于回归的、与模型无关的估计。使用回归联合估计所有SHAP值比直接使用经典Shapley方程提供更好的样本效率（即可以用更少的样本达到比较好的精度）。
 \subsection{基于SHAP值的可解释性分析}
 借助SHAP分析工具\footnote{\url{https://github.com/slundberg/shap}}，我们对数据集分别进行了整体与单个数据的分析。
 \subsubsection{整体数据可解释性分析}
@@ -625,13 +721,33 @@ KNN           & {[}0.9223 0.943  0.9482{]} & 0.9379          & 0.9171           
    \caption{两种指标下的单个数据预测结果与特征之间的关系}
    \label{fig-shap-force}
 \end{figure}
+\clearpage
 \section{结论与展望}
-通过本次大创项目，我们学习到了如何高效地处理庞大的数据集，并且对数据进行清洗，利用时间序列的方法对数据进行划分和特征提取，
-在对异常值进行处理后，我们设计了不同的插补和缺失值填充方法对数据进行扩充；经过数据预处理之后，
-我们又使用了多种机器学习方法进行模型构建，并相互之间进行了比较，从而选出了最优的模型与数据集；
+我们以脓毒症（可诱导 SCI 、 DIC ）为例，基于MIMIC-IV数据集，
+从中提取出Platelet Count（PLT，血小板计数）、PT（凝血酶原时间）、INR(PT)（凝血酶原时间的国际标准化比值）、
+D-Dimer（D-二聚体）、Fibrinogen, Functional（FIB，纤维蛋白原）、pCO2（二氧化碳分压）、pO2（氧分压）和pH（酸碱度）等与 SIC 、
+ DIC诊断相关的指标进行研究。在数据预处理过程中，先利用覆盖插补和均值插补获得每个病人全部信息块，
+ 然后通过可信范围对特征的异常值进行排查，最后结合SIC评分和ISTH显性DIC评分来对病人每个时刻是否可能患有SIC、DIC进行标定，
+ 最终标记结果为（以时间段为8h为例）：SIC标签数量：1885（占比 87.55\%）、DIC标签数量：1345（占比 62.47\%）。
+
+我们分别以时间段分别为4h，8h，12h对原数据集进行前向插补和临近填充，用前$i$个时间段的数据来预测后一个时间段的数据，
+这样得到的数据集分别记为$A4_i,A8_i,A12_i,$
+$i=1,2,3,4$（i为时段序列长度）。由于数据量较小，
+我们使用了5种传统机器学习算法，分别为随机梯度下降优化的线性模型（SGD）、SVM模型（SVC）、决策树、随机森林和K近邻（KNN）等，
+并使用了如下三个评估指标：在训练集上使用K-折叠交叉验证准确率、测试集上的准确率、ROC曲线下面积（AUC）。
+对于DIC指标，我们发现在序列长度为2、时间段长度为4h时，模型准确率较高；对于SIC指标，综合考虑我们发现在序列长度为3、
+时间段长度为8h时，效果较好，其他在98\%以上的结果我们认为是数据量较少导致的。
+最后分别在$A4_2$和$A8_3$上按照先前给定的三个评估指标进一步筛选DIC模型和SIC模型，发现随机森林模型效果最好，
+通过随机森林同时还得出了各个属性的重要度。
 最后我们使用一种极具鲁棒性的可解释方法SHAP来对模型的预测值进行解释，并得到了与标签值标定中相似的结果，从而可以间接地说明SHAP的可行性。
 
+医疗重症监护数据稀疏性强、不规则程度高，我们通过数据插补等预处理方法提高数据使用率。
+构建出可解释的实时脓毒症动态预警监测系统，以早期发现脓毒症，提高脓毒症预警模型的效能、可信度和可解释性，
+促进模型进入临床常规工作流程，使患者受益。当医生之间或医生与模型决策结果不一致时，模型提供可解释的诊断预测依据显得尤为重要，
+可以提高模型可信度，侧面帮助医生进行诊断。
+
 本次项目的最大不足之处就是数据集中并不自带有DIC和SIC的标签，而是通过人工打分方法标定，所以无法运用到实际医疗中，
+并且数据量经过筛选后数量较少，无法使用大模型进行训练；
 但是本次项目大幅提升了我们的代码能力，总结了很多的实验方法与思路，这些都将对我们之后做各种科研项目起到巨大的帮助作用。
 
 \clearpage
