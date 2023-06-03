@@ -1,0 +1,267 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, wrapfig, enumitem, titlesec, titling, fancyhdr, algorithm, makecell, multirow}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tocloft}
+
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    % BoldFont=方正新书宋_GBK,  % 粗体
+    BoldFont=方正宋黑简体,  % 粗体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Times New Roman}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.2}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+% \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}  % 更小的页边距
+
+%%%% 设置页眉 %%%%
+\pagestyle{fancy}
+%\fancyhead[C]{\small\it\leftmark}
+\fancyhead[L]{\small\it\leftmark}
+\fancyhead[R]{\small\it 西安交通大学大学生创新训练项目结题报告}
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理}[section] % 定理按section编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+
+%%%% 自定义环境 %%%%
+\newsavebox{\nameinfo}
+\newenvironment{myTitle}[1]{
+    \begin{center}
+    {\zihao{-2}\bf #1\\}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 自定义段落开头序号，间距 (titlesec) %%%%
+% 中文序号：\zhnum{section}, 阿拉伯序号：\arabic
+% \titleformat{\section}{\Large\bfseries}{\arabic{section}}{1em}{}[]
+\titlespacing{\section}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsubsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{0.5ex}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 目录后面加上点点 %%%%
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\E{\mathbb{E}}          % Exception
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 正文开始 %%%%
+\begin{document}
+
+%%%% 定义标题页,包括title,author,affiliation,email等 %%%%
+\title{
+    \vspace{2cm}
+    \includegraphics[width=7cm]{校徽/XJTU_logo}\\[1ex]
+    \textbf{大学生创新训练项目\\[1ex]
+    结题报告书} \vspace{3cm}
+}
+\preauthor{\begin{flushleft}\large}
+\postauthor{\end{flushleft}}
+\author{
+    \hspace{3cm}\begin{minipage}[t]{0.65\linewidth}
+\makebox[5em][s]{\textbf{项目名称：}}\\
+\makebox[5em][s]{}\\[1ex]
+\makebox[5em][s]{\textbf{起止年月：}}\\[1ex]
+\makebox[5em][s]{\textbf{负责人：}}\\[1ex]
+\makebox[5em][s]{\textbf{手机：}}\\[1ex]
+\makebox[5em][s]{\textbf{邮箱：}}\\[1ex]
+\makebox[5em][s]{\textbf{项目成员：}}\\[1ex]
+\makebox[5em][s]{\textbf{指导老师：}}\\[1ex]
+\makebox[5em][s]{\textbf{批准经费：}}\ \ \textbf{已用金额：}\\[1ex]
+\makebox[5em][s]{\textbf{填报日期：}}\today
+    \end{minipage}
+}
+\date{\vspace{-22cm}\hspace{-12cm}\textbf{项目编号：}}
+\maketitle % 设置上面的标题
+\fancypagestyle{titlestyle}{\pagestyle{empty}}
+\thispagestyle{titlestyle}
+\clearpage % 创建新的一面
+\fancypagestyle{abstructstyle}{\fancyhf{}\fancyhead[C]{\small\it 摘要}}
+\thispagestyle{abstructstyle}
+\noindent\textbf{报告题目：}\\
+\textbf{学生姓名：}\\
+\textbf{指导老师：}\\[1em]
+
+\textbf{中文摘要}：
+
+\textbf{英文摘要}：
+
+\textbf{关键词}：
+\clearpage
+\fancypagestyle{tablestyle}{\fancyhf{}\fancyhead[C]{\small\it 目录}}
+\thispagestyle{tablestyle}
+\tableofcontents % 创建目录页,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
+
+%%%% 以下部分是正文 %%%%  
+\clearpage
+\setcounter{page}{1}
+\section{绪论}
+
+\clearpage
+\section{数据集分析及预处理}
+\subsection{数据集介绍}
+\subsection{数据预处理}
+\subsubsection{数据提取}
+
+% \renewcommand\arraystretch{1} % 设置表格高度为原来的0.8倍
+\begin{table}[H] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{0.4\textwidth}<{\raggedright}p{0.2\textwidth}<{\centering}p{0.3\textwidth}} % 设置表格宽度
+        \toprule
+        \textbf{数据全称}&\textbf{缩写}&\textbf{MIMIC-IV数据编号}\\
+        \midrule
+        1. 血小板计数(Platelet Count)&PLT&227457\\
+        2. 凝血酶原时间(Prothrombin time)&PT&227465\\
+        \makecell[l]{3.凝血酶原时间的国际标准化比值\\ \makebox[2ex][]{}(International Normalized Ratio)}&INR&227467\\
+        4. D-二聚体(D-Dimer)&D-Dimer&225636\\
+        5. 纤维蛋白原(Fibrinogen)&FIB&227468\\
+        \makecell[l]{6. 二氧化碳分压\\ \makebox[2ex][]{}(Venous CO2 Pressure)}&pCO2&226062（动脉）\\
+        7. 酸碱度(pH)&pH&223830（动脉）\\
+        8. 氧分压(Venous O2 Pressure)&pO2&226063（动脉）\\
+        \bottomrule
+    \end{tabular}
+    \caption{相关数据对应缩写及编号}
+    \label{table-id}
+\end{table}
+\vspace{-2em}
+\subsubsection{数据插补}
+\subsubsection{异常值矫正}
+\subsubsection{数据填补}
+\subsubsection{实时状态数据标记}
+
+\clearpage
+\section{模型训练与评估}
+\subsection{数据集划分}
+\subsection{模型评估}
+\section{模型可解释性分析}
+\subsection{SHAP值基本原理}
+\subsubsection{加性特征归因方法}
+\subsubsection{加性特征归因方法中的唯一解}
+\subsubsection{SHAP(SHapley Additive exPlanation)值}
+\subsubsection{LIME解释方法}
+\subsection{基于SHAP值的可解释性分析}
+\subsubsection{整体数据可解释性分析}
+\subsubsection{单个数据可解释性分析}
+\section{结论与展望}
+
+\clearpage
+\begin{thebibliography}{99}
+    \bibitem{bib-mimic} Johnson, A., Bulgarelli, L., Pollard, T., Horng, S., Celi, L. A., \& Mark, R. (2023). 
+    MIMIC-IV (version 2.2)[DB]. PhysioNet. \url{https://doi.org/10.13026/6mm1-ek67}.
+\end{thebibliography}
+\clearpage
+\appendix
+\section{附录}
+\subsection{预处理后SIC和DIC数据量}
+\renewcommand\arraystretch{1.2} % 设置表格高度为原来的1.2倍
+\begin{table}[H] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{0.14\textwidth}<{\centering}p{0.11\textwidth}<{\centering}p{0.11\textwidth}
+        p{0.25\textwidth}p{0.25\textwidth}} % 设置表格宽度
+        \toprule
+        \textbf{时间段长度}&\textbf{插补策略}&\textbf{填补策略}&\textbf{SIC标签数量}&\textbf{DIC标签数量}\\
+        \midrule
+        4h&均值插补&临近填补&827（占比89.89\%）&629（占比68.37\%）\\
+        8h&均值插补&临近填补&1885（占比87.55\%）&1345（占比62.47\%）\\
+        12h&均值插补&临近填补&1823（占比86.77\%）&1267（占比60.30\%）\\
+        \bottomrule
+    \end{tabular}
+    \caption{预处理后的SIC和DIC数据量}
+    \label{table-sic-dic}
+\end{table}
+\subsection{数据集划分结果}
+\subsection{模型评估结果}
+\subsection{基于SHAP值的可解释性分析}
+\end{document}
