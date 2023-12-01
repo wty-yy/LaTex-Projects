@@ -1,0 +1,133 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Minion Pro}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\E{\mathbb{E}}          % Exception
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{批判性思维与\\\vspace{-1ex}创新性思维} % 科目
+\newcommand{\bj}{强基数学002} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{2204210460} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第一次作业}
+\end{center}\vspace{-0.2cm}
+\begin{problem}
+    阅读文章《要有黑暗》，写一篇分析文叙述：它到底说什么？有道理么？为什么？
+\end{problem}
+\begin{solution}
+    本文所述的主要内容在于：提倡当下人们节约使用光源，避免过度使用光源导致对自己的健康和对其他生物的生存造成负面影响。
+
+    具体从每一段上进行分析其是否有理：
+    \begin{itemize}
+        \item 第1～3段：作为引言，作者从自己生活经历，对夜空的回忆，引出对于当下过度使用电灯的担忧。
+        “然而，如今，当夜幕降临的时候，我们马上就去找灯的开关。黑暗太少，意味着夜晚有过度的人造的光，这对所有人都会产生问题。”
+        开灯并不意味着过度的人造光，即使在古代夜晚也会使用蜡烛进行照明。本句例子使用不恰当。
+        \item 第4段：黑暗对人类健康的影响。本段将黑暗的减少等价于睡眠的减少，由睡眠失调引出更多的疾病，这是不恰当的，使用电灯并不意味着睡眠就会简短。
+        睡眠的减少更多的应该和过度使用手机或上夜班相关，而这和过度使用电灯关联性较低。
+        \item 第5段：光污染对其他生物生存的影响。对于其他生物的生存环境的影响是客观事实，但是作者一言以蔽之“没有黑暗，地球的生态将崩溃。”这是完全是过度夸张的，
+        自然界的优生劣汰、适者生存的进化学说表明，如果当下的种群无法适应当前的环境，基因变异也会产生新的适应环境的个体从而继续延续整个种群，
+        即使基因变异的频率可能无法跟上环境变化的频率，整个自然界的强大自适应性也不可崩溃，即使第二次工业革命自然界都没有崩溃，为何减少部分黑暗就会导致其崩溃？
+        \item 第6段：黑夜对于宗教、艺术以及心灵的价值。本段主要批判城市中因为过度使用电灯导致无法看到夜空，从而对人类心灵的创伤，使其无法激励人们、产生想象力。
+        \item 第7～8段：过度使用光源对资源的浪费以及节约用电的一些例子。此段作者以狭隘的眼光看待美国的发展，殊不知世界上仍然有许多贫困的国家无法覆盖电力系统，所以他自称自己是看到“真正黑暗的夜晚”的最后一代人，
+        作者以其偏见的眼光，只看到自己国家的发展，而直接忽视了当前发展的差距，全世界夜晚都在变亮并不是一件坏事，这对于贫困的地区来说这是战胜黑暗的进步，而非浪费金钱。
+
+        最后，作者以艺术的角度来看待黑暗，称其具有不可替代的价值和美，并且希望“真正解决”光污染问题，但是单基于这种“美”并不是减少光源的必要条件，
+        而且究竟什么是“真正解决”光污染，作者也没给出自己的解释。
+        \item 第9段：呼吁人们节约用电。
+
+    \end{itemize}
+\end{solution}
+
+\end{document}
