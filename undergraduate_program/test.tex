@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{tabularx}
+\usepackage{array}
+
+\begin{document}
+\begin{table}[!h]
+	\centering
+	\caption{YOLO} \label{tabel-yolo} \vspace{2mm}
+	\begin{tabularx}{\textwidth} { 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash\hsize=.4\hsize}X
+   >{\centering\arraybackslash\hsize=.4\hsize}X
+   >{\centering\arraybackslash\hsize=.4\hsize}X
+   >{\centering\arraybackslash\hsize=.4\hsize}X
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash\hsize=.7\hsize}X
+  }
+	\hline
+  a&mAP&AP50&P50&R50&bmAP&c&d\\
+	\hline
+  YOLOv8&\textbf{68.8}&85.2&89.7&\underline{80.9}&\underline{48.3}&65&e\\
+	\hline
+	\end{tabularx}
+\end{table}
+\end{document}

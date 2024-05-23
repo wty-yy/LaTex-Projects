@@ -1,0 +1,34 @@
+\clearpage
+
+
+\titlespacing{\chapter}{0pt}{0mm}{5mm}
+\BiAppendixChapter{主要符号表}{denotation}
+\defaultfont
+
+% \printnomenclature
+
+% \nomenclature{$\displaystyle a$}{The number of angels per unit are}
+% \nomenclature{$\displaystyle N$}{The number of angels per needle point}
+% \nomenclature{$\displaystyle A$}{The area of the needle point}
+% \nomenclature{$\displaystyle \sigma$}{The total mass of angels per unit area}
+% \nomenclature{$\displaystyle m$}{The mass of one angel}
+% \nomenclature{$\displaystyle \sum_{i=1}^n a_i$}{The sum of $a_i$}
+
+\begin{labeling}{~~~~~~~~~~~~~~~~~~~~~}
+\setlength{\parskip}{0pt plus1pt minus1pt}
+\item [$\mathbb{R}$] 实数集
+\item [$\mathbb{N}$] 自然数集
+\item [$\mathbb{Z}$] 整数集
+\item [$\mathbb{Z}^+$] 正整数集
+\item [$\mathbb{R}^N$] $N$维空间，由$N$个实数集$\mathbb{R}$所构成的笛卡尔积
+\item [$\text{[条件]}$] 当“条件”成立时为$1$，否则为$0$
+\item [$A_{ij}$] 矩阵$A$的第$i$行第$j$列元素
+\item [$\bd{x}_i$] 向量$\bd{x}$中第$i$个元素
+\item [$\bd{x}_{i:j}$] 向量$\bd{x}$中第$i$到$j$个元素所构成的向量
+\item [$\text{softmax}(\bd{z})$] $\displaystyle\left\{\frac{\e^{z_i}}{\sum_{j=1}^Ce^{z_j}}\right\}_{i=1}^C$其中向量$\bd{z}\in\mathbb{R}^{C}$，$C$为总类别数
+\item [$A\odot B$] $(A\odot B)_{ij} = (A)_{ij}(B)_{ij}$其中矩阵$A$与矩阵$B$具有相同形状
+
+\end{labeling}
+\titlespacing{\chapter}{0pt}{-6mm}{5mm}
+%\clearpage{\pagestyle{empty}\cleardoublepage}
+\let\cleardoublepage\clearpage  % 消除空白页

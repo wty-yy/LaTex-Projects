@@ -1,0 +1,71 @@
+% !Mode:: "TeX:UTF-8"
+
+\documentclass[openany,twoside,nofonts,AutoFakeBold,UTF8]{ctexbook}
+\usepackage{blindtext}
+\usepackage{scrextend}
+\usepackage{nomencl}
+\usepackage{blkarray}
+\usepackage{makecell}
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{amsmath}
+% \addtokomafont{labelinglabel}{\sffamily}
+\renewcommand{\footnotesize}{\fontsize{9pt}{10pt}\selectfont}
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\e{\mathrm{e}}          % Euler's number
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+
+\input{setup/package}
+\graphicspath{{figures/}}
+
+%===================================== Cover and TOC =====================================
+\begin{document}
+\input{setup/format}
+
+\begin{titlepage}
+\includepdf[]{pdfs/吴天阳本科毕业设计封面.pdf}  % 查重部分
+\end{titlepage}
+\let\cleardoublepage\clearpage
+
+\frontmatter
+
+% \includepdf[pages=-]{pdfs/任务书.pdf}
+% \includepdf[]{pdfs/考核评议书.pdf}
+% \includepdf[]{pdfs/答辩结果.pdf}
+
+
+\input{setup/abstract}  % 摘要
+\input{setup/content}  % 目录
+\input{setup/denotation}  % 符号解释
+
+%======================================= Main Body =======================================
+\mainmatter\defaultfont\sloppy\raggedbottom
+
+\include{body/chapter1}  % 正文
+\include{body/chapter2}  % 正文
+\include{body/chapter3}  % 正文
+\include{body/chapter4}  % 正文
+\include{body/chapter5}  % 正文
+\include{body/chapter6}  % 正文
+\include{appendix/acknowledgements}  % 致谢
+
+%======================================= Reference =======================================
+\wuhao\selectfont
+\bibliographystyle{bib/xjtuthesis-numerical}
+\addcontentsline{toc}{chapter}{参考文献}
+\addcontentsline{toe}{chapter}{References}
+\addtolength{\bibsep}{-0.8em}
+\bibliography{bib/mybib}
+% \input{bib/mybib}
+% \begin{thebibliography}{99}
+%   \bibitem{ref1}Dimitris G M, Vinay K I, Stephen M K. Statistical and adaptive signal processing[M]. Norwood: Artech House, Inc., 2005.
+% \end{thebibliography}
+
+%======================================= Appendix ========================================
+\include{setup/formatApp}  % 附录配置
+\include{appendix/appA}  % 附录A
+\include{appendix/appB}  % 附录A
+
+\end{document} 
