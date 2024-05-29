@@ -10,20 +10,22 @@
 
 
 \defaultfont
-本文首次提出了一种基于非嵌入式离线强化学习的训练策略，应用于游戏皇室战争（Clash Royale）。
-结合当前目标识别与光学文本识别的顶尖算法，使用离线强化学习算法制定策略，成功实现了智能体在非嵌入条件下的实时对局：
-移动设备上实时图像获取、感知融合、智能模型决策及控制移动设备执行动作，从而能够与对手进行实时对局，并且能够战胜游戏中的内置AI。
+本文提出了一种基于非嵌入式离线强化学习的训练策略，通过图像信息输入在即时策略游戏皇室战争（Clash Royale）中实现自主博弈对局。
+本文结合当前目标识别与光学文本识别的前沿算法对图像信息进行特征提取，并使用离线强化学习算法进行训练，
+实现了移动设备上的实时图像获取、感知融合、智能体决策及设备控制，与对手进行实时对局，并能够战胜游戏中的内置AI。
 
-首先，本文设计了一种高效制作切片数据集的方法，基于该方法制作了包含$4654$张切片、共150个类别的切片数据集，
-以及包含$116878$个目标框、共$6939$张图像的目标识别数据集\footnote{图像数据集：\url{https://github.com/wty-yy/Clash-Royale-Detection-Dataset}\hfill}，
-并提出了一种可行的生成式目标识别数据集算法，使其能够模拟真实对局场景生成含有任意数量部队及种类的带标签图像。
-通过生成式图像训练出的模型在真实视频流中表现出良好的泛化性，具有很高的识别准确率。
+首先，本文设计了一种高效制作切片数据集的方法，在此基础上制作了包含$4654$张切片的数据集，涵盖了游戏中的全部部队、法术、防御塔等总计$150$个类别。
+本文提出了一种生成目标识别数据集的算法，能够模拟真实对局场景生成带标签图像，用于目标识别模型训练。
+本文从视频流中截取$6939$张图像，制作了包含$116878$个目标框的目标识别数据集作为验证集\footnote{图像数据集：\url{https://github.com/wty-yy/Clash-Royale-Detection-Dataset}\hfill}。
+通过生成式数据集训练出的目标识别模型在验证集中表现出良好的泛化性，在$50\%$交并比阈值下达到了$80.9\%$的召回率。
 
-其次，本文基于计算机视觉模型的输出结果设计了感知融合算法，该算法结合视频数据中的上下文信息优化特征结果，从而进一步提升识别的准确率。
+其次，基于目标识别、光学文本识别及图像分类模型的输出特征，本文设计了感知融合算法，能够将感知特征预处理为模型的输入特征。
+该算法基于视频数据中的上下帧信息及单位的关联信息恢复漏识别目标，
+排除干扰性特征，优化模型输入特征。
 
-最后，在决策模型方面，本文从架构及预测目标两个方面对传统模型进行了改进，将难以学习的离散动作序列转化为连续动作序列，
-大幅提高了模型性能。本文制作了包含$105$回合、总共$113981$帧的专家数据集\footnote{专家数据集：\url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}\hfill}，
-并基于该离线数据集在不与真实环境交互的条件下，训练出了能够战胜游戏内置AI的智能体。
+最后，在决策模型方面，本文制作了包含$105$个回合、总共$113981$帧的专家数据集\footnote{专家数据集：\url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}\hfill}，
+在智能体不与环境交互的条件下进行训练。本文从架构及预测目标两个方面对离线强化学习模型进行了改进，将难以学习的离散动作序列转化为连续动作序列，
+相比传统模型性能分别提高了$24\%$和$37\%$。
 
 本文的全部代码均已开源\footnote{全部代码：\url{https://github.com/wty-yy/katacr}}。
 
@@ -39,20 +41,36 @@
 
 \titlespacing{\chapter}{0pt}{0mm}{5mm}
 % \chapter*{ABSTRACT}
-\BiAppendixChapter{ABSTRACT}{}
+\BiAppendixChapter{Abstract}{}
+% \chapter{Abstract}
 
-\noindent This paper introduces, for the first time, a non-embedded offline reinforcement learning training strategy applied to the game Clash Royale. By combining state-of-the-art algorithms in object recognition and optical character recognition, we use an offline reinforcement learning algorithm to develop strategies, successfully enabling real-time gameplay by the agent under non-embedded conditions: real-time image capture on a mobile device, perception fusion, intelligent model decision-making, and control of the mobile device to execute actions. As a result, the agent can engage in real-time matches against opponents and defeat the game's built-in AI.
+\noindent This paper proposes a training strategy based on non-embedded offline reinforcement learning to achieve autonomous gameplay in the real-time strategy game Clash Royale through image information input. The paper integrates cutting-edge algorithms for object recognition and optical character recognition to extract features from image information and uses offline reinforcement learning algorithms for training. This enables real-time image acquisition, perception fusion, agent decision-making, and device control on mobile devices, allowing real-time matches against opponents and defeating the built-in AI in the game.
 
-\noindent First, we designed an efficient method for creating slice datasets. Using this method, we created a slice dataset containing $4654$ slices across $150$ categories, and an object recognition dataset containing $116878$ target boxes across $6939$ images\footnote{Image dataset: \url{https://github.com/wty-yy/Clash-Royale-Detection-Dataset}\hfill}. We also proposed a feasible generative algorithm for creating object recognition datasets, allowing the generation of labeled images with any number and type of units that mimic real match scenarios. Models trained on these generative images demonstrated excellent generalization performance in real video streams, achieving high recognition accuracy.
+\noindent Firstly, the paper designs an efficient method for creating a sliced dataset and produces a dataset containing 4654 slices, covering all troops, spells, and towers in the game, totaling 150 categories. The paper proposes an algorithm to generate an object recognition dataset that can simulate real-game scenarios to
+generate labeled images for training object recognition models. The paper extracts 6939 images from video streams, creating an object recognition validation dataset containing 116878 bounding boxes\footnote{Image dataset: \url{https://github.com/wty-yy/Clash-Royale-Detection-Dataset}\hfill}. The object recognition model trained with the generative dataset shows good generalization in the validation set, achieving an 80.9\% recall rate at a 50\% Intersection over Union (IoU) threshold.
 
-\noindent Additionally, we designed a perception fusion algorithm based on the output results of computer vision models, which optimizes feature results by incorporating contextual information from video data, further improving recognition accuracy.
+\noindent Secondly, based on the output features of object recognition, optical character recognition, and image classification models, the paper designs a perception fusion algorithm that preprocesses perception features into model input features. The algorithm recovers missed targets based on inter-frame information and unit association information in the video data, eliminating interfering features and optimizing the model input features.
 
-\noindent Finally, in terms of decision-making models, we improved traditional models from both the architecture and prediction target perspectives. By transforming difficult-to-learn discrete action sequences into continuous action sequences, this method significantly enhanced model performance. We created an expert dataset containing $105$ rounds and a total of $113981$ frames\footnote{Expert dataset: \url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}\hfill}. Based on this offline dataset, the agent was trained to defeat the built-in AI without interacting with the real environment.
+\noindent Finally, in terms of the decision-making model, the paper creates an expert dataset containing 105 rounds and a total of 113981 frames\footnote{Expert dataset: \url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}\hfill}, training the agent without interacting with the environment. The paper improves traditional offline reinforcement learning models from both architecture and prediction objectives, transforming hard-to-learn discrete action sequences into continuous action sequences, improving performance by 24\% and 37\% compared to traditional models, respectively.
 
-\noindent All the code used in this paper has been open-sourced\footnote{All code: \url{https://github.com/wty-yy/katacr}}.
+\noindent All code in this paper has been open-sourced\footnote{All code: \url{https://github.com/wty-yy/katacr}}.
 
 \vspace{\baselineskip}
-\noindent{\textbf{KEY WORDS:}} Object Recognition; Optical Character Recognition; Reinforcement Learning
+\noindent{\textbf{Keywords:}} Object recognition; Optical character recognition; Reinforcement learning
+
+% \noindent This paper introduces a non-embedded offline reinforcement learning training strategy applied to the game Clash Royale. 
+% This paper combines state-of-the-art algorithms in object recognition and optical character recognition, we use an offline reinforcement learning algorithm to develop strategies, successfully enabling real-time gameplay by the agent under non-embedded conditions: real-time image capture on a mobile device, perception fusion, intelligent model decision-making, and control of the mobile device to execute actions. As a result, the agent can engage in real-time matches against opponents and defeat the game's built-in AI.
+% 
+% \noindent First, we designed an efficient method for creating slice datasets. Using this method, we created a slice dataset containing $4654$ slices across $150$ categories, and an object recognition dataset containing $116878$ target boxes across $6939$ images\footnote{Image dataset: \url{https://github.com/wty-yy/Clash-Royale-Detection-Dataset}\hfill}. We also proposed a feasible generative algorithm for creating object recognition datasets, allowing the generation of labeled images with any number and type of units that mimic real match scenarios. Models trained on these generative images demonstrated excellent generalization performance in real video streams, achieving high recognition accuracy.
+% 
+% \noindent Additionally, we designed a perception fusion algorithm based on the output results of computer vision models, which optimizes feature results by incorporating contextual information from video data, further improving recognition accuracy.
+% 
+% \noindent Finally, in terms of decision-making models, we improved traditional models from both the architecture and prediction target perspectives. By transforming difficult-to-learn discrete action sequences into continuous action sequences, this method significantly enhanced model performance. We created an expert dataset containing $105$ rounds and a total of $113981$ frames\footnote{Expert dataset: \url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}\hfill}. Based on this offline dataset, the agent was trained to defeat the built-in AI without interacting with the real environment.
+% 
+% \noindent All the code used in this paper has been open-sourced\footnote{All code: \url{https://github.com/wty-yy/katacr}}.
+% 
+% \vspace{\baselineskip}
+% \noindent{\textbf{KEY WORDS:}} Object recognition; Optical character recognition; Reinforcement learning
 
 
 \titlespacing{\chapter}{0pt}{-6mm}{5mm}

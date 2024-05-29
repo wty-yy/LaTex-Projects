@@ -1,4 +1,4 @@
-\begin{thebibliography}{48}
+\begin{thebibliography}{49}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
@@ -284,6 +284,12 @@ Liu~S, Qi~L, Qin~H, et~al.
   segmentation\allowbreak[C]//\allowbreak
 Proceedings of the IEEE conference on computer vision and pattern recognition.
 \newblock 2018: 8759-8768.
+
+\bibitem[Kalman(1960)]{KalmanFilter}
+Kalman~R~E.
+\newblock A new approach to linear filtering and prediction
+  problems\allowbreak[J].
+\newblock 1960.
 
 \bibitem[Howard et~al.(2017)Howard, Zhu, Chen, Kalenichenko, Wang, Weyand,
   Andreetto, and Adam]{MobileNet}

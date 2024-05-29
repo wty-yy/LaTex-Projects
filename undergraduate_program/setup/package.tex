@@ -80,10 +80,11 @@
 
 % 带圆圈的脚注
 \usepackage{pifont}
-\usepackage[flushmargin,para,symbol*]{footmisc}
-\DefineFNsymbols{circled}{{\ding{192}}{\ding{193}}{\ding{194}}
-	{\ding{195}}{\ding{196}}{\ding{197}}{\ding{198}}{\ding{199}}{\ding{200}}{\ding{201}}}
-\setfnsymbol{circled}
+\renewcommand\thefootnote{\ding{\numexpr171+\value{footnote}}}
+% \usepackage[flushmargin,para,symbol*]{footmisc}
+% \DefineFNsymbols{circled}{{\ding{192}}{\ding{193}}{\ding{194}}
+% 	{\ding{195}}{\ding{196}}{\ding{197}}{\ding{198}}{\ding{199}}{\ding{200}}{\ding{201}}}
+% \setfnsymbol{circled}
 
 % 字体设置，Windows自带黑体(simhei.ttf)和宋体(simsun.ttf)
 \defaultfontfeatures{Mapping=tex-text}

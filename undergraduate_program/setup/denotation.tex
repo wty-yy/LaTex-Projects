@@ -21,11 +21,11 @@
 \item [$\mathbb{Z}$] 整数集
 \item [$\mathbb{Z}^+$] 正整数集
 \item [$\mathbb{R}^N$] $N$维空间，由$N$个实数集$\mathbb{R}$所构成的笛卡尔积
-\item [$\text{[条件]}$] 当“条件”成立时为$1$，否则为$0$
+\item [$\mathbb{I}_{\text{条件}}$] 当“条件”成立时为$1$，否则为$0$
 \item [$A_{ij}$] 矩阵$A$的第$i$行第$j$列元素
 \item [$\bd{x}_i$] 向量$\bd{x}$中第$i$个元素
 \item [$\bd{x}_{i:j}$] 向量$\bd{x}$中第$i$到$j$个元素所构成的向量
-\item [$\text{softmax}(\bd{z})$] $\displaystyle\left\{\frac{\e^{z_i}}{\sum_{j=1}^Ce^{z_j}}\right\}_{i=1}^C$其中向量$\bd{z}\in\mathbb{R}^{C}$，$C$为总类别数
+\item [$\text{softmax}(\bd{z})$] $\displaystyle\left\{\frac{\e^{z_i}}{\sum_{j=1}^C\e^{z_j}}\right\}_{i=1}^C$其中向量$\bd{z}\in\mathbb{R}^{C}$，$C$为总类别数
 \item [$A\odot B$] $(A\odot B)_{ij} = (A)_{ij}(B)_{ij}$其中矩阵$A$与矩阵$B$具有相同形状
 
 \end{labeling}
