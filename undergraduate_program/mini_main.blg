@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: mini_main.aux
+The style file: bib/xjtuthesis-numerical.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: bib/mybib.bib
+Warning--empty journal in GPT
+You've used 11 entries,
+            4079 wiz_defined-function locations,
+            938 strings with 9031 characters,
+and the built_in function-call counts, 104107 in all, are:
+= -- 1529
+> -- 12931
+< -- 15920
++ -- 4280
+- -- 853
+* -- 528
+:= -- 14552
+add.period$ -- 33
+call.type$ -- 11
+change.case$ -- 22
+chr.to.int$ -- 3950
+cite$ -- 12
+duplicate$ -- 241
+empty$ -- 609
+format.name$ -- 294
+if$ -- 26446
+int.to.chr$ -- 1
+int.to.str$ -- 12
+missing$ -- 0
+newline$ -- 67
+num.names$ -- 33
+pop$ -- 5857
+preamble$ -- 1
+purify$ -- 11
+quote$ -- 0
+skip$ -- 10226
+stack$ -- 0
+substring$ -- 4971
+swap$ -- 46
+text.length$ -- 165
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 137
+warning$ -- 1
+while$ -- 201
+width$ -- 0
+write$ -- 167
+(There was 1 warning)

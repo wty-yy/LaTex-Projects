@@ -98,7 +98,7 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
 
 本文分别测试了下述模型参数：
 \begin{itemize}
-  \item 不同的模型架构（架构设计见~\ref{sec-model}~），分别测试了StARformer和DT架构。
+  \item 不同的模型架构（架构设计见~\ref{sec-model-struct}~），分别测试了StARformer和DT架构。
   \item 模型输入的轨迹步长记为$L$，测试了$L=30,50,100$的情况。
   \item 不同的预测目标（离散与连续预测见~\ref{sec-target}~）。
   \item 不同的手牌预测范围，默认预测当前手牌编号，也尝试了对当前牌库中全部手牌进行预测。
@@ -111,7 +111,7 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
 \end{itemize}
 
 全部模型训练曲线均进行了上传\footnote{决策模型全部训练曲线：\url{https://wandb.ai/wty-yy/ClashRoyale\%20Policy}}，
-模型实时对局的验证结果总结于表\ref{table-model-eval}中，在实时对局的实现中包含以下细节：
+模型实时对局的验证结果总结于表~\ref{table-model-eval}~中，在实时对局的实现中包含以下细节：
 \begin{itemize}
   \item 动作执行：对于连续动作预测模型中，由于感知识别中存在延迟，当预测动作延迟在$8$帧以内就会立刻执行动作，
   并且为了避免总圣水溢出导致的惩罚奖励，每当总圣水达到$10$时就直接下出当前预测的卡牌。

@@ -185,7 +185,7 @@ $\Delta h_{i}^{\text{bel}}$表示前一帧与当前帧生命值的差值，$H_{i
 
 \BiSection{决策模型}{}\label{sec-model}
 \BiSubsection{离线强化学习}{}\label{sec-offline-rl}
-离线强化学习（Offline Reinforcement Learning）是指在没有与环境交互的情况下，
+离线强化学习（offline reinforcement learning）是指在没有与环境交互的情况下，
 使用预先收集的随机或专家数据来训练强化学习算法，这类算法适用于无法频繁与环境交互或交互代价高昂的场景，
 例如自动驾驶、机器人控制等。由于本任务中的非嵌入环境，与环境交互速度效率很低，所以考虑使用离线强化学习作为决策模型。
 
@@ -333,7 +333,8 @@ $a^{select}$表示动作执行的手牌编号。
   \label{fig-model}
 \end{figure}
 
-本文使用的决策模型架构如图~\ref{fig-model}~所示，基于StARformer的ViT+DT架构，模型输入为轨迹序列$(a_t, R_t, s_t)_{t=1}^T$，
+本文使用的决策模型架构如图~\ref{fig-model}~所示，基于StARformer的ViT+DT架构，
+模型输入为轨迹序列$(a_t, R_t, s_t)_{t=1}^T$，
 输出为动作预测序列$(a_t^{pos},a_t^{select})_{t=1}^T$。左侧交叉注意力机制对
 局部信息$(a_t,R_t,s_t)$按空间维度进行编码，并使用ViT中分块思路将图像$s_t^{img}$转化为序列；
 右侧为因果注意力机制对全局信息$(s^{img}_t,s^{card}_t)$按时序维度进行编码，

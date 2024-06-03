@@ -1,0 +1,79 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{OpenAIFive}
+Berner, C., Brockman, G., Chan, B., Cheung, V., D{\k{e}}biak, P., Dennison, C.,
+  Farhi, D., Fischer, Q., Hashme, S., Hesse, C., et~al.: Dota 2 with large
+  scale deep reinforcement learning. arXiv preprint arXiv:1912.06680  (2019)
+
+\bibitem{DT}
+Chen, L., Lu, K., Rajeswaran, A., Lee, K., Grover, A., Laskin, M., Abbeel, P.,
+  Srinivas, A., Mordatch, I.: Decision transformer: Reinforcement learning via
+  sequence modeling. Advances in neural information processing systems
+  \textbf{34},  15084--15097 (2021)
+
+\bibitem{ViT}
+Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X.,
+  Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., et~al.:
+  An image is worth 16x16 words: Transformers for image recognition at scale.
+  arXiv preprint arXiv:2010.11929  (2020)
+
+\bibitem{YOLOv8}
+Jocher, G., Chaurasia, A., Qiu, J.: {Ultralytics YOLO} (Jan 2023),
+  \url{https://github.com/ultralytics/ultralytics}
+
+\bibitem{SAM}
+Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., Xiao,
+  T., Whitehead, S., Berg, A.C., Lo, W.Y., et~al.: Segment anything. In:
+  Proceedings of the IEEE/CVF International Conference on Computer Vision. pp.
+  4015--4026 (2023)
+
+\bibitem{CQL}
+Kumar, A., Zhou, A., Tucker, G., Levine, S.: Conservative q-learning for
+  offline reinforcement learning. Advances in Neural Information Processing
+  Systems  \textbf{33},  1179--1191 (2020)
+
+\bibitem{DQN}
+Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G.,
+  Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G., et~al.:
+  Human-level control through deep reinforcement learning. Nature
+  \textbf{518}(7540),  529--533 (2015)
+
+\bibitem{GPT}
+Radford, A., Narasimhan, K., Salimans, T., Sutskever, I., et~al.: Improving
+  language understanding by generative pre-training  (2018)
+
+\bibitem{PPO}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
+  policy optimization algorithms. arXiv preprint arXiv:1707.06347  (2017)
+
+\bibitem{StARformer}
+Shang, J., Kahatapitiya, K., Li, X., Ryoo, M.S.: Starformer: Transformer with
+  state-action-reward representations for visual reinforcement learning. In:
+  European conference on computer vision. pp. 462--479. Springer (2022)
+
+\bibitem{AlphaGo}
+Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den~Driessche,
+  G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M.,
+  et~al.: Mastering the game of go with deep neural networks and tree search.
+  nature  \textbf{529}(7587),  484--489 (2016)
+
+\bibitem{transformer}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N.,
+  Kaiser, {\L}., Polosukhin, I.: Attention is all you need. Advances in neural
+  information processing systems  \textbf{30} (2017)
+
+\bibitem{AlphaStar}
+Vinyals, O., Babuschkin, I., Czarnecki, W.M., Mathieu, M., Dudzik, A., Chung,
+  J., Choi, D.H., Powell, R., Ewalds, T., Georgiev, P., et~al.: Grandmaster
+  level in starcraft ii using multi-agent reinforcement learning. Nature
+  \textbf{575}(7782),  350--354 (2019)
+
+\bibitem{ByteTrack}
+Zhang, Y., Sun, P., Jiang, Y., Yu, D., Weng, F., Yuan, Z., Luo, P., Liu, W.,
+  Wang, X.: Bytetrack: Multi-object tracking by associating every detection
+  box. In: European conference on computer vision. pp. 1--21. Springer (2022)
+
+\end{thebibliography}
