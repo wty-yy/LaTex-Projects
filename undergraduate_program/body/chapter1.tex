@@ -43,7 +43,7 @@ OpenAI公司通过OpenAI Five\upcite{OpenAIFive}给出了基于强化学习的�
 所以本文只能收集专家数据集，采用~\ref{sec-offline-rl}~中所介绍的离线强化学习算法Decision Transformer（DT）\upcite{DT}
 和StARformer\upcite{StARformer}来完成决策部分。
 
-\BiSection{计算机视觉研究现状}{xu lun 2}
+\BiSection{目标检测研究现状}{xu lun 2}
 非嵌入式智能体主要利用到计算机视觉中图像分类（Image Classfication）、目标识别（Object Detection）和
 光学字符识别（Optical Character Recognition, OCR）三个方面，下面分别对其进行简单介绍：
 % \BiSubsection{图像分类}{xu lun 3}
@@ -84,7 +84,8 @@ SSD（Single Shot Multibox Detector）\upcite{SSD}、DETR（DEtection TRansforme
 为了理解每个模型的搭建与训练细节，本文对上述介绍的部分模型进行了复现\footnote{\url{https://github.com/wty-yy/katacv}，复现内容包括：LeNet-5、AlexNet、VGG16、GoogleNet、ResNet50、
 YOLOv1、YOLOv3、YOLOv4、YOLOv5、CTCLoss \& CRNN、miniGPT}。
 
-\BiSection{本毕设的任务}{xu lun 6}
+% \BiSection{本毕设的任务}{xu lun 6}
+\BiSection{背景介绍}{}
 \begin{wrapfigure}[26]{r}{.5\textwidth} % 文字环绕行数为13行, 图片靠右 (l为靠左), 图片占0.3的行宽
   \vspace{-4ex}\centering
   \includegraphics[width=0.5\textwidth]{introduction.pdf}
@@ -137,7 +138,7 @@ YOLOv1、YOLOv3、YOLOv4、YOLOv5、CTCLoss \& CRNN、miniGPT}。
 \begin{enumerate}
   \item 生成式数据集：本文设计了一个与本任务相关的生成式数据集，使其可以模仿真实场景生成含有任意数量部队及种类的带有识别标签的图像，
   能够非常高效地生成用于目标识别的训练数据集。
-  \item 感知融合：本文利用YOLOv8\upcite{YOLOv8}并结合目标追踪技术ByteTrack\upcite{ByteTrack}实现了对视频流中部队位置及类别的实时识别，
+  \item 图像感知融合：本文利用YOLOv8\upcite{YOLOv8}并结合目标追踪技术ByteTrack\upcite{ByteTrack}实现了对视频流中部队位置及类别的实时识别，
   通过PaddleOCR\upcite{PPOCR}完成了对数字及时间信息的识别，利用ResNet\upcite{ResNet}完成对卡牌和圣水图标的分类，
   结合上述几种感知模型，本文还提出了一系列针对于本任务的上下帧信息过滤方法用于优化感知特征。
   \item 模型决策：本文使用离线强化学习算法StARformer作为决策模型，
@@ -151,14 +152,14 @@ YOLOv1、YOLOv3、YOLOv4、YOLOv5、CTCLoss \& CRNN、miniGPT}。
 
 图~\ref{fig-eval-display}~中展示了电脑对手机的实时控制效果。图~\ref{fig-eval-computer-vid}~中具体内容如下：
 左一为手机视频流；
-左二为感知识别结果，左上角为当前实时奖励与总帧数，右上角为当前回合经过的时间，左下角为当前总圣水与手牌，竞技场中目标识别的边界框名称中第一项为类别名称与从属派别，第二项为目标跟踪编号；
-右二为感知融合特征，其中网格为$32\times 18$与竞技场中的格子相对应，每个带颜色的方形表示一个部队（数字表示从属派别），圆形表示观测到的动作执行（左上数字为卡牌编号，右下角为动作滞后的帧数）；
+左二为图像感知识别结果，左上角为当前实时奖励与总帧数，右上角为当前回合经过的时间，左下角为当前总圣水与手牌，竞技场中目标识别的边界框名称中第一项为类别名称与从属派别，第二项为目标跟踪编号；
+右二为图像感知融合特征，其中网格为$32\times 18$与竞技场中的格子相对应，每个带颜色的方形表示一个部队（数字表示从属派别），圆形表示观测到的动作执行（左上数字为卡牌编号，右下角为动作滞后的帧数）；
 右一为StARformer-3L决策模型的实时预测的动作分布，其中上方的网格分布表示动作的二维坐标预测，左下角数字表示当前预测动作延迟帧数，右下角四个方格对应四张手牌被选的概率大小。
 
 \begin{figure}[h!]
   \centering\vspace{-1ex}
   \subfigure[现实场景：左侧为被控制的手机，右侧为电脑\label{fig-eval-real}]{\includegraphics[width=\textwidth]{eval_online_real.jpg}}
-  \subfigure[电脑中感知融合与决策：左一为手机视频流，左二为感知识别结果，右二为感知融合特征，右一为模型决策预测动作分布。
+  \subfigure[电脑中图像感知融合与决策：左一为手机视频流，左二为感知识别结果，右二为图像感知融合特征，右一为模型决策预测动作分布。
   \label{fig-eval-computer-vid}]{\includegraphics[width=\textwidth]{eval_online_vid.png}}
   \setlength{\abovecaptionskip}{0ex}  % 由于minted会增大图像与标题间距需要进行缩小
   \vspace{-1ex}

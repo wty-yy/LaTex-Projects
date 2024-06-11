@@ -1,10 +1,10 @@
 % !Mode:: "TeX:UTF-8" 
 
-\BiChapter{感知融合与模型决策}{3}\label{chpt-3}
+\BiChapter{图像感知融合与模型决策}{3}\label{chpt-3}
 % 本章分别从目标识别、光学字符识别、图像分类三个方面介绍感知提取模型。感知融合结果作为第~\ref{chpt-4}~章决策模型的输入基础，
 % 下文分别从状态、动作、奖励特征提取三个方面进行介绍，
 % 相关实验结果在~\ref{sec-exp-detect}~中展示。
-\BiSection{感知模型}{}\label{sec-perceptron}
+\BiSection{图像感知模型}{}\label{sec-perceptron}
 \BiSubsection{目标识别模型}{}
 本文使用YOLO系列模型作为本次目标识别模型，分别尝试了YOLOv5\upcite{YOLOv5}和YOLOv8\upcite{YOLOv8}作为目标识别器，
 下面分别对其模型架构改进进行介绍：
@@ -43,11 +43,11 @@ PaddleOCR\upcite{PPOCR}是百度公司研发并开源的一个基于PaddlePaddle
 残差块由两部分构成，卷积层：卷积变换$F_W(\cdot)$、批归一化（Batch Normalization, BN）\upcite{BN}以及ReLU激活函数；
 残差连接：将输入直接加在卷积层的输出结果上。残差块结构可以表示为
 \begin{equation}
-  y = \sigma(\text{BN}(F_W(x))) + x
+  y = \sigma(\text{BN}(F_W(x))) + x,
 \end{equation}
 其中$x$为输入图像特征，$y$为输出图像特征，$F_W$是以卷积核$W$的卷积变换，BN为批归一化操作，$\sigma(x)=\frac{x+|x|}{2}$为ReLU函数。
 
-\BiSection{感知特征提取}{}
+\BiSection{图像感知特征提取}{}
 在感知特征提取中，本文将同时用到上述三种模型作为一阶段图像特征提取，分别可以得到当前时刻下三个预处理信息：
 剩余时间（OCR）、竞技场中的预测框（YOLO）、当前手牌及总圣水（图像分类器）。
 下面将介绍特征提取器的设计方法，可以将预处理信息进一步转化为决策模型的输入信息，它们分别为
@@ -101,7 +101,7 @@ PaddleOCR\upcite{PPOCR}是百度公司研发并开源的一个基于PaddlePaddle
 
 需要注意状态处理的细节问题，在执行动作之前，状态特征中应不包含任何直接与该动作相关的先验信息，
 否则模仿学习可以通过该先验信息直接给出动作预测，而真实环境中由于不再出现这类动作的先验信息，
-所以导致模型无法做出决策，错误状态信息如右图~\ref{fig-state-action}~所示。
+所以导致模型无法做出决策，错误状态信息如图~\ref{fig-state-action}~所示。
 
 假设目标识别每个预测框的识别结果包括七个参数$b:=(x,y,w,h,\text{id},\text{cls},\text{bel})$，
 分别为预测框的中心点$(x,y)$，宽高$(w,h)$，目标追踪编号id，预测所属类别cls以及所属派别bel。
@@ -206,11 +206,11 @@ $r:\mathcal{S}\times\mathcal{A}\to \mathbb{R}$为奖励函数，$\gamma\in(0,1)$
 Decision Transformer（DT）\upcite{DT}是一种将强化学习问题是为序列建模问题的方法，使用了深度学习中的Transformer架构，
 对于离线数据集中的一段长度为$T$的交互轨迹（Trajectory）
 \begin{equation}
-  \rho = (s_1,a_1,r_1,s_2,a_2,r_2,\cdots,s_T,a_T,r_T,s_{T+1})
+  \rho = (s_1,a_1,r_1,s_2,a_2,r_2,\cdots,s_T,a_T,r_T,s_{T+1}),
 \end{equation}
 其中$s_{T+1}$为终止状态，则$\rho$可以视为建模为序列
 \begin{equation}\label{eq-sequence}
-  R_0,s_1,a_1,R_1,s_2,\cdots,a_{T-1},R_{T-1},s_{T},a_{T}
+  R_0,s_1,a_1,R_1,s_2,\cdots,a_{T-1},R_{T-1},s_{T},a_{T},
 \end{equation}
 其中$R_i=\sum_{t=i}^Tr_{t+1}, (i=0,\cdots,T-1)$为目标回报（Return-to-Go）。
 
@@ -228,7 +228,7 @@ DT模型中序列编码模型使用的是GPT模型\upcite{GPT}，即仅含有编
 则对于序列中第$i\in\{1,\cdots,N\}$个特征对应的交叉注意力（Cross-Attention）为
 \begin{equation}
   \bd{z}^{cross}_i = \sum_{j=1}^N\text{softmax}\left(\left\{\frac{1}{\sqrt{d_k}}\langle \bd{q}_i,\bd{k}_l\rangle\right\}_{l=1}^N\right)_j\cdot \bd{v}_j\iff
-  Z^{cross} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+  Z^{cross} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V,
 \end{equation}
 其中包含系数$1/\sqrt{d_k}$的原因：不妨假设$\bd{q}_{ij}\bd{k}_{lj}\sim \mathcal{N}(0,\sigma^2),~(j\in\{1,\cdots,d_k\})$，
 则$\sum_{j=1}^{d_k}\bd{q}_{ij}\bd{k}_{lj}\sim\mathcal{N}(0,d_k\sigma^2)$，由于初始化的神经网络输出可以保证$\sigma\approx 1$，
@@ -238,7 +238,7 @@ DT模型中序列编码模型使用的是GPT模型\upcite{GPT}，即仅含有编
 \begin{equation}\label{eq-causal-attn}
 \begin{aligned}
   &\ \bd{z}^{causal}_i = \sum_{j=1}^i\text{softmax}\left(\left\{\frac{1}{\sqrt{d_k}}\langle \bd{q}_i,\bd{k}_l\rangle \right\}_{l=1}^N\right)_j\cdot \bd{v}_j\\
-  \iff &\ Z^{causal} = \text{softmax}\left(\frac{\left(QK^T\right)\odot M}{\sqrt{d_k}}\right)V
+  \iff &\ Z^{causal} = \text{softmax}\left(\frac{\left(QK^T\right)\odot M}{\sqrt{d_k}}\right)V,
 \end{aligned}
 \end{equation}
 其中$M$为$N$阶下三角阵，引入因果注意力机制后，每个特征由于无法观察到后续特征，所以可以对相邻的下一个特征进行预测，
@@ -246,15 +246,14 @@ DT模型中序列编码模型使用的是GPT模型\upcite{GPT}，即仅含有编
 
 DT训练方法：首先从离线数据集中随机采样得到一段长度为$N$的轨迹
 \begin{equation}
-  \tau_{t-N+1:t} =: (R_0,s_1,a_1,R_1,s_2,a_2,\cdots,R_{N-1},s_N,a_N) = \{R_{n-1},s_n,a_n\}_{n=1}^N
+  \tau_{t-N+1:t} =: (R_0,s_1,a_1,R_1,s_2,a_2,\cdots,R_{N-1},s_N,a_N) = \{R_{n-1},s_n,a_n\}_{n=1}^N,
 \end{equation}
-
 将每个特征编码到相同维度$\mathbb{R}^d$下，按式~(\ref{eq-sequence})
 建模为长度$3N$的序列$\tau\in\mathbb{R}^{3N\times d}$，用GPT模型对序列进行特征编码可以得到和$\tau$维度相同的编码序列$\tau'$，
 再取出状态序列所对应的编码结果，通过线性变换映射到动作空间维度，从而得到对相邻动作的预测
 \begin{equation}
   (\tau'_2,\tau'_5,\cdots, \tau'_{3N-1})\xrightarrow{\text{~线性变换~}}
-  (\hat{a}_1,\hat{a}_2,\cdots,  \hat{a}_{N})
+  (\hat{a}_1,\hat{a}_2,\cdots,  \hat{a}_{N}).
 \end{equation}
 
 对于离散动作空间使用多元交叉熵损失，连续动作空间则使用$\ell^2$范数（Mean Square Error, MSE）作为损失函数。
@@ -285,7 +284,7 @@ StARformer\upcite{StARformer}是一种基于ViT\upcite{ViT}专门对状态中的
 通过线性变换映射到动作空间维度，从而得到相邻动作的预测
 \begin{equation}
   (\tau'_1,\tau'_3,\cdots, \tau'_{2N-1})\xrightarrow{\text{~线性变换~}}
-  (\hat{a}_1,\hat{a}_2,\cdots, \hat{a}_{N})
+  (\hat{a}_1,\hat{a}_2,\cdots, \hat{a}_{N}),
 \end{equation}
 模型的训练及推理方式与DT完全一致，相比DT模型，StARformer能够有效的提高模型对图像信息的理解能力，
 本毕设对上述离线强化学习算法进行了复现\footnote{\url{https://github.com/wty-yy/Decision-Transformer-JAX}，
@@ -322,7 +321,7 @@ $a^{select}$表示动作执行的手牌编号。
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{resample_and_delay.pdf}
-  \caption{从离线数据集中截取的一段数据，总共包含5个动作帧，最大间隔帧数阈值$T_{delay} = 20$，}\label{fig-resample-and-delay}
+  \caption{从离线数据集中截取的一段数据，总共包含5个动作帧，最大间隔帧数阈值$T_{delay} = 20$。}\label{fig-resample-and-delay}
 \end{figure}
 
 \BiSubsection{模型架构设计}{}\label{sec-model-struct}
@@ -373,7 +372,7 @@ DT-4L：基于DT架构，可以看作仅包含图~\ref{fig-model}~中时序注�
 % 本章首先对离线强化学习中的传统模型进行介绍，再给出本文对模型架构及预测目标的改进内容，
 % 相关实验结果在~\ref{sec-decision-model}~中展示。
 \BiSection{本章小结}{}
-感知融合：首先分别对YOLO系列目标识别模型、PaddleOCR光学字符识别模型、ResNet图像分类器进行介绍，将其作为非嵌入图像特征信息的初步提取器，
+图像感知融合：首先分别对YOLO系列目标识别模型、PaddleOCR光学字符识别模型、ResNet图像分类器进行介绍，将其作为非嵌入图像特征信息的初步提取器，
 再通过状态、动作、奖励三种不同感知特征提取器对特征信息进行融合，通过结合上下帧信息及单位的关联信息恢复漏识别目标，
 排除对动作决策具有干扰的特征，最后将融合完成的特征作为~\ref{sec-model}~中决策模型的输入信息。
 

@@ -1,104 +1,17 @@
-\documentclass{article}
-\usepackage[newfloat]{minted}
-\usepackage{caption}
-
-\newenvironment{codetitle}{\captionsetup{type=listing}}{}
-\SetupFloatingEnvironment{listing}{name=Source Code}
-%%%% 设置代码块 %%%%
-% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
-% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
-\usepackage{minted}
-\renewcommand{\theFancyVerbLine}{
-    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
-% 加入不同语言的代码块
-\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
-\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
-\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
-\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
-\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
-\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
-
+\documentclass{tufte-book}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 \begin{document}
-\begin{codetitle}
-\captionof{listing}{My C-Code}
-\label{code:c-code}
-\begin{cppcode}
-int main() {
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-int main() {
-int main() {
-int main() {
-int main() {
-int main() {
-int main() {
-int main() {
-int main() {
-int main() {
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-printf("hello, world");
-return 0;
-actiona
-actiona
-action
-}
-\end{cppcode}
-\end{codetitle}
-
-Reference to \ref{code:c-code}.  
-
+\tableofcontents
+\chapter{Introduction}
+\section{Historical Overview}
+\chapter{Implementation}
+\section{The CUDA Model}
+\section{A Lattice Boltzmann Solver}
+\chapter*{Appendix}
+\addcontentsline{toc}{chapter}{Appendix}
+\section*{The Mathematical Background}
+\addcontentsline{toc}{section}{The Mathematical Background}
+% \subsection*{Proofs}
+\addcontentsline{toc}{chapter}{Proofs}
 \end{document}

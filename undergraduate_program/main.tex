@@ -16,6 +16,12 @@
 \def\add{\vspace{1ex}}      % 增加行间距
 \def\del{\vspace{-1.5ex}}   % 减少行间距
 \DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\newcommand\myemptypage{    % 增加空白页
+  \null
+  \thispagestyle{empty}
+  \addtocounter{page}{-1}
+  \newpage
+}
 
 \input{setup/package}
 \graphicspath{{figures/}}
@@ -25,7 +31,8 @@
 \input{setup/format}
 
 \begin{titlepage}
-\includepdf[]{pdfs/吴天阳本科毕业设计封面.pdf}  % 查重部分
+% \includepdf[]{pdfs/吴天阳本科毕业设计封面.pdf}  % 查重部分
+\includepdf[]{pdfs/吴天阳本科毕业设计封面（数学与应用数学强基计划）.pdf}  % 查重部分
 \end{titlepage}
 % \let\cleardoublepage\clearpage
 
@@ -70,5 +77,6 @@
 \include{appendix/appB}  % 外文翻译
 \include{appendix/appC}  % 附录C
 \include{appendix/appD}  % 附录D
+\include{appendix/appE}  % 任务书，考核评议书，答辩结果
 
 \end{document} 

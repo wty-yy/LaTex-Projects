@@ -48,7 +48,7 @@ SAM模型的核型框架包含如下三个部分：
 $(x,y)$表示当前边界框中心，$(w,h)$表示边界框的宽度和高度。
 
 对于任意两个边界框$B_1,B_2$，$S_1,S_2$分别表示其所围住的点集，
-则称$B_1,B_2$的交并比（Intersection over Union, IOU）为$\text{IOU}_{B_2}^{B_1}:=\frac{S_1\cap S_2}{S_1\cup S_2}$
+则称$B_1,B_2$的交并比（Intersection over Union, IOU）为$\text{IOU}_{B_2}^{B_1}:=\frac{S_1\cap S_2}{S_1\cup S_2}$。
 
 设$S,B,C\in\mathbb{Z}^+$分别表示图像网格化大小、每个网格中边界框预测框数目、总分类类别数，通过CNN可以将图像空间进行压缩，
 从而得到对应的不同网格化大小。例如，在如图~\ref{fig-anchor}~中原图像宽高为$416\times 416$，CNN中每次降采样会将图像的宽高均减小一半，

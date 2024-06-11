@@ -26,7 +26,7 @@
 
 \BiSection{目标识别模型}{}\label{sec-exp-detect}
 目标识别模型使用了自己实现的YOLOv5\footnote{复现YOLOv5代码：\url{https://github.com/wty-yy/KataCV/tree/master/katacv/yolov5}}
-和重构后的YOLOv8的模型\footnote{YOLOv8重构内容：\url{https://github.com/wty-yy/KataCR/blob/master/asserts/yolov8_modify.md}}，
+和重构后的YOLOv8\footnote{YOLOv8重构内容：\url{https://github.com/wty-yy/KataCR/blob/master/asserts/yolov8_modify.md}}，
 每个训练集大小设置为$20000$，至多训练$80$个epoch收敛。
 数据增强使用了：HSV增强，图像旋转，横纵向随机平移，图像缩放，图像左右反转，具体参数见附录表~\ref{table-app-aug}~。
 
@@ -80,7 +80,7 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
 \end{table}
 
 \BiSection{决策模型}{}\label{sec-decision-model}
-本文基于第~\ref{chpt-3}~章中介绍的感知融合技术，
+本文基于第~\ref{chpt-3}~章中介绍的图像感知融合技术，
 手动构建了玩家与与游戏内置的$8000$分AI对局$105$回合的专家数据
 \footnote{全部专家数据集均已开源：\url{https://github.com/wty-yy/Clash-Royale-Replay-Dataset}}，
 固定双方使用的卡组（具体卡组见附录~\ref{app-sec-desk}~），
@@ -91,7 +91,7 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
   \mathcal{L} =
   \sum_{\substack{i=1\\}}^N\mathbb{I}_{a_i^{delay} < T_{delay}}\left[\mathcal{L}_{\text{CE}}(\hat{\bd{a}}_i^{pos}, \bd{a}_i^{pos})+
   \mathcal{L}_{\text{CE}}(\hat{a}_i^{select}, a_i^{select}) + 
-  \mathcal{L}_{\text{CE}}(\hat{a}_i^{delay}, a_i^{delay})\right]
+  \mathcal{L}_{\text{CE}}(\hat{a}_i^{delay}, a_i^{delay})\right],
 \end{equation}
 其中$T_{delay},\bd{a}_i^{pos},a_i^{select},a_i^{delay}$分别为最大间隔帧数阈值、目标动作的部署坐标、手牌编号以及部署延迟，
 注意每条轨迹下只考虑$a_i^{delay} < T_{delay}$对应的梯度。
@@ -111,7 +111,8 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
 \end{itemize}
 
 全部模型训练曲线均进行了上传\footnote{决策模型全部训练曲线：\url{https://wandb.ai/wty-yy/ClashRoyale\%20Policy}}，
-模型实时对局的验证结果总结于表~\ref{table-model-eval}~中，在实时对局的实现中包含以下细节：
+模型实时对局的验证结果\footnote{12次对局胜利的视频：\url{https://www.bilibili.com/video/BV1xn4y1R7GQ}}总结于表~\ref{table-model-eval}~中，
+在实时对局的实现中包含以下细节：
 \begin{itemize}
   \item 动作执行：对于连续动作预测模型中，由于感知识别中存在延迟，当预测动作延迟在$8$帧以内就会立刻执行动作，
   并且为了避免总圣水溢出导致的惩罚奖励，每当总圣水达到$10$时就直接下出当前预测的卡牌。
@@ -163,7 +164,7 @@ FPS(T)是在GeForce RTX 4060 Laptop下带有目标追踪的识别速度。
 
 
 硬件交互方法见附录~\ref{app-interaction}，本文使用的验证环境：手机系统为鸿蒙、电脑系统为Ubuntu24.04 LTS、CPU: R9 7940H、GPU: RTX GeForce 4060 Laptop，
-平均决策用时120ms，感知融合用时240ms。
+平均决策用时120ms，图像感知融合用时240ms。
 
 图~\ref{fig-model-eval}~中展示了每种模型前10个训练结果的验证曲线。
 
