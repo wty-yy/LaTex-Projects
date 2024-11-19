@@ -1,0 +1,335 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem, titlesec}
+\usepackage{makecell}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”,
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Minion Pro}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置代码块 %%%%
+% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
+% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
+\usepackage{minted}
+\renewcommand{\theFancyVerbLine}{
+    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
+% 加入不同语言的代码块
+\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
+\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
+\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
+\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
+\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
+\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+% \geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}  % 更小的页边距
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{example}{例}            % 整体编号
+\newtheorem{theorem}{定理}[section] % 定理按section编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+\numberwithin{equation}{section}  % 公式按section编号 (公式右端的小括号)
+\newtheorem{algorithm}{算法}
+
+%%%% 自定义环境 %%%%
+\newsavebox{\nameinfo}
+\newenvironment{myTitle}[1]{
+    \begin{center}
+    {\zihao{-2}\bf #1\\[1ex]}
+    \zihao{-4}\it
+}{\end{center}}  % \begin{myTitle}{标题内容}作者信息\end{myTitle}
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+\BeforeBeginEnvironment{minted}{\vspace{-0.5cm}}  % 缩小minted环境距上文间距
+\AfterEndEnvironment{minted}{\vspace{-0.2cm}}  % 缩小minted环境距下文间距
+
+%%%% 自定义段落开头序号，间距 (titlesec) %%%%
+% 中文序号：\zhnum{section}, 阿拉伯序号：\arabic
+\titleformat{\section}{\Large\bfseries}{\arabic{section}}{1em}{}[]
+\titlespacing{\section}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+\titlespacing{\subsubsection}{0pt}{1.2ex plus .0ex minus .0ex}{.6ex plus .0ex}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+% \setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式, 想要变回行内公式使用\textstyle
+\DeclareMathOperator*\uplim{\overline{lim}}     % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}}   % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 简写小于等于\leq (将全部leq变为leqslant)
+\let\geq=\geqslant % 简写大于等于\geq (将全部geq变为geqslant)
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\E{\mathbb{E}}          % Exception
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.2ex}}   % 减少行间距
+
+\def\S{\mathcal{S}}
+\def\A{\mathcal{A}}
+\def\M{\mathcal{M}}
+\def\J{\mathcal{J}}
+
+%%%% 正文开始 %%%%
+\begin{document}
+
+%%%% 定义标题页,包括title,author,affiliation,email等 %%%%
+% \title{非线性优化中Lagrange方法\\在安全强化学习中的应用}
+% \author{
+% 西安交通大学, 人工智能学院\\[3ex]
+% 吴天阳$^a$, 郭涵伟$^b$\\[1ex]
+% 4124136039$^a$, 3124136019$^b$\\[2ex]
+% }
+% \date{\today}
+% \maketitle % 设置上面的标题
+% \clearpage % 创建新的一面
+% \tableofcontents % 创建目录页,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
+
+%%%% 以下部分是正文 %%%%  
+\clearpage
+\begin{myTitle}{非线性优化中Lagrange方法在安全强化学习中的应用}
+西安交通大学, 人工智能学院\\
+吴天阳$^a$, 郭涵伟$^b$\\
+4124136039 $^a$, 3124136019 $^b$\\
+\end{myTitle}
+\section{背景介绍}
+\subsection{数学记号}
+\begin{definition}[Markov Decision Process, MDP]
+    设$\M=\{\S,\A,\P,r,\mu,\gamma\}$，其中
+    \begin{itemize}
+        \item $\S$为有限状态集合,
+        \item $\A$为有限动作集合,
+        \item $\P(s'|s,a):\S^2\times\A\to[0,1]$为状态转移概率分布,
+        \item $\mu(s):\S\to[0,1]$为初始状态分布,
+        \item $r(s):\S\to\R$为奖励函数,
+        \item $\gamma\in(0,1)$为折扣系数.
+    \end{itemize}
+    将$\M$称为Markov决策过程，简称为Markov过程。
+\end{definition}
+设$\pi(a|s):\A\times \S\to[0,1]$为参数化策略函数，表示在状态$s$下动作$a$执行的概率大小。
+在深度强化学习中，我们通常会使用深度神经网络近似策略函数$\pi$，因此通常也记为$\pi_\theta$
+表示参数化的策略函数。
+
+下面我们分别给出强化学习(Reinforcement Learning, RL)和安全强化学习(Safe Reinforcement Learning, Safe RL)
+中优化目标。
+
+\textbf{强化学习优化目标：}
+设$\tau:=(s_0,a_0,s_1,\cdots)$表示一段轨迹，$\tau\sim\pi$表示基于策略$\pi$采样得到的$\tau$，
+满足$s_0\sim\mu, a_t\sim\pi(\cdot|s_{t-1}),s_{t+1}\sim\P(\cdot|s_t,a_t)$.
+记$R(\tau) = \sum_{t=0}^{\infty}\gamma^tr(s_t)$表示折后回报，
+则强化学习的优化目标为最大化折后回报，即
+\begin{equation}
+    \max_{\pi}\J^R(\pi) := \E_{\tau\sim\pi}[R(\tau)] = \E_{\tau\sim\pi}\left[\sum_{t=0}^{\infty}\gamma^tr(s_t)\right]
+\end{equation}
+
+\textbf{安全强化学习优化目标：}
+设$C_1,\cdots,C_m:\S\times \A\times \S\to\R$为$m$个成本函数(Cost function)，
+$d_1,\cdots,d_m\in\R$为$m$个成本限制(Cost limit)，成本函数的折后回报为
+\begin{equation}
+    \J^{C_i}(\pi) = \E_{\tau\sim\pi}\left[\sum_{t=0}^{\infty}\gamma^tC_i(s_t,a_t,s_{t+1})\right]
+\end{equation}
+则安全强化学习的优化目标为
+\begin{equation}\label{eq-safe-rl}
+    \begin{aligned}
+        &\ \max_{\pi}\J^R(\pi)\\
+        &\ s.t.\quad \J^{C_i}(\pi)\leqslant d_i,\quad(i=1,\cdots,m)
+    \end{aligned}
+\end{equation}
+
+\subsection{Lagrange对偶}
+考虑如下具有一般性的最优化问题，也称原始问题(Primal problem)
+\begin{equation}\label{eq-primal-prob}
+    \begin{aligned}
+        &\ \min_{x}f(x)\\
+        &\ s.t.\quad h_i(x)\leqslant 0,\quad (i=1,\cdots,m),\\
+        &\ \phantom{s.t.}\quad l_j(x)=0,\quad (j=1,\cdots,r).
+    \end{aligned}
+\end{equation}
+定义其对应的Lagrange对偶形式为
+\begin{equation}
+    \L(x,\bd{u},\bd{v}) = f(x) + \sum_{i=1}^mu_ih_i(x)+\sum_{j=1}^rv_jl_j(x)
+\end{equation}
+其中$\bd{u}\in\R^m,\bd{v}\in\R^r$中的每个维度上的分量被成为Lagrange乘子。
+\begin{lemma}\label{lemma1}
+    对于任何满足(\ref{eq-primal-prob})中约束的$x$，
+    有$f(x)=\max_{u_i\geqslant 0,v_j}\L(x,\bd{u},\bd{v})$，
+    并且右式取到最大值，当且仅当，$u_ih_i(x)=0,(i=1,\cdots,m)$。
+\end{lemma}
+\begin{proof}
+    $\forall x$满足式(\ref{eq-primal-prob})中约束条件，$\forall u_i\geqslant 0$，
+    有$\L(x,\bd{u},\bd{v})=f(x)+\sum_{i=1}^mu_ih_i(x)\leqslant f(x)$。
+    当且仅当，$u_ih_i(x)=0,(i=1,\cdots,m)$时，$\L(x,\bd{u},\bd{v})$取到最大值。
+\end{proof}
+\begin{lemma}
+    设$f^*$为原始问题最优解，则$f^*=\min_x\max_{u_i\geqslant 0,v_j}\L(x,\bd{u},\bd{v})$.
+\end{lemma}
+\begin{proof}
+    由引理(\ref{lemma1})可知，只需证$\min_x$中取到的$x$满足式(\ref{eq-primal-prob})中的约束条件。
+    假设存在$x$不属于可行域中，即存在$h_{i_0}(x_0)>0$或$l_{j_0}(x_0)\neq 0$，
+    则当$u_{i_0}\to\infty$或$v_{j_0}h_{j_0}(x_0)\to\infty$时，
+    $\max_{u_i\geq0,v_j}\L(x,\bd{u},\bd{v})\to\infty$，与$f^*$存在矛盾，故原命题成立。
+\end{proof}
+\begin{definition}[对偶问题]
+    设$\theta_d(\bd{u},\bd{v})=\min_x\L(x,\bd{u},\bd{v})$，则原始问题的对偶问题为
+    \begin{equation}
+        g^*=\max_{u_i\geqslant 0,v_j}\theta_d(\bd{u},\bd{v}) = \max_{u_i\geqslant0,v_j}\min_x\L(x,\bd{u},\bd{v})
+    \end{equation}
+\end{definition}
+注意到$\theta_d(\bd{u},\bd{v})$是关于$\bd{u},\bd{v}$的仿射函数且为逐点下确界（由$\L$定义不难看出），
+因此$\theta_d$为凹函数，故求解$g^*$属于凸优化问题。
+\begin{proposition}[弱对偶性]
+    上述定义的$f^*,g^*$满足弱对偶性$g^*\leqslant f^*$。
+\end{proposition}
+\begin{proof}
+    设$x^*\in\R$为$f^*$取到时对应的值，$\bd{u}^*\in\R^m,\bd{v}^*\in\R^r$为$g^*$取到时对应的值，则
+    \begin{equation}
+        \begin{aligned}
+        g^* &\ = \max_{u_i\geqslant 0,v_j}\min_x\L(x,\bd{u},\bd{v}) = \min_x\L(x,\bd{u}^*,\bd{v}^*)\leqslant \L(x^*,\bd{u}^*,\bd{v}^*)\\
+        &\ \leqslant \max_{u_i\geqslant 0,v_j}\L(x^*,\bd{u},\bd{v}) = \min_x\max_{u_i\geqslant 0,v_j}\L(x,\bd{u},\bd{v}) = f^*
+        \end{aligned}
+    \end{equation}
+\end{proof}
+
+Lagrange对偶问题转换通常是消去约束条件的方法，一般情况下我们不会讨论$g^*=f^*$的情况，
+而通过梯度下降的方法求解$x$，并在迭代过程中，如果$x$不属于可行域中，
+则将系数$\bd{u}$进行放大，从而再利用梯度下降对$x$进行更新，最终将$x$限制到可行域中。
+\subsection{Lagrange方法}
+我们将上述的Lagrange对偶方法与安全强化学习结合，
+对安全强化学习优化目标(\ref{eq-safe-rl})转化为Lagrange对偶问题
+\begin{equation}
+    \min_{\lambda_i \geqslant 0}\max_{\pi}\left[\J^R(\pi)-\lambda_i(\J^{C_i}(\pi)-d_i)\right],\quad (i=1,\cdots,m)
+\end{equation}
+该问题为无约束的强化学习问题，因此可以使用任何强化学习算法解决，
+通常强化学习算法会基于当前与环境的交互，估计得到状态对应的折后回报期望，
+从而优化$\pi$使其最大化折后回报，
+因此我们只需要将$-\lambda_i(\J^{C_i}(\pi)-d_i)$项加入到之前的折后回报$\J^R(\pi)$中，
+使用任何强化学习算法对$\pi$进行更新，若新的$\pi$不满足约束条件，则增大$\lambda_i$。
+
+以一个约束条件$C$为例，记第$t$次迭代的成本误差为$e_t=\J^{C}(\pi_t)-d$，
+下面给出一种最简单的调整$\lambda$的方法
+\begin{equation}
+    \lambda_{t+1} = \max\left(\lambda_{t}+\eta e_t,0\right)
+\end{equation}
+其中$\eta_i$为$\lambda_i$对应的学习率。
+
+这里的Lagrange乘子更新策略可以更加复杂，
+例如使用PID(Proportion Integration Differentiation)控制算法：
+\begin{equation}
+    \begin{aligned}
+\lambda_{t+1} &\ = \lambda_t + K_p e(t) + K_i \int e(t) \d t + K_d \frac{\d e(t)}{\d t},&\quad\text{（连续形式）}\\
+\lambda_{t+1} &\ = \lambda_t + K_p e(t) + K_i \sum_{n=0}^{t}e(t) + K_d \left(\J^C(\pi_t) - \J^C(\pi_{t-1})\right).&\quad\text{（离散形式）}
+    \end{aligned}
+\end{equation}
+具体实现中通常会用指数平滑(Exponential Moving Average, EMA)代替$e(t)$和$\J^C(\pi_t)$。
+\section{实验步骤与结果分析}
+\href{https://github.com/PKU-Alignment/safety-gymnasium}{Safety Gymnasium}是在\href{https://mujoco.org/}{MuJoCo}（机器人仿真环境）上加入成本函数的可视化，
+我们仅考虑其中两个包含速度限制的环境
+\renewcommand\arraystretch{1.2} % 设置表格高度为原来的1.2倍
+\begin{table}[H] % table标准
+    \centering % 表格居中
+    \begin{tabular}{p{0.4\textwidth}<{\centering}p{0.15\textwidth}<{\centering}p{0.15\textwidth}<{\centering}p{0.15\textwidth}<{\centering}} % 设置表格宽度
+        \toprule
+        环境名称&速度阈值&状态维度&动作维度\\
+        \midrule
+        \texttt{SafetyAntVelocity-v1}&2.6222&27&8\\
+        \texttt{SafetyHumanoidVelocity-v1}&1.4149&376&17\\
+        \bottomrule
+    \end{tabular}
+    \caption{使用的两个环境的参数}
+    \label{table-id}
+\end{table}
+安全强化学习算法我们分别考虑了两个在线与离线的经典算法PPO和SAC，
+分别使用简单比例控制和PID控制\footnote{参考论文：\href{https://arxiv.org/abs/2007.03964}{Responsive Safety in Reinforcement Learning by PID Lagrangian Methods}}对Lagrange乘子进行调整，分别称为
+PPOLag, SACLag, CPPOPID和SACPID。
+\renewcommand\arraystretch{1.2} % 设置表格高度为原来的1.2倍
+\begin{table}[H] % table标准
+    \centering % 表格居中
+    \begin{tabular}{
+        p{0.2\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        p{0.1\textwidth}<{\centering}
+        } % 设置表格宽度
+        \toprule
+        环境名称&PPO&PPOLag&CPPOPID&SAC&SACLag&SACPID\\
+        \midrule
+        % \texttt{Ant-Ret}&\small$5977.73\del\pm 885.65$&\small$3261.87\del\pm80.00$&3213.36 ± 146.78&5456.31 ± 156.04&1897.32 ± 1213.74&1940.55 ± 482.41\\
+        % \texttt{Ant-Cost}&\small$958.13\del\pm 134.5$&12.05 ±6.57&14.30 ±7.39&943.10 ± 47.51&5.73 ±7.83&13.73 ±7.24\\
+        % \texttt{Humanoid-Ret}&9115.93 ± 596.88&6624.46 ± 25.9&6579.26 ± 55.70 	&6039.77 ± 167.82&5940.04 ± 121.93&6107.36 ± 113.24\\
+        % \texttt{Humanoid-Cost}&960.44 ± 7.06&5.87 ±9.46&3.76 ±3.61&41.42 ±49.78&17.59 ±6.24&6.20 ±10.14\\
+        \small\texttt{Ant-Ret}&\small\makecell{$5977.73\del$\\$\pm 885.65$}&\small\makecell{$3261.87\del$\\$\pm 80.00$}&\small\makecell{$3213.36\del$\\$\pm 146.78$}&\small\makecell{$5456.31\del$\\$\pm 156.04$}&\small\makecell{$1897.32\del$\\$\pm 1213.74$}&\small\makecell{$1940.55\del$\\$\pm 482.41$}\\
+        \small\texttt{Ant-Cost}&\small\makecell{$958.13\del$\\$\pm 134.5$}&\small\makecell{$12.05\del$\\$\pm 6.57$}&\small\makecell{$14.30\del$\\$\pm 7.39$}&\small\makecell{$943.10\del$\\$\pm 47.51$}&\small\makecell{$5.73\del$\\$\pm 7.83$}&\small\makecell{$13.73\del$\\$\pm 7.24$}\\
+        \small\texttt{Humanoid-Ret}&\small\makecell{$9115.93\del$\\$\pm 596.88$}&\small\makecell{$6624.46\del$\\$\pm 25.9$}&\small\makecell{$6579.26\del$\\$\pm 55.70$}&\small\makecell{$6039.77\del$\\$\pm 167.82$}&\small\makecell{$5940.04\del$\\$\pm 121.93$}&\small\makecell{$6107.36\del$\\$\pm 113.24$}\\
+        \small\texttt{Humanoid-Cost}&\small\makecell{$960.44\del$\\$\pm 7.06$}&\small\makecell{$5.87\del$\\$\pm 9.46$}&\small\makecell{$3.76\del$\\$\pm 3.61$}&\small\makecell{$41.42\del$\\$\pm 49.78$}&\small\makecell{$17.59\del$\\$\pm 6.24$}&\small\makecell{$6.20\del$\\$\pm 10.14$}\\
+        \bottomrule
+    \end{tabular}
+    \caption{四种不同算法在两个环境上得到的总回报与总成本，PPO算法训练$10^7$步骤，SAC算法训练$3\times 10^6$，速度成本阈值均为$25$。}
+    \label{table-id}
+\end{table}
+\section{结论与讨论}
+
+\end{document}
