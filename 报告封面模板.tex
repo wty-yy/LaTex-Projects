@@ -1,7 +1,10 @@
 \documentclass[12pt, a4paper, oneside]{ctexart}
-\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fontspec, appendix, float, subfigure, wrapfig, enumitem, titlesec}
-\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
-
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, xcolor, fancyhdr, fontspec, appendix, float, subfigure, wrapfig, enumitem, titlesec}
+\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=black,urlcolor=blue,menucolor=black]{hyperref}
+\usepackage{tabularx}
+\usepackage{xcolor} % 用于设置颜色
+\usepackage{tocloft} % 用于自定义目录样式
+\usepackage{float}
 %%%% 设置中文字体 %%%%
 % fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
 \setCJKmainfont[
@@ -14,23 +17,6 @@
 \setmainfont{Minion Pro}
 \setsansfont{Calibri}
 \setmonofont{Consolas}
-
-%%%% 设置代码块 %%%%
-% 在vscode中使用minted需要先配置python解释器, Ctrl+Shift+P, 输入Python: Select Interpreter选择安装了Pygments的Python版本. 再在setting.json中xelatex和pdflatex的参数中加入 "--shell-escape", 即可
-% TeXworks中配置方法参考: https://blog.csdn.net/RobertChenGuangzhi/article/details/108140093
-\usepackage{minted}
-\renewcommand{\theFancyVerbLine}{
-    \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}} % 修改代码前序号大小
-% 加入不同语言的代码块
-\newmintinline{cpp}{fontsize=\small, linenos, breaklines, frame=lines}
-\newminted{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintedfile{cpp}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintinline{matlab}{fontsize=\small, linenos, breaklines, frame=lines}
-\newminted{matlab}{fontsize=\small, baselinestretch=1, mathescape, linenos, breaklines, frame=lines}
-\newmintedfile{matlab}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines}
-\newmintinline{python}{fontsize=\small, linenos, breaklines, frame=lines, python3}  % 使用\pythoninline{代码}
-\newminted{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\begin{pythoncode}代码\end{pythoncode}
-\newmintedfile{python}{fontsize=\small, baselinestretch=1, linenos, breaklines, frame=lines, python3}  % 使用\pythonfile{代码地址}
 
 %%%% 设置行间距与页边距 %%%%
 \linespread{1.2}
@@ -76,7 +62,7 @@
 
 %%%% 图片相对路径 %%%%
 \graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
-\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\abovecaptionskip}{0cm}  % 缩紧图片标题与图片之间的距离
 \setlength{\belowcaptionskip}{0pt} 
 
 %%%% 缩小item,enumerate,description两行间间距 %%%%
@@ -124,72 +110,82 @@
 \def\ul{\underline}         % 下横线 underline
 \def\add{\vspace{1ex}}      % 增加行间距
 \def\del{\vspace{-1.5ex}}   % 减少行间距
+\newcommand{\tio }{TiO}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+% 全局设置目录字体为黑色
+\renewcommand{\cfttoctitlefont}{\bfseries\color{black}} % 目录标题
+\renewcommand{\cftsecfont}{\color{black}} % 一级条目
+\renewcommand{\cftsubsecfont}{\color{black}} % 二级条目
+\renewcommand{\cftsecpagefont}{\color{black}} % 页码
 
 %%%% 正文开始 %%%%
 \begin{document}
-
-%%%% 定义标题页,包括title,author,affiliation,email等 %%%%
-\title{最优化方法\\多层神经网络的训练问题}
-\author{
-西安交通大学, 数学与统计学院, 强基数学002\\[3ex]
-姓名1$^a$, 姓名2$^b$, 姓名3$^c$\\[1ex]
-学号/邮箱1$^a$, 学号/邮箱2$^b$, 学号/邮箱3$^c$\\[2ex]
+% 定义标题
+\title{
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{校徽/XJTU_logo.png}
+\end{figure}
+{\bfseries\zihao{-0} 自然语言处理与应用}\\[2ex]
+{\bfseries\zihao{-0} 实验报告}\\[4ex]
 }
-\date{\today}
+\author{
+}
+\date{} % 清空默认日期
+% 去掉标题页页码
 \pagenumbering{gobble} % 暂时关闭页码
-\maketitle % 设置上面的标题
-\clearpage % 创建新的一面
-\tableofcontents % 创建目录页,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
 
+\maketitle % 生成标题页
+
+% \vfill % 推动内容到页面底部
+
+{
+\zihao{2}
+\vspace{-2cm}
+\begin{center}
+\bf
+\noindent 报告名称：基于多模态大语言模型的问答式视觉定位方法
+\end{center}
+
+% need to \usepackage{tabularx}
+\begin{table}[!h]
+\zihao{-3}
+\renewcommand{\arraystretch}{1.5}
+\centering
+\begin{tabularx}{0.6\textwidth} { 
+  >{\centering\arraybackslash}X 
+  >{\centering\arraybackslash}X}
+姓名&学号\\
+XXX&xxxxxxxxxx\\
+XXX&xxxxxxxxxx\\
+XXX&xxxxxxxxxx\\
+XXX&xxxxxxxxxx\\
+XXX&xxxxxxxxxx\\
+\end{tabularx}
+\end{table}
+}
+\vfill
+\begin{center}
+\zihao{4} 
+西安交通大学\quad 人工智能学院\\[2ex]
+\today % 日期置底
+\end{center}
+
+% 恢复页码编号
+\newpage
+\pagestyle{fancy}
+\fancyhf{} % 清空默认设置
+\fancyfoot[C]{\thepage} % 页码放在页面底部居中
+\renewcommand{\headrulewidth}{0pt} % 去掉页眉的横线
+\renewcommand{\footrulewidth}{0pt} % 去掉页脚的横线
+\pagenumbering{arabic} % 恢复阿拉伯数字页码
+\setcounter{page}{1} % 页码从1开始
 %%%% 以下部分是正文 %%%%  
 \clearpage
-\begin{myTitle}{小作业的简单标题}
-    名称\ 学号\ 作者信息
-\end{myTitle}
-\section{实验目的}
-\section{实验原理}
-\section{实验步骤与结果分析}
-\section{结论与讨论}
 
-% 代码块测试
-\begin{pythoncode}
-# coding:UTF-8
-import numpy as np
-import math
+\section*{摘要} % 摘要标题
+在针对人机交互（HRI）中的视觉定位任务中，传统方法因自然语言中的歧义性问题，通常依赖预定义模板进行消歧。然而，这种方式在现实交互场景中的表现有限。本报告实现了一种端到端问答式视觉定位方法。该方法通过单一模型实现三个角色的功能，能够通过主动信息收集来消除用户输入的歧义性。模型基于视觉对话与定位的统一框架，可以在多个公共数据集上进行联合训练，并在开放世界的复杂场景中展现出良好的通用性。实验设计涵盖了150个具有挑战性的交互场景，结果表明，该方法在处理多样化的视觉与语言输入时，表现出优越的适应性与高成功率。
 
-y = [0]
-h = 0.1
-f = lambda y: 1-y
-for i in range(1, 11):
-    k1 = h * f(y[i-1])
-    k2 = h * f(y[i-1] + k1 / 2)
-    k3 = h * f(y[i-1] + k2 / 2)
-    k4 = h * f(y[i-1] + k3)
-    tmp = y[i-1] + (k1 + 2*k2 + 2*k3 + k4) / 6
-    y.append(round(tmp * 1e3) / 1e3)
-
-for i in range(11):
-    print('y_{{{}}} = {:.3f},\\quad '.format(i, y[i]), end='')
-    if i == 5:
-        print()
-\end{pythoncode}
-\begin{cppcode}
-#include <iostream>
-using namespace std;
-int gcd(int a, int b) {return b ? gcd(b, a % b) : a;}
-signed main() {
-    cout << gcd(32, 24) << '\n';
-    system("pause");
-    return 0;
-}
-\end{cppcode}
-\begin{matlabcode}
-function [H] = calc_homography(x, X)
-    shape = size(x);
-    x_camera = [x; ones(1, shape(2))];
-    x_world = [X(1:2,:); ones(1, shape(2))];
-    H = compute_homography(x_camera, x_world);
-end
-\end{matlabcode}
 
 \end{document}
