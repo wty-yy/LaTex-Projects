@@ -20,8 +20,11 @@
 - 算法设计与分析（[算法期末复习资料](./大三上/Algorithm/final_review/算法设计总复习.pdf)）
 - 计算机视觉与模式识别（[CVPR期末复习资料（视觉部分）](./大三上/CVPR/final_review/CVPR期末复习.pdf)，完整内容及22年期末考试原题：[blog - CVPR期末复习](https://wty-yy.space/posts/23744/)）
 
-## 大三下学期（正在学习中...）
+## [大三下学期](./大三下)
 
-- 微分几何（Differential Geometry）
-- 强化学习（Reinforcement Learning）
-- 数据分析（Data Analysis）
+- 微分几何 (Differential Geometry)
+- 强化学习 (Reinforcement Learning)
+- 数据分析 (Data Analysis)
+- 机器学习 (Machine Learning)
+- 移动计算 (Mobile Computing)
+- 自然计算 (Nature Computation)
