@@ -1,0 +1,43 @@
+% -*-coding: utf-8 -*-
+
+\BiAppChapter{论文相关代码}{}
+
+本论文全部代码均已开源~\url{https://github.com/wty-yy/katacr}~，核心代码总计1.4万行左右，架构设计如下：
+
+\setitemize{leftmargin=2em,itemsep=0em,partopsep=0em,parsep=0em,topsep=-0em}
+\begin{itemize}
+  \item \texttt{build\_dataset}
+  \begin{itemize}
+    \item 对视频文件进行预处理（划分episode，逐帧提取，图像不同部分提取）
+    \item 目标识别数据集搭建工具（辅助标记数据集，数据集版本管理，生成式目标识别，标签转化及识别标签生成，图像切片提取）
+  \end{itemize}
+  \item \texttt{classification}：用ResNet进行手牌及圣水分类
+  \item \texttt{constants}：常量存储（卡牌名称及对应圣水花费，目标识别类别名称）
+  \item \texttt{detection}：自行用JAX复现的YOLOv5模型（后弃用）
+  \item \texttt{interact}：测试与手机进行实时交互，包括目标识别，文本识别，GUI
+  \item \texttt{ocr\_text}：包括用JAX复现的CRNN（后弃用）和PaddleOCR的接口转化
+  \item \texttt{policy}：
+  \begin{itemize}
+    \item \texttt{env}：两种测试环境：
+    \begin{itemize}
+      \item \texttt{VideoEnv}：将视频数据集作为输入，仅用于调试模型的输入是否与预测相对应
+      \item \texttt{InteractEnv}：与手机进行实时交互，使用多进程方式执行感知融合
+    \end{itemize}
+    \item \texttt{offline}：包含了决策模型StARformer和DT的训练，验证的功能，并包含三种CNN测试结构ResNet, CSPDarkNet, CNNBlocks
+    \item \texttt{perceptron}：感知融合，包含了state,action,reward三种特征生成器，并整合到SARBuilder中（感知基于YOLOv8, PaddleOCR, ResNet Classifier）
+    \item \texttt{replay\_data}：提取专家视频中的感知特征，制作并测试离线数据集
+    \item \texttt{visualization}：实时监测手机图像，可视化感知融合特征
+  \end{itemize}
+  \item \texttt{utils}：用于目标检测相关的工具（绘图、坐标转化、图像数据增强），用于视频处理的ffmpeg相关工具
+  \item \texttt{yolov8}：重构YOLOv8源码，包括数据读取、模型训练、验证、目标检测、跟踪，模型识别类型设置以及参数配置
+\end{itemize}
+下面将展示论文中提到的部分代码架构。
+\BiSection{生成式数据集}{}\label{app-generator}
+\pythonfile{coding/generator.py}
+\BiSection{特征融合}{}
+\BiSubsection{状态特征提取部分代码}{}\label{app-state-feature}
+\pythonfile{coding/state_builder.py}
+\BiSubsection{动作特征提取部分代码}{}\label{app-action-feature}
+\pythonfile{coding/action_builder.py}
+\BiSubsection{奖励特征提取部分代码}{}\label{app-reward-feature}
+\pythonfile{coding/reward_builder.py}

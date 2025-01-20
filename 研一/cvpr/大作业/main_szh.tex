@@ -1,0 +1,43 @@
+% !Mode:: "TeX:UTF-8"
+
+\documentclass[openany,twoside,nofonts,AutoFakeBold,UTF8]{ctexbook}
+\usepackage{blindtext}
+\usepackage{scrextend}
+\usepackage{nomencl}
+\usepackage{blkarray}
+\usepackage{makecell}
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{amsmath}
+% \addtokomafont{labelinglabel}{\sffamily}
+\renewcommand{\footnotesize}{\fontsize{9pt}{10pt}\selectfont}
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\e{\mathrm{e}}          % Euler's number
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\newcommand\myemptypage{    % 增加空白页
+  \null
+  \thispagestyle{empty}
+  \addtocounter{page}{-1}
+  \newpage
+}
+
+\input{setup/package}
+\graphicspath{{../../../figures/}}
+
+%===================================== Cover and TOC =====================================
+\begin{document}
+\input{setup/format}
+
+%======================================= Main Body =======================================
+\mainmatter\defaultfont\sloppy\raggedbottom
+
+%======================================= Reference =======================================
+
+%======================================= Appendix ========================================
+\include{setup/formatApp}  % 附录配置
+\include{appendix/appA_szh}  % 外文原文
+\include{appendix/appB_szh}  % 外文翻译
+
+\end{document} 

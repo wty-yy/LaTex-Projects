@@ -1,0 +1,343 @@
+\begin{thebibliography}{49}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
+  \urlstyle{same}\fi
+\providecommand{\href}[2]{\url{#2}}
+\providecommand{\doi}[1]{\href{https://doi.org/#1}{#1}}
+
+\bibitem[Silver et~al.(2016)Silver, Huang, Maddison, Guez, Sifre, Van
+  Den~Driessche, Schrittwieser, Antonoglou, Panneershelvam, Lanctot,
+  et~al.]{AlphaGo}
+Silver~D, Huang~A, Maddison~C~J, et~al.
+\newblock Mastering the game of go with deep neural networks and tree
+  search\allowbreak[J].
+\newblock nature, 2016, 529\penalty0 (7587):\penalty0 484-489.
+
+\bibitem[Silver et~al.(2017)Silver, Hubert, Schrittwieser, Antonoglou, Lai,
+  Guez, Lanctot, Sifre, Kumaran, Graepel, et~al.]{AlphaZero}
+Silver~D, Hubert~T, Schrittwieser~J, et~al.
+\newblock Mastering chess and shogi by self-play with a general reinforcement
+  learning algorithm\allowbreak[J].
+\newblock arXiv preprint arXiv:1712.01815, 2017.
+
+\bibitem[Berner et~al.(2019)Berner, Brockman, Chan, Cheung, D{\k{e}}biak,
+  Dennison, Farhi, Fischer, Hashme, Hesse, et~al.]{OpenAIFive}
+Berner~C, Brockman~G, Chan~B, et~al.
+\newblock Dota 2 with large scale deep reinforcement learning\allowbreak[J].
+\newblock arXiv preprint arXiv:1912.06680, 2019.
+
+\bibitem[Hochreiter et~al.(1997)Hochreiter and Schmidhuber]{LSTM}
+Hochreiter~S, Schmidhuber~J.
+\newblock Long short-term memory\allowbreak[J].
+\newblock Neural computation, 1997, 9\penalty0 (8):\penalty0 1735-1780.
+
+\bibitem[Schulman et~al.(2017)Schulman, Wolski, Dhariwal, Radford, and
+  Klimov]{PPO}
+Schulman~J, Wolski~F, Dhariwal~P, et~al.
+\newblock Proximal policy optimization algorithms\allowbreak[J].
+\newblock arXiv preprint arXiv:1707.06347, 2017.
+
+\bibitem[Vinyals et~al.(2019)Vinyals, Babuschkin, Czarnecki, Mathieu, Dudzik,
+  Chung, Choi, Powell, Ewalds, Georgiev, et~al.]{AlphaStar}
+Vinyals~O, Babuschkin~I, Czarnecki~W~M, et~al.
+\newblock Grandmaster level in starcraft ii using multi-agent reinforcement
+  learning\allowbreak[J].
+\newblock Nature, 2019, 575\penalty0 (7782):\penalty0 350-354.
+
+\bibitem[Mnih et~al.(2015)Mnih, Kavukcuoglu, Silver, Rusu, Veness, Bellemare,
+  Graves, Riedmiller, Fidjeland, Ostrovski, et~al.]{DQN}
+Mnih~V, Kavukcuoglu~K, Silver~D, et~al.
+\newblock Human-level control through deep reinforcement
+  learning\allowbreak[J].
+\newblock Nature, 2015, 518\penalty0 (7540):\penalty0 529-533.
+
+\bibitem[Chen et~al.(2021)Chen, Lu, Rajeswaran, Lee, Grover, Laskin, Abbeel,
+  Srinivas, and Mordatch]{DT}
+Chen~L, Lu~K, Rajeswaran~A, et~al.
+\newblock Decision transformer: Reinforcement learning via sequence
+  modeling\allowbreak[J].
+\newblock Advances in neural information processing systems, 2021, 34:\penalty0
+  15084-15097.
+
+\bibitem[Shang et~al.(2022)Shang, Kahatapitiya, Li, and Ryoo]{StARformer}
+Shang~J, Kahatapitiya~K, Li~X, et~al.
+\newblock Starformer: Transformer with state-action-reward representations for
+  visual reinforcement learning\allowbreak[C]//\allowbreak
+European conference on computer vision.
+\newblock Springer, 2022: 462-479.
+
+\bibitem[LeCun et~al.(1998)LeCun, Bottou, Bengio, and Haffner]{LeNet}
+LeCun~Y, Bottou~L, Bengio~Y, et~al.
+\newblock Gradient-based learning applied to document
+  recognition\allowbreak[J].
+\newblock Proceedings of the IEEE, 1998, 86\penalty0 (11):\penalty0 2278-2324.
+
+\bibitem[Deng et~al.(2009)Deng, Dong, Socher, Li, Li, and Fei-Fei]{ImageNet}
+Deng~J, Dong~W, Socher~R, et~al.
+\newblock Imagenet: A large-scale hierarchical image
+  database\allowbreak[C]//\allowbreak
+2009 IEEE conference on computer vision and pattern recognition.
+\newblock Ieee, 2009: 248-255.
+
+\bibitem[Krizhevsky et~al.(2017)Krizhevsky, Sutskever, and Hinton]{AlexNet}
+Krizhevsky~A, Sutskever~I, Hinton~G~E.
+\newblock Imagenet classification with deep convolutional neural
+  networks\allowbreak[J].
+\newblock Communications of the ACM, 2017, 60\penalty0 (6):\penalty0 84-90.
+
+\bibitem[Simonyan et~al.(2014)Simonyan and Zisserman]{VGG}
+Simonyan~K, Zisserman~A.
+\newblock Very deep convolutional networks for large-scale image
+  recognition\allowbreak[J].
+\newblock arXiv preprint arXiv:1409.1556, 2014.
+
+\bibitem[Szegedy et~al.(2015)Szegedy, Liu, Jia, Sermanet, Reed, Anguelov,
+  Erhan, Vanhoucke, and Rabinovich]{GoogleNet}
+Szegedy~C, Liu~W, Jia~Y, et~al.
+\newblock Going deeper with convolutions\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2015: 1-9.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{ResNet}
+He~K, Zhang~X, Ren~S, et~al.
+\newblock Deep residual learning for image
+  recognition\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2016: 770-778.
+
+\bibitem[Huang et~al.(2017)Huang, Liu, Van Der~Maaten, and
+  Weinberger]{DenseNet}
+Huang~G, Liu~Z, Van Der~Maaten~L, et~al.
+\newblock Densely connected convolutional networks\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2017: 4700-4708.
+
+\bibitem[Dosovitskiy et~al.(2020)Dosovitskiy, Beyer, Kolesnikov, Weissenborn,
+  Zhai, Unterthiner, Dehghani, Minderer, Heigold, Gelly, et~al.]{ViT}
+Dosovitskiy~A, Beyer~L, Kolesnikov~A, et~al.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale\allowbreak[J].
+\newblock arXiv preprint arXiv:2010.11929, 2020.
+
+\bibitem[Ding et~al.(2021)Ding, Zhang, Ma, Han, Ding, and Sun]{RepVGG}
+Ding~X, Zhang~X, Ma~N, et~al.
+\newblock Repvgg: Making vgg-style convnets great
+  again\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition.
+\newblock 2021: 13733-13742.
+
+\bibitem[Yu et~al.(2022)Yu, Luo, Zhou, Si, Zhou, Wang, Feng, and
+  Yan]{MetaFormer}
+Yu~W, Luo~M, Zhou~P, et~al.
+\newblock Metaformer is actually what you need for
+  vision\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition.
+\newblock 2022: 10819-10829.
+
+\bibitem[Vaswani et~al.(2017{\natexlab{a}})Vaswani, Shazeer, Parmar, Uszkoreit,
+  Jones, Gomez, Kaiser, and Polosukhin]{transformer}
+Vaswani~A, Shazeer~N, Parmar~N, et~al.
+\newblock Attention is all you need\allowbreak[J].
+\newblock Advances in neural information processing systems, 2017, 30.
+
+\bibitem[Redmon et~al.(2016)Redmon, Divvala, Girshick, and Farhadi]{YOLO}
+Redmon~J, Divvala~S, Girshick~R, et~al.
+\newblock You only look once: Unified, real-time object
+  detection\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2016: 779-788.
+
+\bibitem[Liu et~al.(2016)Liu, Anguelov, Erhan, Szegedy, Reed, Fu, and
+  Berg]{SSD}
+Liu~W, Anguelov~D, Erhan~D, et~al.
+\newblock Ssd: Single shot multibox detector\allowbreak[C]//\allowbreak
+Computer Vision--ECCV 2016: 14th European Conference, Amsterdam, The
+  Netherlands, October 11--14, 2016, Proceedings, Part I 14.
+\newblock Springer, 2016: 21-37.
+
+\bibitem[Carion et~al.(2020)Carion, Massa, Synnaeve, Usunier, Kirillov, and
+  Zagoruyko]{DETR}
+Carion~N, Massa~F, Synnaeve~G, et~al.
+\newblock End-to-end object detection with
+  transformers\allowbreak[C]//\allowbreak
+European conference on computer vision.
+\newblock Springer, 2020: 213-229.
+
+\bibitem[Girshick(2015)]{FastRCNN}
+Girshick~R.
+\newblock Fast r-cnn\allowbreak[C]//\allowbreak
+Proceedings of the IEEE international conference on computer vision.
+\newblock 2015: 1440-1448.
+
+\bibitem[Shi et~al.(2016)Shi, Bai, and Yao]{CRNN}
+Shi~B, Bai~X, Yao~C.
+\newblock An end-to-end trainable neural network for image-based sequence
+  recognition and its application to scene text recognition\allowbreak[J].
+\newblock IEEE transactions on pattern analysis and machine intelligence, 2016,
+  39\penalty0 (11):\penalty0 2298-2304.
+
+\bibitem[Graves et~al.(2006)Graves, Fern{\'a}ndez, Gomez, and Schmidhuber]{CTC}
+Graves~A, Fern{\'a}ndez~S, Gomez~F, et~al.
+\newblock Connectionist temporal classification: labelling unsegmented sequence
+  data with recurrent neural networks\allowbreak[C]//\allowbreak
+Proceedings of the 23rd international conference on Machine learning.
+\newblock 2006: 369-376.
+
+\bibitem[Huang et~al.(2015)Huang, Xu, and Yu]{BiLSTM}
+Huang~Z, Xu~W, Yu~K.
+\newblock Bidirectional lstm-crf models for sequence tagging\allowbreak[J].
+\newblock arXiv preprint arXiv:1508.01991, 2015.
+
+\bibitem[Du et~al.(2020)Du, Li, Guo, Yin, Liu, Zhou, Bai, Yu, Yang, Dang,
+  et~al.]{PPOCR}
+Du~Y, Li~C, Guo~R, et~al.
+\newblock Pp-ocr: A practical ultra lightweight ocr system\allowbreak[J].
+\newblock arXiv preprint arXiv:2009.09941, 2020.
+
+\bibitem[Jocher et~al.(2023)Jocher, Chaurasia, and Qiu]{YOLOv8}
+Jocher~G, Chaurasia~A, Qiu~J.
+\newblock {Ultralytics YOLO}\allowbreak[CP/OL].
+\newblock 2023.
+\newblock \url{https://github.com/ultralytics/ultralytics}.
+
+\bibitem[Zhang et~al.(2022)Zhang, Sun, Jiang, Yu, Weng, Yuan, Luo, Liu, and
+  Wang]{ByteTrack}
+Zhang~Y, Sun~P, Jiang~Y, et~al.
+\newblock Bytetrack: Multi-object tracking by associating every detection
+  box\allowbreak[C]//\allowbreak
+European conference on computer vision.
+\newblock Springer, 2022: 1-21.
+
+\bibitem[Kirillov et~al.(2023)Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson,
+  Xiao, Whitehead, Berg, Lo, et~al.]{SAM}
+Kirillov~A, Mintun~E, Ravi~N, et~al.
+\newblock Segment anything\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF International Conference on Computer Vision.
+\newblock 2023: 4015-4026.
+
+\bibitem[Redmon et~al.(2018)Redmon and Farhadi]{YOLOv3}
+Redmon~J, Farhadi~A.
+\newblock Yolov3: An incremental improvement\allowbreak[J].
+\newblock arXiv preprint arXiv:1804.02767, 2018.
+
+\bibitem[Everingham et~al.(2010)Everingham, Van~Gool, Williams, Winn, and
+  Zisserman]{PascalVOC}
+Everingham~M, Van~Gool~L, Williams~C~K, et~al.
+\newblock The pascal visual object classes (voc) challenge\allowbreak[J].
+\newblock International journal of computer vision, 2010, 88:\penalty0 303-338.
+
+\bibitem[Zhang et~al.(2019)Zhang, He, Zhang, Zhang, Xie, and
+  Li]{BagFreebiesForObjectDetection}
+Zhang~Z, He~T, Zhang~H, et~al.
+\newblock Bag of freebies for training object detection neural
+  networks\allowbreak[J].
+\newblock arXiv preprint arXiv:1902.04103, 2019.
+
+\bibitem[Zheng et~al.(2020)Zheng, Wang, Liu, Li, Ye, and Ren]{CIOU}
+Zheng~Z, Wang~P, Liu~W, et~al.
+\newblock Distance-iou loss: Faster and better learning for bounding box
+  regression\allowbreak[C]//\allowbreak
+Proceedings of the AAAI conference on artificial intelligence: volume~34.
+\newblock 2020: 12993-13000.
+
+\bibitem[Lin et~al.(2014)Lin, Maire, Belongie, Hays, Perona, Ramanan,
+  Doll{\'a}r, and Zitnick]{COCO}
+Lin~T~Y, Maire~M, Belongie~S, et~al.
+\newblock Microsoft coco: Common objects in context\allowbreak[C]//\allowbreak
+Computer Vision--ECCV 2014: 13th European Conference, Zurich, Switzerland,
+  September 6-12, 2014, Proceedings, Part V 13.
+\newblock Springer, 2014: 740-755.
+
+\bibitem[Jocher(2020)]{YOLOv5}
+Jocher~G.
+\newblock {YOLOv5 by Ultralytics}\allowbreak[CP/OL].
+\newblock 2020.
+\newblock \url{https://github.com/ultralytics/yolov5}.
+\newblock DOI: \doi{10.5281/zenodo.3908559}.
+
+\bibitem[Bochkovskiy et~al.(2020)Bochkovskiy, Wang, and Liao]{YOLOv4}
+Bochkovskiy~A, Wang~C~Y, Liao~H~Y~M.
+\newblock Yolov4: Optimal speed and accuracy of object detection\allowbreak[J].
+\newblock arXiv preprint arXiv:2004.10934, 2020.
+
+\bibitem[Wang et~al.(2020)Wang, Liao, Wu, Chen, Hsieh, and Yeh]{CSPNet}
+Wang~C~Y, Liao~H~Y~M, Wu~Y~H, et~al.
+\newblock Cspnet: A new backbone that can enhance learning capability of
+  cnn\allowbreak[C]//\allowbreak
+Proceedings of the IEEE/CVF conference on computer vision and pattern
+  recognition workshops.
+\newblock 2020: 390-391.
+
+\bibitem[He et~al.(2015)He, Zhang, Ren, and Sun]{SPP}
+He~K, Zhang~X, Ren~S, et~al.
+\newblock Spatial pyramid pooling in deep convolutional networks for visual
+  recognition\allowbreak[J].
+\newblock IEEE transactions on pattern analysis and machine intelligence, 2015,
+  37\penalty0 (9):\penalty0 1904-1916.
+
+\bibitem[Liu et~al.(2018)Liu, Qi, Qin, Shi, and Jia]{PANet}
+Liu~S, Qi~L, Qin~H, et~al.
+\newblock Path aggregation network for instance
+  segmentation\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2018: 8759-8768.
+
+\bibitem[Kalman(1960)]{KalmanFilter}
+Kalman~R~E.
+\newblock A new approach to linear filtering and prediction
+  problems\allowbreak[J].
+\newblock 1960.
+
+\bibitem[Howard et~al.(2017)Howard, Zhu, Chen, Kalenichenko, Wang, Weyand,
+  Andreetto, and Adam]{MobileNet}
+Howard~A~G, Zhu~M, Chen~B, et~al.
+\newblock Mobilenets: Efficient convolutional neural networks for mobile vision
+  applications\allowbreak[J].
+\newblock arXiv preprint arXiv:1704.04861, 2017.
+
+\bibitem[Lin et~al.(2017)Lin, Doll{\'a}r, Girshick, He, Hariharan, and
+  Belongie]{FPN}
+Lin~T~Y, Doll{\'a}r~P, Girshick~R, et~al.
+\newblock Feature pyramid networks for object
+  detection\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2017: 2117-2125.
+
+\bibitem[Liao et~al.(2020)Liao, Wan, Yao, Chen, and Bai]{DB}
+Liao~M, Wan~Z, Yao~C, et~al.
+\newblock Real-time scene text detection with differentiable
+  binarization\allowbreak[C]//\allowbreak
+Proceedings of the AAAI conference on artificial intelligence: volume~34.
+\newblock 2020: 11474-11481.
+
+\bibitem[Ioffe et~al.(2015)Ioffe and Szegedy]{BN}
+Ioffe~S, Szegedy~C.
+\newblock Batch normalization: Accelerating deep network training by reducing
+  internal covariate shift\allowbreak[C]//\allowbreak
+International conference on machine learning.
+\newblock pmlr, 2015: 448-456.
+
+\bibitem[Levenshtein et~al.(1966)]{LevenshteinDistance}
+Levenshtein~V~I, et~al.
+\newblock Binary codes capable of correcting deletions, insertions, and
+  reversals\allowbreak[C]//\allowbreak
+Soviet physics doklady: volume~10.
+\newblock Soviet Union, 1966: 707-710.
+
+\bibitem[Radford et~al.(2018)Radford, Narasimhan, Salimans, Sutskever,
+  et~al.]{GPT}
+Radford~A, Narasimhan~K, Salimans~T, et~al.
+\newblock Improving language understanding by generative
+  pre-training\allowbreak[J].
+\newblock 2018.
+
+\bibitem[Vaswani et~al.(2017{\natexlab{b}})Vaswani, Shazeer, Parmar, Uszkoreit,
+  Jones, Gomez, Kaiser, and Polosukhin]{attention}
+Vaswani~A, Shazeer~N, Parmar~N, et~al.
+\newblock Attention is all you need\allowbreak[J].
+\newblock Advances in neural information processing systems, 2017, 30.
+
+\end{thebibliography}
