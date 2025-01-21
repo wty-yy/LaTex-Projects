@@ -24,4 +24,5 @@
         "*.snm",
         "*.fdb_latexmk",
     ],
+    "ros.distro": "rolling",
 }
