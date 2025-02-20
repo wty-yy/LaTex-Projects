@@ -1,0 +1,130 @@
+% !Mode:: "TeX:UTF-8"
+
+\documentclass[openany,twoside,nofonts,AutoFakeBold,UTF8]{ctexbook}
+\usepackage{blindtext}
+\usepackage{scrextend}
+\usepackage{nomencl}
+\usepackage{blkarray}
+\usepackage{makecell}
+\usepackage{wrapfig}
+\usepackage{bbm}
+\usepackage{amsmath}
+% \addtokomafont{labelinglabel}{\sffamily}
+\renewcommand{\footnotesize}{\fontsize{9pt}{10pt}\selectfont}
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\e{\mathrm{e}}          % Euler's number
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\newcommand\myemptypage{    % 增加空白页
+  \null
+  \thispagestyle{empty}
+  \addtocounter{page}{-1}
+  \newpage
+}
+
+\input{setup/package}
+\graphicspath{{../../../undergraduate_program/figures/}}
+
+%===================================== Cover and TOC =====================================
+\begin{document}
+\input{setup/format}
+
+% \title{
+% \vspace{-10cm}
+% }
+% \author{}
+% \date{} % 清空默认日期
+% % 去掉标题页页码
+% \pagenumbering{gobble} % 暂时关闭页码
+
+% \maketitle % 生成标题页
+
+% \vfill % 推动内容到页面底部
+
+\begin{titlepage}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../../../校徽/XJTU_logo.png}
+\end{figure}
+\centering\bfseries\zihao{1} 计算机视觉与模式识别\\[2ex]
+{{
+  \zihao{2}\vspace{5ex}
+  \begin{center}
+  \bf
+  \noindent 报告名称：基于非嵌入式强化学习的卡牌游戏AI研究
+  \end{center}
+  \vspace{2ex}
+}
+{
+  \zihao{3}
+  \begin{center}
+    姓名：吴天阳\\
+    学号：4124136039\\
+  \end{center}
+}}
+{
+  \vfill
+  \begin{center}
+  \zihao{3} 
+  西安交通大学\quad 人工智能学院\\[2ex]
+  \today % 日期置底
+  \end{center}
+}
+\end{titlepage}
+
+% 恢复页码编号
+% \newpage
+% \pagestyle{fancy}
+% \fancyhf{} % 清空默认设置
+% \fancyfoot[C]{\thepage} % 页码放在页面底部居中
+% \renewcommand{\headrulewidth}{0pt} % 去掉页眉的横线
+% \renewcommand{\footrulewidth}{0pt} % 去掉页脚的横线
+% \pagenumbering{arabic} % 恢复阿拉伯数字页码
+% \setcounter{page}{1} % 页码从1开始
+% \let\cleardoublepage\clearpage
+
+\frontmatter
+
+% \includepdf[pages=-]{pdfs/任务书.pdf}
+% \includepdf[]{pdfs/考核评议书.pdf}
+% \includepdf[]{pdfs/答辩结果.pdf}
+
+
+% \input{setup/abstract}  % 摘要
+\input{setup/content}  % 目录
+\input{setup/denotation}  % 符号解释
+
+%======================================= Main Body =======================================
+\mainmatter\defaultfont\sloppy\raggedbottom
+
+\include{body/chapter1}  % 正文
+\include{body/chapter2}  % 正文
+\include{body/chapter3}  % 正文
+% \include{body/chapter4}  % 正文
+\include{body/chapter5}  % 正文
+\include{body/chapter6}  % 正文
+% \include{body/test}  % 正文
+% \include{appendix/acknowledgements}  % 致谢
+
+%======================================= Reference =======================================
+\wuhao\selectfont
+\bibliographystyle{bib/xjtuthesis-numerical}
+\addcontentsline{toc}{chapter}{参考文献}
+\addcontentsline{toe}{chapter}{References}
+\addtolength{\bibsep}{-0.8em}
+\bibliography{bib/mybib}
+% \input{bib/mybib}
+% \begin{thebibliography}{99}
+%   \bibitem{ref1}Dimitris G M, Vinay K I, Stephen M K. Statistical and adaptive signal processing[M]. Norwood: Artech House, Inc., 2005.
+% \end{thebibliography}
+
+%======================================= Appendix ========================================
+% \include{setup/formatApp}  % 附录配置
+% \include{appendix/appA}  % 外文原文
+% \include{appendix/appB}  % 外文翻译
+% \include{appendix/appC}  % 附录C
+% \include{appendix/appD}  % 附录D
+% \include{appendix/appE}  % 任务书，考核评议书，答辩结果
+
+\end{document} 
