@@ -1,0 +1,39 @@
+\documentclass{book} % 或 article, report 等
+\usepackage{amsmath} % 一般情况下会用到
+\usepackage[ruled,vlined]{algorithm2e} % 加载 algorithm2e 包
+
+% 确保 algorithm 计数器已定义
+\newcounter{algorithm}
+
+% 自定义算法编号格式为连续的 1, 2, 3
+\renewcommand{\thealgocf}{\arabic{algocf}}
+
+\begin{document}
+
+\chapter{Introduction}
+
+\begin{algorithm}
+  \caption{Example Algorithm 1}
+  Initialize variables\;
+  \For{each item}{
+    Perform action\;
+  }
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Example Algorithm 2}
+  Initialize variables\;
+  \For{each item}{
+    Perform action\;
+  }
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Example Algorithm 3}
+  Initialize variables\;
+  \For{each item}{
+    Perform action\;
+  }
+\end{algorithm}
+
+\end{document}

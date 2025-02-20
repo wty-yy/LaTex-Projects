@@ -1,0 +1,48 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{SAC}
+Haarnoja, T., Zhou, A., Abbeel, P., Levine, S.: Soft actor-critic: Off-policy
+  maximum entropy deep reinforcement learning with a stochastic actor. In:
+  International conference on machine learning. pp. 1861--1870. PMLR (2018)
+
+\bibitem{SAM}
+Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., Xiao,
+  T., Whitehead, S., Berg, A.C., Lo, W.Y., et~al.: Segment anything. In:
+  Proceedings of the IEEE/CVF International Conference on Computer Vision. pp.
+  4015--4026 (2023)
+
+\bibitem{AlexNet}
+Krizhevsky, A., Sutskever, I., Hinton, G.E.: Imagenet classification with deep
+  convolutional neural networks. Communications of the ACM  \textbf{60}(6),
+  84--90 (2017)
+
+\bibitem{PPO}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
+  policy optimization algorithms. arXiv preprint arXiv:1707.06347  (2017)
+
+\bibitem{StARformer}
+Shang, J., Kahatapitiya, K., Li, X., Ryoo, M.S.: Starformer: Transformer with
+  state-action-reward representations for visual reinforcement learning. In:
+  European conference on computer vision. pp. 462--479. Springer (2022)
+
+\bibitem{AlphaGo}
+Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den~Driessche,
+  G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M.,
+  et~al.: Mastering the game of go with deep neural networks and tree search.
+  nature  \textbf{529}(7587),  484--489 (2016)
+
+\bibitem{attention}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N.,
+  Kaiser, {\L}., Polosukhin, I.: Attention is all you need. Advances in neural
+  information processing systems  \textbf{30} (2017)
+
+\bibitem{AlphaStar}
+Vinyals, O., Babuschkin, I., Czarnecki, W.M., Mathieu, M., Dudzik, A., Chung,
+  J., Choi, D.H., Powell, R., Ewalds, T., Georgiev, P., et~al.: Grandmaster
+  level in starcraft ii using multi-agent reinforcement learning. Nature
+  \textbf{575}(7782),  350--354 (2019)
+
+\end{thebibliography}

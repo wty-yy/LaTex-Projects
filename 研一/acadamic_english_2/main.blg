@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: splncs04.bst
+Database file #1: mybib.bib
+Warning--entry type for "YOLOv8" isn't style-file defined
+--line 208 of file mybib.bib
+Warning--empty journal in GPT
+You've used 14 entries,
+            2850 wiz_defined-function locations,
+            689 strings with 8036 characters,
+and the built_in function-call counts, 10726 in all, are:
+= -- 803
+> -- 593
+< -- 14
++ -- 241
+- -- 226
+* -- 780
+:= -- 1438
+add.period$ -- 17
+call.type$ -- 14
+change.case$ -- 154
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 848
+empty$ -- 777
+format.name$ -- 240
+if$ -- 2219
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 209
+newline$ -- 48
+num.names$ -- 28
+pop$ -- 400
+preamble$ -- 1
+purify$ -- 134
+quote$ -- 0
+skip$ -- 229
+stack$ -- 0
+substring$ -- 468
+swap$ -- 524
+text.length$ -- 14
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 56
+warning$ -- 1
+while$ -- 66
+width$ -- 16
+write$ -- 139
+(There were 2 warnings)
