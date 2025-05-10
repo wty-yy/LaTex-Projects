@@ -256,7 +256,7 @@
 \end{proof}
 \begin{problem}
     \textbf{（P220 18.）}
-    硬币$1$正面朝上的概率为$0.6$，而硬币$2$正面朝上的概率是$0.5$。一枚硬币连续地抛掷直到正面朝上，
+    硬币$1$正面朝上的概率为$0.6$，而硬币$2$正面朝上的概率是$0.5$。一枚硬币连续地抛掷直到反面朝上，
     此时将这个硬币搁置一旁，我们开始抛掷另一枚。\\
     (a) 用硬币$1$抛掷的比例是多少？\\
     (b) 如果我们从抛掷硬币$1$开始，问第$5$次抛掷的是硬币$2$的概率是多少？
@@ -336,7 +336,7 @@
     (b) 由全期望公式可知
     \begin{align*}
         &\ \E[X_{n+1}|X_0=i] = \alpha\E[X_{n}|X_0=i] + (1-\beta)(N-\E[X_n|X_0=i])\\
-        \text{（简记）}\Rightarrow&\ \E_{n+1} = (\alpha+\beta-1)\E_{n+1} + (1-\beta)N
+        \text{（简记）}\Rightarrow&\ \E_{n+1} = (\alpha+\beta-1)\E_{n} + (1-\beta)N
     \end{align*}
     此为线性差分方程，解为齐次线性差分方程的通解和特解的和，其导出的齐次方程为$\E_{n+1}=(\alpha+\beta-1)\E_{n}$，特征根$\lambda = \alpha+\beta-1$，
     则齐次方程解为$C(\alpha+\beta-1)^n$，将$E^*$带入求特解
@@ -352,11 +352,11 @@
 
     (c) $\forall i, j\in\{0,1,\cdots,N\}$，\add $\forall k\leqslant\min\{i,j\}$表示连续两个状态保持积极的个体数，则从状态$i$到状态$j$的概率转移存在两种情况：
     $k$个积极个体保持积极，概率为$\binom{i}{k}\alpha^k(1-\alpha)^{i-k}$；$j-k$个消极个体变为积极个体，概率为
-    $\binom{N-i}{j-k}\beta^{j-k}(1-\beta)^{N-i-(j-k)}$
+    $\binom{N-i}{j-k}(1-\beta)^{j-k}\beta^{N-i-(j-k)}$
     
     综上，转移概率表达式为
     \begin{equation*}
-        P_{ij} = \sum_{k=\max\{0,i+j-N\}}^{\min\{i,j\}}\binom{i}{k}\alpha^k(1-\alpha)^{i-k}\binom{N-i}{j-k}\beta^{j-k}(1-\beta)^{N-i-(j-k)}
+        P_{ij} = \sum_{k=\max\{0,i+j-N\}}^{\min\{i,j\}}\binom{i}{k}\alpha^k(1-\alpha)^{i-k}\binom{N-i}{j-k}(1-\beta)^{j-k}\beta^{N-i-(j-k)}
     \end{equation*}
 
     (d) 由于每个个体独立，且在两个状态中进行转移，假设平稳分布为二项分布，在平稳分布下处于积极的概率为$p$，则
@@ -380,6 +380,6 @@
             1/5&4/5
         \end{bmatrix}
     \end{equation*}
-    求解长程比例$\pi\in\R^2$满足$\pi^T=\pi^TP, \pi_1+\pi_2=1$，解得$\pi_1=\frac{4}{19}$，故货车出现的比例为$4:19$。
+    求解长程比例$\pi\in\R^2$满足$\pi^T=\pi^TP, \pi_1+\pi_2=1$，解得$\pi_1=\frac{4}{19}$，故货车出现的比例为$\frac{4}{19}$。
 \end{solution}
 \end{document}
