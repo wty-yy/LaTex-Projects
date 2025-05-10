@@ -201,4 +201,57 @@
   \end{center}
 }
 \end{titlepage}
+\clearpage
+\tableofcontents % 创建目录页,使用目录需要编译两次, 并且不能删去编译产生的临时文件!!!
+\clearpage
+
+\begin{myTitle}{小作业的简单标题}
+    名称\ 学号\ 作者信息
+\end{myTitle}
+\section{实验目的}
+\section{实验原理}
+\section{实验步骤与结果分析}
+\section{结论与讨论}
+\vspace{1em}
+
+% 代码块测试
+\begin{pythoncode}
+# coding:UTF-8
+import numpy as np
+import math
+
+y = [0]
+h = 0.1
+f = lambda y: 1-y
+for i in range(1, 11):
+    k1 = h * f(y[i-1])
+    k2 = h * f(y[i-1] + k1 / 2)
+    k3 = h * f(y[i-1] + k2 / 2)
+    k4 = h * f(y[i-1] + k3)
+    tmp = y[i-1] + (k1 + 2*k2 + 2*k3 + k4) / 6
+    y.append(round(tmp * 1e3) / 1e3)
+
+for i in range(11):
+    print('y_{{{}}} = {:.3f},\\quad '.format(i, y[i]), end='')
+    if i == 5:
+        print()
+\end{pythoncode}
+\begin{cppcode}
+#include <iostream>
+using namespace std;
+int gcd(int a, int b) {return b ? gcd(b, a % b) : a;}
+signed main() {
+    cout << gcd(32, 24) << '\n';
+    system("pause");
+    return 0;
+}
+\end{cppcode}
+\begin{matlabcode}
+function [H] = calc_homography(x, X)
+    shape = size(x);
+    x_camera = [x; ones(1, shape(2))];
+    x_world = [X(1:2,:); ones(1, shape(2))];
+    H = compute_homography(x_camera, x_world);
+end
+\end{matlabcode}
 \end{document}
