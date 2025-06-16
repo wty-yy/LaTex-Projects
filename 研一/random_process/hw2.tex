@@ -1,0 +1,330 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, graphicx, geometry, mathrsfs,extarrows, braket, booktabs, array, wrapfig, enumitem}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=blue,urlcolor=blue,menucolor=black]{hyperref}
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Minion Pro}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+%%%% 设置行间距与页边距 %%%%
+\linespread{1.4}
+%\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\geometry{left=1.84cm,right=1.84cm,top=2.18cm,bottom=2.18cm}
+
+%%%% 图片相对路径 %%%%
+\graphicspath{{figures/}} % 当前目录下的figures文件夹, {../figures/}则是父目录的figures文件夹
+\setlength{\abovecaptionskip}{-0.2cm}  % 缩紧图片标题与图片之间的距离
+\setlength{\belowcaptionskip}{0pt} 
+
+%%%% 缩小item,enumerate,description两行间间距 %%%%
+\setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+%%%% 自定义公式 %%%%
+\everymath{\displaystyle} % 默认全部行间公式
+\DeclareMathOperator*\uplim{\overline{lim}} % 定义上极限 \uplim_{}
+\DeclareMathOperator*\lowlim{\underline{lim}} % 定义下极限 \lowlim_{}
+\DeclareMathOperator*{\argmax}{arg\,max}  % 定义取最大值的参数 \argmax_{}
+\DeclareMathOperator*{\argmin}{arg\,min}  % 定义取最小值的参数 \argmin_{}
+\let\leq=\leqslant % 将全部leq变为leqslant
+\let\geq=\geqslant % geq同理
+\DeclareRobustCommand{\rchi}{{\mathpalette\irchi\relax}}
+\newcommand{\irchi}[2]{\raisebox{\depth}{$#1\chi$}} % 使用\rchi将\chi居中
+
+%%%% 自定义环境配置 %%%%
+\newcounter{problem}  % 问题序号计数器
+\newenvironment{problem}[1][]{\stepcounter{problem}\par\noindent\textbf{题目\arabic{problem}. #1}}{\smallskip\par}
+\newenvironment{solution}[1][]{\par\noindent\textbf{#1解答. }}{\smallskip\par}  % 可带一个参数表示题号\begin{solution}{题号}
+\newenvironment{note}{\par\noindent\textbf{注记. }}{\smallskip\par}
+\newenvironment{remark}{\begin{enumerate}[label=\textbf{注\arabic*.}]}{\end{enumerate}}
+
+%%%% 一些宏定义 %%%%
+\def\bd{\boldsymbol}        % 加粗(向量) boldsymbol
+\def\disp{\displaystyle}    % 使用行间公式 displaystyle(默认)
+\def\weekto{\rightharpoonup}% 右半箭头
+\def\tsty{\textstyle}       % 使用行内公式 textstyle
+\def\sign{\text{sign}}      % sign function
+\def\wtd{\widetilde}        % 宽波浪线 widetilde
+\def\R{\mathbb{R}}          % Real number
+\def\N{\mathbb{N}}          % Natural number
+\def\Z{\mathbb{Z}}          % Integer number
+\def\Q{\mathbb{Q}}          % Rational number
+\def\C{\mathbb{C}}          % Complex number
+\def\K{\mathbb{K}}          % Number Field
+\def\P{\mathbb{P}}          % Polynomial
+\def\E{\mathbb{E}}          % Exception
+\def\d{\mathrm{d}}          % differential operator
+\def\e{\mathrm{e}}          % Euler's number
+\def\i{\mathrm{i}}          % imaginary number
+\def\re{\mathrm{Re}}        % Real part
+\def\im{\mathrm{Im}}        % Imaginary part
+\def\res{\mathrm{Res}}      % Residue
+\def\ker{\mathrm{Ker}}      % Kernel
+\def\vspan{\mathrm{vspan}}  % Span  \span与latex内核代码冲突改为\vspan
+\def\L{\mathcal{L}}         % Loss function
+\def\O{\mathcal{O}}         % big O notation
+\def\wdh{\widehat}          % 宽帽子 widehat
+\def\ol{\overline}          % 上横线 overline
+\def\ul{\underline}         % 下横线 underline
+\def\add{\vspace{1ex}}      % 增加行间距
+\def\del{\vspace{-1.5ex}}   % 减少行间距
+\def\prob{\textrm{P}}       % Probability
+\def\cov{\textrm{Cov}}      % Covariance
+\def\var{\textrm{Var}}      % Variance
+
+%%%% 定理类环境的定义 %%%%
+\newtheorem{theorem}{定理}
+
+%%%% 基本信息 %%%%
+\newcommand{\RQ}{\today} % 日期
+\newcommand{\km}{随机过程} % 科目
+\newcommand{\bj}{人工智能B2480} % 班级
+\newcommand{\xm}{吴天阳} % 姓名
+\newcommand{\xh}{4124136039} % 学号
+
+\begin{document}
+
+%\pagestyle{empty}
+\pagestyle{plain}
+\vspace*{-15ex}
+\centerline{\begin{tabular}{*5{c}}
+    \parbox[t]{0.25\linewidth}{\begin{center}\textbf{日期}\\ \large \textcolor{blue}{\RQ}\end{center}} 
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{科目}\\ \large \textcolor{blue}{\km}\end{center}}
+    & \parbox[t]{0.2\linewidth}{\begin{center}\textbf{班级}\\ \large \textcolor{blue}{\bj}\end{center}}
+    & \parbox[t]{0.1\linewidth}{\begin{center}\textbf{姓名}\\ \large \textcolor{blue}{\xm}\end{center}}
+    & \parbox[t]{0.15\linewidth}{\begin{center}\textbf{学号}\\ \large \textcolor{blue}{\xh}\end{center}} \\ \hline
+\end{tabular}}
+\begin{center}
+    \zihao{3}\textbf{第二次作业\quad Poisson过程}
+\end{center}\vspace{-0.2cm}
+\begin{problem}
+    \textbf{P283 1.}
+    修理一个机器所需的时间$T$是均值为$1/2$（小时）的指数随机变量。
+    
+    (a) 问修理时间超过$1/2$小时的概率是多少？
+
+    (b) 已知持续时间超过$12$小时，问修理时间至少需要$12\frac{1}{2}$小时的概率是多少？
+\end{problem}
+\begin{solution}
+    (a) 由已知有，$T$服从参数$\lambda=2$的指数分布，则
+    \begin{equation*}
+        \prob(T>1/2) = e^{-2\cdot\frac{1}{2}} = e^{-1} \approx 0.3679.
+    \end{equation*}
+
+    (b) 指数分布具有无记忆性，则
+    \begin{equation*}
+        \prob\left(T>12+\frac{1}{2} \bigg| T>12\right) = \prob(T>1/2) = e^{-1} \approx 0.3679.
+    \end{equation*}
+\end{solution}
+
+\begin{problem}
+    \textbf{P283 10.}
+    令$X$和$Y$是分别有速率$\lambda$和$\mu$的独立指数随机变量。令$M=\min(X,Y)$。求
+
+    (a) $\E[MX|M=X]$，
+
+    (b) $\E[MX|M=Y]$，
+
+    (c) $\cov(X,M)$。
+\end{problem}
+\begin{solution}
+    (a) \vspace{-5ex}
+    \begin{align*}
+        \E[MX|M=X] &= \E[X^2|X<Y] = \int_0^\infty x^2\frac{p(x)P(Y>x)}{P(X<Y)}\d x \\
+        &= \int_0^\infty x^2\frac{\lambda e^{-\lambda x}e^{-\mu x}}{\lambda/(\lambda+\mu)}\d x \\
+        &= (\lambda+\mu)\int_0^\infty x^2e^{-(\lambda+\mu)x}\d x \\
+        &=\frac{2(\lambda+\mu)}{(\lambda+\mu)^3}\int_0^\infty \frac{(\lambda+\mu)^3}{2!}x^2e^{-(\lambda+\mu)x}\d x \\
+        &= \frac{2}{(\lambda+\mu)^2}
+    \end{align*}
+
+    (b) \vspace{-5ex}
+    \begin{align*}
+        \E[MX|M=Y] &= \E[XY|Y<X] = \frac{\int_0^\infty \int_0^x xyf_{XY}(x,y)\d y\d x}{P(Y<X)} \\
+    \end{align*}
+    其中分母为$P(Y<X) = \frac{\mu}{\lambda+\mu}$，分子为
+    \begin{align*}
+        \int_0^\infty \int_0^x xyf_{XY}(x,y)\d y\d x &= \int_0^\infty \int_0^x xy\lambda e^{-\lambda x}\mu e^{-\mu y}\d y\d x \\
+        &= \int_0^\infty \lambda\mu xe^{-\lambda x}\int_0^x y e^{-\mu y}\d y\d x \\
+        &= \int_0^\infty \lambda\mu xe^{-\lambda x}\left(-\frac{x}{\mu}e^{-\mu x}+\frac{1}{\mu^2}(1-e^{-\mu x})\right)\d x \\
+        &= -\lambda \int_0^\infty x^2e^{-(\lambda+\mu)x}\d x + \frac{\lambda}{\mu}\int_0^\infty xe^{-\lambda x}\d x - \frac{\lambda}{\mu}\int_0^\infty xe^{-(\lambda+\mu)x}\d x \\
+        &= -\frac{2\lambda}{(\lambda+\mu)^3} + \frac{1}{\lambda\mu} - \frac{\lambda}{\mu(\lambda+\mu)^2} \\
+        &= \frac{\mu(3\lambda + \mu)}{\lambda(\lambda+\mu)^3}
+    \end{align*}
+    带回可得
+    \begin{align*}
+        \E[MX|M=Y] &= \frac{\frac{\mu(3\lambda + \mu)}{\lambda(\lambda+\mu)^3}}{\frac{\mu}{\lambda+\mu}} = \frac{3\lambda + \mu}{\lambda(\lambda+\mu)^2}
+    \end{align*}
+
+    (c) \vspace{-5ex}
+    \begin{align*}
+        \E[MX] &= \E[MX|M=X]P(M=X) + \E[MX|M=Y]P(M=Y) \\
+        &= \frac{2}{(\lambda+\mu)^2}\cdot\frac{\lambda}{\lambda+\mu} + \frac{3\lambda + \mu}{\lambda(\lambda+\mu)^2}\cdot\frac{\mu}{\lambda+\mu} \\
+        &= \frac{2\lambda^2 + 3\lambda\mu + \mu^2}{\lambda(\lambda+\mu)^3}
+    \end{align*}
+\end{solution}
+
+\begin{problem}
+    \textbf{P287 36.}
+    以$S(t)$记一种证券在时间$t$的价格。过程$\{S(t),t\geqslant 0\}$的一个流行的模型假设价格直到一个“冲击”发生前保持不变，在冲击发生时
+    价格乘上一个随机因子。如果我们以$N(t)$记在时间$t$之前冲击的个数，而以$X_i$记第$i$个乘积因子，那么模型假设了
+    \begin{equation*}
+        S(t) = S(0)\prod_{i=1}^{N(t)}X_i
+    \end{equation*}
+    其中在$N(t)=0$时，$\prod_{i=1}^{N(t)}X_i=1$。假设$X_i$是速率$\mu$的独立指数随机变量，$\{N(t),t\geqslant 0\}$是速率为$\lambda$的Poisson过程，
+    $\{N(t),t\geqslant 0\}$独立于$X_i$，且$S(0) = s$。
+
+    (a) 求$\E[S(t)]$。
+
+    (b) 求$\E[S^2(t)]$。
+\end{problem}
+\begin{solution}
+ (a) \vspace{-5ex}
+ \begin{align*}
+    \E[S(t)] &= \E\left[s(0)\prod_{i=1}^{N(t)}X_i\right] = s\sum_{n=0}^\infty \E[X_1]^nP(N(t)=n)\\
+    &= s\sum_{n=0}^\infty \frac{1}{\mu^n}\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
+    &= se^{\lambda t (1/\mu - 1)}
+ \end{align*}
+
+ (b) \vspace{-5ex}
+ \begin{align*}
+    \E[S^2(t)] &= \E\left[s^2(0)\prod_{i=1}^{N(t)}X_i^2\right] = s^2\sum_{n=0}^\infty \E[X_1^2]^nP(N(t)=n)\\
+    &= s^2\sum_{n=0}^\infty \left(\frac{2}{\mu^2}\right)\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
+    &= s^2e^{\lambda t (2/\mu^2 - 1)}
+ \end{align*}
+\end{solution}
+
+\begin{problem}
+    \textbf{P287 38.}
+    令$\{M_i(t),t\geqslant 0\}(i=1,2,3)$是速率分别为$\lambda_i(i=1,2,3)$的独立Poisson过程，并且设
+    \begin{equation*}
+        N_1(t)=M_1(t)+M_2(t),\quad N_2(t)=M_2(t)+M_3(t)
+    \end{equation*}
+    随机过程$\{(N_1(t),N_2(t)), t\geqslant 0\}$称为二维Poisson过程.
+
+    (a) 求$P\{N_1(t) = n, N_2(t) = m\}$.
+
+    (b) 求$\cov(N_1(t),N_2(t))$.
+\end{problem}
+\begin{solution}
+(a) 设$M_2(t) = k$，且$k\geqslant 0, k\leqslant \min(n, m)$，则$M_1(t) = n-k, M_3(t) = m-k$，于是
+\begin{align*}
+    P(N_1(t) = n,N_2(t) = m) &= \sum_{k=0}^{\min(n,m)}P(M_1(t) = n-k)P(M_2(t) = k)P(M_3(t) = m-k) \\
+    &= \sum_{k=0}^{\min(n, m)}\frac{\lambda_1^{n-k}\lambda_2^{k}\lambda_3^{m-k}t^{n+m-k}}{(n-k)!k!(m-k)!}e^{-(\lambda_1+\lambda_2+\lambda_3)t}
+\end{align*}
+
+(b) \vspace{-1ex}
+\begin{align*}
+    \cov(N_1(t),N_2(t)) &= \cov(M_1(t)+M_2(t),M_2(t)+M_3(t)) \\
+    &= \cov(M_1(t),M_2(t)) + \cov(M_1(t),M_3(t)) + \cov(M_2(t),M_2(t)) + \cov(M_2(t),M_3(t)) \\
+\end{align*} 由于$M_1,M_2,M_3$相互独立，只需考虑$\cov(M_2(t),M_2(t)) = \var(M_2(t),M_2(t)) = \lambda_2 t$，综上
+\begin{equation*}
+    \cov(N_1(t),N_2(t)) = \lambda_2 t.
+\end{equation*}
+\end{solution}
+
+\begin{problem}
+    \textbf{P288 40.}
+    证明若$\{N_i(t),t\geqslant 0\}$是速率为$\lambda_i(i=1,2)$的独立Poisson过程，则$\{N(t),t\geqslant 0\}$是速率为$\lambda_1+\lambda_2$的Poisson过程，其中$N(t)=N_1(t)+N_2(t)$.
+\end{problem}
+\begin{proof}
+1. $N(0) = N_1(0)+N_2(0)$
+2. 由于$N_1(t),N_2(t)$均满足独立增量性，则$N(t)$也满足独立增量性。
+3. 由于$N_1(t),N_2(t)$均满足平稳增量性，则$N(t)$也满足平稳增量性。
+4. 由于
+\begin{align*}
+    P(N(t) = n) &= \sum_{k=0}^n P(N_1(t) = k)P(N_2(t) = n-k) = \sum_{k=0}^n\frac{\lambda_1^i\lambda_2^{k-i}t^k}{i!(k-i)!}e^{-(\lambda_1+\lambda_2)t}\\
+    &= \frac{((\lambda_1+\lambda_2)t)^k}{k!}e^{-(\lambda_1+\lambda_2)t}
+\end{align*}
+则$N(t)$服从参数为$\lambda_1+\lambda_2$的Poisson分布。
+\end{proof}
+
+\begin{problem}
+    \textbf{P289 53.}
+    某水库的蓄水水平按每天$1000$单位的常数速率损耗。水库水源由随机发生的降雨补给。降雨按每天$0.2$的速率的Poisson过程发生。
+    由一次降雨加进水库的水量以概率$0.8$为$5000$单位，而以概率$0.2$为$8000$单位，现在的蓄水水平刚刚稍低于$5000$单位。
+
+    (a) 在$5$天后水库空的概率是多少？
+
+    (b) 在以后的$10$天中的某个时间水库空的概率是多少？
+\end{problem}
+\begin{solution}
+(a) 设$N(t)$表示$t$天内降雨次数，$N(t)\sim \mathrm{Poisson}(0.2t)$，由于$5$天消耗的水为$5\times 1000 = 5000$单位，则$5$天后水库空当且仅当没有发生一次降水，则
+\begin{equation*}
+    P(\text{5天后空}) = P(N(5) = 0) = e^{-0.2 \cdot 5} = e^{-1} \approx 0.3679.
+\end{equation*}
+
+(b) 设$T_1$为第一次5000单位降雨的发生时间，$T_2$为第二次降雨的发生时间，则$T_1\sim\text{Exp}(0.16)$，$T_2\sim\text{Exp}(0.2)$，且$T_1,T_2$独立，
+$10$天中的某天为空，当且仅当，第$5$天为空或第$10$天为空，且二者独立，由(a)可知第$5$天为空的概率为$e^{-1}$，考虑第$10$天为空的概率
+\begin{align*}
+    P(\text{第10天空}) &= P(T_1\leqslant 5, T_2 > 10 - T_1) = \int_0^5 0.16e^{-0.16t}e^{-0.2(10-t)}\d t \\
+    &= 0.16e^{-2}\int_0^5 e^{0.04t}\d t = 4e^{-2}\left(e^{0.2}-1\right)
+\end{align*}
+综上
+\begin{equation*}
+    P(\text{10天中某天为空}) = P(\text{第5天空}) + P(\text{第10天空}) = e^{-1} + 4e^{-2}(e^{0.2}-1)
+\end{equation*}
+\end{solution}
+
+\begin{problem}
+    \textbf{P291 68.}
+    假设有随机振幅的电击发生的时间按速率为$\lambda$的Poisson过程$\{N(t),t\geqslant 0\}$分布。假设相继的电击的振幅与其他振幅和电击到达的时间都独立，
+    且振幅有一个均值为$\mu$的分布$F$。再假设电击的振幅对时间按指数速率$\alpha$递减，即一个初始振幅$A$经过一个附加的时间$x$损耗后其值为$Ae^{-\alpha x}$。
+    以$A(t)$记在时间$t$的所有振幅的和。即
+    \begin{equation*}
+        A(t) = \sum_{i=1}^{N(t)}A_i e^{-\alpha(t-S_i)}
+    \end{equation*}
+    其中$A_i$和$S_i$是初始振幅和电击$i$的到达时间。
+
+    (a) 通过取条件于$N(t)$，求$\E[A(t)]$。
+
+    (b) 不作任何计算，解释为什么$A(t)$与例5.21中$D(t) = \sum_{i=1}^{N(t)}e^{-\alpha S_i}C_i$有相同的分布。
+\end{problem}
+\begin{solution}
+    (a) 由于
+    \begin{align*}
+        \E[A(t)] &= \sum_{n=0}^\infty \E[A(t)|N(t)=n]P(N(t)=n) = \sum_{n=0}^\infty \E[A(t)|N(t)=n]\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
+    \end{align*}
+    考虑
+    \begin{equation*}
+        \E[A(t)|N(t)=n] = \E[\sum_{i=1}^nA_ie^{-\alpha(t-S_i)}|N(t)=n] = \mu\sum_{i=1}^n\E[e^{-\alpha(t-S_i)}|N(t)=n]
+    \end{equation*}
+    当$N(t)=n$时，$S_i\sim U(0,t)$为均匀分布，则
+    \begin{equation*}
+        \E[e^{-\alpha(t-S_i)}|N(t)=n] = \frac{1}{t}\int_0^t e^{-\alpha(t-s)}\d s = \frac{1}{t}\int_0^t e^{-\alpha u}\d u = \frac{1}{\alpha t}(1-e^{-\alpha t})
+    \end{equation*}
+    则
+    \begin{equation*}
+        \E[A(t)|N(t)=n] = \mu\sum_{i=1}^n\frac{1-e^{-\alpha t}}{\alpha t} = \frac{n\mu(1-e^{-\alpha t})}{\alpha t}
+    \end{equation*}
+    综上
+    \begin{equation*}
+        \E[A(t)] = \sum_{n=0}^\infty \frac{n\mu(1-e^{-\alpha t})}{\alpha t}\frac{(\lambda t)^n}{n!}e^{-\lambda t} = \frac{\lambda\mu(1-e^{-\alpha t})}{\alpha}
+    \end{equation*}
+
+    (b) 不难看出$A_i$和$C_i$都是均值为$\mu$的分布，且都与到达时间独立，又由于当$N(t) = n$时，$t-S_i$和$S_i$分布相同，都是服从于$U(0, t)$，且指数函数为单调变换，因此$D(t)$和$A(t)$中的每一项同分布，故$D(t)$和$A(t)$有相同的分布。
+\end{solution}
+
+\begin{problem}
+    \textbf{P294 85.}
+    某保险公司在寿险项目上按每周速率$\lambda = 5$的Poisson过程支付理赔件数。如果每款保险赔付的金额按均值为$\$2000$指数地分布，问在$4$周的范围中，保险公司赔付的金额的均值与方差是多少？
+\end{problem}
+\begin{solution}
+    设$N$为$4$周内的理赔次数，则$N\sim\mathrm{Poisson}(20)$，设每次的理赔金额为$X_i$，则$X_i\sim\mathrm{Exp}(1/2000)$，设$4$周内的赔付金额为$S = \sum_{i=1}^NX_i$
+    则
+    \begin{align*}
+        \E[S] &= \E[\E[S|N]] = \E[N\E[X_i]] = \E[N]\E[X_i] = 20\cdot 2000 = 40000,\\
+        \var(S) &= \E[\var(S|N)]+\var(\E[S|N]) \\
+        &= \E[N\var(X_i)]+\var(N\E[X_i]) \\
+        &= \E[N]\var(X_i)+\E^2[X_i]\var(N) = \E[N]\E[X_i^2] = 20\cdot 2\cdot 2000^2 = 1.6\times 10^8.
+    \end{align*}
+\end{solution}
+\end{document}
