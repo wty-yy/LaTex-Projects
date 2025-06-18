@@ -187,23 +187,182 @@
     (c) 如果该理发师工作的速率快至两倍，他将多做多少生意？
 \end{problem}
 \begin{solution}
+    (a) 该问题为$M/M/1$的排队系统，到达速率为$\lambda=3$，服务速率为$\mu=4$，设该随机过程的状态空间为$S=\{0,1,2\}$，$P_n$为状态$n$的稳态分布，
+    则
+    \begin{equation*}
+        \begin{cases}
+            \mu P_1 = \lambda P_0 \\
+            \lambda P_0 + \mu P_2 = (\mu + \lambda) P_1 \\
+            \lambda P_1 = \mu P_2 \\
+            P_0 + P_1 + P_2 = 1
+        \end{cases} \Rightarrow
+        \begin{cases}
+            \left(1+\frac{\lambda}{\mu}+\frac{\lambda^2}{\mu^2}\right)P_0 = 1 \\
+            P_2 = \frac{\lambda}{\mu}P_1 = \frac{\lambda^2}{\mu^2}P_0
+        \end{cases}
+    \end{equation*}
+    设$\rho = \lambda /\mu = 3/4$则
+    \begin{equation*}
+        \begin{cases}
+            P_0 = \frac{1}{1+\rho+\rho^2} = \frac{16}{37} \\
+            P_1 = \frac{\lambda}{\mu}P_0 = \frac{12}{37} \\
+            P_2 = \frac{\lambda^2}{\mu^2}P_0 = \frac{9}{37}
+        \end{cases}
+    \end{equation*}
+    于是平均顾客数$L$为
+    \begin{equation*}
+        L = \sum_{n=0}^2 nP_n = 0\cdot P_0 + 1\cdot P_1 + 2\cdot P_2 = \frac{12}{37} + \frac{18}{37} = \frac{30}{37}
+    \end{equation*}
+
+    (b) 潜在顾客到达当且阶段不在状态$2$下，因此进入系统的顾客比例为
+    \begin{equation*}
+        1 - P_2 = 1 - \frac{9}{37} = \frac{28}{37}
+    \end{equation*}
+
+    (c) 工作速率加倍后，服务速率变为$\mu' = 8$，则$\rho' = \lambda /\mu' = 3/8$，对应的稳态概率变为
+    \begin{equation*}
+        \begin{cases}
+            P_0' = \frac{1}{1+\rho'+\rho'^2} = \frac{64}{97} \\
+            P_1' = \frac{\lambda}{\mu'}P_0' = \frac{24}{97} \\
+            P_2' = \frac{\lambda^2}{\mu'^2}P_0' = \frac{9}{97}
+        \end{cases}
+    \end{equation*}
+    进入系统的顾客比例变为
+    \begin{equation*}
+        1 - P_2' = 1 - \frac{9}{97} = \frac{88}{97}
+    \end{equation*}
+    有效到达速率为
+    \begin{equation*}
+        \lambda_{effect}' = \lambda(1-P_2) = 3\cdot\frac{88}{97} = \frac{264}{97}
+    \end{equation*}
+    原系统的有效到达速率为
+    \begin{equation*}
+        \lambda_{effect} = \lambda(1-P_2) = 3\cdot\frac{28}{37} = \frac{84}{37}
+    \end{equation*}
+    因此多做的生意为
+    \begin{equation*}
+        \lambda_{effect}' - \lambda_{effect} = \frac{264}{97} - \frac{84}{37} = \frac{1620}{3589}\approx 0.45
+    \end{equation*}
+    即多做了约$0.45$个顾客/小时。
 \end{solution}
 
 \begin{problem}
     \textbf{P334 19.}
+    一个修理工照看机械1和2。每次修复后，机器$i$保持正常运行一个速率为$\lambda_i\ (i=1,2)$的指数时间。当机械$i$失效时需要以速率为$\mu_i$的指数分布的工作量完成它的修理。
+    在机器1失效时修理工总是先修理它。例如，若正在修理机械2时机械1突然失效，则修理工将立即停止修理机械2，而开始修理机械1。问机械2失效的时间比例是多少？
 \end{problem}
 \begin{solution}
+    设状态$0,1,2,3$分别表示：
+    \begin{itemize}
+        \item 状态$0$：两台机械都正常
+        \item 状态$1$：机械1失效，2正常
+        \item 状态$2$：机械2失效，1正常
+        \item 状态$3$：机械1失效，2失效
+    \end{itemize}
+    则有
+    \begin{equation*}
+        \begin{cases}
+            (\lambda_1+\lambda_2)P_0 = \mu_1P_1+\mu_2P_2 \\
+            (\mu_1+\lambda_2)P_1 = \lambda_1P_0 \\
+            (\mu_2+\lambda_1)P_2 = \lambda_2P_0 + \mu_1P_3 \\
+            \mu_1P_3 = \lambda_2P_1 + \lambda_1P_2 \\
+            P_0 + P_1 + P_2 + P_3 = 1
+        \end{cases}
+    \end{equation*}
+    解得
+    \begin{equation*}
+        P_0 = \frac{(\mu_1+\lambda_2)\mu_1\mu_2}{\mu_1\mu_2(\lambda_1+\lambda_2+\mu_1)+\lambda_2\mu_1(\lambda_1+\mu_1+\lambda_2)+\lambda_1\lambda_2(\mu_1+\mu_2+\lambda_1+\lambda_2)}
+    \end{equation*}
+    机械2失效的时间比例为
+    \begin{align*}
+        P_2+P_3 &= \frac{\lambda_1\lambda_2(2\mu_1+\mu_2+\lambda_1+\lambda_2)+\lambda_2\mu_1(\lambda_2+\mu_1)}{(\mu_1+\lambda_2)\mu_1\mu_2}P_0 \\
+        &= \frac{\lambda_1\lambda_2(2\mu_1+\mu_2+\lambda_1+\lambda_2)+\lambda_2\mu_1(\lambda_2+\mu_1)}{\mu_1\mu_2(\lambda_1+\lambda_2+\mu_1)+\lambda_2\mu_1(\lambda_1+\mu_1+\lambda_2)+\lambda_1\lambda_2(\mu_1+\mu_2+\lambda_1+\lambda_2)}
+    \end{align*}
 \end{solution}
 
 \begin{problem}
     \textbf{P336 35.}
+    考察一个具有无穷小转移速率$q_{ij}$和极限概率$\{P_i\}$的时间可逆的连续时间的Markov链。以$A$记这个链的一个状态集合，
+    并且考虑一个转移速率$q^*_{ij}$为
+    \begin{equation*}
+        q^*_{ij} = \begin{cases}
+            cq_{ij},&\quad \text{if }i\in A, j\notin A \\
+            q_{ij},&\quad \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    的新的连续时间的Markov链，其中$c$是一个任意的正常数。证明这个链是时间可逆的，并求它的极限概率。
 \end{problem}
 \begin{solution}
+    首先证明时间可逆，只需证新链的嵌入链是时间可逆的，设新链的嵌入链的平稳概率为
+    \begin{equation*}
+        \pi_{i}^* = k\begin{cases}
+            P_i,&\quad i\in A\\
+            cP_i,&\quad i\notin A
+        \end{cases}
+    \end{equation*}
+    其中$k$为常数，使得$\sum_i\pi_i = 1$，由于原链的是时间可逆的，因此$\pi_iq_{ij} = \pi_jq_{ji}, P_iq_{ij} = P_jq_{ji}$，只需证$\pi^*_iq^*_{ij}=\pi^*_jq^*_{ji}$，分情况讨论：
+
+    1. $i,j \in A$：$\pi_i^*q_{ij}^* = kP_iq_{ij} = (kP_j)q_{ji} = \pi_j^*q^*_{ji}$
+
+    2. $i\in A, j\notin A$：$\pi_i^*q_{ij}^*=kP_icq_{ij}=(kP_jc)q_{ji}=\pi_j^*q_{ji}^*$
+
+    3. $i\notin A, j\in A$：$\pi_i^*q_{ij}^* = kcP_iq_{ij}=(kP_j)(cq_{ji})=\pi_j^*q_{ji}^*$
+
+    4. $i, j \notin A$：$\pi_i^*q_{ij}^* = kcP_jq_{ij}=(kcP_j)q_{ji} = \pi_j^*q_{ji}^*$
+
+    综上可知，$\pi_i^*q_{ij}^*=\pi_j^*q_{ji}^*$，因此新链是时间可逆的。
+
+    由$\sum_i\pi_i = 1$可知
+    \begin{equation*}
+        k = \frac{1}{\sum_{i\in A}P_i+c\sum_{i\notin A}P_i}
+    \end{equation*}
+    综上可知，极限概率为
+    \begin{equation*}
+        P_{i}^* = \begin{cases}
+            \frac{P_i}{\sum_{i\in A}P_i+c\sum_{i\notin A}P_i},&\quad i\in A\\
+            \frac{cP_i}{\sum_{i\in A}P_i+c\sum_{i\notin A}P_i},&\quad i\notin A
+        \end{cases}
+    \end{equation*}
 \end{solution}
 
 \begin{problem}
     \textbf{P338 45.}
+    在例6.24中，我们用开始在状态$0$的两状态的连续时间的Markov链，计算了直到时刻$t$为止在状态$0$的平均占位时间$m(t) = \E[O(t)]$。
+    另一个得到这个量的途径是推导它的一个微分方程。
+
+    (a) 证明
+    \begin{equation*}
+        m(t+h) = m(t)+P_{00}(t)h+o(h)
+    \end{equation*}
+
+    (b) 证明
+    \begin{equation*}
+        m'(t) = \frac{\mu}{\lambda+\mu}+\frac{\lambda}{\lambda+\mu}e^{-(\lambda+\mu)t}
+    \end{equation*}
+
+    (c) 求解$m(t)$。
 \end{problem}
 \begin{solution}
+    (a) 令$I(s) = \begin{cases}
+        1,\quad X(s) = 0 \\
+        0,\quad X(s) = 1
+    \end{cases}$，则$O(t) = \int_0^tI(s)\d s$，于是
+    \begin{equation*}
+        O(t+h) = \int_0^{t+h}I(s)\d s = O(t) + \int_t^{t+h}I(s)\d s
+    \end{equation*}
+    取期望，并令$h\to 0$有
+    \begin{equation*}
+        m(t+h) = m(t) + I(t)h + o(h) = m(t) + P_{00}(t)h + o(h)
+    \end{equation*}
+
+    (b)
+    \begin{equation*}
+        m'(t) = \lim_{h\to 0}\frac{m(t+h)-m(t)}{h} = \lim_{h\to 0}\frac{P_{00}(t)h + o(h)}{h} = P_{00}'(t) = \frac{\mu}{\lambda+\mu}+\frac{\lambda}{\lambda+\mu}e^{-(\lambda+\mu)t}
+    \end{equation*}
+
+    (c) 对上式积分可得
+    \begin{equation*}
+        m(t) = \int_0^tm'(t)\d t = \frac{\mu}{\lambda+\mu}t + \frac{\lambda}{(\lambda+\mu)^2}\left(1-e^{-(\lambda+\mu)t}\right)
+    \end{equation*}
 \end{solution}
 \end{document}
