@@ -6,6 +6,8 @@ _minted*
 *.toc
 *.nav
 *.snm
+*.bbl
+*.blg
 .idea
 .vscode
 __pycache__

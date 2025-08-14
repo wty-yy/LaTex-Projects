@@ -1,0 +1,255 @@
+\documentclass[11pt,lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{float}
+% \usepackage{subfigure}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+% updated with editorial comments 8/9/2021
+
+\begin{document}
+
+\title{Brain-Computer Interfaces for Motor Rehabilitation: Cognitive Mechanisms and Engineering Approaches}
+
+\author{
+  Name: Tianyang Wu, Student Id: 4124136039, Email: tianyang-wu@stu.xjtu.edu.cn
+
+The National Key Laboratory of Human-Machine Hybrid Augmented Intelligence,
+National Engineering Research Center for Visual Information and Application, Institute of Artificial Intelligence and Robotics,
+}
+
+% The paper headers
+\markboth{Final report of Computational Cognitive Science and Engineering}%
+{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+% \IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+\maketitle
+
+\begin{abstract}
+Brain--computer interfaces (BCIs) represent a rapidly evolving field at the intersection of cognitive neuroscience and engineering,
+enabling direct communication between the brain and external devices.
+In the context of motor rehabilitation, BCIs hold the potential to facilitate recovery in patients with neurological disorders such as stroke and spinal cord injury by promoting neuroplasticity and restoring motor function through closed-loop sensorimotor feedback~\cite{Wolpaw2002, Lebedev2006}.
+This report reviews the cognitive mechanisms underlying motor recovery,
+including motor learning theories, cortical reorganization, and sensory--motor integration~\cite{Krakauer2017}. It further discusses engineering aspects of BCI systems,
+such as neural signal acquisition, feature extraction, decoding algorithms, and multimodal feedback strategies. Representative case studies illustrate the effectiveness of BCIs in upper-limb rehabilitation after stroke~\cite{RamosMurguialday2013} and gait restoration in paraplegic patients~\cite{Donati2016}.
+Finally, the report identifies current challenges---such as signal stability, decoder generalization, and ethical considerations---and explores future research directions, emphasizing the integration of brain-inspired computing and personalized rehabilitation protocols.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Brain--computer interface, motor rehabilitation, neuroplasticity, neural decoding, cognitive neuroscience, closed-loop control.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Brain--computer interfaces (BCIs) are systems that establish a direct communication pathway between the brain and external devices,
+bypassing conventional neuromuscular output channels. Originating from early neurophysiological studies in the 1970s,
+BCIs have evolved into a multidisciplinary research area combining cognitive neuroscience, signal processing, machine learning, and biomedical engineering~\cite{Wolpaw2002, Lebedev2006}.
+These systems can acquire, decode, and translate neural activity patterns into commands for controlling prosthetic limbs, assistive devices, or computer applications.
+
+Motor rehabilitation is one of the most promising applications of BCIs.
+Neurological disorders such as stroke and spinal cord injury often lead to long-term motor impairments,
+with current rehabilitation strategies relying heavily on repetitive physical therapy and therapist supervision~\cite{Krakauer2017}.
+However, traditional methods are limited by patient engagement, therapy intensity, and the ability to target underlying neural mechanisms of recovery.
+BCIs offer a novel approach by integrating neural decoding with real-time feedback, thereby promoting neuroplasticity and enhancing motor relearning.
+
+From a cognitive science perspective, motor recovery involves complex interactions between cortical reorganization, motor learning processes,
+and sensorimotor integration~\cite{Krakauer2017}.
+The closed-loop nature of BCIs allows patients to observe the consequences of their neural activity in real time,
+which can strengthen the association between intended movement and sensory feedback. This process may accelerate functional reorganization within motor-related brain areas,
+a principle supported by both animal studies and clinical trials~\cite{RamosMurguialday2013, Donati2016}.
+
+From an engineering standpoint, implementing an effective BCI for motor rehabilitation requires addressing several technical challenges,
+including robust neural signal acquisition, reliable feature extraction, accurate decoding algorithms, and effective feedback delivery.
+Advances in non-invasive recording modalities, such as electroencephalography (EEG) and functional near-infrared spectroscopy (fNIRS),
+as well as in machine learning-based decoders, have significantly improved the usability and clinical potential of BCI systems.
+
+This report aims to provide a comprehensive review of BCIs in the context of motor rehabilitation, focusing on two major aspects:
+(1) the cognitive and neurobiological mechanisms underlying motor recovery, and
+(2) the engineering approaches to BCI system design and implementation.
+Representative case studies are presented to illustrate practical applications, followed by a discussion of key challenges and future research directions.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./figures/fig_bci_closed_loop.jpg} % 替换为你的实际文件名
+  \caption{Illustration of a closed-loop brain–computer interface system for motor rehabilitation, showing brain signal acquisition, feature extraction, and sensory feedback (visual or neuromuscular electrical stimulation). Adapted from a conceptual model of closed-loop BCI feedback systems supporting motor rehabilitation~\cite{Li2022, SebastianRomagosa2020}.}
+  \label{fig:bci_closed_loop}
+\end{figure}
+
+\section{Main Body}
+\subsection{Cognitive Mechanisms Underlying Motor Rehabilitation}
+
+Motor recovery after neurological injury, such as stroke or traumatic brain injury, relies critically on the brain’s capacity for \emph{neuroplasticity}, which enables functional and structural reorganization of neural circuits~\cite{Dimyan2011, NeuroplasticityWiki2025}. Neuroplasticity manifests at multiple levels—from molecular and cellular changes (e.g., synaptogenesis, axonal sprouting, neurogenesis) to network-scale remapping of motor areas and compensatory recruitment of homologous regions~\cite{Wieloch2006, Campos2023}. At the synaptic level, alterations in neurotransmitter release probability, receptor density, and dendritic spine morphology all contribute to modifying synaptic strength, enabling long-term potentiation (LTP) and long-term depression (LTD), which underpin learning and recovery processes. Importantly, functional recovery is facilitated by \emph{activity-dependent plasticity}, where repeated engagement in motor-intent tasks strengthens sensorimotor networks through Hebbian-like mechanisms ("neurons that fire together, wire together")~\cite{WikiActivityDependent2025}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_neuroplasticity_cellular.png}
+  \caption{Schematic representation of cellular-level mechanisms of neuroplasticity following injury, including dendritic remodeling, synaptic plasticity (LTP/LTD), glial involvement, and axonal sprouting. Adapted from~\cite{Petersen2013}.}
+  \label{fig:neuroplasticity_cellular}
+\end{figure}
+
+Figure~\ref{fig:neuroplasticity_cellular} provides a detailed depiction of cellular-level processes contributing to neuroplasticity. It highlights how neural circuits adapt structurally through dendritic branching, spine proliferation, remodeling of pre- and postsynaptic contacts, glial participation in synapse modulation, and rerouting of axonal pathways—essential foundations for rehabilitation.
+
+From a systems neuroscience perspective, motor rehabilitation involves not only re-establishing corticospinal tract connectivity but also optimizing sensorimotor integration across cortical, subcortical, and cerebellar networks. Sensory feedback from proprioceptive, visual, and tactile modalities provides essential error signals that guide adaptive changes in motor planning and execution. This feedback-driven recalibration is especially crucial during early rehabilitation, preventing maladaptive outcomes such as learned non-use of the impaired limb.
+
+Brain-computer interface (BCI) systems leverage these neurobiological principles by translating a user’s motor intentions into real-time sensory or motor feedback—thus forming a closed-loop system that reinforces the association between cortical activity and intended movement~\cite{Cervera2018, Mang2023}. In this paradigm, motor imagery or attempted movement generates neural patterns in motor-related areas, which are decoded and transformed into external device control (e.g., orthoses, robotic exoskeletons, or functional electrical stimulation). The resulting movement or sensory feedback is immediately perceived by the user, strengthening cortico-muscular connectivity and promoting synaptic reorganization in the motor cortex.
+
+Compared to open-loop paradigms, closed-loop BCI systems provide a continuous cycle of intention, action, and feedback, which has been shown to induce greater cortical excitability, enhance motor map reorganization, and facilitate long-term retention of motor skills. Neuroimaging and electrophysiological studies demonstrate that such closed-loop engagement increases activation in the ipsilesional primary motor cortex (M1), supplementary motor area (SMA), and premotor cortex while helping rebalance interhemispheric inhibition in stroke patients.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./figures/fig_bci_open_closed_loop.jpg}
+  \caption{Comparison of open-loop and closed-loop BCI systems for motor rehabilitation. Closed-loop feedback enables sensory reinforcement of neural activity, promoting neuroplasticity and motor relearning. Adapted from~\cite{Mang2023}.}
+  \label{fig:open_closed_loop}
+\end{figure}
+
+In summary, the cognitive mechanisms supporting BCI-mediated motor rehabilitation involve targeted and sustained neuroplasticity induced by activity-dependent feedback, enabling cortical map remapping, optimization of sensorimotor integration, and restoration of motor function. By coupling the brain’s intrinsic learning capacity with engineered feedback systems, BCIs offer a unique pathway to accelerate and consolidate motor recovery in patients with neurological impairments.
+
+\subsection{Brain-Computer Interface Systems}
+
+An effective brain–computer interface (BCI) system typically comprises several core modules: \emph{signal acquisition}, \emph{preprocessing}, \emph{feature extraction}, \emph{classification/decoding}, and \emph{control/feedback generation}~\cite{Rashid2020, Sun2024}. Each of these modules plays a crucial role in ensuring that the system can reliably capture neural activity, transform it into meaningful control signals, and deliver timely feedback to the user.
+
+Signal acquisition can employ a wide range of modalities depending on the intended application and the trade-offs between spatial/temporal resolution, invasiveness, and portability. Non-invasive techniques such as electroencephalography (EEG), magnetoencephalography (MEG), and functional near-infrared spectroscopy (fNIRS) are widely used in rehabilitation-oriented BCIs due to their safety and ease of use~\cite{Zhang2024}. Among these, EEG remains the most common choice owing to its high temporal resolution (millisecond range), portability, and relatively low cost~\cite{EEGAnalysis2025}. Invasive approaches such as electrocorticography (ECoG) and intracortical microelectrode arrays offer higher spatial resolution and signal-to-noise ratio but involve neurosurgical implantation, which raises concerns about biocompatibility, long-term stability, and patient acceptance.
+
+Once neural signals are acquired, \emph{preprocessing} is essential to enhance signal quality and remove noise. Common preprocessing steps include band-pass filtering to isolate relevant frequency bands, artifact removal techniques such as independent component analysis (ICA) for ocular and muscle noise, and spatial filtering to improve signal localization. The goal is to maximize the signal-to-noise ratio before feature extraction~\cite{Karikari2023}.
+
+In the \emph{feature extraction} stage, the system identifies signal attributes that best discriminate between different mental states or motor intentions. Popular features include spectral power in specific frequency bands (e.g., mu and beta rhythms for motor imagery), spatial patterns derived from common spatial patterns (CSP), time–frequency representations obtained through wavelet transforms, and phase–amplitude coupling metrics that capture cross-frequency interactions~\cite{Karikari2023}. Recent work has also explored connectivity measures, such as coherence or Granger causality, to capture functional interactions between brain regions.
+
+The extracted features are then passed to the \emph{classification/decoding} stage, where algorithms map them to discrete commands or continuous control signals. Classical machine learning methods such as linear discriminant analysis (LDA) and support vector machines (SVM) remain popular due to their robustness and interpretability. However, deep learning approaches—including convolutional neural networks (CNNs) for spatial–spectral feature learning and recurrent neural networks (RNNs) for temporal modeling—have shown superior performance in capturing complex, nonlinear relationships in neural data~\cite{Elashmawi2024}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_bci_architecture.png}
+  \caption{Block diagram of a typical BCI system showing the pipeline from brain signal acquisition, preprocessing, feature extraction, decoding, to control/feedback modules. Adapted from~\cite{NicolasAlonso2012}.}
+  \label{fig:bci_architecture}
+\end{figure}
+
+Finally, the decoded output is used to control external devices—ranging from robotic arms and assistive exoskeletons to functional electrical stimulation (FES) systems that directly activate paralyzed muscles~\cite{Remsik2022}. This control loop can operate in an open-loop fashion or, more effectively, in a real-time closed-loop configuration where immediate sensory feedback (visual, haptic, or proprioceptive) informs the user about the outcome of their neural commands, enabling adaptive recalibration of brain activity.
+
+The overall architecture of a typical BCI system is illustrated in Fig.~\ref{fig:bci_architecture}, highlighting the sequential flow from brain signal acquisition to feedback delivery~\cite{NicolasAlonso2012}. Each block in this pipeline is interdependent: the quality of decoding depends on the reliability of feature extraction, which in turn relies on high-quality signal acquisition and preprocessing.
+
+To illustrate the hybrid integration of EEG and fNIRS, Fig.~\ref{fig:bci_hybrid} displays a detailed schematic of a multimodal BCI system featuring parallel preprocessing, hybrid feature extraction through adaptive ICA and ARMAX models, and unified classification before feedback control.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_bci_hybrid.png}
+  \caption{Schematic of a hybrid EEG–fNIRS BCI system, illustrating joint preprocessing, feature fusion, classification, and application control. Adapted from~\cite{Naseer2015}.}
+  \label{fig:bci_hybrid}
+\end{figure}
+
+Recent advances in BCI technology include \emph{personalized} and \emph{hybrid} systems. Personalized BCIs adapt decoding algorithms to the individual’s neural signatures, improving performance and reducing calibration time. Hybrid BCIs combine multiple modalities—such as EEG and fNIRS—to exploit complementary strengths, enhancing robustness under real-world conditions~\cite{Rashid2020, Elashmawi2024}. Furthermore, the integration of adaptive machine learning techniques enables decoders to update in real time, maintaining accuracy despite signal variability across sessions. The combination of these advances is paving the way for BCIs that are more accurate, user-friendly, and effective in motor rehabilitation scenarios.
+
+\subsection{Case Studies and Applications in Motor Rehabilitation}
+
+To demonstrate the practical effectiveness of BCI systems, this section reviews several representative case studies, focusing on both \emph{upper-limb rehabilitation} in stroke survivors and \emph{lower-limb gait restoration} in individuals with spinal cord injury (SCI). These applications illustrate the broad clinical potential of BCIs in restoring motor function by coupling neural decoding with real-time feedback.
+
+One well-controlled clinical study involving chronic stroke patients employed modulation of the sensorimotor rhythm (SMR) via EEG to drive a hand orthosis. In this paradigm, patients engaged in motor imagery of hand extension while EEG-based classifiers detected desynchronization in the mu and beta frequency bands over the contralateral motor cortex. Successful detection triggered movement of the orthosis, providing proprioceptive feedback directly contingent on the patient’s neural activity~\cite{RamosMurguialday2013}. This closed-loop coupling between intention and movement not only reinforced motor-related cortical activation but also promoted Hebbian-like synaptic strengthening in residual corticospinal pathways. Functional outcomes were evaluated using standard clinical measures such as the Fugl–Meyer Assessment (FMA) and Action Research Arm Test (ARAT), both of which showed significant improvements compared to a sham-feedback control group. The experimental setup and workflow are outlined in Fig.~\ref{fig:stroke_case}, which shows the sequence from EEG acquisition and preprocessing to orthosis control.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_case_overview.png}
+  \caption{Overview of a motor imagery–based BCI system for stroke rehabilitation: signal acquisition, feature extraction, decoding, and external device control. Adapted from~\cite{Mattioli2022}.}
+  \label{fig:stroke_case}
+\end{figure}
+
+A second line of research targets gait restoration in individuals with SCI. In one study, subjects—both able-bodied and paraplegic—performed kinesthetic motor imagery of walking while EEG signals were decoded in real time to generate walking commands for a robotic gait orthosis (RoGO)~\cite{Do2013}. The RoGO was mounted on a treadmill, allowing safe, repetitive gait training under controlled conditions. The decoding relied on spectral features from premotor and central electrodes, capturing event-related desynchronization patterns associated with imagined lower-limb movement. Beyond demonstrating the feasibility of voluntary BCI-mediated ambulation, the system also incorporated visual and proprioceptive feedback to strengthen motor–sensory coupling. Longitudinal data indicated that repeated BCI-RoGO sessions improved walking kinematics, reduced muscle atrophy, and enhanced cardiovascular endurance.
+
+Long-term BMI-based gait training has also been tested in paraplegic patients using immersive rehabilitation protocols. For instance, Donati et al.~\cite{Donati2016} implemented a year-long program combining virtual reality (VR) environments, tactile feedback delivered via haptic devices, and robotic exoskeleton-assisted walking. Over the training period, patients exhibited partial neurological recovery, including voluntary muscle contractions below the level of injury, improvements in somatosensory perception, and gains in bladder and bowel control. This work provided some of the first clinical evidence that sustained BMI training can trigger measurable neurological improvements even in chronic SCI cases.
+
+More recently, cutting-edge approaches have emerged in the form of digital “brain–spinal cord bridges”~\cite{Lorach2023}. These systems establish a continuous bidirectional interface between cortical motor areas and intraspinal stimulators, bypassing the site of injury to re-establish volitional control over lower-limb muscles. The bridge continuously decodes neural activity related to gait initiation and dynamically drives epidural electrical stimulation patterns in the lumbar spinal cord. This approach has enabled tetraplegic individuals to walk overground and navigate real-world environments with adaptive control, demonstrating a level of mobility restoration previously unattainable with conventional rehabilitation.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_ecog_gait_system.png}
+  \caption{Schematic of an invasive ECoG-based BCI system controlling gait via a treadmill (ReoAmbulator). Includes signal acquisition, feature extraction, decoding, and step execution modules. Adapted from~\cite{Zhang2022}.}
+  \label{fig:ecog_gait_system}
+\end{figure}
+
+Collectively, these case studies underscore the versatility of BCIs in addressing a wide range of motor deficits—from fine motor control in post-stroke upper-limb rehabilitation to the restoration of complex locomotor patterns in SCI. This figure (Fig.~\ref{fig:ecog_gait_system}) illustrates the workflow of an invasive BCI-controlled gait rehabilitation paradigm. Users are implanted with ECoG sensors over motor cortex regions; neural data undergo preprocessing and feature extraction before a decoder generates control commands to drive treadmill stepping actions. This closed-loop gait training paradigm not only demonstrates feasibility but also reinforces neuroplastic recovery through real-world locomotor engagement. The consistent themes across these applications are the use of \emph{closed-loop feedback}, \emph{task-specific neural decoding}, and \emph{multimodal sensory reinforcement} to drive neuroplasticity and functional recovery. By integrating engineering innovation with cognitive neuroscience, BCIs offer a transformative toolset for next-generation motor rehabilitation protocols.
+
+\subsection{Challenges and Future Directions}
+
+Despite rapid advancements in BCI systems for motor rehabilitation, several critical challenges persist that hinder widespread clinical adoption. These challenges span technical, clinical, and ethical domains, and their resolution will require coordinated efforts from neuroscientists, engineers, clinicians, ethicists, and policymakers.
+
+Figure~\ref{fig:bci_vr_integration} illustrates an integrated architecture combining BCI modules with VR systems, ambient sensing, and assistive frameworks, providing a visual map of future rehabilitation system potentials.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_bci_vr_integration.png}
+  \caption{Modular architecture integrating BCI systems with VR and context-awareness modules, illustrating future rehabilitation system potentials. Adapted from López Bernal et al.~\cite{Lopez2022}.}
+  \label{fig:bci_vr_integration}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Signal Reliability and Noise}: Non-invasive signals such as EEG are inherently vulnerable to physiological artifacts (e.g., electromyographic contamination from facial or neck muscles, ocular artifacts from blinks and saccades) and environmental noise (e.g., power line interference, electromagnetic coupling)~\cite{Swarnakar2025, WikipediaBCI2025}. This variability often reduces decoding accuracy, particularly in non-laboratory environments. Invasive electrodes, such as intracortical arrays or ECoG grids, offer higher fidelity but face chronic stability issues due to gliosis, micromotion, and electrode material degradation. Addressing these limitations requires advances in sensor design (e.g., flexible biocompatible polymers, noise-resistant dry electrodes) and adaptive filtering algorithms that can operate in real time.
+  
+  \item \textbf{Subject-Specific Calibration and Generalization}: Many current BCI models require lengthy, subject-specific calibration sessions to achieve acceptable accuracy, which can be fatiguing for patients with motor impairments~\cite{Jayaram2015}. Inter-session and inter-subject variability in neural patterns—arising from anatomical differences, cortical reorganization, or varying levels of attention—further limits generalization. Transfer learning and domain adaptation methods, capable of reusing models across individuals or adapting them with minimal additional data, hold promise but require careful validation in clinical settings to ensure safety and robustness.
+  
+  \item \textbf{Hardware Limitations}: Achieving an optimal balance between spatial resolution, temporal resolution, power consumption, and mechanical stability remains an ongoing engineering challenge~\cite{Chandrasekaran2021, WikipediaBCI2025}. Invasive implants can provide precise neural recordings but require hermetic sealing, wireless data transmission, and long-term power solutions. Non-invasive headsets must manage electrode–scalp impedance, mechanical comfort, and motion robustness. Lightweight, wearable, and unobtrusive designs will be critical for extending BCI use beyond the clinic into home rehabilitation.
+  
+  \item \textbf{Ethics, Privacy, and Regulation}: BCIs introduce unprecedented ethical considerations, including the ownership and privacy of neural data, cognitive liberty, user consent, responsibility attribution, and the risk of coercive or unauthorized use~\cite{WikipediaNeurotech2025, Swarnakar2025}. Unlike other biomedical data, neural recordings can potentially reveal sensitive cognitive states or intentions. There is a pressing need for standardized neurorights legislation, international data governance frameworks, and transparent regulatory pathways to ensure safe translation from research to market.
+  
+  \item \textbf{Long-Term Efficacy and Reproducibility}: Although numerous studies report short-term functional gains from BCI interventions, evidence for sustained improvements over months or years remains limited~\cite{Tonin2025}. Variability in study protocols, patient populations, and evaluation metrics hampers meta-analytic synthesis and cross-study comparison. Establishing standardized clinical trial designs, long-term follow-up protocols, and publicly accessible datasets will be essential for verifying reproducibility and building clinician trust.
+  
+  \item \textbf{Emerging Integration Opportunities}: The integration of BCIs with complementary technologies such as virtual reality (VR), robotics, and adaptive artificial intelligence (AI) could dramatically enhance patient engagement and rehabilitation outcomes~\cite{Swarnakar2025, Chandrasekaran2021}. VR can provide immersive, motivating environments for repetitive task practice, while robotics can deliver precise, assist-as-needed physical support. Adaptive AI algorithms can personalize therapy intensity and difficulty in real time. However, these hybrid systems increase technical complexity and demand robust human–machine interface design to avoid cognitive overload or usability barriers.
+\end{itemize}
+
+Figure~\ref{fig:bci_challenges} visualizes the processing pipeline of sEEG-based BCI systems, emphasizing the open problems at each stage—from signal acquisition to decoding and application deployment. It highlights how challenges in one module (e.g., feature extraction) can propagate and limit overall system performance.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1.0\linewidth]{./figures/fig_bci_challenges.png}
+  \caption{Processing pipeline of sEEG-based BCI systems, highlighting the key challenge areas (signal processing, feature extraction, decoding, and application) that need to be addressed for successful clinical deployment. Adapted from~\cite{Chandrasekaran2021}.}
+  \label{fig:bci_challenges}
+\end{figure}
+
+Looking forward, several avenues hold promise for advancing BCI-mediated motor rehabilitation:
+\begin{itemize}
+  \item \textbf{Transfer Learning and Domain Adaptation}: Techniques to leverage cross-subject or session-shared features can reduce calibration efforts and improve robustness~\cite{Jayaram2015}. Future research should explore meta-learning and continual learning approaches to adapt to ongoing neuroplastic changes during rehabilitation.
+  
+  \item \textbf{Privacy-Preserving Architectures}: Federated learning and secure multi-party computation frameworks may enable collaborative model training across institutions without exposing raw neural data~\cite{Xia2024}. Encryption at both hardware and software levels will be critical for safeguarding patient information.
+  
+  \item \textbf{Minimally Invasive Interfaces}: New interface technologies, such as endovascular electrodes (e.g., Stentrode) and surface microarrays, offer a safer balance between signal quality and surgical risk~\cite{Chandrasekaran2021, WikipediaBCI2025}. Their adoption could broaden the candidate pool for high-performance BCIs.
+  
+  \item \textbf{Regulatory and Ethical Guidelines Development}: Establishing comprehensive policies for neurorights, device approval, and post-market surveillance will help ensure that clinical BCIs remain safe, equitable, and aligned with societal values~\cite{WikipediaNeurotech2025}.
+  
+  \item \textbf{Closed-Loop, Multimodal Integration}: Incorporating multisensory feedback (visual, tactile, proprioceptive) with real-time adaptive control can maximize engagement and accelerate learning, but demands further research into multimodal fusion algorithms and human factors optimization.
+\end{itemize}
+
+In summary, addressing these interlinked technical, clinical, and ethical challenges through interdisciplinary innovation is crucial for realizing the full therapeutic potential of BCIs in motor rehabilitation. Sustained collaboration between engineering, neuroscience, clinical medicine, and ethics will be essential for translating current laboratory prototypes into reliable, accessible, and patient-centered rehabilitation tools.
+
+\section{Conclusion}
+This report has reviewed the cognitive and engineering foundations of brain–computer interfaces (BCIs) for motor rehabilitation, emphasizing the interplay between neuroplasticity-driven recovery mechanisms and advanced signal processing, decoding, and feedback technologies. Beginning with the theoretical underpinnings of motor recovery, we discussed how closed-loop BCI systems leverage activity-dependent plasticity to facilitate cortical reorganization and improve functional outcomes~\cite{Dimyan2011, Krakauer2017}.
+
+From an engineering perspective, BCI systems encompass multiple interconnected modules—from neural signal acquisition to real-time decoding and multimodal feedback—each presenting unique technical requirements and constraints~\cite{Rashid2020, Elashmawi2024}. Case studies demonstrate the versatility of BCIs across a spectrum of motor tasks, from restoring fine motor control in post-stroke patients to enabling gait in individuals with spinal cord injury~\cite{RamosMurguialday2013, Donati2016, Lorach2023}.
+
+Despite significant progress, several challenges remain. These include ensuring long-term signal stability, improving cross-user generalization, developing minimally invasive hardware, and establishing robust ethical and regulatory frameworks~\cite{Swarnakar2025, Chandrasekaran2021}. Future research should prioritize interdisciplinary collaboration, integrating advances in neuroscience, biomedical engineering, artificial intelligence, and rehabilitation sciences to create BCIs that are not only technically robust but also clinically effective and ethically responsible.
+
+In conclusion, BCIs hold transformative potential for motor rehabilitation by bridging cognitive neuroscience and engineering innovation. Addressing current limitations through targeted research will be essential for translating these systems from laboratory prototypes to widely adopted clinical tools.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+
+% \newpage
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{
+figures/people/wty.jpg}}]{Tianyang Wu}
+received his B.S. degree in Mathematics from Xi’an Jiaotong University.
+He is currently pursuing a Ph.D. degree in the research group led by Prof. Xuguang Lan.
+His research interests include reinforcement learning and robotics.
+\end{IEEEbiography}
+
+\end{document}
+
+
