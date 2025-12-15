@@ -1,0 +1,129 @@
+%# -*- coding:utf-8 -*-
+%% start of file `template_en.tex'.
+%% Copyright 2006-1008 Xavier Danaux (xdanaux@gmail.com).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+% Refer: https://github.com/geekplux/cv_resume
+
+\documentclass[11pt,a4paper]{moderncv}
+
+\usepackage{fontspec,xunicode}
+\usepackage[slantfont,boldfont]{xeCJK}
+\usepackage{xcolor}  % replace by the encoding you are using
+
+%%%% 设置中文字体 %%%%
+% fc-list -f "%{family}\n" :lang=zh >d:zhfont.txt 命令查看已有字体
+\setCJKmainfont[
+    BoldFont=方正黑体_GBK,  % 黑体
+    ItalicFont=方正楷体_GBK,  % 楷体
+    BoldItalicFont=方正粗楷简体,  % 粗楷体
+    Mapping = fullwidth-stop  % 将中文句号“.”全部转化为英文句号“.”
+]{方正书宋简体}  % !!! 注意在Windows中运行请改为“方正书宋简体.ttf” !!!
+%%%% 设置英文字体 %%%%
+\setmainfont{Minion Pro}
+\setsansfont{Calibri}
+\setmonofont{Consolas}
+
+\moderncvtheme[blue]{classic}
+
+\usepackage[scale=0.9]{geometry}
+\AtBeginDocument{\recomputelengths}  % required when changes are made to page layout lengths
+
+% personal data
+\firstname{吴天阳}
+\familyname{}
+\title{Wu Tianyang}  % optional, remove the line if not wanted
+\address{\faBirthdayCake\ 2002/01/09}{}
+\mobile{(+86)18171401763}
+\email{993660140@qq.com}
+\homepage{Blog: https://wty-yy.github.io}
+\extrainfo{
+  \faGithub\ GitHub: https://github.com/wty-yy \\
+  \faWeixin\ WeChat: 18171401763 \\
+  \faQq\ QQ: 993660140
+}
+\photo[64pt]{photo.jpg}
+
+\begin{document}
+\maketitle
+\vspace*{-14mm}
+
+\section{教育经历}
+\cventry{2017-2020}{高中}{湖北武汉武钢三中}{}{}{}
+\cventry{2020-2024}{本科}{西安交通大学}{强基数学专业}{}{}
+\cventry{2022-2024}{本科辅修}{西安交通大学}{人工智能专业}{}{}
+\cvlistitem{荣誉：一次国家奖学金，两次三等奖学金，两次优秀学生}
+\cventry{2024-现在}{直博}{西安交通大学}{人工智能专业}{导师\ 兰旭光}{}
+\cvlistitem{荣誉：一次优秀研究生}
+
+\section{兴趣/技能}
+\cventry{研究兴趣}{机器人}{}{基于强化学习的底层运动控制；结合上层识别、抓取、建图、导航的相关应用}{}{}
+\cventry{}{强化学习}{}{无模型强化学习，基于模型的强化学习，强化学习在机器人、游戏方面的应用}{}{}
+\cvitem{技能}{掌握Python、C++，熟练使用Linux、Git、Docker、CMake、ROS1、ROS2、LaTeX、SolidWorks工具.}
+\section{发表论文}
+\cventry{ICIRA 2024}{Playing Non-Embedded Card-Based Games with Reinforcement Learning（一作）}{}{}{}{
+通过YOLO识别特征和offline RL的非嵌入式方案，实现卡牌游戏“皇室战争”的AI训练，
+成功击败游戏内置8000分AI. \href{https://www.bilibili.com/video/BV1xn4y1R7GQ}{Demo视频}在BiliBili播放量超\textbf{28万}，\href{https://github.com/wty-yy/katacr}{GitHub开源项目}\textbf{Star 350+}.
+}
+
+\section{项目经历}
+\cventry{2024-2025}{北京航空某院多智能体博弈项目}{}{}{}{}
+\cvlistitem{在封闭环境下完成，基于高精仿真系统完成训练框架的分布式设计，使用强化学习算法完成多种复杂场
+景下高速飞行器导航、避障、对抗任务，满足项目目标性能要求；在完成模型训练后，进一步完
+成了端侧推理（DSP+FPGA）部署和优化，保证低算力环境下决策推理时间满足项目要求.}
+\cvlistitem{作为项目负责博士，主导完成代码架构设计、模型训练、验证及部署，
+完成各节点、中期以及结题验收，包括技术文档、总结报告编写.}
+\cventry{2025}{人形机器人在机电产品装配的应用基础研究}{中国航空工业集团公司西安飞行自动控制研究所}{\href{https://gitee.com/wty-yy/ws_618}{Gitee开源项目}}{}{}
+\cvlistitem{作为项目负责博士，独立完成代码核心模块的设计与实现，带领两位硕士完成可视化界面开发，2个月内基于乐聚SDK开发，
+实现SLAM建图转2D地图，地图配准，自主导航到工作台，识别目标物体，校正抓取位姿，抓取后交换手的多视角缺陷检测.}
+\cvlistitem{包含SLAM建图、栅格化2D地图、地图配准、自主导航、自主抓取、多视角工件缺陷检测功能，
+整合FAST-LIO2、LightGlue、YOLO、AprilTag、ROS1/ROS2通讯及人机交互界面.}
+\cvlistitem{本项目还应用在2025中国智能车未来挑战赛中，完成人形机器人自动抓取水瓶，并导航到车窗旁边递交的现场Demo.}
+\cventry{2025-2027}{注入式具身行为仿真与虚实迁移}{国家重点研发计划\ 智能机器人专项}{}{}{}
+\cvlistitem{作为项目负责博士，领导课题组成员研究基于人形机器人的柔性装配场景下的注入式具身行为仿真与虚实迁移研究，
+基于乐聚夸父机器人和宇树G1机器人完成，目前乐聚夸父机器人已完成多视角工件缺陷识别检测任务，正在开发宇树全身运控任务.}
+
+\newpage
+\section{比赛经历}
+\cventry{2024-2025}{腾讯开悟人工智能全球公开赛\ 第五、六届多智能体强化学习大赛}{}{}{}{}
+\cvlistitem{在王者荣耀游戏1v1、3v3地图环境下，完成强化学习算法设计，训练模型控制角色进行对战。
+基础算法为IPPO，神经网络设计与reward参考OpenAI Five的设计并做进一步优化。
+尝试noisynet、RND reward、curriculum learning等等方案提升模型实力，
+最终对战baseline达到100\%胜率.}
+\cvlistitem{比赛可用算力为1024 cores, 1 V100GPU，采用类IMPALA的分布式框架训练，
+代码开发调试和部署基于docker。开发过程中需要严格保证代码优化程度，任何实现的overhead都会导致模型推理
+和训练时间减慢，降低分布式RL的效率和效果.}
+\cvlistitem{担任队长，在比赛中参与算法和网络设计，负责完成各方案的分布式代码实现和训练调参，
+在团队中作为主要角色.}
+\cvlistitem{第六届取得第四名，第五届取得第九名。
+两届比赛的参赛队伍均来自清北等国内top30高校和国外著名高校.}
+\cventry{2025}{腾讯开悟人工智能全球公开赛\ 第一届具身智能强化学习运动控制赛道}{}{}{}{}
+\cvlistitem{线上评分：训练模型在指定虚拟赛道中控制宇树Go2用尽可能少的时间通过。
+根据成功次数、最快通关速度、稳定性等指标综合评定四足机器人的运动控制能力，综合评分后进行排名.}
+\cvlistitem{线下评分：在指定时间内，训练并部署模型到宇树Go2真机上，
+遥控Go2通过赛事官方搭建的赛道，包含训练中未见过的障碍物和地形变化，例如碎石路、小斜坡地面、高台阶、带障碍斜坡、带泡沫斜坡、带转盘斜坡等.}
+\cvlistitem{担任队长，带领团队1个月内完成从仿真训练到真机部署的全流程工作，包含CTS算法复现，MoE架构设计，奖励、地形、指令课程学习；
+在没有步频输入的情况下，真机越障能力与宇树官方“灵动”模型基本一致，并在最大速度上达到2m/s超越官方模型.}
+\cvlistitem{取得线上/线下/报告综合得分\textbf{第一名}，并作为现场第一个比赛并通过全部关卡的操作手.}
+
+\section{奖项}
+\cvitem{2018}{CCF NOIP 2018 提高组，\textbf{一等奖}.}
+\cvitem{2022}{美国大学生数学建模竞赛, \textbf{Meritorious Winner}（第三等级）.}
+\cvitem{2022}{全国大学生数学建模竞赛省部级一等奖.}
+\cvitem{2021-2023}{西安交通大学程序设计竞赛校赛一等奖两次，二等奖一次, 2023年获得校内\textbf{第一名}.}
+\cvitem{2021-2023}{蓝桥杯\textbf{国家级二等奖}两次，省部级二等奖一次.}
+\cvitem{2024}{第五届“弈起进化”智能博弈挑战赛\textbf{全国亚军}，主办方为中国运载火箭技术研究院.}
+\cvitem{2024-2025}{腾讯开悟第五、六届多智能体强化学习大赛，全国第九名、第四名，一次复赛第一名.}
+\cvitem{2025}{腾讯开悟第一届具身智能强化学习运动控制赛道，\textbf{全国冠军}.}
+
+\section{自我评价}
+\cvitem{}{
+数学基础牢靠，掌握各种数据结构与算法的编写与应用，熟悉PyTorch, JAX框架进行深度学习模型的设计与训练，
+对强化学习在机器人控制上的应用非常感兴趣，具有较强的动手能力与代码实现能力，
+能够独立完成从算法设计、代码实现、模型训练、真机部署的全流程工作。
+期望在具身机器人领域继续发展，立志将机器人技术应用于实际家政、工业、康养场景中，实现具身智能的商业化落地。
+}
+
+\end{document}
